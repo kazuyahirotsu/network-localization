@@ -1,0 +1,203 @@
+Graph Convolutional Network (GCN)–Based Localization for Low‑Density LPWA Networks in GNSS‑Denied Environments
+
+Abstract 
+
+Outline
+
+- 1. Introduction
+- 2. Related Work
+  - 2.1 Localization Methods
+  - 2.2 Communication Data
+  - 2.3 Relation to Our Previous Work
+- 3. Proposed Method
+  - 3.1 Problem Formulation
+  - 3.2 Physically‑Informed Edge‑Conditioned GCN
+  - 3.3 Trainable Path‑Loss Module
+  - 3.4 Anchor Handling
+  - 3.5 Training Objective and Optimization
+- 4. Evaluation
+  - 4.1 Experimental Setup
+  - 4.2 Dataset Construction
+  - 4.3 Training & Preprocessing
+  - 4.4 Baselines
+- 5. Results
+  - 5.1 Main Results
+  - 5.2 Ablations
+- 6. Discussion
+  - 6.1 Performance Drivers
+  - 6.2 Limitations
+  - 6.3 Deployment
+- 7. Conclusion
+- Acknowledgment
+- References
+
+1. Introduction
+
+Low‑power wide‑area (LPWA) networks such as LoRa are primarily used to connect battery‑powered sensors for environmental monitoring, infrastructure sensing, and public safety. In these sensing applications, precise beacon coordinates are often unnecessary. However, when an LPWA deployment is repurposed as localization infrastructure, precise anchor locations become critical because downstream systems assume reliable anchor inputs. In GNSS‑denied or degraded settings (e.g., urban canyons, canopy, indoors, interference), obtaining those coordinates is challenging yet essential to deliver dependable location services.
+
+This paper focuses on self‑localization of static LoRa beacons from signals already available on commodity hardware. Concretely, we consider a 4 km × 4 km outdoor region with sparse connectivity and only received signal strength indicator (RSSI) measurements. The network comprises 64 nodes with a 1:3 anchor ratio (16 anchors, 48 unknowns), and each directed link provides a practical budget of 10 RSSI samples. The goal is to infer absolute 2D positions for the unknown nodes using RSSI‑only observations under realistic LoRa operating conditions.
+
+In this paper, we show that a physically informed, edge‑conditioned graph neural network (GCN) that learns a trainable path‑loss model from RSSI time series can recover accurate beacon locations in sparse LPWA graphs. First, we introduce an RSSI→distance module whose parameters are learned jointly with the GCN, producing distance‑aware, interpretable edge features. Second, we design an anchor‑aware message‑passing architecture (NNConv) that exploits unknown‑to‑unknown links while keeping anchors fixed to prevent drift. Third, we build a terrain‑aware (Longley–Rice) data‑generation pipeline and a controlled evaluation that demonstrates consistent gains over iterative multilateration and a plain GCN variant in realistic, low‑density outdoor topologies.
+
+Relative to prior work, our approach brings explicit physical modeling into the GCN by learning path‑loss parameters end‑to‑end, leverages unknown‑to‑unknown connectivity that geometric solvers leave untapped, and evaluates under sparse outdoor conditions where fingerprinting (site surveys) and TDoA/ToA (GNSS‑disciplined synchronization) are less practical. This combination of physically grounded features, graph reasoning, and terrain‑aware evaluation targets the deployment realities of LPWA localization.
+
+The remainder of the paper reviews related work, presents the proposed method, details the evaluation setup and baselines, reports results with quantitative and qualitative analyses, and concludes with practical guidance and limitations.
+
+-----------------------------------------------------------------------------------------------------
+
+2. Related Work
+
+2.1 Localization Methods
+
+Multilateration. Classical multilateration recovers node positions from pairwise distances via least‑squares or related solvers [2], [3]. Iterative variants temporarily promote newly localized unknown nodes as anchors to increase the number of anchors. In low‑density outdoor LoRa graphs with few anchors and limited line‑of‑sight, early inaccuracies in promoted nodes can propagate and compound across iterations [13].
+
+Fingerprinting. Fingerprinting learns a mapping from observations (e.g., RSSI vectors) to coordinates using k‑NN or neural models. It can achieve high accuracy in confined or semi‑static environments but requires site surveys and tends to degrade under environmental shift [4], [7].
+
+Graph Neural Networks (GNNs). GNNs model the network explicitly as a graph so message passing can exploit unknown‑to‑unknown links. Prior work demonstrates benefits for localization, including high‑order GNNs [9], graph‑fusion designs [8], large‑scale settings [10], and WiFi RSSI localization [11]. Edge‑conditioned or edge‑aware message passing is a natural fit when rich edge attributes are available. However, explicit physical path‑loss modeling within GNNs and validations under low‑density outdoor LPWA topologies remain limited.
+
+
+2.2 Communication Data
+
+RSSI. Received Signal Strength Indicator measures how strong a signal is at the receiver. It is widely available on commodity LPWA radios and can be collected with low‑cost hardware, so it underpins many multilateration and learning‑based methods. Despite its ubiquity, RSSI is noisy and exhibits high variance; mapping RSSI to distance depends on terrain and clutter, and mis‑specified path loss introduces bias and large errors [2].
+
+TDoA/ToA. Time‑based localization avoids explicit path‑loss modeling, but it depends on tightly synchronized clocks (typically GNSS‑based) and multiple gateways with favorable geometry. In GNSS‑denied settings, achieving such synchronization is impractical or costly to replicate (e.g., via wired or network time), which limits feasibility [5].
+
+CSI and other rich cues. Channel state information (CSI) offers higher‑resolution signal descriptors and is widely used indoors [8]. Such specialized hardware is uncommon in low‑cost outdoor LPWA deployments.
+
+Given these constraints, we focus on RSSI‑only sensing and mitigate path‑loss uncertainty by learning a physically interpretable RSSI→distance module within the model.
+
+2.3 Relation to Our Previous Work
+
+Our 2024 IEEE Access paper focused on drone localization and treated beacon positions as known or externally provided [1]. Here, we instead address self‑localization of the beacons themselves using pairwise RSSI only.
+
+-----------------------------------------------------------------------------------------------------
+
+
+3. Proposed Method
+
+3.1 Problem Formulation
+
+We model the beacon network as a directed graph G=(V,E) with anchors A and unknown nodes U, |V|=64 and |A|=16. Each node i has an unknown absolute position p_i∈R^2 (known for i∈A). For each directed edge (i,j)∈E we observe K RSSI samples r_ij^(k), k=1..K (K=10).
+
+Measurement model. We adopt a log-distance path-loss model with an additive offset and noise:
+r_ij^(k) = P_t − 10 n log10(d_ij) + o + ε_ij^(k),  where d_ij = ||p_i − p_j||_2.
+Here P_t (dBm) is an effective transmit power term, n is the path-loss exponent, o (dB) is an offset absorbing hardware/terrain biases, and ε_ij^(k) models measurement noise and small-scale effects. Given the sample mean r̄_ij, we form a per-edge distance estimate
+d̂_ij = 10^((P_t + o − r̄_ij)/(10 n)).
+To ensure numerical stability we clamp the denominator 10n away from zero and bound the exponent to a reasonable range; distances are lower-bounded by a small ε>0.
+
+Features and goal. Node features are x_i^0 = [x_i, y_i, is_anchor]. For anchors, (x_i,y_i) are the known coordinates; for unknowns, we initialize (x_i,y_i) near the anchor centroid (Section 4). Edge attributes concatenate the RSSI time series with the distance estimate: e_ij = [r_ij^(1..K), d̂_ij]. The task is to predict absolute positions p̂_i for i∈U given (G, {x_i^0}, {e_ij}).
+
+3.2 Physically‑Informed Edge‑Conditioned GCN
+
+Architecture. We use edge‑conditioned convolutions (NNConv) where a small MLP EdgeNet maps edge attributes e_ij to a per‑edge weight matrix. A layer computes
+x_i^{(ℓ+1)} = σ( mean_{j∈N(i)} W_{ij}^{(ℓ)} x_j^{(ℓ)} ),
+with mean aggregation and ReLU nonlinearity σ. The first NNConv maps D_0=3 to H=64 using EdgeNet_1 that outputs D_0·H=192 parameters per edge; the second NNConv maps H→H with EdgeNet_2 outputting H·H=4096 parameters. A final linear head maps H→2 to produce coordinates. This matches our implementation in PyTorch Geometric (NNConv, aggr="mean").
+
+Edge attributes. For each edge (i,j), we construct e_ij by concatenating the K=10 RSSI samples with the learned distance estimate d̂_ij, so e_ij∈R^{K+1}=R^{11}. EdgeNet is a 2‑layer MLP (64 hidden units, ReLU) that outputs the required per‑edge kernel size for each NNConv layer.
+
+Normalization. We standardize node features (including the is_anchor flag) and target coordinates with zero‑mean, unit‑variance scalers fit on the training set. Predictions are inverse‑transformed before evaluation; anchors’ predictions are overwritten by their known coordinates.
+
+3.3 Trainable Path‑Loss Module (RSSI→Distance)
+
+We learn global path‑loss parameters (P_t, n, o) as trainable scalars, updated end‑to‑end with backpropagation from the localization loss. Given r̄_ij, the module outputs d̂_ij as in Section 3.1. For stability, when |n| is close to zero we add a small ε to the denominator 10n; the exponent (P_t + o − r̄_ij)/(10n) is clamped to [−2, 5], and d̂_ij is lower‑bounded by ε meters. The resulting edge features are interpretable and bounded, capturing environment‑dependent attenuation while allowing the GCN to model residual structure.
+
+3.4 Anchor Handling
+
+Anchors’ coordinates are provided as inputs and treated as fixed. During training and evaluation, predicted coordinates for anchors are overwritten with their known values and excluded from the loss; gradients are masked to prevent anchor drift. Message passing through anchor‑adjacent edges still informs unknown nodes.
+
+3.5 Training Objective and Optimization
+
+Loss. We minimize mean‑squared error on unknown nodes: L = ∑_{i∈U} ||p̂_i − p_i||_2^2. A robust Huber version is optional. We add a small L2 penalty on (P_t, n, o) to discourage degenerate path‑loss settings.
+
+Optimization. The path‑loss module and GCN are trained jointly using standard first‑order optimizers with learning‑rate scheduling and early stopping. We train on standardized features/targets and evaluate on inverse‑transformed predictions. Implementation details (optimizer, schedule, batch size, epochs, seeds, device) are specified in Section 4.
+
+-----------------------------------------------------------------------------------------------------
+
+
+4. Evaluation
+
+4.1 Experimental Setup
+
+We evaluate on synthetic yet terrain‑aware outdoor scenarios that emulate a low‑density LoRa deployment over a 4 km × 4 km area. The LoRa profile follows the Japan 920 MHz band with typical spreading factors (SF8–SF10) and receiver sensitivity around −135 dBm. Transmit and receive antenna heights are set to 1.0 m.
+
+Propagation model. We use the Longley–Rice (Irregular Terrain Model) for path‑loss and shadowing to generate realistic RSSI values given node positions and terrain. To reflect practical measurement budgets in LPWA networks, we collect K=10 RSSI samples per directed link (i,j), which captures small‑scale variability without requiring extensive airtime.
+
+Topology and anchors. Each graph comprises 64 nodes with a 1:3 anchor ratio (16 anchors, 48 unknowns). Anchors are placed on a 4×4 grid of tiles (grid‑based placement within tiles); unknown nodes are randomly distributed over the full map. Unless otherwise noted, all coordinates are reported in meters in a local planar frame derived from latitude/longitude.
+
+4.2 Dataset Construction
+
+Pipeline. We use a MATLAB‑based generator to (i) place anchors randomly within each tile of a 4×4 grid, (ii) sample unknown node positions randomly over the map, and (iii) compute K RSSI samples per directed node pair using the Longley–Rice model. Self‑links are set to NaN and ignored. All positions are stored as latitude/longitude.
+
+Coordinate frame. For learning and evaluation, we convert latitude/longitude to a local Cartesian frame (meters) using a fixed origin at (40.466198°, 33.898610°) and standard meters‑per‑degree scaling at that latitude. This provides consistent units for loss and error metrics.
+
+Graph construction. For each instance, we form a directed edge set E containing all pairs (i,j), i≠j, for which at least one valid RSSI reading exists; missing links near sensitivity are omitted. The edge attribute e_ij stores the K‑sample RSSI time series. Node features include initial coordinates and an anchor flag as described in Section 3.1. We record graph statistics (e.g., in/out‑degree distribution and connectivity) to characterize sparsity.
+
+Splits and scenarios. We generate multiple instances per scenario to form train/validation/test splits. Unless otherwise specified, a held‑out 20% of instances is reserved for testing with a fixed random seed for reproducibility; a small validation subset is carved from training for early stopping. To assess generalization, we include environment‑mismatched splits in which the test set is generated under slightly different propagation conditions than training.
+
+4.3 Training & Preprocessing
+
+Features. Node features are [x, y, is_anchor], where (x,y) are meters in the local frame. Edge features concatenate the K‑sample RSSI time series with the learned RSSI→distance estimate d̂_ij produced by the path‑loss module (Section 3.3), yielding K+1 edge attributes per link.
+
+Standardization. We fit StandardScaler on the training set to standardize node features and target coordinates (means and scales are saved and reused at test time). Predictions are inverse‑transformed before metric computation. Anchors’ outputs are overwritten with their known coordinates during both training and evaluation.
+
+Optimization. Models are trained with first‑order optimizers and learning‑rate scheduling, with early stopping on validation error. We use mini‑batching over graph instances; each batch contains one graph (variable size) using PyTorch Geometric’s DataLoader. Unless otherwise stated, all experiments run on a single GPU when available and otherwise on CPU.
+
+4.4 Baselines
+
+(A) Iterative multilateration with anchor expansion (classical baseline). We convert RSSI to distances using a fixed path‑loss exponent tuned on training anchors and a global offset, then solve least‑squares localization for unknown nodes that have sufficient anchor neighbors (e.g., ≥3–4). Newly localized nodes are temporarily promoted as anchors, and the process iterates until no additional nodes satisfy the condition. This baseline exploits anchor proximity but does not leverage unknown‑to‑unknown links beyond anchor expansion and is sensitive to path‑loss mis‑specification.
+
+(B) Plain GCN (model‑variant baseline). We ablate the physically informed component by removing the RSSI→distance feature and the trainable path‑loss module. The architecture (two NNConv layers with mean aggregation and a 2D head), capacity (hidden width), optimizer, training schedule, and preprocessing match the proposed model. This isolates the contribution of distance‑aware edge features learned from RSSI.
+
+-----------------------------------------------------------------------------------------------------
+
+5. Results
+
+5.1 Main Results
+
+Median/mean/p90/p95 localization error across methods (proposed, multilateration, plain GCN); CDFs; significance tests; summary table for the terrain‑aware 64‑node setting (1:3 anchors; 10 RSSI/edge). Include one representative visualization inline (anchors, true vs predicted, error vectors) to illustrate typical behavior.
+
+5.2 Ablations
+
+Effect of (A) RSSI time‑series vs aggregates; (B) trainable path‑loss vs none; (C) anchor density; (D) node density (fixed ratio); (E) measurements per edge (10→100); (F) anchor layout; (G) environment mismatch (train/test regions); (H) receiver sensitivity thresholds; (I) connectivity (degree) vs error. Keep figures concise and focus on trends.
+
+-----------------------------------------------------------------------------------------------------
+
+6. Discussion
+
+6.1 Performance Drivers
+
+Role of time‑series and residual path‑loss features; exploitation of unknown‑to‑unknown links; regimes favoring multilateration (high anchor density, near‑LOS geometry); observed failure modes (severe sparsity, topology issues, path‑loss shift).
+
+6.2 Limitations
+
+Environment shift and sim‑to‑real gap; assumptions on node staticity; terrain model fidelity; dataset size/coverage; reproducibility considerations.
+
+6.3 Deployment
+
+Post‑deployment schedule: collect anchor–anchor RSSI; few‑shot tuning of the path‑loss module without labels; lightweight ensembling for stability; triggers for additional measurements.
+
+-----------------------------------------------------------------------------------------------------
+
+7. Conclusion
+
+Recap contributions and key numbers; outline next steps (field trials, multi‑region foundation model, anchor‑placement optimization).
+
+Acknowledgment
+
+References
+
+[1] K. Hirotsu, F. Granelli, and A. Nakao, "LoRa-based localization for drones: Methodological enhancements explored through simulations and real-world experiments," IEEE Access, vol. 12, pp. 145988–145996, 2024, doi: 10.1109/ACCESS.2024.3463175.
+[2] A. Vazquez-Rodas, F. Astudillo-Salinas, C. Sanchez, B. Arpi, and L. I. Minchala, "Experimental evaluation of RSSI-based positioning system with low-cost LoRa devices," Ad Hoc Networks, vol. 105, Aug. 2020.
+[3] P. Müller, H. Stoll, L. Sarperi, and C. Schüpbach, "Outdoor ranging and positioning based on LoRa modulation," in Proc. ICL-GNSS, Jun. 2021, pp. 1–6.
+[4] J. Purohit, X. Wang, S. Mao, X. Sun, and C. Yang, "Fingerprinting-based indoor and outdoor localization with LoRa and deep learning," in Proc. IEEE GLOBECOM, Dec. 2020, pp. 1–6.
+[5] J. Pospisil, R. Fujdiak, and K. Mikhaylov, "Investigation of the performance of TDoA-based localization over LoRaWAN in theory and practice," Sensors, vol. 20, no. 19, p. 5464, 2020.
+[6] B. C. Fargas and M. N. Petersen, "GPS-free geolocation using LoRa in low-power WANs," in Proc. GIoTS, Jun. 2017, pp. 1–6.
+[7] W. Ingabire, H. Larijani, and R. Gibson, "LoRa RSSI based outdoor localization in an urban area using random neural networks," in Intelligent Computing, vol. 14047, pp. 1032–1043, 2021. doi: 10.1007/978-3-030-80126-7_72.
+[8] S. Fan and J. Yan, "CSI fingerprint and GCN-based indoor localization using graph structures fusion," in Proc. IEEE ICCT, Wuxi, China, 2023, pp. 111–116, doi: 10.1109/ICCT59356.2023.10419794.
+[9] X. Kang, X. Liang, and Q. Liang, "Indoor localization algorithm based on a high-order graph neural network," Sensors, vol. 23, 2023, doi: 10.3390/s23198221.
+[10] W. Yan, D. Jin, Z. Lin, and F. Yin, "Graph neural network for large-scale network localization," in Proc. IEEE ICASSP, Toronto, ON, Canada, 2021, pp. 5250–5254, doi: 10.1109/ICASSP39728.2021.9414520.
+[11] R. Vishwakarma and S. Mishra, "IndoorGNN: A graph neural network-based approach for indoor localization using WiFi RSSI," in Advances in Intelligent Systems and Computing, vol. 1440, pp. 134–144, 2023, doi: 10.1007/978-3-031-49601-1_11.
+[12] M. Simonovsky and N. Komodakis, "Dynamic edge-conditioned filters in convolutional neural networks on graphs," in Proc. IEEE CVPR, 2017, pp. 29–38, doi: 10.1109/CVPR.2017.11.
+
+[13] Rupendra Pratap Singh Hada and Abhishek Srivastava. 2025. A Hybrid Approach for Localisation of Sensor Nodes in Remote Locations. ACM Trans. Sen. Netw. 21, 2, Article 23 (March 2025), 33 pages. https://doi-org.utokyo.idm.oclc.org/10.1145/3715914
+
