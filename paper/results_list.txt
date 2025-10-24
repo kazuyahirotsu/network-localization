@@ -1,0 +1,16 @@
+data: 64 beacons
+matlab/data/64beacons_100instances
+(it's actually 1000 data)
+
+algorithm:
+
+proposed:
+mid-term/gcn/64beacon_1000instances_fixed_power13.py
+
+without rssi to dist:
+mid-term/gcn/64beacon_1000instances_fixed_no_rssi2dist.py
+
+multilateration:
+
+
+to run the trained pth file, just python ...pth_test...py
