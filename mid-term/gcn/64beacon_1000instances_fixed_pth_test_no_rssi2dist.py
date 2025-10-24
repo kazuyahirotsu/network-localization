@@ -13,7 +13,12 @@ from scipy.io import loadmat
 from tqdm import tqdm
 import math
 import os
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+if torch.backends.mps.is_available():
+    device = torch.device('mps')
+elif torch.cuda.is_available():
+    device = torch.device('cuda')
+else:
+    device = torch.device('cpu')
 print('Using device:', device)
 
 #######################################
@@ -228,6 +233,15 @@ plotted_sample = False
 # -> REMOVED: No longer collecting true and GCN estimated distances for edges
 # all_true_and_gcn_estimated_distances = []
 
+# Keep an empty array for dump compatibility
+all_true_and_gcn_estimated_distances = []
+
+# Store first-sample data for quick re-plotting without re-evaluation
+first_sample_true_positions = None
+first_sample_pred_positions = None
+first_sample_anchor_mask = None
+first_sample_unknown_mask = None
+
 with torch.no_grad():
     for i, data in enumerate(tqdm(test_loader_loaded, desc="Evaluating with loaded model")):
         data = data.to(device)
@@ -277,6 +291,11 @@ with torch.no_grad():
         
         # Plot the first sample in the test set for visualization
         if i == 0 and not plotted_sample: # Check plotted_sample to ensure it runs only once if loader is re-iterated
+            # Save arrays for later plotting without recomputation
+            first_sample_true_positions = true_positions.copy()
+            first_sample_pred_positions = predicted_positions.copy()
+            first_sample_anchor_mask = data.anchor_mask.cpu().numpy().copy()
+            first_sample_unknown_mask = data.unknown_mask.cpu().numpy().copy()
             plt.figure(figsize=(12,10))
             # Plot true unknown positions
             plt.scatter(true_positions[data.unknown_mask.cpu(),0],
@@ -301,49 +320,111 @@ with torch.no_grad():
             plt.xlabel('X Position (m)', fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
             plt.ylabel('Y Position (m)', fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
             # plt.title(f'Sample Visualization (Test Sample 0)\\nLoaded Model: {load_path.split("/")[-1]}', fontsize=SLIDE_TITLE_FONT_SIZE)
-            plt.legend(fontsize=SLIDE_LEGEND_FONT_SIZE)
+            plt.legend(fontsize=SLIDE_LEGEND_FONT_SIZE, loc='upper left', bbox_to_anchor=(1.02, 1), borderaxespad=0.)
             plt.xticks(fontsize=SLIDE_TICK_LABEL_FONT_SIZE)
             plt.yticks(fontsize=SLIDE_TICK_LABEL_FONT_SIZE)
             plt.grid(True)
             plt.axis('equal')
-            os.makedirs("results", exist_ok=True)
-            sample_viz_filename = f'results/sample_visualization_loaded_model_{load_path.split("/")[-1].replace(".pth","")}_no_rssi2dist.png'
+            os.makedirs("new_results", exist_ok=True)
+            sample_viz_filename = f'new_results/sample_visualization_loaded_model_{load_path.split("/")[-1].replace(".pth","")}_no_rssi2dist.png'
             plt.tight_layout()
-            plt.savefig(sample_viz_filename)
+            plt.savefig(sample_viz_filename, dpi=300, bbox_inches='tight')
             print(f'Sample visualization saved to {sample_viz_filename}')
             plt.show()
             plotted_sample = True # Mark as plotted
 
 if errors_gcn_loaded:
     errors_gcn_loaded = np.array(errors_gcn_loaded)
+
+    # Compute metrics
+    mean_error_loaded = errors_gcn_loaded.mean()
+    median_error_loaded = np.median(errors_gcn_loaded)
+    p90_error_loaded = np.percentile(errors_gcn_loaded, 90)
+    p95_error_loaded = np.percentile(errors_gcn_loaded, 95)
+
+    print(f"Loaded GCN Errors - Mean: {mean_error_loaded:.4f} m, Median: {median_error_loaded:.4f} m, P90: {p90_error_loaded:.4f} m, P95: {p95_error_loaded:.4f} m")
+
+    # Ensure results directory exists
+    os.makedirs("new_results", exist_ok=True)
+
+    # Save metrics to a text file
+    metrics_filename = f'new_results/metrics_loaded_model_{load_path.split("/")[-1].replace(".pth","")}_no_rssi2dist.txt'
+    with open(metrics_filename, 'w') as f:
+        f.write("Localization Error Metrics (meters)\n")
+        f.write(f"Model: {load_path.split('/')[-1]}\n")
+        f.write(f"Mean: {mean_error_loaded:.6f}\n")
+        f.write(f"Median: {median_error_loaded:.6f}\n")
+        f.write(f"P90: {p90_error_loaded:.6f}\n")
+        f.write(f"P95: {p95_error_loaded:.6f}\n")
+        f.write(f"Num Samples: {errors_gcn_loaded.size}\n")
+    print(f'Metrics saved to {metrics_filename}')
+
+    # Plot histogram (quick reference)
     plt.figure(figsize=(12, 6))
-    plt.hist(errors_gcn_loaded, bins=20, alpha=0.7, color='lightcoral', label=f'GCN Errors ({load_path.split("/")[-1]})')
+    plt.hist(
+        errors_gcn_loaded,
+        bins=30,
+        alpha=0.8,
+        color='lightcoral',
+        label='GCN Errors',
+        edgecolor='black',
+        linewidth=0.5
+    )
     plt.xlabel('Localization Error (meters)', fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
     plt.ylabel('Number of Nodes', fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
-    plt.title(f'Error Distribution (Loaded Model: {load_path.split("/")[-1]})', fontsize=SLIDE_TITLE_FONT_SIZE)
     plt.legend(fontsize=SLIDE_LEGEND_FONT_SIZE)
     plt.xticks(fontsize=SLIDE_TICK_LABEL_FONT_SIZE)
     plt.yticks(fontsize=SLIDE_TICK_LABEL_FONT_SIZE)
-    error_hist_filename = f'results/error_histogram_loaded_model_{load_path.split("/")[-1].replace(".pth","")}_no_rssi2dist.png'
+    plt.grid(True, alpha=0.3)
+    error_hist_filename = f'new_results/error_histogram_loaded_model_{load_path.split("/")[-1].replace(".pth","")}_no_rssi2dist.png'
     plt.tight_layout()
-    plt.savefig(error_hist_filename)
+    plt.savefig(error_hist_filename, dpi=300, bbox_inches='tight')
     print(f'Error histogram saved to {error_hist_filename}')
     plt.show()
 
-    mean_error_loaded = errors_gcn_loaded.mean()
-    median_error_loaded = np.median(errors_gcn_loaded)
-    print(f"Loaded GCN Mean Error: {mean_error_loaded:.4f} m, Median Error: {median_error_loaded:.4f} m")
+    # Plot Error CDF
+    sorted_errors = np.sort(errors_gcn_loaded)
+    cdf = np.arange(1, sorted_errors.size + 1) / sorted_errors.size
+    plt.figure(figsize=(12, 6))
+    plt.plot(sorted_errors, cdf, color='navy', linewidth=2, label='Empirical CDF')
+    plt.xlabel('Localization Error (meters)', fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
+    plt.ylabel('Cumulative Probability', fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
+    plt.xticks(fontsize=SLIDE_TICK_LABEL_FONT_SIZE)
+    plt.yticks(fontsize=SLIDE_TICK_LABEL_FONT_SIZE)
+    plt.grid(True, alpha=0.3)
+    plt.ylim(0, 1)
+    plt.legend(fontsize=SLIDE_LEGEND_FONT_SIZE)
+    error_cdf_filename = f'new_results/error_cdf_loaded_model_{load_path.split("/")[-1].replace(".pth","")}_no_rssi2dist.png'
+    plt.tight_layout()
+    plt.savefig(error_cdf_filename, dpi=300, bbox_inches='tight')
+    print(f'Error CDF saved to {error_cdf_filename}')
+    plt.show()
 
     # Save the errors to a .npy file
-    errors_filename = f'results/gcn_errors_{load_path.split("/")[-1].replace(".pth","")}_no_rssi2dist.npy'
+    errors_filename = f'new_results/gcn_errors_{load_path.split("/")[-1].replace(".pth","")}_no_rssi2dist.npy'
     np.save(errors_filename, errors_gcn_loaded)
     print(f'GCN errors saved to {errors_filename}')
 
-    # -> REMOVED: No longer saving true vs. GCN estimated distances
-    # true_vs_estimated_dist_filename = f'results/gcn_true_vs_estimated_distances_{load_path.split("/")[-1].replace(".pth","")}.npy'
-    # np.save(true_vs_estimated_dist_filename, np.array(all_true_and_gcn_estimated_distances))
-    # print(f'GCN true vs. estimated distances saved to {true_vs_estimated_dist_filename}')
-    # <- END REMOVAL
+    # Save a comprehensive evaluation dump for fast re-plotting
+    eval_dump_filename = f'new_results/eval_dump_{load_path.split("/")[-1].replace(".pth","")}_no_rssi2dist.npz'
+    np.savez_compressed(
+        eval_dump_filename,
+        model_file=np.array(load_path),
+        pt_dbm=np.array(np.nan, dtype=np.float32),
+        path_loss_exponent=np.array(np.nan, dtype=np.float32),
+        offset=np.array(np.nan, dtype=np.float32),
+        errors=errors_gcn_loaded.astype(np.float32),
+        edge_true_vs_estimated_distances=np.empty((0, 2), dtype=np.float32),
+        first_true_positions=(first_sample_true_positions.astype(np.float32) if first_sample_true_positions is not None else np.array([])),
+        first_pred_positions=(first_sample_pred_positions.astype(np.float32) if first_sample_pred_positions is not None else np.array([])),
+        first_anchor_mask=(first_sample_anchor_mask.astype(np.bool_) if first_sample_anchor_mask is not None else np.array([], dtype=np.bool_)),
+        first_unknown_mask=(first_sample_unknown_mask.astype(np.bool_) if first_sample_unknown_mask is not None else np.array([], dtype=np.bool_)),
+        mean=np.array(mean_error_loaded, dtype=np.float32),
+        median=np.array(median_error_loaded, dtype=np.float32),
+        p90=np.array(p90_error_loaded, dtype=np.float32),
+        p95=np.array(p95_error_loaded, dtype=np.float32)
+    )
+    print(f'Evaluation dump saved to {eval_dump_filename}')
 else:
     print("No unknown nodes found in the test set to calculate errors or test_loader_loaded is empty.")
 

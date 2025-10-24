@@ -1,0 +1,7 @@
+Localization Error Metrics (meters)
+Model: trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.pth
+Mean: 257.798584
+Median: 210.442551
+P90: 494.984039
+P95: 632.214355
+Num Samples: 9600

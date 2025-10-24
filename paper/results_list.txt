@@ -1,16 +1,56 @@
-data: 64 beacons
-matlab/data/64beacons_100instances
+data:
+non-free: matlab/data/64beacons_100instances
 (it's actually 1000 data)
+free: matlab/data/64beacons_1000instances_free
+
+graphs:
+GCN: mid-term/gcn/new_results
+proposed: non-free, free
+without: non-free, free
+multi: non-free, free
 
 algorithm:
 
 proposed:
-mid-term/gcn/64beacon_1000instances_fixed_power13.py
+non-free: mid-term/gcn/64beacon_1000instances_fixed_power13.py
+    Mean: 206.74 m
+    Median: 182.42 m
+    P90: 381.01 m
+    P95: 455.37 m
+
+free: mid-term/gcn/64beacon_1000instances_fixed_power13_free.py
+    Mean: 51.15 m
+    Median: 51.53 m
+    P90: 68.92 m
+    P95: 74.24 m
 
 without rssi to dist:
-mid-term/gcn/64beacon_1000instances_fixed_no_rssi2dist.py
+non-free: mid-term/gcn/64beacon_1000instances_fixed_no_rssi2dist.py
+    Mean: 750.87 m
+    Median: 662.12 m
+    P90: 1330.32 m
+    P95: 1571.84 m
+
+free: mid-term/gcn/64beacon_1000instances_fixed_no_rssi2dist_free.py
+    Mean: 257.80 m
+    Median: 210.44 m
+    P90: 494.98 m
+    P95: 632.21 m
 
 multilateration:
+non-free: mid-term/multilateration/64beacon_200instances.py
+    Mean: 1974.40 m
+    Median: 1747.99 m
+    P90: 3581.93 m
+    P95: 4489.04 m
 
+free: mid-term/multilateration/64beacon_200instances_free.py
+    Mean: 6.28 m
+    Median: 5.80 m
+    P90: 10.87 m
+    P95: 12.65 m
 
 to run the trained pth file, just python ...pth_test...py
+and then use plot_eval_dump_power13.py to create graphs
+
+todo: make graph with multiple methods to compare the results

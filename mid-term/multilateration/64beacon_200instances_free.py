@@ -9,7 +9,7 @@ import os
 
 # %%
 # Parameters (matching MATLAB and GCN script where applicable)
-num_instances = 1  # Or 1000, depending on your dataset
+num_instances = 200  # Or 1000, depending on your dataset
 num_anchors = 16 # As per your current selection
 num_unknowns = 48 # As per your current selection
 total_nodes = num_anchors + num_unknowns
@@ -285,6 +285,10 @@ def estimate_unknown_position_ls(initial_guess_xy, neighbor_positions_xy, neighb
 all_instance_errors = []
 num_iterations = 10 # Number of iterations for the iterative multilateration
 
+# Store first instance true/pred positions for plotting later
+first_true_positions = None
+first_pred_positions = None
+
 for idx_instance in tqdm(range(1, num_instances + 1), desc="Processing Instances"):
     node_positions_xy_true, rssi_matrix_avg_true, _ = load_matlab_instance(idx_instance)
     if node_positions_xy_true is None:
@@ -338,6 +342,14 @@ for idx_instance in tqdm(range(1, num_instances + 1), desc="Processing Instances
         
         current_estimated_positions_for_iter = np.copy(newly_estimated_positions_this_iter)
 
+    # Capture first instance sample positions for plotting
+    if first_true_positions is None:
+        try:
+            first_true_positions = np.copy(node_positions_xy_true)
+            first_pred_positions = np.copy(current_estimated_positions_for_iter)
+        except Exception:
+            pass
+
     instance_node_errors = []
     for i in range(num_anchors, total_nodes):
         true_pos = node_positions_xy_true[i]
@@ -364,10 +376,29 @@ mean_error_im_matlab = np.mean(all_instance_errors) if len(all_instance_errors) 
 median_error_im_matlab = np.median(all_instance_errors) if len(all_instance_errors) > 0 else float('nan')
 std_error_im_matlab = np.std(all_instance_errors) if len(all_instance_errors) > 0 else float('nan')
 
+# Also compute P90/P95 and save a compact evaluation dump for plotting later
+p90_error_im_matlab = np.percentile(all_instance_errors, 90) if len(all_instance_errors) > 0 else float('nan')
+p95_error_im_matlab = np.percentile(all_instance_errors, 95) if len(all_instance_errors) > 0 else float('nan')
+
 print(f"Iterative Multilateration ({dataset_name} - {node_config_str} - {num_iterations} iterations):") # Updated print
 print(f"  Mean Error: {mean_error_im_matlab:.4f} m")
 print(f"  Median Error: {median_error_im_matlab:.4f} m")
 print(f"  Std Dev Error: {std_error_im_matlab:.4f} m")
+
+# Save results for later plotting with plot_eval_dump_power13.py
+os.makedirs('new_results', exist_ok=True)
+
+# Metrics text
+metrics_txt_path = os.path.join('new_results', f"metrics_multilateration_{dataset_name}_{node_config_str}.txt")
+with open(metrics_txt_path, 'w') as f:
+    f.write('Localization Error Metrics (meters)\n')
+    f.write(f"Model: mlat_{dataset_name}\n")
+    f.write(f"Mean: {mean_error_im_matlab:.6f}\n")
+    f.write(f"Median: {median_error_im_matlab:.6f}\n")
+    f.write(f"P90: {p90_error_im_matlab:.6f}\n")
+    f.write(f"P95: {p95_error_im_matlab:.6f}\n")
+    f.write(f"Num Samples: {all_instance_errors.size}\n")
+print(f"Metrics saved to: {metrics_txt_path}")
 
 # Save raw errors to .npy file for later comparison
 if len(all_instance_errors) > 0: # Ensure there are errors to save
@@ -376,6 +407,27 @@ if len(all_instance_errors) > 0: # Ensure there are errors to save
     print(f"Raw localization errors saved to: {error_save_filename}")
 else:
     print("No errors were recorded, so no error file was saved.")
+
+# Save evaluation dump for fast plotting
+anchor_mask = np.zeros(total_nodes, dtype=bool)
+anchor_mask[:num_anchors] = True
+unknown_mask = ~anchor_mask
+
+eval_dump_filename = os.path.join('new_results', f"eval_dump_mlat_{dataset_name}_{node_config_str}.npz")
+np.savez_compressed(
+    eval_dump_filename,
+    model_file=np.array(f"mlat_{dataset_name}"),
+    errors=all_instance_errors.astype(np.float32),
+    first_true_positions=(first_true_positions.astype(np.float32) if first_true_positions is not None else np.array([])),
+    first_pred_positions=(first_pred_positions.astype(np.float32) if first_pred_positions is not None else np.array([])),
+    first_anchor_mask=anchor_mask,
+    first_unknown_mask=unknown_mask,
+    mean=np.array(mean_error_im_matlab, dtype=np.float32),
+    median=np.array(median_error_im_matlab, dtype=np.float32),
+    p90=np.array(p90_error_im_matlab, dtype=np.float32),
+    p95=np.array(p95_error_im_matlab, dtype=np.float32)
+)
+print(f"Evaluation dump saved to: {eval_dump_filename}")
 
 # Optional: Visualize one instance
 if num_instances > 0:

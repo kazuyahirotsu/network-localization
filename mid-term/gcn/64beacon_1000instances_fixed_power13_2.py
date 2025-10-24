@@ -29,6 +29,9 @@ num_anchors = 16
 num_unknowns = 48
 num_measurements = 10
 
+# Minimum RSSI (dBm) to keep a link
+RSSI_MIN_DBM = -130.0
+
 # Origin from MATLAB code
 mapOriginLat = 40.466198
 mapOriginLon = 33.898610
@@ -64,10 +67,15 @@ for instance_idx in tqdm(range(1, num_instances + 1), desc="Loading MATLAB data"
     edge_attr_list = []
     for i in range(num_nodes):
         for j in range(num_nodes):
-            if i != j and np.all(np.isfinite(signal_strength_matrix[i, j, :])):
+            rssi_values = signal_strength_matrix[i, j, :]
+            rssi_mean = np.nanmean(rssi_values)
+            if i != j \
+               and not np.isnan(signal_strength_matrix[i, j, 0]) \
+               and not np.isnan(rssi_mean) \
+               and rssi_mean >= RSSI_MIN_DBM:
                 edge_index_list.append([i, j])
                 # We will handle RSSI and delta_RSSI later. For now just store.
-                edge_attr_list.append(signal_strength_matrix[i, j, :])
+                edge_attr_list.append(rssi_values)
 
     edge_index = torch.tensor(edge_index_list, dtype=torch.long).t().contiguous()
     edge_attr = torch.tensor(edge_attr_list, dtype=torch.float)
