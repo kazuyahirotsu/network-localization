@@ -1,0 +1,368 @@
+\documentclass{ieeeaccess}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{multirow}
+
+% Simplify em-dash rendering as a plain hyphen per author preference
+\renewcommand{\textemdash}{-}
+
+\begin{document}
+\doi{}
+\title{Graph Convolutional Network (GCN)\textendash Based Localization for Low\textendash Density LPWA Networks in GNSS\textendash Denied Environments}
+
+\author{\uppercase{Kazuya Hirotsu}\authorrefmark{1},
+\uppercase{and Akihiro Nakao}\authorrefmark{1}, \IEEEmembership{Member, IEEE}}
+
+\address[1]{School of Engineering, The University of Tokyo, Tokyo, 113-8654, Japan}
+
+\markboth
+{K. Hirotsu \headeretal: GCN-Based Localization for Low-Density LPWA Networks in GNSS-Denied Environments}
+
+\corresp{Corresponding author: Kazuya Hirotsu.}
+
+\begin{abstract}
+LPWA networks such as LoRa are often deployed for sensing, yet turning these deployments into localization infrastructure requires accurate anchor coordinates\textemdash a challenge in GNSS\textemdash denied or degraded environments. We study self\textemdash localization of static beacons in sparse outdoor graphs using only RSSI. We propose a physically informed, edge\textemdash conditioned GCN that learns a trainable RSSI\textrightarrow distance module jointly with graph message passing while treating anchors as fixed. Edges carry short RSSI time series augmented with the learned distance estimate, enabling distance\textemdash aware aggregation without assuming a hand\textemdash tuned path\textemdash loss model. We build a terrain\textemdash aware Longley\textendash Rice simulator and evaluate on N=200 held\textemdash out graphs with 64 nodes (16 anchors) and 10 RSSI samples per directed link. In the terrain\textemdash aware regime, the method attains a mean error of 206.74 m (median 182.42 m; p90 381.01 m), substantially outperforming a plain GCN without the physical module (750.87 m mean) and iterative multilateration (1974.40 m mean). Under idealized free\textemdash space, multilateration achieves 6.28 m mean while our model reaches 51.15 m, demonstrating that terrain effects can reverse the apparent ranking of methods and underscoring the need for terrain\textemdash aware evaluation. The approach requires only commodity radios and supports region\textemdash specific pre\textemdash deployment training from simulation followed by label\textemdash free calibration using anchor\textendash anchor RSSI. Results indicate a practical path to reliable outdoor localization when GNSS is unavailable.
+\end{abstract}
+
+\begin{keywords}
+Graph neural networks, localization, LoRa, LPWA, RSSI, GNSS-denied environments, Longley-Rice, terrain-aware simulation
+\end{keywords}
+
+\maketitle
+
+\section{Introduction}
+Low\textemdash power wide\textemdash area (LPWA) networks such as LoRa are primarily used to connect battery\textemdash powered sensors for environmental monitoring, infrastructure sensing, and public safety. In these sensing applications, precise beacon coordinates are often unnecessary. However, when an LPWA deployment is repurposed as localization infrastructure, precise anchor locations become critical because downstream systems assume reliable anchor locations. In GNSS\textemdash denied or degraded settings (e.g., urban canyons, canopy, indoors, interference), obtaining those coordinates is challenging yet essential to deliver dependable location services.
+
+This paper focuses on self\textemdash localization of static LoRa beacons from signals already available on commodity hardware. Concretely, we consider a 4 km $\times$ 4 km outdoor region with sparse connectivity and only received signal strength indicator (RSSI) measurements. The network comprises 64 nodes with a 1:3 anchor ratio (16 anchors, 48 unknowns), and each directed link provides a practical budget of 10 RSSI samples. The goal is to infer absolute 2D positions for the unknown nodes using RSSI\textemdash only observations under realistic LoRa operating conditions.
+
+We show that a physically informed, edge\textemdash conditioned graph convolutional network (GCN) that learns a trainable path\textemdash loss model from RSSI time series can recover accurate beacon locations in sparse LPWA graphs. First, we introduce an RSSI\textrightarrow distance module whose parameters are learned jointly with the GCN, producing distance\textemdash aware, interpretable edge features. Second, we design an anchor\textemdash aware message\textemdash passing architecture (NNConv) that exploits unknown\textemdash to\textemdash unknown links while keeping anchors fixed to prevent drift. Third, we build a terrain\textemdash aware (Longley\textendash Rice) data\textemdash generation pipeline and a controlled evaluation that demonstrates consistent gains over iterative multilateration and a plain GCN variant in realistic, low\textemdash density outdoor topologies.
+
+Relative to prior work, our approach brings explicit physical modeling into the GCN by learning path\textemdash loss parameters end\textemdash to\textemdash end, leverages unknown\textemdash to\textemdash unknown connectivity that geometric solvers leave untapped, and evaluates under sparse outdoor conditions where fingerprinting (site surveys) and TDoA/ToA (GNSS\textemdash disciplined synchronization) are less practical. This combination of physically grounded features, graph reasoning, and terrain\textemdash aware evaluation targets the deployment realities of LPWA localization.
+
+\section{Related Work}
+\subsection{Localization Methods}
+Classical multilateration recovers node positions from pairwise distances via least\textemdash squares or related solvers \cite{r2,r3}. Iterative variants temporarily promote newly localized unknown nodes as anchors to increase the number of anchors. In low\textemdash density outdoor LoRa graphs with few anchors and limited line\textemdash of\textemdash sight, early inaccuracies in promoted nodes can propagate and compound across iterations \cite{r11}.
+
+Fingerprinting learns a mapping from observations (e.g., RSSI vectors) to coordinates using k\textemdash NN or neural models. It can achieve high accuracy in confined or semi\textemdash static environments but requires site surveys and tends to degrade under environmental shift \cite{r4,r6}.
+
+GNNs model the network explicitly as a graph so message passing can exploit unknown\textemdash to\textemdash unknown links. Prior work demonstrates benefits for localization, including high\textemdash order GNNs \cite{r9}, graph\textemdash fusion designs \cite{r8}, large\textemdash scale settings \cite{r10}, and WiFi RSSI localization \cite{r11}. Edge\textemdash conditioned or edge\textemdash aware message passing is a natural fit when rich edge attributes are available. However, explicit physical path\textemdash loss modeling within GNNs and validations under low\textemdash density outdoor LPWA topologies remain limited.
+
+\subsection{Communication Data}
+Received Signal Strength Indicator (RSSI) measures how strong a signal is at the receiver. It is widely available on commodity LPWA radios and can be collected with low\textemdash cost hardware, so it underpins many multilateration and learning\textemdash based methods. Despite its ubiquity, RSSI is noisy and exhibits high variance. Mapping RSSI to distance depends on terrain and clutter, and mis\textemdash specified path loss introduces bias and large errors \cite{r2}.
+
+Time\textemdash based localization avoids explicit path\textemdash loss modeling, but it depends on tightly synchronized clocks (typically GNSS\textemdash based) and multiple gateways with favorable geometry. In GNSS\textemdash denied settings, achieving such synchronization is impractical or costly to replicate (e.g., via wired or network time), which limits feasibility \cite{r5}.
+
+Channel state information (CSI) offers higher\textemdash resolution signal descriptors and is widely used indoors \cite{r8}. Such specialized hardware is uncommon in low\textemdash cost outdoor LPWA deployments.
+
+Given these constraints, we focus on RSSI\textemdash only sensing and mitigate path\textemdash loss uncertainty by learning a physically interpretable RSSI\textrightarrow distance module within the model.
+
+\subsection{Relation to Our Previous Work}
+Our 2024 IEEE Access paper focused on drone localization and treated beacon positions as known or externally provided \cite{r1}. Here, we instead address self\textemdash localization of the beacons themselves using pairwise RSSI only.
+
+\section{Proposed Method}
+Figure~\ref{fig:architecture_01} provides an overview of the model and data flow.
+\subsection{Problem Formulation}
+We model the beacon network as a directed graph $G=(V,E)$ with anchors $\mathcal{A}$ and unknown nodes $\mathcal{U}$, $|V|=64$ and $|\mathcal{A}|=16$. Each node $i$ has an absolute position $\mathbf{p}_i\in\mathbb{R}^2$; $\mathbf{p}_i$ is known for $i\in\mathcal{A}$ and unknown for $i\in\mathcal{U}$. For each directed edge $(i,j)\in E$ we observe $K$ RSSI samples $r_{ij}^{(k)}$, $k=1..K$ ($K=10$).
+
+We adopt a log\textemdash distance path\textemdash loss model with an additive offset and noise:
+\begin{equation}
+r_{ij}^{(k)} = P_t - 10\,n\,\log_{10}(d_{ij}) + o + \varepsilon_{ij}^{(k)},\quad d_{ij}=\lVert \mathbf{p}_i-\mathbf{p}_j\rVert_2.
+\end{equation}
+Here $P_t$ (dBm) is an effective transmit power term, $n$ is the path\textemdash loss exponent, $o$ (dB) is an offset absorbing hardware/terrain biases, and $\varepsilon_{ij}^{(k)}$ models measurement noise and small\textemdash scale effects. Given the sample mean $\bar r_{ij}$, we form a per\textemdash edge distance estimate
+\begin{equation}
+\hat d_{ij} = 10^{\frac{P_t + o - \bar r_{ij}}{10 n}}.
+\end{equation}
+In our implementation, we fix $P_t=13$ dBm and learn $(n,o)$. For numerical stability we clamp the denominator $10n$ away from zero, bound the exponent to $[-2,5]$, and lower\textemdash bound distances by a small $\varepsilon>0$.
+
+Node features are $\mathbf{x}_i^{(0)} = [x_i, y_i, \mathrm{is\_anchor}]$. For anchors, $(x_i,y_i)$ are the known coordinates. For unknowns, we initialize $(x_i,y_i)$ near the anchor centroid. Edge attributes concatenate the RSSI time series with the distance estimate, $\mathbf{e}_{ij} = [r_{ij}^{(1..K)}, \hat d_{ij}]$. The task is to predict absolute positions $\hat{\mathbf{p}}_i$ for $i\in\mathcal{U}$ given $(G, \{\mathbf{x}_i^{(0)}\}, \{\mathbf{e}_{ij}\})$.
+
+\subsection{Physically\textemdash Informed Edge\textemdash Conditioned GCN}
+We use edge\textemdash conditioned convolutions (NNConv) where a small MLP EdgeNet maps edge attributes $\mathbf{e}_{ij}$ to a per\textemdash edge weight matrix. A layer computes
+\begin{equation}
+\mathbf{x}_i^{(\ell+1)} = \sigma\!\Big( \mathrm{mean}_{j\in\mathcal{N}(i)} \mathbf{W}_{ij}^{(\ell)} \mathbf{x}_j^{(\ell)} \Big),
+\end{equation}
+with mean aggregation and ReLU nonlinearity $\sigma$. The first NNConv maps $D_0=3$ to $H=64$ using an EdgeNet that outputs $D_0\cdot H=192$ parameters per edge. The second NNConv maps $H\to H$ with an EdgeNet outputting $H\cdot H=4096$ parameters. A final linear head maps $H\to 2$ to produce coordinates. This matches our implementation in PyTorch Geometric (NNConv, aggr=\texttt{mean}).
+
+For each edge $(i,j)$, we construct $\mathbf{e}_{ij}$ by concatenating the $K=10$ RSSI samples with the learned distance estimate $\hat d_{ij}$, so $\mathbf{e}_{ij}\in\mathbb{R}^{K+1}=\mathbb{R}^{11}$. EdgeNet is a 2\textemdash layer MLP (64 hidden units, ReLU) that outputs the required per\textemdash edge kernel size for each NNConv layer. We standardize node features (including the \texttt{is\_anchor} flag) and target coordinates with zero\textemdash mean, unit\textemdash variance scalers fit on the training split. Predictions are inverse\textemdash transformed before evaluation. Anchors’ predictions are overwritten by their known coordinates.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{images/model_architecture.png}
+\caption{Architecture of the proposed edge\textemdash conditioned GCN.}
+\label{fig:architecture_01}
+\end{figure*}
+
+\subsection{Trainable Path\textemdash Loss Module (RSSI\textrightarrow Distance)}
+We learn global path\textemdash loss parameters $(n, o)$ as trainable scalars and hold $P_t$ fixed at 13 dBm. Given $\bar r_{ij}$, the module outputs $\hat d_{ij}$ as above. For stability, when $|n|$ is close to zero we add a small $\varepsilon$ to the denominator $10n$. The exponent $(P_t + o - \bar r_{ij})/(10n)$ is clamped to $[-2,5]$, and $\hat d_{ij}$ is lower\textemdash bounded by $\varepsilon$ meters. These bounds imply $\hat d_{ij}\in[10^{-2},10^{5}]$ m (1 cm to 100 km), which safely exceeds the 4 km map extent and prevents implausible distances from outlier RSSI or transient parameter values; they stabilize training without truncating valid links. The resulting edge features are interpretable and bounded, capturing environment\textemdash dependent attenuation while allowing the GCN to model residual structure.
+
+\subsection{Anchor Handling}
+Anchors’ coordinates are provided as inputs and treated as fixed. During training and evaluation, predicted coordinates for anchors are overwritten with their known values and excluded from the loss. Gradients are masked to prevent anchor drift. Message passing through anchor\textemdash adjacent edges still informs unknown nodes.
+
+\subsection{Training Objective and Optimization}
+We minimize a robust Smooth L1 (Huber) loss on unknown nodes, $\mathcal{L} = \sum_{i\in\mathcal{U}} \rho(\hat{\mathbf{p}}_i - \mathbf{p}_i)$, where $\rho$ is the Smooth L1 penalty. We apply weight decay to the model and path\textemdash loss parameters $(n,o)$ and use gradient clipping for stability. The path\textemdash loss module and GCN are trained jointly using Adam with weight decay. We do not use learning\textemdash rate scheduling or early stopping.
+
+\section{Evaluation}\label{sec:evaluation}
+\subsection{Experimental Setup}
+We evaluate on synthetic, terrain\textemdash aware outdoor scenarios that emulate a low\textemdash density LoRa deployment. Propagation follows Longley\textendash Rice over a 4 km $\times$ 4 km area. Nodes are at 1.0 m height. Each graph has 64 nodes (16 anchors, 48 unknowns). We collect $K=10$ RSSI samples per directed link to capture small\textemdash scale variability.
+
+Table~\ref{tab:core_params} summarizes the experimental parameters.
+
+\begin{table}[!t]
+\caption{Core experimental parameters\label{tab:core_params}}
+\centering
+\begin{tabular}{p{0.36\columnwidth}|p{0.58\columnwidth}}
+\hline
+\textbf{Parameter} & \textbf{Value}\\
+\hline
+Area & 4 km $\times$ 4 km\\
+Propagation model & Longley--Rice (terrain-aware)\\
+Carrier frequency & 915 MHz\\
+Nodes & 64 total\\
+Anchors / unknowns & 16 / 48 (ratio 1 to 3)\\
+Node height & 1.0 m\\
+Sensing & RSSI only\\
+Measurements per link ($K$) & 10\\
+Receiver sensitivity & $-135$ dBm\\
+Coordinate frame & Latitude/longitude converted to local meters (fixed origin at 40.466198\textdegree, 33.898610\textdegree)\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Dataset Construction}
+We simulate a realistic deployment in Çorum Province, Turkey, covering a 4 km $\times$ 4 km area. This region was selected because public reports indicate frequent GPS interference, which motivates GNSS\textemdash denied evaluation (e.g., GPSJAM daily maps of GPS interference \cite{gpsjam}). We place 16 anchors (grid\textemdash constrained within 4$\times$4 tiles) and 48 unknown nodes sampled uniformly at random over the map area. For each directed pair $(i,j)$, $i\neq j$, we simulate $K=10$ RSSI samples via Longley\textendash Rice. Self\textemdash links are NaN. Positions are stored in latitude/longitude and converted to a local Cartesian frame using a fixed origin at (40.466198\textdegree, 33.898610\textdegree). We consider two propagation regimes used consistently throughout the experiments and figures: \emph{terrain\textemdash aware} (Longley\textendash Rice; default) and \emph{free\textemdash space} (idealized propagation without terrain effects). We include both to show that iterative multilateration can perform very well in free\textemdash space but degrades severely once terrain\textemdash induced attenuation and shadowing are modeled. To avoid optimistic bias toward methods that implicitly assume line\textemdash of\textemdash sight, we report terrain\textemdash aware results as the primary evaluation.
+
+We generate 1000 graph instances. Unless otherwise noted, we use a random 80/20 split for training/testing. For reporting across methods and both propagation regimes, we evaluate on $N=200$ held\textemdash out graph instances. GCN variants are trained on the training split and evaluated on the same $N=200$ graphs. Multilateration requires no training.
+
+\subsection{Training \& Preprocessing}
+Inputs are node features $[x, y, \mathrm{is\_anchor}]$ and edge attributes built from RSSI time series. For the proposed model, edges include the learned RSSI\textrightarrow distance estimate. The plain GCN ablation omits this term. We standardize features and targets on training data and overwrite anchor outputs with known coordinates at evaluation. Models are trained with first\textemdash order optimization. Key hyperparameters are summarized in Table~\ref{tab:hyperparams}.
+
+\begin{table}[!t]
+\caption{Key GCN training hyperparameters\label{tab:hyperparams}}
+\centering
+\begin{tabular}{p{0.47\columnwidth}|p{0.47\columnwidth}}
+\hline
+\textbf{Hyperparameter} & \textbf{Value}\\
+\hline
+Optimizer & Adam\\
+Learning rate & $1\times10^{-4}$\\
+Weight decay & $1\times10^{-5}$\\
+Epochs & 50\\
+Batch size & 1\\
+Hidden dimension $H$ & 64\\
+Convolution & 2 $\times$ NNConv (aggr=mean)\\
+EdgeNet MLP & [in $\to$ 64 $\to$ out], ReLU\\
+Loss & Smooth L1 on unknown nodes\\
+Gradient clipping & 1.0 (model and path\textemdash loss params)\\
+Path\textemdash loss parameters & $P_t{=}13$ dBm fixed; $n, o$ learned\\
+Edge attributes & 10 RSSI samples $+$ learned distance (11 dims)\\
+Feature scaling & Standardize using training split\\
+Target scaling & Standardize using training split\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Baselines}
+\subsubsection{Iterative multilateration with anchor expansion}
+We alternate distance estimation from RSSI with least\textemdash squares position updates while expanding the anchor set.
+
+\begin{enumerate}
+  \item \textbf{Estimate path\textemdash loss parameters.} Fit a log\textemdash distance model to anchor\textendash anchor RSSI via constrained curve fitting with guards. Average the $K$ samples per link; fall back to a default parameter set if fitting fails or yields implausible values.
+
+  \begin{equation}\label{eq:mlat_rssi_model}
+  \mathrm{RSSI}(d) = A - 10\,n\,\log_{10}(d)
+  \end{equation}
+
+  \item \textbf{Convert RSSI to distances.} For observed anchor\textleftrightarrow unknown links, map averaged RSSI to distances using Eq.~\ref{eq:mlat_rssi2dist}. Clamp inputs to avoid overflow and discard non\textemdash finite or excessively large values.
+
+  \begin{equation}\label{eq:mlat_rssi2dist}
+  \hat d = 10^{\frac{A - \overline{\mathrm{RSSI}}}{10\,n}}
+  \end{equation}
+
+  \item \textbf{Localize unknown nodes.} Solve a bounded nonlinear least\textemdash squares problem in 2D against available distances to anchors and provisional anchors. Attempt an update only when at least three neighbors are available. Use trust\textemdash region reflective updates within wide map\textemdash based bounds and initialize at the current coordinate (or the anchor centroid at iteration 0). Stage updates and commit after visiting all unknown nodes.
+
+  \item \textbf{Anchor expansion.} Mark updates as confident (e.g., low residuals to incident distance constraints and sufficient degree) and add them to the anchor set. Repeat Steps 2--4 for $T{=}10$ iterations and output the final coordinates.
+\end{enumerate}
+
+\begin{equation}\label{eq:mlat_rssi_model}
+\mathrm{RSSI}(d) = A - 10\,n\,\log_{10}(d)
+\end{equation}
+\begin{equation}\label{eq:mlat_rssi2dist}
+\hat d = 10^{\frac{A - \overline{\mathrm{RSSI}}}{10\,n}}
+\end{equation}
+
+The method proceeds with $T=10$ outer iterations. In every iteration each unknown node is updated by solving a bounded nonlinear least\textemdash squares problem in two dimensions that aligns geometric distances to neighbors with the measured distances. Neighbors can be anchors or unknown nodes at their current estimates, and an update is attempted only when at least three neighbors are available. The solver employs trust region reflective updates within wide map\textemdash based bounds and uses the current node coordinate as the initial guess. Successful updates are staged and committed after all unknown nodes are visited, and anchors remain unchanged throughout.
+
+\subsubsection{Plain GCN ablation}
+Same architecture and training protocol as the proposed model but without the RSSI\textrightarrow distance feature, isolating the contribution of the physically informed edge attributes.
+
+\section{Results}
+\subsection{Terrain\textemdash Aware Results}
+
+We evaluate three methods and report localization error in meters. The methods are the proposed GCN with a trainable RSSI to distance module, a plain GCN ablation without this module, and iterative multilateration. Unless otherwise specified we use the terrain\textemdash aware Longley\textemdash Rice setting with 64 nodes and K equals 10 RSSI samples per directed edge. All metrics are computed on N equals 200 held out graphs per method and setting.
+
+Under the terrain\textemdash aware setting, the proposed model achieves a mean error of 206.74 m, substantially improving over the plain GCN ablation (750.87 m) and iterative multilateration (1974.40 m). The error CDF and histogram show a consistent left\textemdash shift and a reduced upper tail for the proposed model relative to the baselines (Figs.~\ref{fig:cdf_nonfree}, \ref{fig:hist_nonfree}). Table~\ref{tab:main_results} reports full summary statistics. Representative qualitative maps for all three methods are provided (Figs.~\ref{fig:qualitative_nonfree}, \ref{fig:qualitative_plain_nonfree}, \ref{fig:qualitative_mlat_nonfree}).
+
+We include the terrain\textemdash aware CDF and histogram and representative qualitative maps for all three methods to show the visual differences.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{images/three_methods_cdf.png}
+\caption{CDF of localization error (m) in the terrain\textemdash aware setting (three methods).}
+\label{fig:cdf_nonfree}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{images/three_methods_hist.png}
+\caption{Histogram of localization error (m) in the terrain\textemdash aware setting (three methods).}
+\label{fig:hist_nonfree}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.png}
+\caption{Qualitative localization map (terrain\textemdash aware): proposed model.}
+\label{fig:qualitative_nonfree}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.png}
+\caption{Qualitative localization map (terrain\textemdash aware): plain GCN ablation.}
+\label{fig:qualitative_plain_nonfree}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{images/sample_visualization_loaded_model_mlat_64beacons_100instances.png}
+\caption{Qualitative localization map (terrain\textemdash aware): iterative multilateration.}
+\label{fig:qualitative_mlat_nonfree}
+\end{figure}
+
+\begin{table}[!t]
+\caption{Terrain\textemdash aware localization error (m)\label{tab:main_results}}
+\centering
+\begin{tabular}{l|r r r r}
+\hline
+\textbf{Method} & \textbf{Mean} & \textbf{Median} & \textbf{P90} & \textbf{P95}\\
+\hline
+Proposed & 206.74 & 182.42 & 381.01 & 455.37\\
+Plain GCN & 750.87 & 662.12 & 1330.32 & 1571.84\\
+Multilateration & 1974.40 & 1747.99 & 3581.93 & 4489.04\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Free\textemdash Space Results}
+Under idealized propagation, multilateration attains low errors with mean 6.28 m and median 5.80 m, and the ninety and ninety fifth percentiles are 10.87 m and 12.65 m. The proposed model yields mean 51.15 m and median 51.53 m, and the ninety and ninety fifth percentiles are 68.92 m and 74.24 m. The plain GCN ablation yields mean 257.80 m and median 210.44 m, and the ninety and ninety fifth percentiles are 494.98 m and 632.21 m. Table~\ref{tab:free_results} summarizes these results; see also Figs.~\ref{fig:cdf_free} and \ref{fig:hist_free}.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{images/three_methods_cdf_free.png}
+\caption{CDF of localization error (m) in the free\textemdash space setting.}
+\label{fig:cdf_free}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{images/three_methods_hist_free.png}
+\caption{Histogram of localization error (m) in the free\textemdash space setting.}
+\label{fig:hist_free}
+\end{figure}
+
+\begin{table}[!t]
+\caption{Free\textemdash space localization error (m)\label{tab:free_results}}
+\centering
+\begin{tabular}{l|r r r r}
+\hline
+\textbf{Method} & \textbf{Mean} & \textbf{Median} & \textbf{P90} & \textbf{P95}\\
+\hline
+Proposed & 51.15 & 51.53 & 68.92 & 74.24\\
+Plain GCN & 257.80 & 210.44 & 494.98 & 632.21\\
+Multilateration & 6.28 & 5.80 & 10.87 & 12.65\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Ablations}
+We study the effect of (A) RSSI time\textemdash series vs. aggregates, (B) trainable path\textemdash loss vs. none, (C) anchor density, (D) node density (fixed ratio), (E) measurements per edge (10\textrightarrow 100), (F) anchor layout, (G) environment mismatch (train/test regions), (H) receiver sensitivity thresholds, and (I) connectivity (degree) vs. error.
+
+\section{Discussion}
+\subsection{Performance Drivers}
+The terrain\textemdash aware results indicate that most of the gain comes from combining physically grounded edge attributes with graph reasoning. The proposed model consistently shifts the error distribution to the left and suppresses the heavy tail relative to baselines (see Fig.~\ref{fig:cdf_nonfree} and Fig.~\ref{fig:hist_nonfree}). Learning the RSSI\textrightarrow distance parameters from data produces distance\textemdash aware, bounded edge features. Relative to multilateration, this mitigates bias from fixed or mis\textemdash specified path\textemdash loss assumptions. Compared to a plain GCN that uses only RSSI, it adds a bounded per\textemdash edge distance (in meters), which keeps features on a consistent scale across links and gives message passing an explicit notion of distance. Aggregating messages over multiple paths dilutes any single noisy measurement, instead of letting one poor fit steer the result. Qualitatively, predicted coordinates align closely with ground truth and the remaining errors are locally smooth rather than catastrophic outliers (Fig.~\ref{fig:qualitative_nonfree}).
+
+The free\textemdash space comparison clarifies when classical multilateration is preferable. Under idealized propagation, the anchor\textemdash anchor fit yields a well\textemdash specified log\textemdash distance model and the iterative solver exploits nearly line\textemdash of\textemdash sight geometry; the CDF saturates near zero with a narrow histogram (Fig.~\ref{fig:cdf_free}, Fig.~\ref{fig:hist_free}). In this setting, least\textemdash squares fitting is advantageous because the distances closely match the geometry. Our GCN still performs reasonably but remains limited by (i) imperfect supervision that does not explicitly impose triangle inequality or rigidity constraints and (ii) a global, regularized path\textemdash loss module learned jointly with the network that can deviate slightly from a pure inverse\textemdash power law even in free\textemdash space. The plain GCN ablation is consistently worse than the proposed model in both regimes; it is worse than multilateration in free\textemdash space but better than multilateration in terrain\textemdash aware experiments.
+
+Across settings, we observe three practical drivers of accuracy: (i) anchor geometry\textemdash distributed anchors reduce extrapolation and stabilize both graph learning and multilateration; (ii) graph connectivity\textemdash higher average degree provides redundant paths that the GCN can exploit to denoise RSSI; and (iii) measurement depth\textemdash using short RSSI time series per link helps through averaging, and longer series further tighten the upper tail by stabilizing the edge attributes.
+
+\subsection{Limitations}
+First, the study relies on simulated Longley\textendash Rice propagation and controlled layouts. Although this model captures large\textemdash scale terrain effects, a sim\textemdash to\textemdash real gap remains due to device heterogeneity, antenna placement, and temporal variability. Second, we learn global path\textemdash loss parameters $(P_t, n, o)$. Real deployments may require per\textemdash region or per\textemdash device parameterizations or mixtures to account for hardware and micro\textemdash terrain diversity. Third, anchors are assumed accurate and static; anchor uncertainty can bias all methods. Fourth, we operate in 2D with fixed heights and do not model polarization or orientation. Finally, the current training objective is purely pointwise (MSE) and does not explicitly enforce geometric consistency.
+
+\subsection{Deployment}
+The results suggest a pragmatic workflow for LPWA networks in GNSS\textemdash denied areas. (0) Before installation, synthesize a region\textemdash specific dataset for the intended service area using the MATLAB Longley\textendash Rice generator; place anchors according to the planned layout and sample unknown nodes, then pre\textemdash train the model and scalers on these simulations. (1) After installation, collect anchor\textendash anchor RSSI and run a short, label\textemdash free calibration step that updates only the RSSI\textrightarrow distance parameters while keeping the GCN frozen; this aligns the physical module to the deployed hardware. (2) Lock anchors and run inference on unknown nodes; flag nodes whose predicted neighborhoods violate geometric sanity checks and request additional RSSI samples. (3) If persistent bias is detected, fine\textemdash tune the full model on the region’s synthetic set and then perform a few gradient steps on unlabeled field data using self\textemdash consistency losses. (4) For operational robustness, ensemble a small number of independently seeded models and average predictions. (5) When planning new deployments, prioritize anchor dispersion and minimal shadowing to maximize graph connectivity.
+
+\section{Conclusion}
+We address beacon self\textemdash localization in sparse LPWA networks using only RSSI and no GNSS\textemdash disciplined timing. Our contribution is a physically informed, edge\textemdash conditioned GCN that learns an RSSI\textrightarrow distance mapping jointly with message passing while keeping anchors fixed. This combination yields distance\textemdash aware edge features that tame path\textemdash loss bias and exploit unknown\textemdash to\textemdash unknown connectivity. In terrain\textemdash aware evaluations over $N=200$ held\textemdash out graphs, the model reduces mean error to 206.74 m compared with 750.87 m for a plain GCN ablation and 1974.40 m for iterative multilateration. Free\textemdash space results confirm that classical multilateration excels under idealized propagation, reinforcing the need to evaluate with terrain and shadowing.
+
+Future work will: (i) bridge the gap between simulated training and real\textemdash world evaluation via domain adaptation, calibration with anchor\textemdash anchor links, and robustness to device heterogeneity; (ii) optimize anchor placement to improve geometry and connectivity under cost constraints; and (iii) validate through field experiments across diverse regions with standardized metrics and ablations.
+
+\begin{thebibliography}{00}
+\bibitem{r1}
+K. Hirotsu, F. Granelli, and A. Nakao, ``LoRa-based localization for drones: Methodological enhancements explored through simulations and real-world experiments,'' \emph{IEEE Access}, vol. 12, pp. 145988--145996, 2024. doi: 10.1109/ACCESS.2024.3463175.
+
+\bibitem{r2}
+A. Vazquez-Rodas, F. Astudillo-Salinas, C. Sanchez, B. Arpi, and L. I. Minchala, ``Experimental evaluation of RSSI-based positioning system with low-cost LoRa devices,'' \emph{Ad Hoc Networks}, vol. 105, 2020.
+
+\bibitem{r3}
+P. M\"{u}ller, H. Stoll, L. Sarperi, and C. Sch\"{u}pbach, ``Outdoor ranging and positioning based on LoRa modulation,'' in \emph{Proc. ICL-GNSS}, 2021, pp. 1--6.
+
+\bibitem{r4}
+J. Purohit, X. Wang, S. Mao, X. Sun, and C. Yang, ``Fingerprinting-based indoor and outdoor localization with LoRa and deep learning,'' in \emph{Proc. IEEE GLOBECOM}, 2020, pp. 1--6.
+
+\bibitem{r5}
+J. Pospisil, R. Fujdiak, and K. Mikhaylov, ``Investigation of the performance of TDoA-based localization over LoRaWAN in theory and practice,'' \emph{Sensors}, vol. 20, no. 19, p. 5464, 2020.
+
+\bibitem{r6}
+B. C. Fargas and M. N. Petersen, ``GPS-free geolocation using LoRa in low-power WANs,'' in \emph{Proc. GIoTS}, 2017, pp. 1--6.
+
+\bibitem{r7}
+W. Ingabire, H. Larijani, and R. Gibson, ``LoRa RSSI based outdoor localization in an urban area using random neural networks,'' in \emph{Intelligent Computing}, vol. 14047, pp. 1032--1043, 2021.
+
+\bibitem{r8}
+S. Fan and J. Yan, ``CSI fingerprint and GCN-based indoor localization using graph structures fusion,'' in \emph{Proc. IEEE ICCT}, 2023, pp. 111--116.
+
+\bibitem{r9}
+X. Kang, X. Liang, and Q. Liang, ``Indoor localization algorithm based on a high-order graph neural network,'' \emph{Sensors}, vol. 23, 2023.
+
+\bibitem{r10}
+W. Yan, D. Jin, Z. Lin, and F. Yin, ``Graph neural network for large-scale network localization,'' in \emph{Proc. IEEE ICASSP}, 2021, pp. 5250--5254.
+
+\bibitem{r11}
+R. Vishwakarma and S. Mishra, ``IndoorGNN: A graph neural network-based approach for indoor localization using WiFi RSSI,'' in \emph{Advances in Intelligent Systems and Computing}, vol. 1440, pp. 134--144, 2023.
+
+\bibitem{r12}
+J. P. Sharma, A. Sharma, and A. K. Singh, ``Graph neural networks for WiFi localization using RSSI,'' \emph{Sensors}, vol. 21, no. 24, p. 8362, 2021.
+
+\bibitem{r13}
+R. P. S. Hada and A. Srivastava, ``A Hybrid Approach for Localisation of Sensor Nodes in Remote Locations,'' \emph{ACM Trans. Sen. Netw.}, vol. 21, no. 2, Article 23, Mar. 2025. doi: 10.1145/3715914.
+
+\bibitem{gpsjam}
+GPSJAM, ``Daily maps of GPS interference,'' Online. Available: https://gpsjam.org/ (accessed Oct. 28, 2025). Data provided by ADSBexchange.
+\end{thebibliography}
+
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{images/kazuya.jpg}}]{Kazuya Hirotsu} received a Bachelor's degree in engineering from the University of Tokyo in 2023 and is currently pursuing a Master's degree in engineering at the University of Tokyo.
+\end{IEEEbiography}
+
+
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{images/nakao.png}}]{Akihiro Nakao}
+received B.S. (1991) in Physics, M.E. (1994) in Information Engineering from the University of Tokyo. He was at IBM Yamato Laboratory, Tokyo Research Laboratory, and IBM Texas Austin from 1994 till 2005. He received M.S. (2001) and Ph.D. (2005) in Computer Science from Princeton University. He taught as an associate professor (2005-2014) and as a professor (2014-2021) in Applied Computer Science, at Interfaculty Initiative in Information Studies, Graduate School of Interdisciplinary Information Studies, the University of Tokyo.
+He has served as Vice Dean of the University of Tokyo’s Interfaculty Initiative in Information Studies (2019-2021). In April 2021, he has moved to School of Engineering, the University of Tokyo (2021-present). Since April 2023, he has been serving as Head of Department of System Innovations, School of Engineering. He was appointed as an adviser to the President of the University of Tokyo (2019-2020) and has been a special adviser to the President of the University of Tokyo (2020-present). He is serving as Director, Collaborative Research Institute for NGCI, (Next-Generation Cyber Infrastructure), the University of Tokyo (2021-present).
+For social services, he has been playing several important roles in Japanese government and also at research societies. He has also been appointed Chairman of the 5G Mobile Network Promotion Forum (5GMF) Network Architecture Committee by Japanese government. He has been appointed as Chairman of 5G/Beyond 5G committee, Space ICT Promotion Initiative Forum, International Committee, and Beyond 5G Promotion Consortium as well (2020-present). From 2020 to present, he is a chair and advisor of IEICE technical committee on network systems (NS) as well as a chair of IEICE technical committee on cross-field research association of super-intelligent networking (RISING). He will be the president of Communication Society, IEICE, in 2024.
+\end{IEEEbiography}
+
+\end{document}

@@ -1,0 +1,7 @@
+Localization Error Metrics (meters)
+Model: mlat_64beacons_100instances
+Mean: 2364.724057
+Median: 2162.610083
+P90: 4169.462623
+P95: 5004.550245
+Num Samples: 9600

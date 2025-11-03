@@ -1,0 +1,316 @@
+---
+alwaysApply: false
+---
+# =========================
+# Cursor Rules — IEEE Access Paper
+# =========================
+# Purpose
+# - Help me write, revise, and finalize a high-quality IEEE Access manuscript.
+# - Draft lives in: paper/paper.txt
+# - Final LaTeX lives in: paper/paper.latex
+# - Figures/images live in: paper/images
+# - Sample code (for listings, algorithm details, and reproducibility) lives in: paper/sample_code
+# - You (Cursor) should proactively suggest structure, tighten language, and enforce IEEE Access conventions.
+
+# Canonical Sources (do not hallucinate)
+- When describing methods, ablations, hyperparameters, or results, FIRST look in:
+  1) paper/paper.txt (current draft)
+  2) paper/sample_code/**/* (source of truth for implementations)
+  3) paper/images/**/* (only use figures that exist here)
+- If information is missing, ask for the minimal facts needed or propose clearly labeled TODOs.
+
+# Deliverables & Workflow
+- Author in paper/paper.txt using plain text with lightweight markers (see below).
+- Keep paper/paper.latex as the single LaTeX output (no extra .tex files unless I ask).
+- Maintain a clean, minimal diff when editing.
+- Never break existing figure paths or labels. If you rename a figure, update its \label and all \ref.
+- Prefer incremental passes:
+  1) Outline, 2) Fill content, 3) Evidence & citations, 4) Tighten style, 5) Figure/table polish, 6) Final LaTeX conversion.
+
+# IEEE Access Structure (default)
+- Title, Authors, Affiliations, Corresponding author
+- Abstract (150–250 words; problem → method → key results → significance)
+- Index Terms (3–8, comma-separated; standardized terms)
+- I. Introduction (motivation, gap, contributions as bullet list)
+- II. Related Work (organized by themes; synthesize, do not list)
+- III. Method (clear assumptions, notation, algorithm steps, complexity)
+- IV. Experiments (datasets, metrics, baselines, implementation details, ablations)
+- V. Results & Discussion (quantitative tables/figures + analysis; limitations)
+- VI. Conclusion & Future Work
+- Acknowledgment (if any)
+- References (BibTeX)
+- (Optional) Appendix, Nomenclature
+
+# Writing Style Guardrails
+- Audience: expert but time-constrained reviewers.
+- Be precise, concise, and falsifiable. Prefer short sentences. Avoid hype.
+- Use active voice where possible. Avoid first-person plural unless needed for clarity.
+- Define symbols on first use; keep a running notation table if needed.
+- One claim → one piece of evidence (number, table, or citation).
+- NO purple prose. No vague superlatives (e.g., “state-of-the-art”) without citation and numbers.
+- Avoid using ; and past tense
+
+# Citations & References
+- Use BibTeX; cite as \cite{key}. Do not inline raw URLs.
+- Tie every factual comparison or borrowed idea to a citation.
+- For “SOTA” claims, include year, venue, and metric with numeric comparisons.
+- Prefer stable sources (journals/conferences with DOIs) over blogs.
+- If a citation is missing, insert: [CITATION NEEDED: <1-line description>] and add a TODO.
+
+# Figures, Tables, and Captions
+- Place all figure files under paper/images. Prefer vector (PDF/SVG) for plots, high-DPI PNG for heatmaps/photos.
+- In LaTeX, use: \includegraphics[width=\linewidth]{paper/images/<name>}
+- Captions: 1) what, 2) why it matters, 3) key takeaway. Avoid repeating axis labels.
+- Label conventions: fig:*, tab:*, sec:*, eq:*. Example: \label{fig:ablations}
+- Tables: report mean ± std when relevant; specify metric units; align decimals.
+- Every figure/table must be referenced in the text and discussed (no orphaned artifacts).
+
+# Equations & Notation
+- Number all displayed equations: \begin{equation} ... \label{eq:...}\end{equation}
+- Define symbols on first use; keep consistent typography (vectors bold, sets calligraphic, scalars plain).
+- Units: SI with spaces (e.g., 20 dBm, 3 cm); percent with % sign.
+
+# Code, Algorithms, and Reproducibility
+- Pull variable names, algorithm steps, and pseudocode from paper/sample_code to ensure consistency.
+- If listing code, prefer short, self-contained listings with language tags and captions.
+- Provide enough implementation detail to reproduce: environment, key hyperparams, seed policy, hardware.
+- If results come from scripts, mention exact script path and commit hash (if known).
+
+# Lightweight Markup in paper/paper.txt
+- Use these markers to guide conversion to LaTeX:
+  - SECTION: <Title>
+  - SUBSECTION: <Title>
+  - FIG: <filename> | <caption> | <label>
+  - TAB: <title/what> | <label> | <construction notes>
+  - EQN: <math in LaTeX math mode> | <label> | <explanatory sentence>
+  - CITE: <bibkey or short note if missing>
+  - TODO: <task>
+- Example:
+  SECTION: Introduction
+  Our work addresses ...
+  CITE: smith2023transformers
+  FIG: fig_pipeline.pdf | Overview of the proposed pipeline. | fig:pipeline
+
+# Conversion to paper/paper.latex (expectations)
+- Preserve section hierarchy and labels.
+- Convert FIG/TAB/EQN blocks into proper LaTeX environments with \label and \caption.
+- Translate inline math $...$ and display math $$...$$ safely to LaTeX math mode.
+- Insert \index terms via a \keyword{} or “Index Terms” block as required by IEEE Access template.
+- Do NOT introduce LaTeX packages that conflict with IEEE Access; keep the preamble minimal.
+
+# Quality Bar (must pass before “Ready”)
+[ ] Abstract states problem, method, numbers, and significance.
+[ ] Contributions are bullet-listed, specific, and verifiable.
+[ ] All claims backed by numbers (table/figure) or citations.
+[ ] Each figure/table is referenced and interpreted in text.
+[ ] Methods reproducible from description + sample_code pointers.
+[ ] Limitations discussed candidly.
+[ ] Index Terms present and appropriate.
+[ ] References compile without errors; no missing bibkeys.
+[ ] Spelling/grammar/style linted; no passive-voice overuse.
+[ ] LaTeX compiles cleanly from paper/paper.latex (no broken refs).
+
+# Editing Heuristics (what you should do automatically)
+- Tighten wording: remove redundancies, nominalizations, and filler adverbs.
+- Prefer “we propose/derive/show” only when followed by concrete content.
+- Replace vague verbs (do, make, show) with precise verbs (estimate, optimize, demonstrate).
+- Turn long paragraphs (>6 lines) into topic-sentence + support.
+- Turn enumerations into concise bullet lists when appropriate (in txt; you’ll convert to LaTeX later).
+
+# Tables/Figures From Results
+- Never invent numbers. If numbers aren’t present, create a TODO with the exact metric and where to fetch it.
+- If multiple similar figures exist under paper/images, suggest a unified naming scheme and update references.
+
+# Baselines & Metrics (default expectations)
+- State dataset splits, metrics (with definitions), and statistical treatment (mean ± std, n, CI if used).
+- For fairness, list baselines, their sources/citations, and any tuning you applied.
+
+# Limitations & Ethics
+- Include a brief limitations paragraph acknowledging constraints, assumptions, and failure modes.
+- If data involve privacy/sensitive content, state ethical safeguards and approvals (if applicable).
+
+# Common Phrases to Avoid
+- “To the best of our knowledge” (unless you’ve done a systematic search—then cite it).
+- “Clearly,” “obviously,” “significantly” without numbers.
+- “Revolutionary,” “breakthrough,” or any hype.
+
+# Quick Commands (you can interpret these without further instructions)
+- “Outline the paper”: Build a 1–2 page outline with section bullets and figure/table plan from paper/paper.txt.
+- “Polish Methods”: Rewrite the Method section for clarity and completeness; align terminology with paper/sample_code.
+- “Audit citations”: Insert/verify all required citations; produce a missing-bibkey TODO list.
+- “Figure sweep”: Check paper/images for naming/duplication; propose standardized names and update references.
+- “Tighten language”: Reduce length by 10–20% without losing meaning; flag any ambiguous claims.
+- “Ablation plan”: Propose a minimal set of ablations that test each claimed contribution.
+- “Latexify”: Convert current paper/paper.txt into paper/paper.latex with proper environments, labels, and figure/table includes.
+
+# File & Label Conventions
+- Figures: paper/images/fig_<shorttopic>_<nn>.pdf (or .png if raster)
+- Tables: labels tab:<shorttopic>_<nn>
+- Figures: labels fig:<shorttopic>_<nn>
+- Equations: labels eq:<concept>_<nn>
+- Sections: sec:<shorttitle>
+
+# If Something Is Missing
+- Never fabricate. Insert precise TODOs:
+  TODO: Add F1@IoU=0.5 results for Dataset-X (val/test), from script paper/sample_code/exp/run_eval.py, seed 42.
+
+# Done Definition
+- paper/paper.txt is clean (no unresolved TODO/CITATION blocks unless explicitly deferred).
+- paper/paper.latex compiles (no broken refs), includes all figures/tables, and adheres to IEEE Access conventions.
+- All claims are evidenced or clearly marked as future work.
+# =========================
+# Cursor Rules — IEEE Access Paper
+# =========================
+# Purpose
+# - Help me write, revise, and finalize a high-quality IEEE Access manuscript.
+# - Draft lives in: paper/paper.txt
+# - Final LaTeX lives in: paper/paper.latex
+# - Figures/images live in: paper/images
+# - Sample code (for listings, algorithm details, and reproducibility) lives in: paper/sample_code
+# - You (Cursor) should proactively suggest structure, tighten language, and enforce IEEE Access conventions.
+
+# Canonical Sources (do not hallucinate)
+- When describing methods, ablations, hyperparameters, or results, FIRST look in:
+  1) paper/paper.txt (current draft)
+  2) paper/sample_code/**/* (source of truth for implementations)
+  3) paper/images/**/* (only use figures that exist here)
+- If information is missing, ask for the minimal facts needed or propose clearly labeled TODOs.
+
+# Deliverables & Workflow
+- Author in paper/paper.txt using plain text with lightweight markers (see below).
+- Keep paper/paper.latex as the single LaTeX output (no extra .tex files unless I ask).
+- Maintain a clean, minimal diff when editing.
+- Never break existing figure paths or labels. If you rename a figure, update its \label and all \ref.
+- Prefer incremental passes:
+  1) Outline, 2) Fill content, 3) Evidence & citations, 4) Tighten style, 5) Figure/table polish, 6) Final LaTeX conversion.
+
+# IEEE Access Structure (default)
+- Title, Authors, Affiliations, Corresponding author
+- Abstract (150–250 words; problem → method → key results → significance)
+- Index Terms (3–8, comma-separated; standardized terms)
+- I. Introduction (motivation, gap, contributions as bullet list)
+- II. Related Work (organized by themes; synthesize, do not list)
+- III. Method (clear assumptions, notation, algorithm steps, complexity)
+- IV. Experiments (datasets, metrics, baselines, implementation details, ablations)
+- V. Results & Discussion (quantitative tables/figures + analysis; limitations)
+- VI. Conclusion & Future Work
+- Acknowledgment (if any)
+- References (BibTeX)
+- (Optional) Appendix, Nomenclature
+
+# Writing Style Guardrails
+- Audience: expert but time-constrained reviewers.
+- Be precise, concise, and falsifiable. Prefer short sentences. Avoid hype.
+- Use active voice where possible. Avoid first-person plural unless needed for clarity.
+- Define symbols on first use; keep a running notation table if needed.
+- One claim → one piece of evidence (number, table, or citation).
+- NO purple prose. No vague superlatives (e.g., “state-of-the-art”) without citation and numbers.
+
+# Citations & References
+- Use BibTeX; cite as \cite{key}. Do not inline raw URLs.
+- Tie every factual comparison or borrowed idea to a citation.
+- For “SOTA” claims, include year, venue, and metric with numeric comparisons.
+- Prefer stable sources (journals/conferences with DOIs) over blogs.
+- If a citation is missing, insert: [CITATION NEEDED: <1-line description>] and add a TODO.
+
+# Figures, Tables, and Captions
+- Place all figure files under paper/images. Prefer vector (PDF/SVG) for plots, high-DPI PNG for heatmaps/photos.
+- In LaTeX, use: \includegraphics[width=\linewidth]{paper/images/<name>}
+- Captions: 1) what, 2) why it matters, 3) key takeaway. Avoid repeating axis labels.
+- Label conventions: fig:*, tab:*, sec:*, eq:*. Example: \label{fig:ablations}
+- Tables: report mean ± std when relevant; specify metric units; align decimals.
+- Every figure/table must be referenced in the text and discussed (no orphaned artifacts).
+
+# Equations & Notation
+- Number all displayed equations: \begin{equation} ... \label{eq:...}\end{equation}
+- Define symbols on first use; keep consistent typography (vectors bold, sets calligraphic, scalars plain).
+- Units: SI with spaces (e.g., 20 dBm, 3 cm); percent with % sign.
+
+# Code, Algorithms, and Reproducibility
+- Pull variable names, algorithm steps, and pseudocode from paper/sample_code to ensure consistency.
+- If listing code, prefer short, self-contained listings with language tags and captions.
+- Provide enough implementation detail to reproduce: environment, key hyperparams, seed policy, hardware.
+- If results come from scripts, mention exact script path and commit hash (if known).
+
+# Lightweight Markup in paper/paper.txt
+- Use these markers to guide conversion to LaTeX:
+  - SECTION: <Title>
+  - SUBSECTION: <Title>
+  - FIG: <filename> | <caption> | <label>
+  - TAB: <title/what> | <label> | <construction notes>
+  - EQN: <math in LaTeX math mode> | <label> | <explanatory sentence>
+  - CITE: <bibkey or short note if missing>
+  - TODO: <task>
+- Example:
+  SECTION: Introduction
+  Our work addresses ...
+  CITE: smith2023transformers
+  FIG: fig_pipeline.pdf | Overview of the proposed pipeline. | fig:pipeline
+
+# Conversion to paper/paper.latex (expectations)
+- Preserve section hierarchy and labels.
+- Convert FIG/TAB/EQN blocks into proper LaTeX environments with \label and \caption.
+- Translate inline math $...$ and display math $$...$$ safely to LaTeX math mode.
+- Insert \index terms via a \keyword{} or “Index Terms” block as required by IEEE Access template.
+- Do NOT introduce LaTeX packages that conflict with IEEE Access; keep the preamble minimal.
+
+# Quality Bar (must pass before “Ready”)
+[ ] Abstract states problem, method, numbers, and significance.
+[ ] Contributions are bullet-listed, specific, and verifiable.
+[ ] All claims backed by numbers (table/figure) or citations.
+[ ] Each figure/table is referenced and interpreted in text.
+[ ] Methods reproducible from description + sample_code pointers.
+[ ] Limitations discussed candidly.
+[ ] Index Terms present and appropriate.
+[ ] References compile without errors; no missing bibkeys.
+[ ] Spelling/grammar/style linted; no passive-voice overuse.
+[ ] LaTeX compiles cleanly from paper/paper.latex (no broken refs).
+
+# Editing Heuristics (what you should do automatically)
+- Tighten wording: remove redundancies, nominalizations, and filler adverbs.
+- Prefer “we propose/derive/show” only when followed by concrete content.
+- Replace vague verbs (do, make, show) with precise verbs (estimate, optimize, demonstrate).
+- Turn long paragraphs (>6 lines) into topic-sentence + support.
+- Turn enumerations into concise bullet lists when appropriate (in txt; you’ll convert to LaTeX later).
+
+# Tables/Figures From Results
+- Never invent numbers. If numbers aren’t present, create a TODO with the exact metric and where to fetch it.
+- If multiple similar figures exist under paper/images, suggest a unified naming scheme and update references.
+
+# Baselines & Metrics (default expectations)
+- State dataset splits, metrics (with definitions), and statistical treatment (mean ± std, n, CI if used).
+- For fairness, list baselines, their sources/citations, and any tuning you applied.
+
+# Limitations & Ethics
+- Include a brief limitations paragraph acknowledging constraints, assumptions, and failure modes.
+- If data involve privacy/sensitive content, state ethical safeguards and approvals (if applicable).
+
+# Common Phrases to Avoid
+- “To the best of our knowledge” (unless you’ve done a systematic search—then cite it).
+- “Clearly,” “obviously,” “significantly” without numbers.
+- “Revolutionary,” “breakthrough,” or any hype.
+
+# Quick Commands (you can interpret these without further instructions)
+- “Outline the paper”: Build a 1–2 page outline with section bullets and figure/table plan from paper/paper.txt.
+- “Polish Methods”: Rewrite the Method section for clarity and completeness; align terminology with paper/sample_code.
+- “Audit citations”: Insert/verify all required citations; produce a missing-bibkey TODO list.
+- “Figure sweep”: Check paper/images for naming/duplication; propose standardized names and update references.
+- “Tighten language”: Reduce length by 10–20% without losing meaning; flag any ambiguous claims.
+- “Ablation plan”: Propose a minimal set of ablations that test each claimed contribution.
+- “Latexify”: Convert current paper/paper.txt into paper/paper.latex with proper environments, labels, and figure/table includes.
+
+# File & Label Conventions
+- Figures: paper/images/fig_<shorttopic>_<nn>.pdf (or .png if raster)
+- Tables: labels tab:<shorttopic>_<nn>
+- Figures: labels fig:<shorttopic>_<nn>
+- Equations: labels eq:<concept>_<nn>
+- Sections: sec:<shorttitle>
+
+# If Something Is Missing
+- Never fabricate. Insert precise TODOs:
+  TODO: Add F1@IoU=0.5 results for Dataset-X (val/test), from script paper/sample_code/exp/run_eval.py, seed 42.
+
+# Done Definition
+- paper/paper.txt is clean (no unresolved TODO/CITATION blocks unless explicitly deferred).
+- paper/paper.latex compiles (no broken refs), includes all figures/tables, and adheres to IEEE Access conventions.
+- All claims are evidenced or clearly marked as future work.

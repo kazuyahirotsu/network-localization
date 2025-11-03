@@ -53,4 +53,6 @@ free: mid-term/multilateration/64beacon_200instances_free.py
 to run the trained pth file, just python ...pth_test...py
 and then use plot_eval_dump_power13.py to create graphs
 
-todo: make graph with multiple methods to compare the results
+todo: 
+- make graph with multiple methods to compare the results
+- start writing results Section

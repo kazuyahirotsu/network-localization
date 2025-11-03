@@ -1,0 +1,102 @@
+highlighting that terrain effects invert the apparent ranking and motivating terrain-aware evaluation.
+- this sentence is weird and not easy to read
+
+because downstream systems assume reliable anchor inputs.
+- shouldn't anchor inputs be anchor locations?
+
+We show that a physically informed, edge-conditioned graph neural network (GCN) 
+- this should be graph convolutional network
+
+Each node i has an unknown absolute position p_i∈R^2 (known for i∈A).
+- A is anchor, why is the position unknown?
+
+bound the exponent to [−2, 5]
+- we should probably explain why this number in the bound? maybe in C. TRAINABLE PATH-LOSS MODULE (RSSI→DISTANCE)
+
+near the anchor centroid (Section IV).
+- do we need to mention section iv?
+
+III. PROPOSED METHOD
+- we should mention figure one earlier in section 3
+
+3.2 Physically‑Informed Edge‑Conditioned GCN
+- this section should be more clear and easy to understand while maintaining professional tone
+
+- table 1, 3, 4 are not mentioned in the paragraph
+
+
+The path‑loss module and GCN are trained jointly using Adam with weight decay; no learning‑rate scheduling or early stopping is used in the base configuration.
+- let's not use ; here and "in the base configuration" sounds odd to be used on paper
+
+DATASET CONSTRUCTION
+- let's explain briefly why this specific location was used ref: (we simulate a realistic deployment in Çorum Province, Turkey, covering a 4 × 4 km area. This region was selected because it’s known for GNSS jamming.)
+
+(uniform over the map)
+- does this say that it's random?
+
+This contrast motivates terrain-aware evaluation to avoid over-estimating methods that implicitly assume line-ofsight.
+- this line is not easy to understand
+
+graphs; multilateration requires no training.
+- let's not use ; here
+
+optionally augmented by the learned RSSI→distance estimate
+- is this optional tho?
+
+Iterative multilateration with anchor expansion, Plain GCN ablation
+- these should be subsubsection
+
+Iterative multilateration with anchor expansion
+- the first sentence should explain the algorithm in a brief and easy to understand way
+- it's long and hard to read, divide the explanation in steps like this but in more detail
+- STEP1: Estimate parameters using anchor node data
+- STEP2: Convert RSSI → distance (anchor ↔ unknown)
+- STEP3: Multilaterate unknown node positions
+- STEP4: Add confident estimates as anchors, repeat 2–4
+
+Plain GCN ablation
+- could we just call this Plain GCN?
+
+A. TERRAIN-AWARE RESULTS, B. FREE-SPACE RESULTS
+- since we have the result table, we don't have to write down every result value here
+
+Learning the RSSI→distance parameters from data produces distanceaware, bounded edge features that reduce the systematic bias introduced by mis-specified path loss.
+- is this statement correct? plain GCN does not specify pathloss param so it cannot be mis-specified??
+
+allowing errors to average out across multiple paths instead of compounding from a single geometric fit. 
+- this sentence is not easy to understand
+
+- fig 5, 6 is not mentioned in paragraph
+
+and the iterative solver exploits nearly line-of-sight geometry;the CDF saturates near zero with a narrow histogram
+- let's not use ; here
+
+In this regime, enforcing metric consistency through least-squares becomes an advantage
+- this sentence is not easy to understand
+
+the fact that learned path-loss parameters are optimized for terrain-aware variability rather than a pristine inverse-power law.
+- not sure if this is correct since the model is trained under free-space data and not terrain-aware one for evaluating the performance in freespace environment
+
+The plain GCN ablation, which removes distance features, performs worst in both regimes,
+- this is false, plain GCN is better than multilateration in terrain aware environment
+
+Across settings, we observe three practical drivers of accuracy: (i) anchor geometry—distributed anchors reduce extrapolation and stabilize both graph learning and multilateration; (ii) graph connectivity—higher average degree provides redundant paths that the GCN can exploit to denoise RSSI; and (iii) measurement depth—using short RSSI time series per link already helps through averaging, and longer series further tighten the upper tail by stabilizing the edge attributes. These observations are consistent with the CDF slope changes and the heavy‑tail reduction in terrain‑aware experiments.
+- not sure we can say this, is there an evidence?
+
+using the MATLAB Longley–Rice generator; place anchors according to the planned layout and sample unknown nodes,
+- let's not use ; here
+
+Future work will: (i) incorporate geometric consistency (rigidity, triangle inequality) into the loss; (ii) model anchor uncertainty and jointly refine anchors with priors; (iii) extend to 3D and mixed modalities when available (e.g., ToA); (iv) learn mixture or device‑aware path‑loss parameters; and (v) validate on field datasets across diverse regions, including active measurement planning and anchor‑placement optimization. We believe physically grounded graph learning, paired with terrain‑matched simulation and lightweight calibration, offers a viable foundation for dependable localization in GNSS‑limited environments.
+- refine these following is suggestions
+Bridge gap between simulated training and real-world evaluation
+Optimize anchor node placement
+Validate through field experiments
+
+- past tense check
+
+todo
+improve graph and table title
+make sure every figure and tables are mentioned
+improve baseline explanation
+improve discussion
+do some experiments and add ablation section
