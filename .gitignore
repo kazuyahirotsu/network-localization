@@ -1,3 +1,5 @@
 **/status_update_slides
 *.DS_Store
 **/.DS_Store
+
+.venv/

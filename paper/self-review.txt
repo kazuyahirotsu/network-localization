@@ -95,8 +95,11 @@ Validate through field experiments
 - past tense check
 
 todo
-improve graph and table title
+✅improve graph and table title
 make sure every figure and tables are mentioned
 improve baseline explanation
 improve discussion
 do some experiments and add ablation section
+    being near the anchor
+✅experiment terrain image and rssi data plot
+past tense check

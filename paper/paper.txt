@@ -147,11 +147,13 @@ TAB: Core experimental parameters | tab:core_params | Applies to all experiments
 
 4.2 Dataset Construction
 
-We simulate a realistic deployment in Çorum Province, Turkey, covering a 4 km × 4 km area. This region was selected because public reports indicate frequent GPS interference, which motivates GNSS‑denied evaluation. CITE: gpsjam
+We simulate a realistic deployment in Çorum Province, Turkey, covering a 4 km × 4 km area (see Fig. \ref{fig:exp_area}). This region was selected because public reports indicate frequent GPS interference, which motivates GNSS‑denied evaluation. CITE: gpsjam
 
-We use a MATLAB generator to place 16 anchors (grid‑constrained within 4×4 tiles) and 48 unknown nodes sampled uniformly at random over the map area. For each directed pair (i,j), i≠j, we simulate K=10 RSSI samples via Longley–Rice. Self‑links are NaN. Positions are stored in latitude/longitude and converted to a local Cartesian frame using a fixed origin at (40.466198°, 33.898610°).
+FIG: images/experiment_area_comparison.png | Experiment area (4 km × 4 km): (a) Satellite view; (b) Terrain map. | fig:exp_area
 
-Dataset variants: We consider two propagation regimes used consistently throughout the experiments and figures. Terrain‑aware denotes Longley–Rice propagation (our default, realistic outdoor setting). Free‑space denotes idealized propagation without terrain effects. We include both to show that iterative multilateration can perform very well in free‑space but degrades severely once terrain‑induced attenuation and shadowing are modeled. To avoid optimistic bias toward methods that implicitly assume line‑of‑sight, we report terrain‑aware results as the primary evaluation.
+We use a MATLAB generator to place 16 anchors (grid‑constrained within 4×4 tiles) and 48 unknown nodes sampled uniformly at random over the map area. For each directed pair (i,j), i≠j, we simulate K=10 RSSI samples. Self‑links are NaN. Positions are stored in latitude/longitude and converted to a local Cartesian frame using a fixed origin at (40.466198°, 33.898610°). To evaluate the impact of the physical environment, we generate datasets under two propagation regimes: a realistic terrain-aware setting using Longley-Rice, and an idealized free-space setting for comparison. We include both to show that iterative multilateration can perform very well in free‑space but degrades severely once terrain‑induced attenuation and shadowing are modeled. To avoid optimistic bias toward methods that implicitly assume line‑of‑sight, we report terrain‑aware results as the primary evaluation. The stark difference in RSSI distributions between these two regimes is visualized in Fig. \ref{fig:rssi_variance}.
+
+FIG: images/rssi_variance_comparison.png | RSSI vs distance: (a) Terrain-aware; (b) Free-space. | fig:rssi_variance
 
 We generate 1000 graph instances. Unless otherwise noted, we use a random 80/20 split for training/testing. For reporting across methods and both propagation regimes, we evaluate on N=200 held-out graph instances. Multilateration requires no training. GCN variants are trained on the training split and evaluated on the same N=200 graphs.
 
@@ -181,19 +183,21 @@ TAB: Key GCN training hyperparameters | tab:hyperparams | Applies to proposed an
 4.4 Baselines
 
 SUBSUBSECTION: Iterative multilateration with anchor expansion
-Briefly, the method alternates distance estimation from RSSI with least‑squares position updates while expanding the anchor set.
+A concise four‑step loop:
 
-STEP 1: Estimate path‑loss parameters using anchor–anchor RSSI via constrained curve fitting with guards. Average the K samples per link and use a default parameter set if fitting fails or yields implausible values.
+STEP 1: Estimate path‑loss (A, n) from anchor–anchor RSSI (averaged over K) via constrained fitting:
 
-EQN: \mathrm{RSSI}(d) = A - 10\,n\,\log_{10}(d) | eq:mlat_rssi_model | Log‑distance path‑loss model used for anchor–anchor fitting.
+EQN: \mathrm{RSSI}(d) = A - 10\,n\,\log_{10}(d) | eq:mlat_rssi_model
 
-STEP 2: Convert RSSI to distances for observed anchor↔unknown links using the mapping below. Clamp inputs to avoid overflow and discard non‑finite or excessively large values.
+STEP 2: Convert RSSI → distance on links incident to each unknown; clamp inputs and drop non‑finite or implausibly large values:
 
-EQN: \hat d = 10^{\frac{A - \overline{\mathrm{RSSI}}}{10\,n}} | eq:mlat_rssi2dist | RSSI→distance mapping using the averaged RSSI over K samples.
+EQN: \hat d = 10^{\frac{A - \overline{\mathrm{RSSI}}}{10\,n}} | eq:mlat_rssi2dist
 
-STEP 3: Multilaterate unknown node positions by solving bounded nonlinear least squares in 2D against available distances to anchors and provisional anchors. Attempt an update only when at least three neighbors are available. Use trust‑region reflective updates within wide map‑based bounds and initialize at the current coordinate (or the anchor centroid at iteration 0). Stage updates and commit after visiting all unknown nodes.
+STEP 3: Multilaterate unknown nodes with ≥3 neighbors using bounded nonlinear least squares in 2D (trust‑region reflective), initialized at the current coordinate; anchors remain fixed.
 
-STEP 4: Anchor expansion. Mark updates as confident (e.g., small residual to incident distance constraints and sufficient degree) and add them to the anchor set. Repeat Steps 2–4 for T=10 iterations, then output the final coordinates for unknown nodes and evaluate using Euclidean error.
+EQN: \hat{\mathbf{p}}_i = \arg\min_{\mathbf{p}\in\mathcal{B}} \sum_{j\in\mathcal{N}(i)} (\lVert \mathbf{p} - \mathbf{q}_j\rVert_2 - \hat d_{ij})^2 | eq:mlat_ls
+
+STEP 4: Anchor expansion: promote low‑residual updates to anchors and repeat Steps 2–4 for T=10; output final coordinates.
 
 SUBSUBSECTION: Plain GCN ablation
 Same architecture and training protocol as the proposed model, but without the RSSI→distance feature; all other components (graph, node features, edge attributes, NNConv configuration, optimizer, loss, masking, clipping, and evaluation) remain unchanged. This isolates the contribution of the physically informed edge attributes.
@@ -255,11 +259,13 @@ Effect of (A) RSSI time‑series vs aggregates, (B) trainable path‑loss vs non
 
 6.1 Performance Drivers
 
-The terrain‑aware results indicate that most of the gain comes from combining physically grounded edge attributes with graph reasoning. The proposed model consistently shifts the error distribution to the left and suppresses the heavy tail relative to baselines (see Fig. \ref{fig:cdf_nonfree} and Fig. \ref{fig:hist_nonfree}). Learning the RSSI→distance parameters from data produces distance‑aware, bounded edge features. Relative to multilateration, this mitigates bias from fixed or mis‑specified path‑loss assumptions. Compared to a plain GCN that uses only RSSI, it adds a bounded per‑edge distance (in meters), which keeps features on a consistent scale across links and gives message passing an explicit notion of distance. Aggregating messages over multiple paths dilutes any single noisy measurement, instead of letting one poor fit steer the result. Qualitatively, predicted coordinates align closely with ground truth and the remaining errors are locally smooth rather than catastrophic outliers (Fig. \ref{fig:qualitative_nonfree}).
+The stark performance difference between methods stems from the fundamental challenge of inverting RSSI to distance in a terrain-rich environment. As shown in Fig. \ref{fig:rssi_variance}, the relationship between RSSI and distance is not a simple function but a noisy, multi-modal distribution. This ill-posed inversion is the primary source of failure for iterative multilateration, which depends on accurate initial distance estimates. By committing to a single, often incorrect, distance for each RSSI measurement, it attempts to solve a geometrically inconsistent system, resulting in the catastrophic outliers evident in its error distribution (Fig. \ref{fig:hist_nonfree}).
 
-The free‑space comparison clarifies when classical multilateration is preferable. Under idealized propagation, the anchor‑anchor fit yields a well‑specified log‑distance model and the iterative solver exploits nearly line‑of‑sight geometry; the CDF saturates near zero with a narrow histogram (Fig. \ref{fig:cdf_free}, Fig. \ref{fig:hist_free}). In this setting, least‑squares fitting is advantageous because the distances closely match the geometry. Our GCN still performs reasonably but remains limited by (i) imperfect supervision that does not explicitly impose triangle inequality or rigidity constraints and (ii) a global, regularized path‑loss module learned jointly with the network that can deviate slightly from a pure inverse‑power law even in free‑space. The plain GCN ablation is consistently worse than the proposed model in both regimes; it is worse than multilateration in free‑space but better than multilateration in terrain‑aware experiments.
+Our proposed model overcomes this by reframing the problem. Instead of performing a hard RSSI→distance conversion, it uses the trainable path-loss module to generate a distance estimate that serves as a soft, physically-grounded prior. Critically, this estimate is supplied to the GCN as just one feature alongside the raw RSSI time series. The edge-conditioned convolution can then learn to weigh the physical prior against the underlying signal properties, effectively learning to trust or distrust the distance estimate on a per-edge basis. This provides the graph network with an essential understanding of physical scale that the plain GCN, which sees only unscaled RSSI values, fundamentally lacks.
 
-Across settings, we observe three practical drivers of accuracy: (i) anchor geometry—distributed anchors reduce extrapolation and stabilize both graph learning and multilateration; (ii) graph connectivity—higher average degree provides redundant paths that the GCN can exploit to denoise RSSI; and (iii) measurement depth—using short RSSI time series per link already helps through averaging, and longer series further tighten the upper tail by stabilizing the edge attributes. These observations are consistent with the CDF slope changes and the heavy‑tail reduction in terrain‑aware experiments.
+Furthermore, the GCN architecture itself provides powerful regularization by enforcing local consistency through message passing. Unlike multilateration, which computes each node's position independently, the GCN performs collective inference across the entire graph. A node’s predicted position is constrained by its neighbors, smoothing the predictions and preventing the kind of large, isolated errors that plague the baseline (Fig. \ref{fig:qualitative_mlat_nonfree}). This graph-based reasoning is responsible for the dramatic reduction in the error tail (Table \ref{tab:main_results}, P90/P95), yielding a model that is not only more accurate on average but also substantially more robust.
+
+The free-space results complete this picture. In an idealized environment where the log-distance model is correct (Fig. \ref{fig:rssi_variance}b), multilateration's direct optimization of a well-specified geometric cost function is superior. Our GCN, while still effective, is a more general function approximator and its global path-loss parameters cannot perfectly capture the geometry of every single graph instance as well as a direct least-squares fit can. This confirms that the proposed model's strength lies in its ability to robustly handle the uncertainty inherent in realistic, terrain-aware propagation environments.
 
 6.2 Limitations
 
