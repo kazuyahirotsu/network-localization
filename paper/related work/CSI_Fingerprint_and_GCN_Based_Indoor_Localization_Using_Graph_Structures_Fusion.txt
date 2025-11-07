@@ -1,0 +1,753 @@
+CSI Fingerprint and GCN Based Indoor
+Localization Using Graph Structures Fusion
+Shuting Fan
+College of Telecommunications and Information Engineering
+Nanjing University of Posts and Telecommunications
+Nanjing, China, 210003
+E-mail: jshmfst@126.com
+Jun Yan
+College of Telecommunications and Information Engineering
+Nanjing University of Posts and Telecommunications
+Nanjing, China, 210003
+E-mail: yanj@njupt.edu.cn
+Abstract—Since the channel state information (CSI) can pro-
+vide a fine-grained description of signal propagation process,
+in this paper, a new CSI fingerprint and graph convolutional
+network (GCN) based indoor localization algorithm is proposed.
+First, the amplitude and phase information of CSI measurement
+is extracted for amplitude and phase based CSI gray image
+construction,respectively. And then, the corresponding CSI RGB
+images are obtained by the image render techniques. Next, a pixel
+value comparison based rule is used to form the graph structure
+of each channel of the amplitude and phase based CSI image.
+The front-end fusion is used to form the final graph structure. At
+last, the GCN model is used to training the graph structure.Some
+Experiments are carried out to verify the performance of the
+proposed algorithm.
+Index Terms—Indoor localization; Channel State Information;
+Front-end Fusion; Graph Convolutional Network; Deep Learning
+I. INTRODUCTION
+With the development of wireless communication technol-
+ogy, the need for location-based services is increases. Since
+satellite based localization is limited in indoor environment,
+indoor localization technology has been received much atten-
+tions.
+At present, the indoor localization measurements includes
+time of arrival (TOA) [1], time difference of arrival (TDOA)
+[2], angle of arrival (AOA) [3] and receive signal strength
+indicators (RSSI) [4]. Recently, channel state information
+(CSI) measurement [5] become a popular measurement for
+localization purpose. Compared with RSSI measurement, CSI
+provides more abundant and fine-grained information from
+frequency domain. The authors of [6] proposed deep con-
+volutional neural network based CSI localization algorithm.
+In. [7], a Splicer system is proposed to eliminate mixed
+hardware errors in CSI measurement data. In [8], a positioning
+algorithm that integrates CSI amplitude and phase information
+is proposed. The combination of CSI amplitude information
+and phase information can indeed obtain better localization
+performance.
+Now,with the development of machine learning, graph neu-
+ral network (GNN) [9]–[11] has been used for indoor localiza-
+tion. The authors of [12] used the graph structure generated
+by Radio Frequency Identification (RFID) signals to realize
+indoor positioning. A GCN based localization algorithm by
+RSSI measurement is proposed in [13]. The authors of [14]
+proposed GNN based indoor localization, which the distance
+between APs generated edges to construct the graph structure.
+In [15], a Euclidian distance threshold to classify whether
+edges can be formed is proposed to construct graph structure
+for GCN based localization. The authors of [16] proposed a
+visual positioning system based on point cloud GNN. In [17],
+GNN combined with transfer learning is proposed for device-
+free location. The authors of [18] proposed a collaborative
+graph convolutional network (C-GCN) composed of convolu-
+tional layer and graph convolutional layer based on GCN.
+In this paper, a new GCN based CSI indoor localization
+algorithm is proposed. First,the amplitude information and
+phase information of CSI measurement is used to generate
+the CSI gray image. And then the CSI gray image is convert
+into the RGB image through rendering technique. Then, the
+CSI RGB image is proposed to form the corresponding graph
+structure of R, G and B channels. Finally, the three-channel
+graph structure constructed by the amplitude information and
+phase information is fused into a complete graph structure for
+GCN training.
+II. ALGORITHM FRAMEWORK STRUCTURE
+According to the block diagram shown Fig1, the proposed
+algorithm includes the following steps: (1) CSI measurement
+data preprocessing: after obtaining the amplitude information
+and phase information of CSI measurement data, the phase
+information is processed by linear transformation to solve the
+problem of excessive phase interference information. (2) CSI
+amplitude and phase image construction: first,the amplitude
+information matrix and phase information matrix is trans-
+formed into CSI gray image. Then, the gray image obtained
+is converted to CSI RGB color image by image rendering
+technology. (3) The graph structure fusion of CSI images: the
+amplitude or phase CSI RGB color image is constructed as
+a graph structure. Then, each kind of RGB CSI images are
+fused based on the graph structure of R,G, and B channel. At
+last, the fused graph structures of amplitude and phase CSI
+images are fused once again to form final graph structure for
+GCN training. and (4) Offline classification learning based on
+GCN.
+111
+2023 IEEE the 23rd International Conference on Communication Technology
+979-8-3503-2595-9/23/$31.00 ©2023 IEEE
+2023 IEEE 23rd International Conference on Communication Technology (ICCT) | 979-8-3503-2595-9/23/$31.00 ©2023 IEEE | DOI: 10.1109/ICCT59356.2023.10419794
+Authorized licensed use limited to: University of Tokyo. Downloaded on November 07,2025 at 09:21:36 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 1. Overall block diagram of the algorithm in this paper
+III. ALGORITHM DESCRIPTION
+A. CSI measurement data preprocessing
+Since the phase information of CSI measurement may
+has some error, the phase linear calibration is proposed to
+preprocess the phase information.
+Assume the phase information of the ith subcarrier after
+unwinding is expressed as:
+˜θi = θi + 2πKi∆t
+N
++ β + Zf
+(1)
+Where θi is the true phase, ∆t is the timing error offset,
+Ki is the subcarrier index, N is the number of fast Fourier
+transform , β is the random phase offset, and Zf is the random
+measurement noise.
+In order to obtain the true phase, the delay ∆t and phase
+shift β should be eliminated. Using linear transformation
+method, the slope a and offset b of the phase are described
+as:
+a =
+˜θn −˜θ1
+Kn −K1
+(2)
+b = 1
+n
+n
+X
+i=1
+˜θi
+(3)
+The real phase can be obtained by removing the linear term
+by:
+˜θi = ˜θi −aKi −b = ˜θi −
+˜θn −˜θ1
+Kn −K1
+Ki −1
+n
+n
+X
+i=1
+˜θi
+(4)
+In order to obtain the uniform distribution of the correspond-
+ing subcarriers, the subcarrier phase should be unwrapped
+before the linear transformation, and then the phase will
+be linearly transformed. Fig2 describes the result of phase
+calibration.
+Fig. 2. The description of phase calibration results
+B. CSI image construction
+In this step, the CSI amplitude information and phase infor-
+mation are used to transform into the CSI RGB images. In the
+following, taking CSI amplitude information as an example,
+CSI amplitude image construction process is described.
+Defined Tx and Rx are the number of transmitting antennas
+and receiving antennas, n is the number of subcarriers, and
+K is the number of data packets used to construct an image.
+First, Nc amplitude information of a subcarrier in a data packet
+can be described as a vector [A1, A2, ..., ANc], where Nc =
+Tx ∗Rx. The amplitude information of all subcarrier can be
+described as:
+HA =
+
+
+A1,1
+A1,2
+· · ·
+A1,Nc
+A2,1
+A2,2
+· · ·
+A2,Nc
+...
+...
+...
+...
+An,1
+An,2
+· · ·
+An,Nc
+
+
+(5)
+In this paper, the size of the CSI image is set as n ∗n. Due
+to Nc < n, CSI amplitude information of K data packets is
+required to form an n∗n dimensional matrix, where K ∗Nc =
+n. And then, the element data of amplitude information in the
+matrix is mapped to the range of 0-255 to form the gray image.
+At last, the obtained CSI gray image is converted into the CSI
+RGB image by image rendering technology.
+Fig3(a) and Fig3(b) describe amplitude based CSI RGB im-
+ages at different positions. While, Fig3(c) and Fig3(d) describe
+phase based CSI RGB images at different positions. From
+the figures, we can found that the proposed CSI RGB image
+construction method can be used for classification learning,
+since the images of different positions are different.
+C. Graph structure construction of CSI images
+In this step, the amplitude and phase based CSI RGB images
+are converted into the graph structure.
+112
+Authorized licensed use limited to: University of Tokyo. Downloaded on November 07,2025 at 09:21:36 UTC from IEEE Xplore.  Restrictions apply. 
+(a)
+(b)
+(c)
+(d)
+Fig. 3.
+The description of CSI RGB images when the target located at
+different reference points
+The RGB color images can divide into R,G and B channels.
+For the images in channels R, G and B, the graph structure
+construction is shown in Fig4. Taking the image of one channel
+with size of 3∗3 as an example, by the given threshold,the pixel
+value larger than the threshold is chosen as a node to construct
+the graph structure. Assume that the threshold number is 150.
+As shown on the left of Fig4, the image will have 5 nodes.
+Looking for 8 pixels around every node, if they are all nodes,
+they will be connected to each other. In this way, the graph
+structure shown on the right of Fig4 can be obtained.
+Fig. 4. The schematic diagram of structure construction
+According to Eq. 6, the adjacency matrix can be obtained
+by Eq. 7.
+Ai,j =
+(
+1, where node i is connected to node j
+0, where node i is not connected to node j
+(6)
+A =
+
+
+0
+0
+1
+0
+0
+0
+0
+1
+1
+0
+1
+1
+0
+1
+1
+0
+1
+1
+0
+1
+0
+0
+1
+1
+0
+
+
+(7)
+Where, the ith row and the jth column of the adjacency
+matrix A indicates whether the ith node and the jth node are
+connected.
+Next, choosing the coordinate of the current pixel as the
+node feature, the feature matrix of the graph structure in the
+right of Fig4 can be described as:
+
+
+1
+1
+1
+3
+2
+2
+2
+3
+3
+2
+
+
+(8)
+According to Fig5, after constructing the graph structure of
+R, G and B channels of amplitude and phase based CSI RGB
+image, the graph structures are fusion to form the final graph
+structure.
+Fig. 5. The fusion of graph structure
+D. Offline classification learning based on GCN
+The structure of the graph convolutional network in this pa-
+per is shown in Fig6. It contains 5 layers of graph convolution
+layer (GCN), 5 activation functions (ReLu), 2 layers of full
+connection layer (FC) and an output layer (Output).
+Fig. 6. Convolutional Neural network structure diagram
+The graph structure (adjacency matrix, node characteristic
+matrix) and corresponding position label are chosen input for
+the graph convolutional neural network to learn the relation-
+ship between the graph structure and position label.
+Then, the features extracted by 5 layers convolutional layer
+(GCN) and 5 activation functions (ReLu) are input to the
+classification layer. In this paper, two fully connected layers
+(FC) are selected to realize the final classification as shown in
+Fig.7. The fully connected layer is realized by:
+y = f(Wx + β)
+(9)
+113
+Authorized licensed use limited to: University of Tokyo. Downloaded on November 07,2025 at 09:21:36 UTC from IEEE Xplore.  Restrictions apply. 
+Where, y is the output of the fully connected layer of each
+layer. f(x) is the ReLU activation function. W represents the
+weight matrix of the fully connected layer. x is the input of
+the full connection layer; β is biased.
+Fig. 7. Schematic diagram of the fully connected layer
+In the two fully connected layers, the parameter of the
+first and second fully connected layer are 128*32 and 32*10
+respectively.The final result will be obtained by the output
+layer.
+IV. EXPERIMENTAL ANALYSIS
+A. Experimental Scenarios
+The experimental environment is selected on the 20th floor
+of the Scientific Research Building of NJUPT. Fig.8(a) is
+the actual experimental scene. Fig. 8(b) is the layout of the
+experimental environment. The first reference point, namely
+L1, is taken as coordinate (0, 0), and each reference point
+is 60cm apart. At each reference point, 400 CSI amplitude
+information images and 400 CSI phase information images
+are obtained.
+(a) The actual experimental scene
+(b) Experiment layout
+Fig. 8. The description of experimental scene
+In the experiment, Lenovo computer with Intel 5300AGN
+wireless network card is chosen as the receiver with three
+antennas. A three-antenna TP-LINK router is chosen as a
+transmitter. For CSI measurement collection,the parameters
+of computer are given by Intel Core i7-4770 CPU , 8GB
+memory. The operating system is Ubuntu 14.04. The CSI-Tool
+software tool also is installed. The training environment in this
+experiment is Intel Core i7-7700HQ with 8G memory. The
+operating system is Windows10, the language is Python3.9
+and the deep learning framework uses Pytorch.
+B. Performance Description
+Fig9 describes the localization performance of the proposed
+algorithm under different training epochs. From the figure,
+when the training epochs continue to increase, the loss tends
+to converge and the accuracy also increases. When the number
+of epoch is 2000, the accuracy can reach 96.75%.
+Fig. 9.
+Positioning performance of the proposed algorithm under different
+training epochs
+Table I shows Recall, Precision, and F1 score, weighted
+harmonic average index of Precision and Recall, at different
+locations. According to the data in the table, it can be seen
+that the proposed algorithm is perform well.
+TABLE I
+RECALL, PRECISION AND F1 SCORE OF DIFFERENT POSITIONS
+Location
+L1
+L2
+L3
+L4
+L5
+Recall
+0.9720
+0.9823
+0.9636
+0.9737
+0.9509
+Precision
+0.9522
+0.9703
+0.9761
+0.9715
+0.9672
+F1 score
+0.9620
+0.9763
+0.9698
+0.9726
+0.9590
+Location
+L6
+L7
+L8
+L9
+L10
+Recall
+0.9678
+0.9943
+0.9828
+0.9525
+0.9159
+Precision
+0.9546
+0.9707
+0.9758
+0.9673
+0.9659
+F1 score
+0.9612
+0.9824
+0.9793
+0.9598
+0.9402
+Table II shows the localization performance of the proposed
+algorithm under different number of training data. According
+to the data in the table, when the number of training data in-
+creases, the accuracy of the proposed algorithm also increases.
+However, Mean Absolute Error (MAE), Mean Square Error
+(MSE) and Root Mean Square Error (RMSE) all decrease
+which describe better position estimation result.
+C. Performance Comparison
+First, amplitude-only information and phase-only informa-
+tion are chosen for performance comparison. As shown in
+Table III, the MAE, MSE and RMSE and the accuracy are
+114
+Authorized licensed use limited to: University of Tokyo. Downloaded on November 07,2025 at 09:21:36 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE II
+PERFORMANCE DESCRIPTION UNDER DIFFERENT NUMBER OF TRAINING
+DATA
+Different numbers
+MAE
+MSE
+RMSE
+Acc
+400
+0.639
+2.610
+1.616
+81.44%
+800
+0.615
+2.377
+1.542
+82.62%
+1200
+0.468
+1.848
+1.359
+84.53%
+1600
+0.339
+1.316
+1.147
+88.11%
+2000
+0.309
+1.265
+1.125
+92.20%
+2400
+0.271
+1.085
+1.042
+94.19%
+2800
+0.267
+1.019
+1.009
+96.08%
+3200
+0.263
+1.005
+1.002
+96.75%
+compared. The accuracy of the proposed algorithm can finally
+reach 96.75%, while the accuracy of amplitude-only informa-
+tion can reach 94.50%, and that of phase-only information
+can only reach 82.75%. Therefore, the proposed algorithm has
+some advantages for accurate position estimation. Moreover,
+the MAE, MSE and RMSE of the proposed algorithm is
+also minimal. Thus, the proposed algorithm can achieve best
+localization results amomg the above approaches.
+TABLE III
+LOCALIZATION PERFORMANCE COMPARISON OF THE PROPOSED
+ALGORITHM, AMPLITUDE-ONLY INFORMATION AND PHASE-ONLY
+INFORMATION UNDER DIFFERENT NUMBER OF TRAINING DATA
+Acc
+MAE
+MSE
+RMSE
+amplitude-only
+information
+1200
+77.14%
+0.538
+1.994
+1.412
+1600
+85.88%
+0.362
+1.354
+1.164
+2000
+90.62%
+0.295
+1.158
+1.076
+2400
+91.90%
+0.294
+1.124
+1.060
+2800
+93.83%
+0.280
+1.112
+1.055
+3200
+94.50%
+0.272
+1.028
+1.014
+phase-only
+information
+1200
+69.29%
+1.052
+5.366
+2.317
+1600
+75.75%
+0.923
+4.891
+2.212
+2000
+78.85%
+0.770
+3.889
+1.972
+2400
+79.12%
+0.739
+3.714
+1.927
+2800
+81.75%
+0.709
+3.703
+1.924
+3200
+82.75%
+0.690
+3.541
+1.882
+the proposed
+algorithm
+1200
+84.53%
+0.468
+1.848
+1.359
+1600
+88.11%
+0.339
+1.316
+1.147
+2000
+92.20%
+0.309
+1.265
+1.125
+2400
+94.19%
+0.271
+1.085
+1.042
+2800
+96.08%
+0.267
+1.019
+1.009
+3200
+96.75%
+0.263
+1.005
+1.002
+Second, the front end fusion based on Generative adversarial
+network(GAN) is chosen for comparison. According to the
+results shown in Table IV, compared with the front-end fusion
+algorithm based on GAN, the proposed algorithm has better
+results both in accuracy and localization error.
+Third, when the number of training data is 3200, the
+proposed algorithm compared the algorithms based on back-
+end fusion and mid-layer feature fusion. As shown in Table
+V, the proposed algorithm perform better than the feature
+fusion of the middle layer and the algorithm based on back-end
+fusion. In addition, in the training process, due to the fact that
+the training time of the algorithm based on the feature fusion
+of the middle layer is about three times that of the proposed
+algorithm, while the training time of the algorithm based
+on back-end fusion is more than twice that of the proposed
+algorithm, the time of the proposed algorithm is much lower
+TABLE IV
+COMPARISON OF POSITIONING PERFORMANCE BASED ON DIFFERENT
+FRONT-END FUSION ALGORITHMS UNDER DIFFERENT TRAINING SAMPLES
+Acc
+MAE
+MSE
+RMSE
+front-end fusion
+based on GAN
+1200
+70.30%
+1.088
+4.340
+2.083
+1600
+82.39%
+0.556
+2.260
+1.503
+2000
+84.71%
+0.552
+2.170
+1.473
+2400
+85.62%
+0.522
+2.018
+1.421
+2800
+88.17%
+0.431
+1.739
+1.319
+3200
+90.25%
+0.346
+1.386
+1.177
+the proposed
+algorithm
+1200
+84.53%
+0.468
+1.848
+1.359
+1600
+88.11%
+0.339
+1.316
+1.147
+2000
+92.20%
+0.309
+1.265
+1.125
+2400
+94.19%
+0.271
+1.085
+1.042
+2800
+96.08%
+0.267
+1.019
+1.009
+3200
+96.75%
+0.263
+1.005
+1.002
+than that of the other two algorithms. Therefore, the proposed
+algorithm is much suitable for practical application.
+TABLE V
+COMPARISON OF LOCALIZATION PERFORMANCE BETWEEN THE
+PROPOSED ALGORITHM AND FEATURE FUSION BASED ON THE MIDDLE
+LAYER AND BACK-END FUSION
+Acc
+MAE
+MSE
+RMSE
+feature fusion based
+on the middle layer
+89.00%
+0.545
+2.111
+1.453
+back-end fusion
+93.38%
+0.292
+1.155
+1.075
+the proposed
+algorithm
+96.75%
+0.263
+1.005
+1.002
+V. CONCLUSION
+In this article, a new CSI fingerprint and GCN based indoor
+localization algorithm is proposed by graph structure fusion.
+The amplitude and phase information are used for CSI gray
+image construction, respectively. The obtained amplitude and
+phase based CSI images are transformed into RGB image
+through rendering technique. Then, the CSI RGB image is
+proposed to form the corresponding graph structure of R, G
+and B channels. Finally, the front-end fusion is used to fuse
+all graph structures and obtain the final graph structure for
+GCN training.Experimental results show that the proposed al-
+gorithm has better localization performance than some existing
+methods.
+REFERENCES
+[1] Xiong H , Peng M , Gong S , et al. A Novel Hybrid RSS and TOA
+Positioning Algorithm for Multi-Objective Cooperative Wireless Sensor
+Networks[J]. IEEE Sensors Journal, 2018:1-1.
+[2] Zhao K , Zhao T , Zheng Z , et al. Optimization of Time Synchronization
+and Algorithms with TDOA Based Indoor Positioning Technique for
+Internet of Things[J]. Sensors, 2020, 20(6513).
+[3] Fokin G . AOA Measurement Processing for Positioning using Un-
+manned Aerial Vehicles[C]// 2019 IEEE International Black Sea Confer-
+ence on Communications and Networking (BlackSeaCom). IEEE, 2019.
+[4] Xue W , Hua X , Li Q , et al. A New Weighted Algorithm Based on
+the Uneven Spatial Resolution of RSSI for Indoor Localization[J]. IEEE
+Access, 2018, 6:26588-26595.
+[5] Kipf T N , Welling M . Semi-Supervised Classification with Graph
+Convolutional Networks[J]. 2016.
+[6] Wang X , Gao L , Mao S . BiLoc: Bi-modal Deep Learning for
+Indoor Localization with Commodity 5GHz WiFi[J]. IEEE Access,
+2017, 5(99):4209-4220.
+115
+Authorized licensed use limited to: University of Tokyo. Downloaded on November 07,2025 at 09:21:36 UTC from IEEE Xplore.  Restrictions apply. 
+[7] Y. Xie, Z. Li and M. Li, ”Precise Power Delay Profiling with Commodity
+Wi-Fi,” in IEEE Transactions on Mobile Computing, vol. 18, no. 6, pp.
+1342-1355, 1 June 2019.
+[8] Dang X , Si X , Hao Z , et al. A Novel Passive Indoor Localization
+Method by Fusion CSI Amplitude and Phase Information[J]. Sensors,
+2019, 19(4).
+[9] Scarselli F , Tsoi A C , Gori M , et al. Graphical-Based Learning
+Environments for Pattern Recognition[C]// Structural, Syntactic, and
+Statistical Pattern Recognition, Joint IAPR International Workshops,
+SSPR 2004 and SPR 2004, Lisbon, Portugal, August 18-20, 2004
+Proceedings. DBLP, 2004.
+[10] Gori M , Monfardini G , Scarselli F . A new model for learning in graph
+domains[C]// IEEE International Joint Conference on Neural Networks.
+IEEE, 2005.
+[11] Scarselli F , Gori M , Tsoi A C , et al. The graph neural network
+model[J]. IEEE Transactions on Neural Networks, 2009.
+[12] Y. Fu, X. Xiong, Z. Liu, X. Chen, Y. Liu and Z. Fu, ”A GNN-
+based indoor localization method using mobile RFID platform,” 2022
+7th International Conference on Smart and Sustainable Technologies
+(SpliTech), 2022, pp. 1-6.
+[13] Sun Y , Xie Q , Pan G , et al. A Novel GCN based Indoor Localization
+System with Multiple Access Points[C]// 2021 International Wireless
+Communications and Mobile Computing (IWCMC). 2021.
+[14] Lezama F, Gonz´alez G G, Larroca F, et al. Indoor Localization using
+Graph Neural Networks[C]//2021 IEEE URUCON. IEEE, 2021: 51-54.
+[15] Yan W , Jin D , Lin Z , et al. Graph Neural Network for Large-
+Scale Network Localization[C]// International Conference on Acoustics,
+Speech, and Signal Processing. IEEE, 2020.
+[16] Jung T W, Jeong C S, Kwon S C, et al. Point-Graph Neural Network
+Based Novel Visual Positioning System for Indoor Navigation[J]. Ap-
+plied Sciences, 2021, 11(19): 9187.
+[17] Chen B J , Chang R Y . Few-Shot Transfer Learning for Device-Free
+Fingerprinting Indoor Localization[J]. arXiv e-prints, 2022.
+[18] Liu W , Cheng Q , Deng Z , et al. C-GCN: A Flexible CSI Phase Feature
+Extraction Network for Error Suppression in Indoor Positioning. 2021.
+116
+Authorized licensed use limited to: University of Tokyo. Downloaded on November 07,2025 at 09:21:36 UTC from IEEE Xplore.  Restrictions apply. 

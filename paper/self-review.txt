@@ -101,5 +101,6 @@ improve baseline explanation
 improve discussion
 do some experiments and add ablation section
     being near the anchor
+    data size
 ✅experiment terrain image and rssi data plot
 past tense check

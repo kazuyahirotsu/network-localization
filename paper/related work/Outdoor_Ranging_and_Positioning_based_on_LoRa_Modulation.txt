@@ -1,0 +1,977 @@
+978-1-7281-9644-2/21/$31.00 ©2021 IEEE 
+Outdoor Ranging and Positioning based on LoRa 
+Modulation 
+ 
+Pascal Müller, Hannes Stoll and Luciano Sarperi 
+Institute of Signal Processing and Wireless Communications 
+ZHAW School of Engineering 
+Winterthur, Switzerland 
+{pascal.mueller, hannes.stoll, luciano.sarperi}@zhaw.ch
+Christof Schüpbach 
+armasuisse Science + Technology 
+Thun, Switzerland 
+christof.schuepbach@armasuisse.ch 
+Abstract—We present results for outdoor ranging and 
+positioning based on the Long-Range (LoRa) modulation, which 
+is a widespread wireless IoT technology. LoRa systems typically 
+operate in sub-GHz frequency bands with only 125 kHz 
+bandwidth, which restricts the ranging performance due to the 
+limited temporal resolution. The investigated LoRa ranging 
+method operates in the 2.4 GHz ISM frequency band and 
+supports wider bandwidths, achieving for outdoor ranging a 
+mean distance error below 50 m over distances of up to 1400 m.  
+Positioning based on LoRa ranging obtained a measured 
+Distance Root Mean Square (DRMS) error of 30 m, which 
+reduced to 5 m for tracking of a mobile node, making it a 
+suitable method for approximate outdoor positioning and 
+tracking of IoT devices without using Global Navigation 
+Satellite Systems (GNSS). 
+Keywords—Long-Range 
+(LoRa) 
+Modulation, 
+SX1280, 
+2.4 GHz, ranging, positioning, localization, tracking 
+I. 
+INTRODUCTION 
+The Long-Range (LoRa) modulation is based on Chirp 
+Spread Spectrum (CSS) signals and has become popular for 
+wide-area Internet of Things (IoT) applications due to the 
+operation in unlicensed spectrum (typically 868 MHz in 
+Europe and 915 MHz in North America), its energy efficiency 
+and low cost [1]. Since IoT devices are typically energy 
+constrained and price-sensitive, the localization of IoT devices 
+cannot always rely on an additional Global Navigation 
+Satellite Systems (GNSS) receiver. Another reason for not 
+relying on GNSS can also be that the line-of-sight (LOS) path 
+to the satellites may be blocked. 
+LoRa operating in the 868 MHz frequency band typically 
+uses 125 kHz of bandwidth where Time-Difference-of-
+Arrival (TDoA) methods have been shown to obtain median 
+location errors of around 150 m [2]. As shown in section II.C, 
+the temporal resolution of such a LoRa signal corresponds to 
+a minimum separable difference in length of individual paths 
+of 2400 m. In oder to obtain higher temporal resolution for 
+time-of-flight (TOF) based ranging in multipath propagation 
+environments the SX1280 LoRa transceiver is employed, 
+which operates in the 2.4 GHz ISM frequency band and 
+supports bandwidths of up to 1625 kHz. After a brief 
+introduction to ranging with LoRa we present measurement 
+results obtained for ranging as well as positioning and tracking 
+in outdoor environments. The results based on practical 
+measurements show that LoRa ranging can be used for 
+determining approximate ranging distances or locations and 
+for tracking of LoRa enabled IoT devices without the need for 
+an additional GNSS receiver. 
+ 
+Other common IoT wireless technologies operating in the 
+2.4 GHz ISM frequency band are Bluetooth Low Energy 
+(BLE) and Wi-Fi. While BLE with the direction finding 
+functionality is well suited for short-range localization of 
+nodes by triangulation, the coded-PHY long-range mode does 
+not support direction finding [3]. Several localization methods 
+using Wi-Fi exist, but its limited range precludes wide-area 
+applications.  
+Previous work on LoRa ranging in [4] provides a detailed 
+performance comparison between LoRa ranging and Coherent 
+Ranging On Narrowband Enabled Networks (CRONEN). 
+LoRa ranging in the 2.4 GHz frequency band obtained a mean 
+error of 75 m for LOS and 144 m for non-LOS environments 
+for distances ≤ 500 m, while the mean error values were 
+around 50 % lower with CRONEN. The investigation of the 
+LoRa ranging capabilities in [5] presents additional ranging 
+measurement results for different LoRa parameter settings. 
+Compared to [4] and [5], our main contribution is that we 
+extend the use of LoRa ranging to positioning and tracking. 
+II. 
+RANGING WITH LORA MODULATION 
+A. Basics of LoRa Ranging 
+LoRa uses 2SF possible cyclic time shifts of a CSS symbol 
+for modulation, with one symbol carrying SF bits. The value 
+SF is termed spreading factor, although its role is different 
+from the one in traditional Code Division Multiple Access 
+(CDMA) systems since the bandwidth BW can be chosen 
+independently of the spreading factor [6]. The SX1280 
+transceiver operates in the 2.4 GHz ISM frequency band, 
+where larger bandwidths are available than in the lower 
+frequency bands, supporting the bandwidths BW = 406, 812 
+and 1625 kHz and spreading factors SF = 5, 6, …, 10 for 
+ranging. The highest RX sensitivity is -122 dBm, which is 
+achieved with BW = 406 kHz and SF = 10 [7] and results in a 
+maximum coupling loss of 134.5 dB when the TX power at its 
+maximum value of 12.5 dBm. This corresponds up to a few 
+kilometers coverage in a rural environment. 
+Fig. 1. Two-way ranging principle with LoRa ranging in the SX1280 
+transceiver 
+This work was supported by armasuisse Science + Technology
+ 
+2021 International Conference on Localization and GNSS (ICL-GNSS) | 978-1-7281-9644-2/20/$31.00 ©2021 IEEE | DOI: 10.1109/ICL-GNSS51451.2021.9452277
+Authorized licensed use limited to: University of Tokyo. Downloaded on November 07,2025 at 09:16:42 UTC from IEEE Xplore.  Restrictions apply. 
+The ranging engine in the SX1280 PHY layer uses a two-
+way ranging procedure for half-duplex systems described in 
+section 6.1 of [8], which is based on TOF measurements and 
+shown in Fig. 1, with ranging reference time-points defined at 
+the end of the ranging messages. Compared to one-way-
+ranging methods, the clocks in node A and node B do not have 
+to be time synchronized, but clock oscillator offsets between 
+the two nodes should be kept small. 
+Upon reception of a ranging request message from node A 
+containing the correct node B address, node B switches 
+TD = 2∙Tsym seconds after the end of the ranging request from 
+receive to transmit mode and sends a ranging response 
+message to node A. The switching delay TD depends on the 
+CSS symbol duration Tsym = 2SF/BW. 
+By measuring the time TA, which is assumed to have been 
+corrected for known delays additional to the propagation over-
+the-air and which are determined during calibration, the 
+propagation time TP and the ranging distance d can be 
+obtained by node A as 
+ 
+ 
+2
+A
+B
+P
+T
+T
+d
+c T
+c
+−
+= ⋅
+= ⋅
+ 
+(1) 
+where c is the propagation speed and TB is the overall response 
+delay between ranging request reception and ranging response 
+transmission at node B, which includes the switching delay TD 
+and the duration of the ranging response configured to 15·Tsym. 
+In section 6.1.3. of [8] it is shown that in such a system the 
+error of the measured propagation time mainly depends on the 
+relative oscillator offset δ =  (fB – fA) / f0 between the clock-
+frequency of the node B fB and node A fA, with f0 being the 
+nominal frequency. This results in the approximate ranging 
+distance error 
+ 
+δ
+2
+B
+T
+d
+c
+⋅
+∆
+≈−⋅
+. 
+(2) 
+Assuming δ = ±40 ppm (unlikely worst-case with the 
+accuracy of the node A and node B clock each being ±20 
+ppm), this results for the longest response delay TB = 42.9 ms 
+obtained according to [7] for BW = 406 kHz and SF = 10 in a 
+theoretical worst-case ranging distance error of Δdmax =  
+257 m. With the parameters BW = 1625 kHz and SF = 5 the 
+error is minimised and reduces to Δdmin = 2.01 m. Therefore, 
+for long CSS symbol durations Tsym a correction of the relative 
+clock offsets will be more beneficial. 
+The relative oscillator offset δ can be obtained by 
+measuring the carrier frequency offset, which however is only 
+possible when transmitting standard (non-ranging) LoRa 
+messages with the SX1280 transceiver. Instead, a back-to-
+back ranging was implemented to minimise the impact of the 
+relative oscillator offset, as described subsequently. 
+B. Implementation of LoRa Ranging 
+The implemented back-to-back ranging uses two two-way 
+ranging procedures, where the roles of node A and node B are 
+swapped during the second two-way ranging procedure 
+according to section 6.1.3 in [8] and which is summarised in 
+the message flow diagram in Fig. 2. Since the ranging distance 
+errors Δd in (2) will have the same magnitude but opposite 
+signs for the respective ranging procedures, the error due to 
+Fig. 2. Implemented back-to-back ranging with LoRa modulation 
+the relative oscillator offset can be eliminated by averaging 
+the ranging distances obtained by the two individual 
+measurements, assuming that there are no clock drifts during 
+the measurement duration consisting of the back-to-back 
+ranging procedure. 
+We term the node starting the back-to-back ranging 
+primary node and the other node secondary node. Additional 
+management messaging using standard LoRa messages are 
+introduced for starting the back-to-back ranging procedure by 
+the primary node and for exchanging the result of the second 
+two-way ranging procedure between secondary and primary 
+node. 
+For the measurements we developed our own hardware 
+platform based on the Semtech SX1280 transceiver and an 
+STM32 processor. The hardware includes a GPS receiver 
+module for determining the ground truth position and an SD-
+card for storing measurements used for subsequent offline 
+processing and analysis. 
+C. Sources of Error 
+Apart from the already considered relative oscillator offset 
+error in (2), additional sources of error are discussed next. The 
+temporal resolution capability of multipath components will 
+limit the accuracy of the measured ranging distance in a 
+multipath environment, since the best estimate for a ranging 
+distance is the direct LOS path length. The multipath 
+resolution capability, expressed as the difference in length of 
+individual paths is according to section 2.1.3 in [8] 
+approximately  
+ 
+R
+c
+d
+BW
+≈
+. 
+(3) 
+Considering the available bandwidths with the SX1280 
+transceiver this results in the multipath resolutions listed in 
+TABLE I. The bandwidth BW = 125 kHz is typically used 
+with LoRa in the 868 MHz frequency band and is included for 
+comparison with the wider bandwidths available in the 
+2.4 GHz ISM frequency band. Since in the best-case multipath 
+components require at least 185 m difference in length to be 
+fully separable, we expect this limitation to dominate the 
+overall ranging distance error. 
+ 
+Authorized licensed use limited to: University of Tokyo. Downloaded on November 07,2025 at 09:16:42 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE I.  
+THEORETICAL MULTIPATH RESOLUTION 
+Bandwidth BW 
+[kHz] 
+Multipath Resolution dR 
+[m] 
+125a 
+2400 
+406 
+739 
+812 
+369 
+1625 
+185 
+a. not supported by SX1280 
+The multipath resolution was tested in the lab with two 
+LoRa nodes performing ranging measurements over a channel 
+simulator (Elektrobit Propsim F32) with two configured paths. 
+The LOS path measured 1800 m and the second path was 
+750 m longer and had 3 dB less power. This difference in path 
+length is close to the theoretical multipath resolution for the 
+LoRa bandwidth of 406 kHz in TABLE I. The measured 
+ranging distances for the different bandwidths listed in 
+TABLE II. show that the smallest bandwidth of 406 kHz is 
+indeed not able to fully separate the paths and obtains a 
+ranging distance of 1900 m, while the larger bandwidths 
+obtain values much closer to the true LOS path distance of 
+1800 m being simulated. 
+TABLE II.  
+MEASURED MULTIPATH RESOLUTION 
+Path 1 
+[m] 
+Path 2 
+[m] 
+Measured ranging distance [m] 
+1625 kHz 
+812 kHz 
+406 kHz 
+1800 
+2550 
+1820 
+1820 
+1900 
+ 
+Another source of error are additional delays in the 
+implementation and the hardware (e.g. filters), where the 
+hardware delays are frequency and bandwidth dependent. 
+These can be determined and corrected using a calibration 
+procedure described in section D. 
+Finally, noise in the received signal causes ranging 
+distance errors. The resulting theoretical lower bound of the 
+standard deviation of the ranging distance σd is given by the 
+Cramér–Rao Lower Bound (CRLB) in section 6.1 in [9], 
+which, after division by 
+2  to account for the averaging of the 
+two two-way ranging measurements used in back-to-back 
+ranging, is 
+ 
+1/2
+2
+2
+1
+16
+2
+d
+SF
+c
+SNR
+N BW
+σ
+π
+
+
+= ⋅
+
+⋅
+⋅
+⋅
+⋅
+⋅
+
+
+ 
+(4) 
+with N the configurable number of CSS symbols used in the 
+ranging data. Based on (4) the largest standard deviation 
+d
+σ
+=  
+1.26 m is obtained with BW = 403 kHz and SF = 5, assuming 
+a Signal to Noise Ratio (SNR) of SNR = 12.5 dB and N = 15. 
+Thus, the expected error due to noise is far smaller than the 
+limited multipath resolution in TABLE I.  
+D. Calibration 
+To remove fixed additional delays in the implementation, 
+the system was calibrated using RF transmission over a 
+coaxial cable of 75 m electrical length with one node placed 
+in an RF shielding box to avoid coupling over the air between 
+the two nodes. With this setup the offset-values for all BW and 
+SF combinations were measured at 1 MHz frequency steps 
+with 100 measurements per parameter combination. These 
+offset-values, in the range of several hundred meters, were 
+then stored for correction of the ranging measurements. While 
+performing calibration measurements the standard deviation 
+was determined as 
+d
+σ
+=  2.11 m for BW = 403 kHz, SF = 5, 
+SNR = 12.5 dB and N = 15, which is 67 % higher than the 
+theoretical lower bound given by (4). 
+Calibration can also remove the relative oscillator offsets 
+between the two nodes in (2), but only if they do not change 
+over time, e.g. due to temperature variations. 
+III. 
+RANGING MEASUREMENTS 
+Ranging measurements were conducted with our SX1280 
+based hardware between two calibrated nodes in a flat, rural 
+environment. The primary node had a fixed location with 
+antenna height of 1.5 m above ground, while the secondary 
+node was carried by a person and was mounted on a short mast 
+with an antenna height of 2 m above ground to avoid 
+obstruction of the antenna by the person. Both antennas were 
+omni-directional. The secondary node covered a route of 8.2 
+km length at walking speed with distances of up to 1400 m 
+between the two nodes, using the LoRa parameters BW = 
+400 kHz and SF = 8 and performing around 25000 ranging 
+measurements on the whole route. The smallest bandwidth 
+was used to obtain a robust link-budget while SF = 8  resulted 
+in slightly lower standard deviations 
+d
+σ than higher values of 
+SF during calibration measurements in the laboratory for 
+BW = 400 kHz. The ground truth distance was determined 
+from logged GPS coordinates. 
+Fig. 3. Ranging test with ground truth route (orange crosses) and estimated 
+ranging distances (blue crosses) marked on a radially extending line between 
+the position of the fixed node (red square) and the ground truth position. 
+Map: swisstopo 
+Fig. 3 shows the estimated ranging distances marked with 
+blue crosses on a radially extending line between the position 
+of the fixed node at the red square and the ground truth 
+position of the mobile node. Compared to the ground truth 
+route marked with orange crosses, it can be observed that in 
+general the measured ranging distance over-estimates the true 
+distance. 
+As can be observed from Fig. 4, the standard deviation of 
+the distance error tends to increase with larger distances. We 
+found that the increase in standard deviation correlates well 
+with lower SNRs, as shown in Fig. 5, which shows the 
+standard deviation of the distance error per SNR bin. A 
+reduction in SNR is generally expected as the distance 
+increases and the increase in standard deviation is therefore in 
+ 
+Authorized licensed use limited to: University of Tokyo. Downloaded on November 07,2025 at 09:16:42 UTC from IEEE Xplore.  Restrictions apply. 
+line with the CRLB expression in (4). The outlier at 250 m 
+distance was caused by a tree alley in that area, which resulted 
+in shadowing and therefore a more multipath-dominated 
+propagation. The standard deviation of the distance error over 
+the whole route was 83.6 m. 
+The multipath propagation in the test area and the limited 
+multipath resolution are thought to have led to the observed 
+Fig. 4. Measured standard deviation of the ranging distance error per 
+distance bin 
+Fig. 5. Measured standard deviation of the ranging distance error per SNR 
+bin 
+over-estimation of the ranging distance (i.e. positive mean 
+distance error) for all distance bins, as shown in Fig. 6. The 
+mean distance error tends to increase with larger distances, 
+which could be explained with the LOS path becoming more 
+blocked by obstacles as the distance increases. Again, an 
+outlier at 250 m distance can be observed, which corresponds 
+to the above-mentioned tree alley with increased multipath 
+propagation. The maximum mean distance error was 91 m at 
+950 m distance in an area of low received signal strength due 
+to shadowing by a forest, corresponding to a relative error of 
+9.6 %. The mean distance error over the whole route was 
+46.4 m. 
+Fig. 6. Measured mean ranging distance error per distance bin 
+To reduce the mean ranging distance error, the following 
+simple correction was derived using linear regression based 
+on the measured ranging data.  The corrected ranging distance 
+dc, given a measured ranging distance 20 m ≤ d ≤ 1400 m, is  
+ 
+0.95
+1
+c
+d
+d
+=
+⋅
++ . 
+(5) 
+This correction extends the one proposed in section 8 in 
+[9], which is valid for ranging distances d < 20 m. By applying 
+(5) to the measured ranging distances, the mean distance error 
+over the whole route could be reduced to < 10 m. 
+Assuming that most practical applications will operate in 
+a multipath environment and thus overestimate ranging 
+distances, using a correction which is adapted to the specific 
+environment is expected to be beneficial in most cases.  
+Further measurements were carried out in a suburban 
+environment on a route of 2.5 km length and with distances of 
+up to 500 m between the two nodes using the same LoRa 
+parameter configuration. The resulting standard deviation of 
+the distance error was 45 m and a mean distance error was 
+39 m over the whole route. The mean distance error was 
+almost the same as in the rural environment, where the 
+maximum distance between the two nodes were almost three 
+times larger. This worse performance in the suburban 
+environment may be attributed to the more multipath-
+dominated propagation. 
+IV. POSITIONING BASED ON RANGING 
+Based on LoRa ranging, we implemented a positioning 
+method for coordinates in two dimensions. Using K fixed 
+reference nodes with the known coordinates of node i being 
+(xi, yi), the unknown position of a mobile node with 
+coordinates (x, y) is first estimated as the least-squares solution 
+to the set of equations for all ranging distances di between the 
+reference nodes i=1, 2, …, K and the mobile node 
+ 
+2
+2
+2
+1
+1
+1
+2
+2
+2
+2
+2
+2
+2
+2
+2
+(
+)
+(
+)
+(
+)
+(
+)
+(
+)
+(
+)
+K
+K
+K
+x
+x
+y
+y
+d
+x
+x
+y
+y
+d
+x
+x
+y
+y
+d
+−
++
+−
+=
+−
++
+−
+=
+−
++
+−
+=
+
+ 
+(6) 
+After some manipulation of (6) the unknown coordinates 
+p = [x y]T can be obtained as the least-squares solution of this 
+true-range multilateration problem as in equation (6.40) in [8] 
+ 
+(
+)
+1
+T
+T
+−
+=
+⋅
+⋅
+⋅
+p
+A
+A
+A
+b  
+(7) 
+with 
+ 
+2
+1
+2
+1
+3
+2
+3
+2
+1
+1
+2
+K
+K
+K
+K
+x
+x
+y
+y
+x
+x
+y
+y
+x
+x
+y
+y
+−
+−
+−
+−
+
+
+
+
+−
+−
+
+
+=
+⋅
+
+
+
+−
+−
+
+
+A
+
+
+ 
+(8) 
+and 
+ 
+2
+2
+2
+2
+2
+2
+1
+2
+1
+2
+1
+2
+2
+2
+2
+2
+2
+2
+2
+3
+2
+3
+2
+3
+2
+2
+2
+2
+2
+2
+1
+1
+1
+                     
+K
+K
+K
+K
+K
+K
+x
+x
+y
+y
+d
+d
+x
+x
+y
+y
+d
+d
+x
+x
+y
+y
+d
+d
+−
+−
+−
+
+
+−
++
+−
++
++
+−
+
+
+−
++
+−
++
++
+−
+
+
+= 
+
+
+
+−
++
+−
++
++
+−
+
+
+
+
+b
+
+. 
+(9) 
+ 
+These position estimates are then filtered using a time-
+discrete, linear Kalman filter [10] for tracking of the mobile 
+node with the state vector xn at time n comprised of position, 
+speed and acceleration of the mobile node: 
+[
+ 
+]
+T
+T
+T
+T
+n =
+x
+p
+p p
+
+. 
+ 
+Authorized licensed use limited to: University of Tokyo. Downloaded on November 07,2025 at 09:16:42 UTC from IEEE Xplore.  Restrictions apply. 
+The tracking position prediction is 
+ 
+2
+1
+1
+1
+1
+ˆ
+2
+n
+n
+n
+n
+t
+t
+−
+−
+−
+=
++
+⋅∆+
+⋅
+⋅∆
+p
+p
+p
+p
+
+
+ 
+(10) 
+with initialization 
+0
+0
+[
+ 0 0 0 0]
+T
+T
+=
+x
+p
+, where p0 = [xtrue ytrue]T  
+are the true coordinates of the starting position of the mobile 
+node. The Kalman filter only uses the positions obtained from 
+LoRa ranging with (7) as measurement inputs. The state 
+transition matrix can be obtained for Δt = 1 s as 
+ 
+1
+0
+1
+0
+0.5
+0
+0
+1
+0
+1
+0
+0.5
+0
+0
+1
+0
+1
+0
+0
+0
+0
+1
+0
+1
+0
+0
+0
+0
+1
+0
+0
+0
+0
+0
+0
+1
+
+
+
+
+
+
+
+
+= 
+
+
+
+
+
+
+
+
+
+
+
+A
+, 
+(11) 
+the observation model as 
+ 
+1
+0 0
+0 0
+0
+  
+  
+0
+1 0
+0 0
+0
+
+
+= 
+
+
+
+C
+, 
+(12) 
+and the covariance matrix of the observation noise, whose 
+values are based on the observed variance of the estimated 
+positions, as 
+ 
+1000
+0
+0
+1000
+
+
+= 
+
+
+
+v
+Q
+. 
+(13) 
+V. 
+POSITIONING MEASUREMENTS 
+The positioning method and tracking was evaluated with 
+outdoor tests in a flat, rural environment using K = 4 fixed 
+reference nodes located in the edges of a quadrangular area 
+measuring about 400 m x 130 m.  The LoRa parameters were 
+BW = 400 kHz and SF = 8. All ranging distances d1, d2, …, dK 
+and the estimated position pn of the mobile node are updated 
+once per second, with Δt = 1 s. Omni-directional antennas at 
+a height of 1.5 m for the reference nodes and 2 m for the 
+handheld mobile node were used with our SX1280 based 
+hardware. To increase the accuracy of the estimated position, 
+the measured ranging distances were first corrected using (5). 
+Fig. 7. Positioning Test with estimated positions using LoRa ranging 
+directly (yellow crosses) and tracking with Kalman filtering (blue line). The 
+orange circles indicate the reference nodes. Aerial view: swisstopo 
+Fig. 7 shows the test area with the 4 reference nodes 
+marked with orange circles, the estimated positions of the 
+mobile node directly obtained from LoRa ranging in (7) 
+marked with yellow crosses and the estimated tracking using 
+the additional Kalman filter in (10) marked with an 
+interpolated blue line.  The true route of the mobile node 
+carried by a person started at the red square, followed the path 
+to the red triangle and returned to the red square. Based on the 
+geometry of the setup, the highest Dilution of Precision (DOP) 
+can be expected at the start and return-points. 
+Positioning using the LoRa ranging measurements directly 
+according to (7) resulted in a Distance Root Mean Square 
+(DRMS) error of around 30 m, while the use of the Kalman 
+filter in (10) for tracking reduced the DRMS error to around 
+5 m. 
+It should be noted that these measurements were 
+performed in an environment with a dominant LOS path, the 
+accuracy is expected to be worse in an environment with 
+obstacles between the nodes. Improvements would be possible 
+by using an Inertial Measurement Unit (IMU) sensor 
+additionally to the LoRa ranging measurements to estimate the 
+position of a mobile node. 
+VI. 
+CONCLUSIONS 
+As expected, the LoRa ranging measurements in the 2.4 
+GHz ISM frequency band were impacted by the limited 
+multipath resolution capability, resulting in an over-
+estimation of the ranging distances. This was observed over 
+all distances in the outdoor measurements performed in a rural 
+and a suburban environment. The variance and the mean of 
+the ranging distance error both increased with higher distances 
+due to a reduction in SNR and a likely increase in multipath 
+propagation. Despite this, with a measured mean distance 
+error of 46.4 m over true distances of up to 1400 m in a rural 
+environment, the LoRa modulation is considered suitable for 
+determining approximate distances. Further improvements are 
+possible using corrections specific for the propagation 
+environment to reduce the over-estimation of the ranging 
+distance. 
+Positioning based on LoRa ranging obtained a DRMS of 
+around 30 m for a mobile node in a rural outdoor area 
+measuring about 400 m x 130 m, which allows approximate 
+positioning without the use of GNSS. Tracking of the mobile 
+node using Kalman filtering reduced the DRMS to around 
+5 m. Further improvements would be possible for a mobile 
+node by combining the estimated position with measurements 
+from an IMU sensor. Compared to GNSS, positioning with 
+LoRa however relies on the deployment of additional 
+infrastructure in the form of reference nodes. 
+While the measurements were performed with the 
+Semtech SX1280 transceiver with built-in ranging engine, the 
+trends and conclusions are also applicable to other LoRa 
+devices operating in the 2.4 GHz band using comparable 
+bandwidths. 
+REFERENCES 
+ 
+[1] J. P. Shanmuga Sundaram, W. Du and Z. Zhao, "A Survey on LoRa 
+Networking: Research Problems, Current Solutions, and Open Issues," 
+in IEEE Communications Surveys & Tutorials, vol. 22, no. 1, pp. 371-
+388, Firstquarter 2020. 
+[2] D. Plets, N. Podevijn, J. Trogh, L. Martens and W. Joseph, 
+"Experimental Performance Evaluation of Outdoor TDoA and RSS 
+ 
+Authorized licensed use limited to: University of Tokyo. Downloaded on November 07,2025 at 09:16:42 UTC from IEEE Xplore.  Restrictions apply. 
+Positioning in a Public LoRa Network," 2018 International Conference 
+on Indoor Positioning and Indoor Navigation (IPIN), 2018, pp. 1-8. 
+[3] Bluetooth Core Version 5.2, Bluetooth SIG, 2019, Vol 6, Part B, p. 
+2869, 
+Accessed: 
+Apr. 
+26, 
+2021. 
+[Online]. 
+Available: 
+https://www.bluetooth.com/specifications/specs/ 
+[4] F. Wolf, K. Le Déroff, S. de Rivaz, N. Deparis, F. Dehmas and J. 
+Cances, "Benchmarking of Narrowband LPWA Physical Layer 
+Ranging Technologies," 2019 16th Workshop on Positioning, 
+Navigation and Communications (WPNC), Bremen, Germany, 2019, 
+pp. 1-6. 
+[5] F. R. Andersen, K. D. Ballal, M. N. Petersen and S. Ruepp, "Ranging 
+Capabilities of LoRa 2.4 GHz," 2020 IEEE 6th World Forum on 
+Internet of Things (WF-IoT), New Orleans, LA, USA, 2020, pp. 1-5. 
+[6] 
+Semtech Corporation, "LoRa® and LoRaWAN®: A Technical 
+Overview," Accessed: Feb. 02, 2021. [Online]. Available: https://lora-
+developers.semtech.com/uploads/documents/files/LoRa_and_LoRaW
+AN-A_Tech_Overview-Downloadable.pdf 
+[7] 
+Semtech Corporation, "SX1280/SX1281/SX1282, Long Range, Low 
+Power, 2.4 GHz Transceiver with Ranging Capability,"  Accessed: Feb. 
+02, 2021. [Online]. Available: https://www.semtech.com/products/ 
+wireless-rf/24-ghz-transceivers/sx1280 
+[8] 
+A. Bensky, Wireless Positioning Technologies and Applications. USA: 
+Artech House, 2nd ed., 2016. 
+[9] 
+Semtech Corporation, "Application Note: An Introduction to Ranging 
+with the SX1280 Transceiver," Accessed: Feb. 02, 2021. [Online]. 
+Available: 
+https://www.semtech.com/products/wireless-rf/24-ghz-
+transceivers/sx1280 
+[10] M. Hayes, Statistical Digital Signal Processing and Modelling. USA: 
+John Wiley & Sons, 1996, sec. 7.4.
+ 
+Authorized licensed use limited to: University of Tokyo. Downloaded on November 07,2025 at 09:16:42 UTC from IEEE Xplore.  Restrictions apply. 

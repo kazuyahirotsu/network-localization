@@ -1,0 +1,36 @@
+[1] K. Hirotsu, F. Granelli and A. Nakao, "LoRa-Based Localization for Drones: Methodological Enhancements Explored Through Simulations and Real-World Experiments," in IEEE Access, vol. 12, pp. 145988-145996, 2024, doi: 10.1109/ACCESS.2024.3463175.
+
+[2] Andres Vazquez-Rodas, Fabian Astudillo-Salinas, Christian Sanchez, Braulio Arpi, Luis I. Minchala,
+Experimental evaluation of RSSI-based positioning system with low-cost LoRa devices,
+Ad Hoc Networks,
+Volume 105,
+2020,
+102168,
+ISSN 1570-8705,
+https://doi.org/10.1016/j.adhoc.2020.102168.
+
+[3] P. Müller, H. Stoll, L. Sarperi and C. Schüpbach, "Outdoor Ranging and Positioning based on LoRa Modulation," 2021 International Conference on Localization and GNSS (ICL-GNSS), Tampere, Finland, 2021, pp. 1-6, doi: 10.1109/ICL-GNSS51451.2021.9452277.
+
+[4] J. Purohit, X. Wang, S. Mao, X. Sun and C. Yang, "Fingerprinting-based Indoor and Outdoor Localization with LoRa and Deep Learning," GLOBECOM 2020 - 2020 IEEE Global Communications Conference, Taipei, Taiwan, 2020, pp. 1-6, doi: 10.1109/GLOBECOM42002.2020.9322261.
+
+[5] Pospisil J, Fujdiak R, Mikhaylov K. Investigation of the Performance of TDoA-Based Localization Over LoRaWAN in Theory and Practice. Sensors. 2020; 20(19):5464. https://doi.org/10.3390/s20195464
+
+[6] B. C. Fargas and M. N. Petersen, "GPS-free geolocation using LoRa in low-power WANs," 2017 Global Internet of Things Summit (GIoTS), Geneva, Switzerland, 2017, pp. 1-6, doi: 10.1109/GIOTS.2017.8016251.
+
+[7] Ingabire, W, Larijani, H & Gibson, RM 2021, LoRa RSSI based outdoor localization in an urban area using
+random neural networks. in K Arai (ed.), Intelligent Computing: Proceedings of the 2021 Computing Conference.
+vol. 2, Lecture Notes in Networks and Systems, vol. 284, Springer Nature, pp. 1032-1043, Computing
+Conference 2021, London, United Kingdom, 15/07/21. https://doi.org/10.1007/978-3-030-80126-7_72
+
+[8] S. Fan and J. Yan, "CSI Fingerprint and GCN Based Indoor Localization Using Graph Structures Fusion," 2023 IEEE 23rd International Conference on Communication Technology (ICCT), Wuxi, China, 2023, pp. 111-116, doi: 10.1109/ICCT59356.2023.10419794.
+
+
+[9] Kang, Xiaofei, Xian Liang, and Qiyue Liang. 2023. "Indoor Localization Algorithm Based on a High-Order Graph Neural Network" Sensors 23, no. 19: 8221. https://doi.org/10.3390/s23198221
+
+[10] W. Yan, D. Jin, Z. Lin and F. Yin, "Graph Neural Network for Large-Scale Network Localization," ICASSP 2021 - 2021 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), Toronto, ON, Canada, 2021, pp. 5250-5254, doi: 10.1109/ICASSP39728.2021.9414520.
+
+[11] Vishwakarma, R., Joshi, R.B., Mishra, S. (2023). IndoorGNN: A Graph Neural Network Based Approach for Indoor Localization Using WiFi RSSI. In: Goyal, V., Kumar, N., Bhowmick, S.S., Goyal, P., Goyal, N., Kumar, D. (eds) Big Data and Artificial Intelligence. BDA 2023. Lecture Notes in Computer Science, vol 14418. Springer, Cham. https://doi.org/10.1007/978-3-031-49601-1_11
+
+[12] M. Simonovsky and N. Komodakis, "Dynamic Edge-Conditioned Filters in Convolutional Neural Networks on Graphs," 2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Honolulu, HI, USA, 2017, pp. 29-38, doi: 10.1109/CVPR.2017.11.
+
+[13] Rupendra Pratap Singh Hada and Abhishek Srivastava. 2025. A Hybrid Approach for Localisation of Sensor Nodes in Remote Locations. ACM Trans. Sen. Netw. 21, 2, Article 23 (March 2025), 33 pages. https://doi.org/10.1145/3715914

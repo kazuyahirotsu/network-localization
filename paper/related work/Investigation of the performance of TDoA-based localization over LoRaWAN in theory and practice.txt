@@ -1,0 +1,1315 @@
+sensors
+Article
+Investigation of the Performance of TDoA-Based
+Localization Over LoRaWAN in Theory and Practice
+Jan Pospisil 1,*
+, Radek Fujdiak 1
+and Konstantin Mikhaylov 2
+1
+Department of Telecommunications, Brno University of Technology, Technicka 12, 616 00 Brno,
+Czech Republic; fujdiak@feec.vutbr.cz
+2
+Centre for Wireless Communications, University of Oulu, Erkki Koiso-Kanttilan katu 3, 90014 Oulu, Finland;
+konstantin.mikhaylov@oulu.ﬁ
+*
+Correspondence: xpospi90@vutbr.cz
+Received: 24 August 2020; Accepted: 22 September 2020; Published: 23 September 2020
+
+
+Abstract: The paper deals with the localization in a low-power wide-area-network (LPWAN)
+operating long-range wide-area-network (LoRaWAN) technology. The LoRaWAN is, today, one of
+the most widely used connectivity-enabling technologies for the battery-powered smart devices
+employed in a broad range of applications.
+Many of these applications either require or can
+beneﬁt from the availability of geolocation information. The use of global positioning system (GPS)
+technology is restrained by the bad propagation of the signal when the device is hidden indoors,
+and by energy consumption such a receiver would require. Therefore, this paper focuses on an
+alternative solution implying the use of the information readily available in the LoRaWAN network
+and application of the time difference of arrival (TDoA) method for the passive geolocation of
+end-devices in the network. First, the limits of geolocation services in networks that use narrow-band
+communication channels are discussed, as well as the relevant challenges faced by the TDoA approach.
+Then, we select ﬁve classic TDoA algorithms and evaluate their performance using simulation.
+Based on these results, we select the two providing the best accuracy (i.e., Chan’s and Foy’s).
+These algorithms were tested by the ﬁeld measurements, using the specially designed low-cost
+gateways and test devices to estimate their real-life performance.
+Keywords: TDoA; geolocation; localization; LoRaWAN; LPWAN; LoRa
+1. Introduction
+With the increase of interest in the internet of things (IoT) devices, which aim to simplify people’s
+daily routines, diverse requirements such as required connectivity throughput and power supply arise.
+Since the IoT concept covers devices with maximum data rates ranging from units of bits to tens of
+megabits per second, communication distance and device lifetime may vary as well [1]. The widely
+used short-range radio technologies (e.g., Wi-Fi and Bluetooth) are not adapted to scenarios that require
+transmission over long distances (hundreds of meters or more). Cellular communication solutions
+(mobile networks—3G, 4G, and others) can provide greater coverage but are very energy-consuming.
+The requirements of the newly developed IoT applications have led to the emergence of a new wireless
+technology class—low-power wide-area-networks (LPWANs) are low-power (LP) networks with
+extensive geographic coverage (WAN) characterized by a low bit rate. Devices that implement the
+protocols, that meet these requirements, also often have to be inexpensive and feature a long battery
+lifetime [2].
+The long-range wide-area-network (LoRaWAN) is one of the most widely used LPWA
+technologies today and is an open standard created by the LoRa Alliance [3], which deﬁnes the
+communication protocol and network architecture (OSI Layer 2—Data Link Layer). This protocol is
+Sensors 2020, 20, 5464; doi:10.3390/s20195464
+www.mdpi.com/journal/sensors
+Sensors 2020, 20, 5464
+2 of 22
+built on top of the proprietary modulation called LoRa (OSI Layer 1—Physical Layer). This modulation
+is used to establish a wireless communication link over a distance of tens of kilometers outdoors at
+data rates up to dozens of kilobits per second while operating with the maximum transmit power
+of only 14 dBm (in Europe) [4]. LoRaWAN technology is suitable for providing connectivity to
+battery-powered smart devices that will ﬁnd use in a broad range of applications such as monitoring,
+logistics, transportation, and automation. Another feature that makes LoRaWAN especially well-suited
+for localization is its cell-free nature. Unlike conventional cellular systems, LoRaWAN end-devices
+are not tied to a speciﬁc gateway (GW). Instead, each LoRaWAN GW receives the uplink packets sent
+by each device and forwards them to a single network server, which processes them and removes
+the duplicates.
+One of the possible added values of LPWAN technologies, including the LoRaWAN, is the
+provision of end-device positioning services. Although the global navigation satellite system (GNSS),
+and, speciﬁcally, the global positioning system (GPS) offers accurate location and navigation services,
+this imposes the limitation coming with the poor indoor propagation of the GPS signal [5]. Among the
+other overheads that an integration of GNSS into the IoT devices imposes are the increase of the
+monetary costs and energy consumption. Notably, the energy consumption raises both due to the
+actual positioning and the need of transferring these data wirelessly. Finally, it is worth noting that a
+number of the LoRaWAN devices have already been deployed with no GNSS chips on board. For this
+reason, a backward-compatible solution allowing us to localize the IoT devices in the network with no
+energy, cost, or latency overheads and without using any additional components is highly desirable.
+One of the perspective approaches to address this challenge, the utility and performance of which we
+investigate in this study, is to use time difference of arrival (TDoA) method for passive geolocation of
+the end-devices in the network based on the information already available in a LoRaWAN network.
+Importantly, this approach does not impose any hardware or ﬁrmware changes for the end devices
+and thus can even enable localization of the devices already deployed in-ﬁeld.
+1.1. Our Contribution
+The key contributions of this paper are:
+•
+The deﬁnition and discussion of the relevant aspects of TDoA-based localization in LoRaWANs.
+•
+The simulation results demonstrate the performance of the ﬁve classical TDoA-based localization
+algorithms.
+•
+The recipe of the practical implementation and validation of a Raspberry PI based low-cost
+TDoA-localization enabled LoRaWAN gateway (GW).
+•
+The results of the practical measurement campaign demonstrate real-life localization accuracy
+and performance for the two selected TDoA algorithms and a way to improve it through ﬁltering.
+The paper is organized as follows. In Section 2, possible ways of geolocation in the LoRaWAN and
+the results of some earlier studies in this ﬁeld are discussed. Section 3 further describes the key issues
+and challenges related to the multipath signal propagation theory, signal processing, and the TDoA
+geolocation in general. The following Section 4 describes the details of TDoA geolocation algorithm
+approaches and compares ﬁve selected algorithms by simulation. Section 5 reports the details of the
+hardware developed for our measurements. Section 6 presents the results of the initial testing of the
+hardware and provides the relevant details of our experimental setup. Section 7 reports and discusses
+our experimental results. In the two ﬁnal sections, we provide a brief discussion and summarize the
+achievements, respectively.
+1.2. General LoRaWAN Architecture
+Before proceeding, we consider it useful to revise some of the basics of the LoRaWAN technology.
+A LoRaWAN network is composed of four basic elements (see Figure 1):
+Sensors 2020, 20, 5464
+3 of 22
+end-node
+gateway
+network server
+application server
+LoRa radio
+LoRaWAN
+TCP/IP SSL
+LoRaWAN
+TCP/IP SSL
+Secure Payload
+AES secured payload
+Figure 1. General long-range wide-area-network (LoRaWAN) architecture with end-to-end security
+using advanced encryption standard (AES) and secure sockets layer (SSL) for TCP/IP connections.
+•
+Application server—hosts a ﬁnal application that allows users to analyze and process measured
+data from sensors or send commands back. It also allows storing the data in a database.
+•
+The network server—which is responsible for managing the network, as well as decoding and
+ﬁltering duplicate packets received through GWs from end devices (and, optionally, forwarding
+them to a respective application server), and injecting the packets to be delivered to end-devices.
+•
+One or multiple GWs—an intermediary device that forwards packets from end devices to a
+network server through a backbone IP network (based on, e.g., Ethernet or LTE). A network may
+consist of several GWs that can receive the same packet and send it to the server.
+•
+One or multiple end-devices—implementing one of three LoRaWAN classes (A, B or C). Each of
+the classes implies a somewhat different media access procedure.
+The class A, implying
+ALOHA-like channel access with two receive windows scheduled for downlink following each
+uplink, is the obligatory and the most commonly used option optimized for battery-powered
+devices. Devices operating class B open extra receive windows at scheduled intervals. Last,
+class C devices continuously keep the radio in receive mode as long as they are not transmitting.
+Devices operating this class provide the lowest latency in downlink but are not suited to be
+powered by a battery. By default, LoRaWAN devices operate in the class A.
+2. Current State of Geolocation in LoRAWAN Technology
+The most widely used techniques for geolocation of wireless end-devices are based on the
+measurement of certain parameters (e.g., signal attenuation, signal propagation time, and angle) by
+other devices (e.g., the GWs) with a known location. The basic methods of geolocation include [6]:
+•
+Received Signal Strength Indicator (RSSI)—operates by measuring the signal attenuation between
+the end-device and the GW. Being rather straightforward and cheap to implement, the typical
+precision of this method is rather low.
+•
+Angle of Arrival (AoA)—implies using the directional antennas or antenna arrays to estimate the
+direction from which the GW has received the signal. This method requires a complex antenna
+system on each GW.
+•
+Time of Arrival (ToA)—operates by estimating the propagation time of the signal between the
+GW and the end-device. The method requires time synchronization of GWs and end-devices.
+A subvariant of this method, allowing the relaxation of the synchronization requirements, is the
+use of a two-way communication, measuring the time from sending a request to receiving
+the response.
+Sensors 2020, 20, 5464
+4 of 22
+•
+Time Difference of Arrival (TDoA)—operates by measuring the difference of arrival times of the
+radio signal issued by an end-device and received by the different GWs. This method requires
+accurate GW time synchronization.
+It is clear from the discussion above that not all these methods are suitable for implementation in
+LPWAN and hence in LoRaWAN. Considering the cost of implementing localization and the limits
+of the communication technologies used, only ToA/TDoA and RSSI techniques ﬁt the LoRaWAN
+technology well. Both of these techniques are suitable for deployment in LPWAN networks because
+these are inexpensive, and there is no need to modify either hardware or ﬁrmware on the end-devices
+side. However, the use of the RSSI based technique is further limited by the fact that many LPWA
+technologies operate in the license-free bands and thus share the radio spectrum with many other
+radio systems. The radio signals of the latter, as well as the line-of-sight (LoS) and non-line-of-sight
+(NLoS) propagation, may signiﬁcantly disrupt the results. The ToA technique is limited by the need
+for accurate synchronization between a GW and a device. For the latter, this may inquire substantial
+additional costs.
+For these reasons, in this paper, we focus on the TDoA method. The TDoA-based method ﬁnds
+its shortcomings in the form of multipath signal propagation, which results for LPWANs in errors,
+as shown in recent literature, of up to several hundred meters [7]. Higher accuracy can be achieved
+in rural areas where the communication of the end-devices with the GWs takes place in a direct LoS
+without signal reﬂections. Note that if the TDoA method is used to determine the position in the
+LoRaWAN network, the GPS is still often needed on the GWs, as the means for clock synchronization
+to obtain a precise timestamp [5].
+2.1. Related Work
+Some scientiﬁc studies proving LoRaWAN geolocation capabilities have already been reported.
+In particular, they mostly focus on the application of TDoA and RSSI techniques. It should be
+mentioned that none of the mentioned or proposed methods increases the overhead for packet
+transmission. In all cases, the transmitted data (including metadata) is stored on the server and
+then transferred to a separate application, which performs a passive position calculation from the
+stored metadata.
+One of the studies performed a simulation of localization using a combination of TDoA and AoA
+techniques [8], but did not test these in-ﬁeld. Another article compares the outdoor versus indoor
+localization using RSSI [9]. Further improvements have been suggested in [10]. In [11] the authors
+improved the TDoA geolocation results using the Kalman ﬁlter, but only on stationary placed devices
+and without further details. Another study combined TDoA and RSSI data and used the k nearest
+neighbors (kNN) algorithm, but mostly with LoRaWAN (V2) gateways that offer a better performance
+with result of 332.6 m of median [12]. A very similar approach to ours is taken in [13], where the
+results around 100 m are achieved, but only on stationary positioned end-devices. Satisfactory results
+are provided by [14] using TDoA achieving 200 m error and RSS error estimation around 1.2–2.5 km,
+unfortunately without further details of implementation. In the paper [15] authors reported the median
+estimation error more than 400 m for stationary device using (V1) GWs.
+The comparison of the other localization results with respect to the mean error reported in the
+relevant papers, as well as some details on the implied test setup, are reported in Table 1.
+Sensors 2020, 20, 5464
+5 of 22
+Table 1. Comparison of experiment setup and the achieved results in the related works.
+Est. Error [m]
+GW Number
+Test Area
+Approach
+Reference
+TDoA (outdoor)
+20–200 (avg.)
+6
+0.65 × 0.65 km
+-
+[5]
+100 m (avg.)
+4
+1.74 × 1.74 km
+-
+[13]
+200 (med.)
+19
+10 × 10 km
+Maximum Likehood Estimation (MLE)
+[16]
+500 (med.)
+-
+10 × 10 km
+Multilateral Dissection (MLD)
+[16]
+RSSI (indoor)
+20–30 (avg.)
+3
+180 × 80 m
+Minimum Mean Square (MMS)
+[17]
+RSSI (outdoor)
+10 (avg.)
+6
+150 × 100 m
+Weighted Least Squares (WLS)
+[18]
+18 (avg.)
+3
+150 × 100 m
+Weighted Least Squares (WLS)
+[18]
+9–20 (avg.)
+3
+120 × 200 m
+-
+[19]
+24 (avg.)
+4
+340 × 340 m
+Fingerprint algorithm
+[20]
+398 (avg.)
+68
+7.28 × 7.28 km
+Fingerprint algorithm
+[21]
+357 (avg.)
+68
+7.28 × 7.28 km
+Neural network
+[22]
+Of the three studies dealing with TDoA localization for LoRaWAN, the whitepaper [5] provides a
+closer look at geolocation and measurement results but does not describe in detail the implementation,
+such as the algorithms used. The study [23] focuses on the localization algorithm improvement to
+reﬁne the position estimate results using the mobility proﬁles application. The thesis [16] focuses more
+on the theory of localization algorithms and public network veriﬁcation.
+Our study, in contrast to these works, provides a comprehensive review of geolocation in a
+LoRaWAN network. We thoughtfully discuss the issues related to the geolocation for a narrow-band
+signal, the inﬂuence of noise and signal multipath, LoS vs. NLoS, the inﬂuence of geometry on the
+computational algorithm, and stability of time synchronization of GWs. Then, we use simulations to
+study the efﬁciency of the classical TDoA localization algorithms and select two for real-life evaluation.
+Finally, we conducted a set of ﬁeld measurements to characterize the practical performance of TDoA
+in LoRaWAN.
+3. Aspects of the Position Estimation Theory
+3.1. Multipath Propagation
+In the case of LoS, when radio waves propagate through a direct path between the transmitter
+and the receiver, the error in a TDoA measurement is related to the accuracy of signal detection and its
+timestamping, and thus can be expressed as a zero-mean Gaussian random variable. In the absence of
+LoS (called NLoS) between the transmitter and the receiver, the radio wave suffers from one or more
+multipath reﬂections. This leads to an extension of the traveled distance and thus of the propagation
+time in comparison to the LoS—see Figure 2.
+A
+B
+LOS
+NLOS
+wall
+Figure 2. Line-of-sight (LoS) vs. non-line-of-sight (NLoS) signal propagation.
+Thus, the propagation time in NLoS does not correspond to the time in LoS, and a ranging error of
+up to several hundred meters occurs [7]. LoRa modulation is characterized by efﬁcient communication
+Sensors 2020, 20, 5464
+6 of 22
+over a multipath channel. It is thus possible to transmit data even when there are several reﬂections
+from different objects or buildings between the transmitter and the receiver. One of the major factors
+affecting the TDoA localization accuracy is the signal bandwidth. The minimum difference in the
+distance traveled by the two signals which a received can recognize is thus given by [24]
+∆d = c
+B
+(1)
+where ∆d is the distance, c is the speed of light, and B is the signal bandwidth. If a receiver receives
+two signals with path length differences less than ∆d, i.e., a direct and a reﬂected signal, they will not
+be distinguished as separate but grouped, resulting in the sum of these signals and the addition of the
+phase shift. This harms the range estimation. The resulting worst-case ambiguity for the signal with
+125 kHz bandwidth is ± ∆d
+2 = ±1200 m.
+3.2. Signal Processing
+The Cramer–Rao lower bound (CRLB) gives the lower bound of the variance of unbiased
+estimators of a certain parameter—if an unbiased estimator achieves this, it is considered to be
+fully efﬁcient.
+For TDoA, the CRLB indicates how much the ranging performance is affected by the signal
+bandwidth and signal-to-noise ratio (SNR) [25]:
+σ2
+r ≥
+c2
+4π2B2SNR(1 +
+1
+SNR)
+(2)
+where σ2
+r is the variance of the range estimation, c is the speed of light and B is the signal bandwidth.
+Figure 3 shows the CRLB for different signal bandwidths using this formula. As can be observed,
+the higher the signal bandwidth, the better the performance is.
+15
+10
+5
+0
+5
+10
+15
+SNR (-)
+0.01
+0.1
+1
+10
+100
+1000
+10000
+Minimum standard deviation (m)
+ 125 kHz
+ 250 kHz
+ 500 kHz
+ 500 MHz
+Figure 3. The Cramer–Rao bound for selected signal bandwidths.
+Semtech’s LoRa transceiver (SX1276) can transmit signals with a bandwidth of 7.8–500 kHz,
+but LoRaWAN in the EU bands is typically restricted to use signals with 125 kHz bandwidth [26]. As a
+reference, we also plot the performance of the ultra-wideband (UWB) signals, which are known to be
+among the most efﬁcient ones for localization.
+Sensors 2020, 20, 5464
+7 of 22
+3.3. TDoA Estimation
+The distance between the i-th GW and the end-device is computed as
+Ri =
+q
+(Xi −x)2 + (Yi −y)2 =
+q
+X2
+i + Y2
+i −2Xix −2Yiy + x2 + y2
+(3)
+where, (Xi, Yi) are coordinates of the i-th GW and (x, y) are the coordinates of the sought end-device.
+The range difference between the i-th GW relative to the ﬁrst incoming (referred to as the “base” or a
+reference) GW is
+Ri,1 = ∆τi · c = Ri −R1
+(4)
+where c is the speed of light, Ri is the range distance between the i-th GW and the end-device, R1 is
+the range distance between the ﬁrst GW and the end-device, ∆τi is the measured TDoA between the
+i-th GW and the ﬁrst GW.
+Due to the need for maximum energy and cost savings, LoRaWAN end-devices do not keep a
+precise clock synchronization. Since the exact moment when a device has started its transmission is
+unknown, the TDoA works by measuring the time difference of arrivals of the incoming message for
+two or more GWs. For each two GWs, a trajectory is created using the equation [27]
+τTDoA = τ1 −τ2
+(5)
+where τTDoA is the known difference of the GW timestamps and τ1 and τ2 are unknown. The trajectory
+is hyperbola-like and the target point then lies somewhere on this trajectory, as illustrated in Figure 4.
+This can be written as τTDoA = τ1,1 −τ1,2 = τ2,1 −τ2,2 = τ3,1 −τ3,2 = τ4,1 −τ4,2.
+without error
+with error
+τ1,1
+τ2,1
+τ3,1
+τ4,1
+τ1,2
+τ2,2
+τ3,2
+τ4,2
+A
+B
+Figure 4. Time difference of arrival (TDoA)—hyperbolic trajectory principle.
+Typically, one of the GWs is selected as the reference GW and all the time differences from other
+GWs are referenced to it. This means that the number of hyperbolas (TDoAs) is always one less than
+the number of receiving GWs. There may occur several situations, which are dependent on the number
+of TDoAs. If there are less than two TDoAs (i.e., three GWs), the position cannot be determined in
+2D space. If the number of TDoAs is equal to two (Figure 5a), the geolocation in 2D space is possible.
+The searched point is located at the intersection of the hyperbolas. If the number of TDoAs is greater
+than two, it is not easy to ﬁnd an algebraically accurate solution, since the hyperbolas may not intersect
+at the same point. Then, it is necessary to use approximation techniques to ﬁnd the most suitable
+solution (Figure 5b), or ﬁlter out some of the measurements (e.g., getting rid of the NLoS-likely ones).
+Sensors 2020, 20, 5464
+8 of 22
+C
+B
+A
+(a,b)
+(c,b)
+X
+.
+(a)
+C
+B
+D
+A
+(a,b)
+(c,b)
+(d,b)
+X
+(b)
+Figure 5. Illustration of a position estimation using TDoA. (a) TDoA—3 receivers. (b) TDoA—4 receivers.
+4. Position Estimation (TDoA) Algorithms Performance and Selection
+4.1. TDoA Geolocation Algorithms Approaches
+The TDoA geolocation algorithms can be classiﬁed into two major subgroups:
+•
+Non-iterative algorithms—imply the expression of unknowns by a suitable modiﬁcation, e.g.,
+a transformation of nonlinear equations to linear, and the search for one single analytical
+solution. The advantages of these algorithms are lower demands on computing power and
+known calculation time. Among the disadvantages is the lower accuracy.
+•
+Iterative algorithms—repeat the measurement multiple times, attempting to reﬁne the result
+with each next iteration. The criterion to stop can be ﬁnding a sufﬁciently accurate solution
+or reaching the maximum number of iterations. These algorithms enable higher positioning
+accuracy compared with non-iterative algorithms but may have drawbacks for their convergence,
+and the required computational resources and time. The choice of the initial estimate may also
+strongly inﬂuence the whole calculation process.
+4.2. Comparison of Selected Algorithms for Localization in LoRaWAN
+Given that for the TDoA-based localization over LoRaWAN, the GWs serve as signal receivers,
+their position and geometry play an important role. The positions of the GWs have been selected
+following the guidelines from [28]. Speciﬁcally, the GWs have been placed to form a circle around the
+area, where tests were carried. The map of the test area and the coordinates of the GWs are depicted in
+Figure 6. The deployed network covers an area of 4.58 km2.
+GW1: 49.387222◦N, 15.953000◦E (Kochánov)
+GW2: 49.382222◦N, 15.977139◦E (Laviˇcky)
+GW3: 49.398417◦N, 15.982806◦E (Olší)
+GW4: 49.411028◦N, 15.951444◦E (Netín)
+Sensors 2020, 20, 5464
+9 of 22
+Figure 6. Selected positions of the gateways (GWs) used for simulations and empirical measurements.
+Then, we have selected ﬁve widely used algorithms for TDoA geolocation, namely Fang’s [29],
+Chan’s [30], spherical-intersection (SI) [31], linear-least squares (LLS) [32], and Foy’s [33]. Among these
+algorithms, we aim to identify the ones that provide the best accuracy of positioning.
+•
+Fang’s algorithm—non-iterative algorithm with closed-form solution, which is reduced to simple
+ﬁnding the suitable roots of a quadratic equation.
+•
+Chan’s algorithm—provides non-iterative approach with closed-form solution and is close
+realization of the maximum-likelihood estimator.
+•
+SI algorithm—this method is also non-iterative, which brings the closed-form solution.
+Unlike others, however, it calculates the intersection of spheres and not hyperboloids.
+The relatively small change in the eccentricity of one of the two hyperboloids can have a
+signiﬁcant effect on the resulting position of the intersection. Thus, it suppresses the problem of
+hyperboloid eccentricity.
+•
+LLS algorithm—provides non-iterative approach, that brings closed-form solution. This algorithm
+is based on least-squares (LS) method.
+•
+Foy’s algorithm—this iterative approach uses the Taylor series and Taylor polynomials.
+The algorithm starts with an initial position estimate (x0, y0), which is then improved
+by an iterative process. Compared to non-iterative algorithms, this algorithm is more
+computationally complex.
+For this, we randomly selected a number of points within the area bounded by the lines connecting
+the four GW positions. For each point, we have measured the distances to individual GWs and
+calculated the signal propagation time from these. To model the effect of the real environment,
+a random noise (ranging error) was added to the distance values expressed by a Gaussian random
+variable and given by
+Sensors 2020, 20, 5464
+10 of 22
+f (x, µ, σ) =
+1
+σ
+√
+2π
+e−1
+2 ( x−µ
+σ )2 ,
+(6)
+where µ is the mean of the distribution and σ is the standard deviation. Then we used each of ﬁve
+selected algorithms to estimate the position. The estimation position error was deﬁned as the distance
+between the estimated position and the original one. The error is calculated as
+∆d_error =
+q
+(x −ˆx)2 + (y −ˆy)2
+(7)
+where (x, y) are the coordinates of the original position and ( ˆx, ˆy) are the estimated coordinates.
+Throughout the simulation µ = 0 (zero mean) and σ2 (variance) varied from 0 to 8000 m2. This variance
+range was divided into 27 bins with 5000 random positions checked for each bin. The resulting value
+of the mean absolute error (MAE) was then calculated as
+MAE = ∑n
+i=1|∆d_errori|
+n
+(8)
+Of the ﬁve selected algorithms, Fang’s algorithm requires having the data from exactly three
+GWs. In the case if more GWs have received a packet, the selection of three GWs, based on some rule
+(i.e., the lowest timestamp) must be done. Further, Chan’s algorithm can be used with two or more
+TDoAs (i.e., 3 or 4 GWs). For the other algorithms (i.e., SI, LLS, and Foy’s), the TDoAs from at least
+four GWs need to be used. Figure 7 summarizes the result of the simulation.
+0
+1000
+2000
+3000
+4000
+5000
+6000
+7000
+8000
+Ranging noise variance [m^2]
+0
+5
+10
+15
+20
+25
+30
+35
+MAE [m]
+Fang's algorithm (3 GW)
+Chan's algorithm (3 GW)
+Chan's algorithm (4 GW)
+Foy's algorithm (4 GW)
+SI algorithm (4 GW)
+LLS algorithm (4 GW)
+Figure 7. Ranging noise vs. mean absolute error (MAE) for selected TDoA algorithms.
+As can be seen from the ﬁgure, the MAEs of Chan’s and Fang’s algorithms are higher than those of
+the other algorithms. However, unlike the other algorithms, these two used the data of only three GWs.
+Note, that Chan’s algorithm performed better by ≈10 m compared to Fang’s. Among the algorithms
+utilizing the data from four GWs, Chan’s, LLS, and SI are non-iterative algorithms, while Foy’s
+algorithm is iterative. For this reason, the latter is more computationally complex, but, as can be seen
+from our results, allows better localization accuracy. As reported in [34] the computation average time
+(for one geolocation result) comparison provided for above listed algorithms; it conﬁrms that iterative
+algorithms are more computationally complex. For results in detail, see Table 2. The measurement was
+carried out in the GNU Octave 4.4.1, OS: macOS Catalina, RAM: 8 GB, CPU: Intel Dual-Core i5.
+Sensors 2020, 20, 5464
+11 of 22
+Table 2.
+Computation time comparison between Fang, Chan, linear least-squares (LLS),
+spherical-intersection (SI), and Foy algorithms [34].
+Fang
+Chan
+LLS
+SI
+Foy
+3 GWs
+598.49 µs
+717.95 µs
+-
+-
+-
+4 GWs
+-
+1 400.80 µs
+1 012.00 µs
+951.83 µs
+4 705.20 µs
+Based on the results of the simulations, we selected two algorithms, namely Chan’s and Foy’s,
+for the practical evaluation. These two were chosen since they provide the best accuracy of all the
+tested algorithms for the case of 2 TDoAs (3 GWs) and 3 TDoAs (4 GWs), respectively, even though
+they are more computationally complex. In the two following subsections, we further detail the
+implementation of these algorithms to be used for the real-life measurements.
+4.3. Chan’s Algorithm
+For three GWs, two TDoA hyperbolas are created, the solution is then in the form [30]
+"
+x
+y
+#
+= −
+"
+X2,1
+Y2,1
+X3,1
+Y3,1
+#−1
+×
+
+
+
+"
+R2,1
+R3,1
+#
+R1 + 1
+2
+"
+R2
+2,1 −K2 + K1
+R2
+3,1 −K3 + K1
+#
+
+
+(9)
+where K1 = X2
+1 + Y2
+1 , K2 = X2
+2 + Y2
+2 , K3 = X2
+3 + Y2
+3 . X and Y denote the known positions of GWs.
+Subsequently Xi,1 and Yi,1 give the distance between GWi and GW1 for coordinates x and y, respectively.
+The values R1 and R2 are computed from (3). Inserting (9) into (3) with i = 1 produces a quadratic
+equation aR2
+1 + bR2
+1 + c = 0. Substitution of the positive root back into (9) gives the solution.
+4.4. Foy’s (Taylor-Series Based) Algorithm
+The algorithm requires an initial estimate (x0, y0). In each step, a local least-squares (LS) solution
+is found and then the deviation is calculated and added to the x0 and y0 [33]
+h =
+
+
+R2,1 −(R2 −R1)
+R3,1 −(R3 −R1)
+...
+RN,1 −(RN −R1)
+
+
+, ∆=
+"
+∆x
+∆y
+#
+= (GTQ−1G)−1GTQ−1h
+(10)
+G =
+
+
+(X1 −x)/R1 −(X2 −x)/R2
+(Y1 −y)/R1 −(Y2 −y)/R2
+(X3 −x)/R1 −(X3 −x)/R3
+(Y1 −y)/R1 −(Y3 −y)/R3
+...
+...
+(XN −x)/R1 −(XN −x)/RN
+(Y1 −y)/R1 −(YN −y)/RN
+
+
+(11)
+The covariance matrix is denoted as Q. With each iteration ∆x adds to x0 and ∆y adds to y0.
+The whole process is repeated until the termination conditions are satisﬁed. It can be a minimal
+distance between ∆′s between iterations or exceeding the maximum number of iterations.
+5. Experimental Setup and Methods
+We start the section by discussing the LoRaWAN metadata messages used as an input for the
+geolocation estimator and continue by detailing the hardware components designed and used by us in
+the measurements.
+After decoding an uplink transmission from an end-device, a GW generates metadata composed
+of the reception timestamp, the packet’s modulation-coding scheme, the signal strength, and signal
+noise ratio estimates, the frequency channel, etc. These data are appended to the actual medium access
+control (MAC) payload and sent to the network server. The latter aggregates the messages received
+Sensors 2020, 20, 5464
+12 of 22
+from the different GWs and may store these for future processing. An example of the record of the
+network server (captured during our real-life measurements) is provided below.
+1
+{"seqno":47980716, "EUI":"47 BAC86800290021",
+2
+"ts":1541699072281, "fcnt":63, "port":8,
+3
+"freq":867500000, "toa":2138,
+4
+"dr":"SF12
+BW125 4/5", "ack":false ,
+5
+"gws":[
+6
+{"rssi":-98,"snr":-8.5,"ts":1541699072281,
+7
+"time":"2019 -11 -08 T17 :44:32.247226498 Z",
+8
+"gweui":"024 B08FFFF0500A9","lat":49.1988101,
+9
+"lon":16.5795896},
+10
+{... Records
+from
+other GWs ...}],
+11
+"bat":255,
+12
+"data":" 7:44:29;4911.31230;01636.37525 "
+13
+}.
+Speciﬁcally, the data record is composed of:
+•
+The identiﬁers of the data record and the end device sending this packet (line 1).
+•
+The internal network server timestamp, the sequence number of the packet, and the port identiﬁer
+(line 2).
+•
+The parameters of the physical layer—e.g., frequency and spreading (lines 3–4).
+•
+One or more records of the GWs receiving this packet (lines 5–10). Each record includes the
+information about the signal and signal-to-noise ratio levels (line 6), the timestamps (lines 2 and
+3), the identiﬁer of the GW, and, if available, its location (lines 8–9).
+•
+The information about the end-device battery (if available, line 11).
+•
+The packet payload.
+5.1. Gateway
+As of today (2020), most commercial LoRaWAN GWs available on the market do not have a
+GNSS/GPS (e.g., IMST iC880A-SPI and RAK833). The GPS is featured only by several high-end
+products (e.g., the ones from Kerlink, Gemtech, and Link Labs) with a price of over $400. For this
+reason, for our experiments, we created a low-cost GPS-enabled LoRaWAN GW, composed of a
+Raspberry PI computer and a custom printed circuit board (PCB)—the LoRaWAN concentrator.
+The principal diagram and an illustration of the manufactured concentrator board are presented
+in Figure 8a,b, respectively. The concentrator (designed by Will Whang and distributed as
+open-source [35]) contains two Semtech SX1257 front-end chipsets connected to a single Semtech
+SX1301 [36] baseband processor. The latter is also connected to the u-Blox MAX7Q GPS module,
+which provides the time reference via the Pulse-Per-Second (PPS) interface. The resolution of the
+timestamps of the GW is 1 µs (which corresponds to approximately 300 m distance traveled with the
+speed of light). The concentrator board was connected to the Raspberry Pi over the serial peripheral
+interface (SPI). The Raspberry Pi ran the Raspbian operating system with the open-source program
+lora_pkt_fwd [37] to process the data from the concentrator and communicate with the network
+server. Since it was a temporary measurement, each GW was powered from a 10 Ah power bank
+(with maximum 2 A current). Omnidirectional antennas with 1 dBi gain for 868 Mhz were used. In total,
+four boards have been produced and four GWs have been manufactured and used in the measurements.
+Sensors 2020, 20, 5464
+13 of 22
+(a)
+SX1301
+SX1257
+Tx/Rx
+SX1257
+Tx/Rx
+MAX7Q
+GPS
+PPS
+SPI
+SPI
+HOST
+I/Q
+I/Q
+SPI
+baseband
+RF 
+switch
+RF front end
+(b)
+Figure 8. LoRaWAN concentrator (SX1301 + 2x SX1257 + GPS). (a) Concentrator board. (b) Block
+diagram of a concentrator [35].
+5.2. End-Device
+The TDoA-based localization done by the GWs does not require any hardware modiﬁcations for
+the end devices. However, to enable the measurement of the localization accuracy, a way to obtain the
+ground-truth position is needed. For this reason, speciﬁcally for these tests, we developed a test device
+integrating a LoRaWAN transceiver (i.e., RisingHF RHF76-052) and a GPS module (u-blox NEO-6M),
+see Figure 9. The designed test device, being controlled by a Nucleo F401 board, was conﬁgured to
+send a packet with a period of 30 s (operating with DR0, i.e., SF12). The coordinates obtained from the
+GPS module were encapsulated into every packet sent by the device and used as the ground-truth
+reference for our analysis. Note, that the LoRaWAN transceiver was conﬁgured as a device of class A.
+This was done for the two reasons. First, the class A functionality is obligatory to be supported by all
+LoRaWAN end devices and ensures minimum energy consumption of the device. Second, since the
+TDoA localization is based solely on the uplink transmissions, implementation of classes B and C does
+not bring any added value.
+ADATA SDHC 
+16GB
+uBlox NEO-6M
+RHF76-052
+LoRaWAN modem
+GPS module
+MicroSD card
+MCU
+SDIO
+UART1
+UART2
+Nucleo-F401RE
+Figure 9. Block diagram of the end-device used for testing.
+5.3. Experimental Setup Parameters Summary
+Table 3 summarizes the key parameters for our experimental testbed.
+Sensors 2020, 20, 5464
+14 of 22
+Table 3. Experimental testbed parameters.
+End-device
+LoRaWAN device class
+A
+Data rate (DR)
+0
+Send period
+30 s
+Transmitt power
+14 dBm
+Frequency
+868 MHz
+LoRaWAN module
+RisingHF RHF76-052
+GPS
+u-Blox NEO-6M
+MCU
+STM32F401
+End-device count
+1
+Gateway
+Frequency
+868 MHz
+Timestamp resolution
+1 µs
+GPS
+u-BLox MAX7Q
+Concentrator
+Custom PCB (SX1301 + 2xSX1257)
+Computer
+Raspberry Pi 3B+
+Power bank
+10 Ah
+Gateway count
+4
+6. Experiment Procedures and Pre-Testing
+In this section, we start by reporting the results of the GW synchronization tests, which were
+conducted before the ﬁeld measurements, and then detail our experimental procedures and the
+environment for the ﬁeld tests.
+6.1. Pre-Testing: Gateway Synchronization Validation
+To validate the synchronization accuracy for the four manufactured LoRaWAN GWs, we carried
+out a special test. The measurements were performed in a rural environment in a ﬁeld area with the
+coordinates of the site 49.379778◦N, 15.961722◦E. The end-device was placed at this point, and the GWs
+were uniformly distributed in a circle with a 50 m diameter, centered at the end device and within its
+LoS. Note that for this measurement, the spreading factor used by the end-device was reduced to 8
+(based on the results reported in [5], the choice of the spreading factor does not affect the accuracy of
+the localization).
+Since the precise measurement of the transmission time by the end device is complex, we estimated
+and analyzed the difference of the timestamps of the GWs for the reception of the same uplink packet
+from the end device. The individual results (showing the worst-case scenario, i.e., the time difference
+between the maximum and the minimum timestamp) for 1000 test messages are illustrated in Figure 10.
+Both the mean and the median values equal 5 µs (corresponding to the ranging error of ≈1500 m).
+Note that these errors are the cumulative effect of several reasons, including the GPS errors, the GW
+internal clock instability, the NLoS propagation, etc.
+Sensors 2020, 20, 5464
+15 of 22
+0
+1
+2
+3
+4
+5
+7
+8
+9
+10
+11
+0
+50
+100
+150
+Time difference [µs]
+Message count [-]
+Figure 10. Timestamp ﬂuctuations between 4 GWs.
+6.2. Experiment Environment and Set-Up
+The real-life tests were carried out in the countryside area outside of the urban area in the Vysoˇcina
+region, Žd’ár nad Sázavou district, Czech Republic. Four GWs were used in the measurements—each
+placed in a village surrounding the village Závist (refer to Figure 6). The measurements were carried
+out using the 868 MHz band following the respective regulations of the EU region. The end device has
+been conﬁgured to send its packets with a period of 30 s using DR0 and 14 dBm transmit power. All the
+measurements were carried during one single day—the 29 March 2019. Note that the selected area was
+decently isolated and was located apart from the known position of the commercial LoRaWAN GWs.
+There were forests, ﬁelds, and village dwellings and no high-rise buildings in this area. The GWs were
+placed on elevated places to ensure proper communication conditions.
+7. Measurement Results
+In total, 131 messages were sent during our measurements, of which 95 messages were received
+by at least three GWs, and 61 messages (47%) were received by all four GWs. Based on the simulation
+results for this part of the study we picked up the best-performing algorithms. Speciﬁcally, for all the
+cases when the data from only three GWs were available, we used Chan’s algorithm. For the case
+when four GWs received a packet, we investigated the two other algorithms, namely Foy’s (iterative)
+and Chan’s (non-iterative). These two distinctive approaches are labeled on the following charts as
+“Chan (3GW)+Chan (4GW)” and “Chan (3GW)+Foy (4GW),” respectively. The results for the CDF are
+presented in Figure 15.
+The mean localization error over all our measurements was ≈1.4 km, with the maximum error
+exceeding 13 km. Figure 11 illustrates the distribution of the error for the two tested algorithms
+(i.e., Chan (3GW) + Chan (4GW) and Chan (3GW) + Foy (4GW)).
+Note that since only four GWs were employed in our measurements, we have not faced a
+problem of selecting the GWs, the measurements of which to be used; however, in a real-life multi-GW
+LoRaWAN network, this challenge will likely arise. Note that for the majority of the test locations,
+the error did not exceed 1.5 km. Figure 12 details the results further by illustrating the ground truth
+(blue cross) and the respective estimated (red cross) locations, as well as the positions of the GWs on
+the map of the area.
+To improve the accuracy of the localization, we processed the results by using a moving median
+ﬁlter to smoothen the sharp transitions and suppress outliers. For this, we created two ﬁxed-size
+ﬁrst-in-ﬁrst-out (FIFO) queues, as shown in Figure 13. The geolocation results were fed one by one
+into the ﬁrst FIFO moving queue with a ﬁxed size. From this queue, the median value was computed
+and further added to the second FIFO moving queue with a ﬁxed size. The second queue’s purpose
+Sensors 2020, 20, 5464
+16 of 22
+is averaging. Since the coordinates consist of two values (latitude and longitude), two independent
+FIFO queue systems were created for latitude and longitude. Note, that based on our experience,
+the suppression of outliers using median ﬁltering (done by the ﬁrst queue) had the most signiﬁcant
+effect on reducing the position estimation error, compared to the averaging, done by the second queue.
+0
+0.5
+1
+1.5
+2
+2.5
+3
+3.5
+0
+5
+10
+15
+Estimation error [km]
+Test location count [-]
+Chan(3 GW) and Chan(4 GW)
+Chan(3 GW) and Foy(4 GW)
+7<
+Figure 11. Comparison of raw estimation results (3 and 4 GWs) using Chan’s and Foy’s algorithms.
+−1
+−0.5
+0
+0.5
+1
+1.5
+−0.5
+0
+0.5
+1
+1.5
+2
+2.5
+X Distance [km]
+Y Distance [km]
+Gateway
+GPS
+Raw estimation
+Error distance
+Figure 12. Position estimation (Chan’s and Foy’s algorithms) compared to the correct GPS position.
+Sensors 2020, 20, 5464
+17 of 22
+data
+data
+data
+...
+input
+dropping
+median
+median
+median
+median
+...
+1
+2
+15
+1
+2
+7
+dropping
+average
+OUTPUT
+FIFO 1
+FIFO 2
+Figure 13. Procedure of ﬁltering by averaging of moving medians.
+The results, illustrating the mean/median error with ﬁltering throughout all the experiments
+and the distribution of the errors, are presented in Table 4 and Figure 14, respectively. As can be seen,
+the use of ﬁltering allowed to reduce the average error almost three times (from 1.5 km to 550–600 m),
+and the maximum error more than ten times (from over 13 km to about 1300 m). Note, that most of the
+time, the resulting error was within 500 m. Comparing the two algorithm sets tested, one can see that
+the use of the Chan + Foy combination allowed for reducing the average localization error by 56.5 m
+more than the use of the Chan algorithm standalone.
+Table 4.
+Comparison of precision using different combinations of geolocation algorithms with
+post-ﬁltering.
+Chan (3 and 4 GW)
+Chan (3 GW) + Foy (4 GW)
+Median FIFO size
+10
+10
+Averaging FIFO size
+6
+6
+Averaging median ﬁltering (mean error)
+593.77 m
+542.97 m
+Averaging median ﬁltering (median error)
+544.78 m
+423.79 m
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900 1,000 1,100 1,200 1,300
+0
+5
+10
+15
+Estimation error [m]
+Test location count [-]
+Chan(3 GW) and Foy(4 GW) ﬁltered
+Chan(3 GW) and Chan(4 GW) ﬁltered
+Figure 14. Filtered Chan’s and Foy’s algorithms (queues - median: 10, average: 6).
+Figure 15 further shows the course of CDF when comparing the crude results to the results after
+ﬁltration. Where the positive effect of ﬁltration can be further observed. Figure 16 shows ﬁltered
+geolocation results. It can also be seen that in some places, the results are more inaccurate than in other
+Sensors 2020, 20, 5464
+18 of 22
+places. This is because in these places, it was not possible to have direct visibility to some of the GWs
+due to communication across the horizon, and thus NLoS communication occurred.
+0
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+1.4
+1.6
+1.8
+2
+2.2
+2.4
+2.6
+2.8
+3
+3.2
+3.4
+0
+0.2
+0.4
+0.6
+0.8
+1
+Geolocation error [km]
+CDF
+Chan(3 GW) and Chan(4 GW) raw
+Chan(3 GW) and Foy(4 GW) raw
+Chan(3 GW) and Chan(4 GW) ﬁltered
+Chan(3 GW) and Foy(4 GW) ﬁltered
+Figure 15. CDF of estimation results (3 and 4 GW) using combination of Chan’s and Foy’s algorithms
+before and after ﬁltration.
+−1
+−0.5
+0
+0.5
+1
+1.5
+−0.5
+0
+0.5
+1
+1.5
+2
+2.5
+X Distance [km]
+Y Distance [km]
+Gateway
+GPS
+Estimated raw
+Estimated ﬁltered
+Error distance
+Figure 16. Position estimation using Chan’s and Foy’s algorithms after ﬁltration compared to the real
+GPS position.
+It should also be noted that the end-device tester was moving along the selected route within
+the measurement and was therefore not statically positioned. The larger the FIFO queue windows,
+the greater the delay in the result compared to the real position. Thus, it can be said that if the device
+is statically positioned, it would be possible to achieve higher geolocation accuracy.
+Sensors 2020, 20, 5464
+19 of 22
+8. Discussion
+The results presented in this paper demonstrate the feasibility and shed some light on the
+achievable performance and the important aspects of localization based on the TDoA principles within
+the LoRaWAN LPWA networks. Despite being proven to be feasible even for low-cost implementation
+(as shown in this paper), the accuracy of such localization stays well below that of the GNSS and
+barely enables us to use this method for navigation applications; however, in the context of IoT,
+there are a number of applications for which the deﬁnition of just a region where an IoT device is
+located may be sufﬁcient. Among these are the versatile applications to track goods, people, and even
+wildlife. Importantly, compared to the GNSS-based localization the TDoA approach has a number of
+attractive features.
+The ﬁrst one is related to the monetary cost. The TDoA-based localization by the GWs does not
+demand any hardware modiﬁcations or the addition of new hardware components for the end-devices.
+Meanwhile, the price of the basic GPS receiver chipsets as of today is in the order of 3–5 EUR in
+thousand-piece quantities. Second, the tested localization solution does not imply any additional
+energy consumption by the end device. To give an example, the low-power uBlox UBX-M8230-CT
+receiver in its lowest consuming Super-E (1 Hz) mode consumes 8 mW [38]. Third, the proposed
+method does not introduce any communication overhead and does not need any extra time to get
+locked. All in all, based on these facts and despite being not precisely accurate, we consider the TDoA
+localization to be a perspective solution for a number of applications, including, e.g., transportation,
+goods, and wildlife tracking. Another two undoubted advantages of TDoA localization are (i) that it
+can be applied to devices already deployed in the ﬁeld with no GNSS receiver on board, (ii) that it can
+be potentially used also indoors, where no satellite coverage is available.
+The simulations, conducted as a part of our pre-study, showed that Chan’s and Foy’s algorithms
+can be effectively used for LoRaWAN localization for the cases when the signal is received by three
+and four GWs, respectively. The combination of the two algorithms (i.e., using the results of Chan’s
+algorithm as the initial estimate for Foy’s algorithm) provided the best localization accuracy in our
+case. Introducing the post-ﬁltering and averaging during the practical measurements, we managed to
+deﬁne the position for about half of the test cases with the mean error of 543 m (median error of 424 m).
+These results are comparable with the ones reported in [5], where six GWs (notably, of V2) covered the
+area of 0.43 km2 reporting the geolocation accuracy in between 20–200 m (note, that the details of the
+software algorithms used in these work are not reported). The authors of this study achieve higher
+localization accuracy due to the smaller test area and the higher probability of LoS communication
+due to more GWs used, and using gateways with a precise clock (timestamp resolution 1 ns). It should
+be noted that our study used a gateway designed according to the reference design (V1), which does
+provide lower resolution timestamps (1 µs) for the incoming messages. The main difference is in the
+price—the new gateways with precise timestamping feature cost about $1400, while the price of basic
+V1 gateways starts from $150. Another important aspect, which raises the importance of enabling the
+TDoA localization for V1 GWs is that over the past ﬁve years while LoRAWAN is being deployed a
+great number of V1 GWs were already installed and are now in action. Meanwhile, deployment of an
+infrastructure based on V2 GWs would imply substantial investments, which may not be tolerable for
+all the operators.
+It can be observed that even the best optimization is not able to overcome the physics of both
+signal processing and multipath propagation, which greatly affects the geolocation precision. Still,
+we consider that the accuracy of TDoA localization over LoRaWAN can be further reﬁned using
+machine learning and other statistical methods, such as the tracking improvement algorithm [23].
+Another perspective approach to improve the localization accuracy is the increase of the timestamp
+resolution and accuracy. For this, the design of the LoRa radios and the GW needs to be re-thought,
+introducing more accurate clocks and FPGA (these GWs are referred to as “V2” GWs, in contrast to
+V1, which are being mostly deployed in the LoRaWANs of today). However, all these modiﬁcations
+increase the price of the GWs. Also, the possibility to increase the bandwidth of the signal used for the
+Sensors 2020, 20, 5464
+20 of 22
+localization should be investigated. However, the latter may require modiﬁcation of the LoRaWAN
+regional recommendations (at least for the EU region).
+9. Conclusions
+In the current paper, we comprehensively discussed the use of TDoA-based localization in
+LoRaWAN networks. We started by discussing the background and the alternative localization
+approaches possible for LoRaWAN, and then focused on the speciﬁcs of the TDoA-based localization.
+Using simulations, we studied the potential performance of ﬁve classic TDoA algorithms, namely:
+Fang’s, Chan’s, SI, LLS, and Foy’s algorithms. The two algorithms providing the best localization
+accuracy, namely Chan’s algorithm for two TDoAs (i.e., data from 3 GWs) and Foy’s algorithm for three
+TDoAs (i.e., data from 4 GWs) were selected for the further validation through the ﬁeld measurements.
+For the ﬁeld measurements, we created four low-cost Raspberry PI based LoRaWAN GWs
+equipped with a GPS receiver for time synchronization capable of TDoA localization and a special test
+device equipped with a GNSS signal receiver. During the ﬁrst stage of our experiments, we estimated
+the clock accuracy of the GWs, which was shown not to exceed 5 µs. During the second stage of the
+experiments, which were conducted in a countryside area in the Vysoˇcina region of the Czech Republic,
+we have estimated the accuracy of the localization.
+Of the 131 experiments conducted, for about 47% of the cases, the localization by the two selected
+algorithms converged. The mean localization error over all our measurements was ≈1.4 km, with the
+maximum error exceeding 13 km. To improve these results, we tried using a moving median ﬁlter to
+smoothen the sharp transitions and suppress outliers. This allowed us to reduce the average error
+almost three times to 550–600 m (median error 424 m), and the maximum error more than ten times
+(to about 1300 m). The use of the Chan + Foy algorithm combination allowed reducing the average
+localization error by 56.5 m compared to the use of the Chan algorithm standalone. Simultaneously,
+as we have shown in this paper, the repetition of the experiments and post-ﬁltering may improve
+the accuracy of localization even further. However, note that the presented in this paper results and
+conclusions are based on just one day of measurements in one speciﬁc location and thus may not have
+captured all phenomena, and require a further validation through a more extensive (in space and time)
+measurement campaign.
+All in all, our results demonstrate that the TDoA-based localization is a valuable addition to the
+basic connectivity service provided by the network. Even though the accuracy of this approach as
+of today is much lower than that of the conventional GNSS, it does not impose any cost and energy
+overheads for the end devices, and only very minor overheads (i.e., the costs of a GNSS receiver used
+for time synchronization) for a LoRaWAN GW. Among the real-life applications, beneﬁting from such
+functionality are transportation, goods, and wildlife tracking, to name just a few. Another potentially
+perspective direction is to use this method for the use cases when GNSS receiver cannot be used due to
+energy or size constraints (e.g., in tiny mobile tags) and for areas located outside of the satellite reach
+(e.g., indoors, tunnels, and mines).
+To advance the usability and performance of TDoA-based localization in LoRaWAN, started by
+this study, the efforts along a number of tracks are needed. First, there is a need for the hardware
+improvement of the GWs to enable more accurate timestamping and synchronization between
+these. Second, the effect of the LoRa signal parameters (e.g., the spreading factor, the coding rate,
+the bandwidth, and the channel) on the accuracy of localization should be researched. Third, the more
+advanced algorithms for localization (e.g., to select the GWs, measurements to be used, detect LoS
+vs. NLoS, and enable mapping-based localization) should be considered. Forth, more extensive and
+spatially distributed measurements are needed to understand the temporal ﬂuctuations and the effects
+of the environment and its changes.
+Sensors 2020, 20, 5464
+21 of 22
+Author Contributions: Conceptualization, J.P., R.F., and K.M.; methodology, J.P. and R.F.; software, J.P.; validation,
+R.F. and K.M.; formal analysis, J.P., R.F., and K.M.; investigation, J.P. and R.F.; resources, J.P. and R.F.; data curation,
+K.P., R.F., and K.M.; writing—original draft preparation, J.P., R.F., and K.M.; writing—review and editing, J.P., R.F.,
+and K.M.; visualization, J.P.; supervision, R.F.; project administration, R.F.; funding acquisition, R.F. All authors
+have read and agreed to the published version of the manuscript.
+Funding: The research was ﬁnanced by the Technology Agency of the Czech Republic (TACR) under grant no.
+TA18910001. The work of K. Mikhaylov was also supported by the Academy of Finland 6Genesis Flagship under
+Grant no. 318927.
+Conﬂicts of Interest: The authors declare no conﬂict of interest.
+References
+1.
+Kranz, M. Building the Internet of Things: Implement New Business Models, Disrupt Competitors, Transform Your
+Industry, 1st ed.; Wiley: Hoboken, NJ, USA, 2017.
+2.
+Knyazev, N.S.; Chechetkin, V.A.; Letavin, D.A. Comparative analysis of standards for Low-power Wide-area
+Network. In Proceedings of the 2017 Systems of Signal Synchronization, Generating and Processing in
+Telecommunications (SINKHROINFO), Kazan, Russia, 3–4 July 2017; pp. 1–4.
+3.
+Sornin, N.; Luis, M.; Eirich, T.; Kramp, T.; Hersent, O. Lorawan Speciﬁcation. Available online: https:
+//lora-alliance.org/sites/default/ﬁles/2018-05/2015_-_lorawan_speciﬁcation_1r0_611_1.pdf (accessed on
+29 June 2020).
+4.
+LoRaWAN What Is It? A Technical Overview of LoRa and LoRaWAN LoRa Alliance. Available online:
+https://lora-alliance.org/sites/default/ﬁles/2018-04/what-is-lorawan.pdf (accessed on 29 June 2020).
+5.
+LoRaWAN Geolocation Whitepaper. Available online: https://lora-alliance.org/sites/default/ﬁles/2018-
+04/geolocation_whitepaper.pdf (accessed on 29 June 2020).
+6.
+Dardari, D.; Conti, A.; Ferner, U.; Giorgetti, A.; Win, M.Z. Ranging With Ultrawide Bandwidth Signals in
+Multipath Environments. Proc. IEEE 2009, 97, 404–426. [CrossRef]
+7.
+Fokin, G. TDOA Measurement Processing for Positioning in Non-Line-of-Sight Conditions. In Proceedings
+of the 2018 IEEE International Black Sea Conference on Communications and Networking (BlackSeaCom),
+Batumi, Georgia, 4–7 June 2018; pp. 1–5.
+8.
+Aernouts, M.; BniLam, N.; Berkvens, R.; Weyn, M. Simulating a Combination of TDoA and AoA Localization
+for LoRaWAN. Adv. P2P, Parallel, Grid, Cloud Internet Comp. 2019, 96, 756–765. [CrossRef]
+9.
+Goldoni, E.; Prando, L.; Vizziello, A.; Savazzi, P.; Gamba, P. Experimental data set analysis of RSSI-based
+indoor and outdoor localization in LoRa networks. Internet Technol. Lett. 2019, 2, e75. [CrossRef]
+10.
+Ghany, A.A.; Uguen, B.; Lemur, D.
+A Parametric TDoA Technique in the IoT Localization Context.
+In Proceedings of the 2019 16th Workshop on Positioning, Navigation and Communications (WPNC),
+Bremen, Germany, 23–24 October 2019; pp. 1–6.
+11.
+Bakkali, W.; Kieffer, M.; Lalam, M.; Lestable, T. Kalman ﬁlter-based localization for Internet of Things
+LoRaWANTM end points.
+In Proceedings of the 2017 IEEE 28th Annual International Symposium on
+Personal, Indoor, and Mobile Radio Communications (PIMRC), Montreal, QC, Canada, 8–13 October 2017;
+pp. 1–6.
+12.
+Pandangan, Z.A.; Talampas, M.C.R.
+Hybrid LoRaWAN Localization using Ensemble Learning.
+In Proceedings of the 2020 Global Internet of Things Summit (GIoTS), Dublin, Ireland, 3 June 2020; pp. 1–6.
+13.
+Fargas, B.C.; Petersen, M.N. GPS-free geolocation using LoRa in low-power WANs. In Proceedings of the
+2017 Global Internet of Things Summit (GIoTS), Geneva, Switzerland, 6–9 June 2017; pp. 1–6.
+14.
+Plets, D.; Podevijn, N.; Trogh, J.; Martens, L.; Joseph, W. Experimental Performance Evaluation of Outdoor
+TDoA and RSS Positioning in a Public LoRa Network. In Proceedings of the 2018 International Conference
+on Indoor Positioning and Indoor Navigation (IPIN), Nantes, France, 24–27 September 2018; pp. 1–8.
+15.
+Podevijn, N.; Plets, D.; Aernouts, M.; Berkvens, R.; Martens, L.; Weyn, M.; Joseph, W. Experimental tdoa
+localisation in real public lora networks. In Proceedings of the Tenth International Conference on Indoor
+Positioning and Indoor Navigation (IPIN 2019), Pisa, Italy, 30 September–3 October 2019; pp. 211–218.
+16.
+Bissett, D. Analysing TDoA Localisation in LoRa Networks. Master’s Thesis, Delft University of Technology,
+Delft, The Netherlands, October 2018.
+17.
+Manzoni, P.; Calafate, C.T.; Cano, J.C.; Hernández-Orallo, E. Indoor vehicles geolocalization using LoRaWAN.
+Future Internet 2019, 11, 124. [CrossRef]
+Sensors 2020, 20, 5464
+22 of 22
+18.
+Kwasme, H.; Ekin, S.
+RSSI-Based Localization Using LoRaWAN Technology.
+IEEE Access 2019,
+7, 99856–99866. [CrossRef]
+19.
+Mackey, A.; Spachos, P. LoRa-based Localization System for Emergency Services in GPS-less Environments.
+In Proceedings of the IEEE INFOCOM 2019—IEEE Conference on Computer Communications Workshops
+(INFOCOM WKSHPS), Paris, France, 29 April–2 May 2019; pp. 939–944.
+20.
+Choi, W.; Chang, Y.S.; Jung, Y.; Song, J. Low-Power LoRa signal-based outdoor positioning using ﬁngerprint
+Algorithm. ISPRS Int. J. Geo-Inf. 2018, 7, 440. [CrossRef]
+21.
+Aernouts, M.; Berkvens, R.; Van Vlaenderen, K.; Weyn, M. Sigfox and LoRaWAN datasets for ﬁngerprint
+localization in large urban and rural areas. Data 2018, 3, 13. [CrossRef]
+22.
+Anagnostopoulos, G.G.; Kalousis, A. A Reproducible Comparison of RSSI Fingerprinting Localization
+Methods Using LoRaWAN. In Proceedings of the 2019 16th Workshop on Positioning, Navigation and
+Communications (WPNC), Bremen, Germany, 23–24 October 2019; pp. 1–6.
+23.
+Podevijn, N.; Plets, D.; Trogh, J.; Martens, L.; Suanet, P.; Hendrikse, K.; Joseph, W. TDoA-based outdoor
+positioning with tracking algorithm in a public LoRa network. Wirel. Commun. Mob. Comput. 2018, 2018,
+1864209. [CrossRef]
+24.
+Krizman, K.J.; Biedka, T.E.; Rappaport, T.S. Wireless position location: fundamentals, implementation
+strategies, and sources of error. In Proceedings of the 1997 IEEE 47th Vehicular Technology Conference.
+Technology in Motion, Phoenix, AZ, USA, 4–7 May 1997; Volume 2, pp. 919–923.
+25.
+Van Trees, H.L. Detection Estimation and Modulation Theory, 1st ed.; Wiley: New York, NY, USA, 1968.
+26.
+SX1276/77/78/79. Available online: https://sforce.co/38mQBLX (accessed on 29 June 2020).
+27.
+Gezici, S. A survey on wireless position estimation. Wirel. Pers. Commun. 2008, 44, 263–282. [CrossRef]
+28.
+Sornin, N.; Yegin, A. LoRaWAN 1.1 Speciﬁcation. Available online: https://lora-alliance.org/sites/default/
+ﬁles/2018-04/lorawantm_speciﬁcation_-v1.1.pdf (accessed on 18 September 2020).
+29.
+Fang, B.T. Simple solutions for hyperbolic and related position ﬁxes. IEEE Trans. Aerosp. Electron. Syst. 1990,
+26, 748–753. [CrossRef]
+30.
+Chan, Y.T.; Ho, K. A simple and efﬁcient estimator for hyperbolic location. IEEE Trans. Signal Process. 1994,
+42, 1905–1915. [CrossRef]
+31.
+Smith, J.; Abel, J. Closed-form least-squares source location estimation from range-difference measurements.
+IEEE Trans. Acoust., Speech, Signal Process. 1987, 35, 1661–1669. [CrossRef]
+32.
+Xiong, J.-y.; Wei, W.; Zhu, Z.-l. A new TDOA location technique based on Taylor series expansion in cellular
+networks. In Proceedings of the Fourth International Conference on Parallel and Distributed Computing,
+Applications and Technologies, Chengdu, China, 29–29 August 2003; pp. 378–381.
+33.
+Foy, W.H. Position-location solutions by Taylor-series estimation. IEEE Trans. Aerosp. Electron. Syst. 1976,
+AES-12, 187–194. [CrossRef]
+34.
+Pospíšil, J. Comparison of Promising TDoA Geolocation Algorithms for Low-Power Wide-Area Network.
+Available online:
+https://www.fekt.vut.cz/conf/EEICT/archiv/sborniky/EEICT_2020_sbornik_1.pdf
+(accessed on 22 September 2020).
+35.
+Whang, W. LoRa-Concentrator.
+Available online: https://github.com/will127534/LoRa-concentrator
+(accessed on 29 June 2020).
+36.
+SX1301 Datasheet. Available online: https://sforce.co/3dPFtby (accessed on 29 June 2020).
+37.
+Lora Network Packet Forwarder Project. Available online: https://github.com/Lora-net/packet_forwarder
+(accessed on 29 June 2020).
+38.
+UBX-M8230-CT Chip, Super Low Power u-blox M8 GNSS Chip. Available online: https://www.u-blox.
+com/en/product/ubx-m8230-ct-chip (accessed on 30 June 2020).
+c⃝2020 by the authors. Licensee MDPI, Basel, Switzerland. This article is an open access
+article distributed under the terms and conditions of the Creative Commons Attribution
+(CC BY) license (http://creativecommons.org/licenses/by/4.0/).

@@ -1,0 +1,534 @@
+LoRa RSSI based outdoor localization in an urban area using random neural networks
+Ingabire, Winfred; Larijani, Hadi; Gibson, Ryan M.
+Published in:
+Intelligent Computing
+DOI:
+10.1007/978-3-030-80126-7_72
+Publication date:
+2021
+Document Version
+Author accepted manuscript
+Link to publication in ResearchOnline
+Citation for published version (Harvard):
+Ingabire, W, Larijani, H & Gibson, RM 2021, LoRa RSSI based outdoor localization in an urban area using
+random neural networks. in K Arai (ed.), Intelligent Computing: Proceedings of the 2021 Computing Conference.
+vol. 2, Lecture Notes in Networks and Systems, vol. 284, Springer Nature, pp. 1032-1043, Computing
+Conference 2021, London, United Kingdom, 15/07/21. https://doi.org/10.1007/978-3-030-80126-7_72
+General rights
+Copyright and moral rights for the publications made accessible in the public portal are retained by the authors and/or other copyright owners
+and it is a condition of accessing publications that users recognise and abide by the legal requirements associated with these rights.
+Take down policy
+If you believe that this document breaches copyright please view our takedown policy at https://edshare.gcu.ac.uk/id/eprint/5179 for details
+of how to contact us.
+Download date: 07. 11. 2025
+LoRa RSSI based Outdoor Localization in an
+Urban Area Using Random Neural Networks
+Winfred Ingabire12, Hadi Larijani1, and Ryan M. Gibson1
+1 School of Engineering and Built Environment, Glasgow Caledonian University,
+Glasgow, United Kingdom,
+E-mail:(Winfred.Ingabire, H.Larijani, Ryan.Gibson) @ gcu.ac.uk
+2 Department of Electrical and Electronics Engineering, University of
+Rwanda-College of Science and Technology, Kigali, Rwanda
+Abstract. The concept of the Internet of Things (IoT) has led to the
+interconnection of a signiﬁcant number of devices and has impacted sev-
+eral applications in smart cities’ development. Localization is widely done
+using Global Positioning System (GPS). However, with large scale wire-
+less sensor networks, GPS is limited by its high-power consumption and
+more hardware cost required. An energy-eﬃcient localization system of
+wireless sensor nodes, especially in outdoor urban environments, is a
+research challenge with limited investigation. In this paper, an energy-
+eﬃcient end device localization model based on LoRa Received Signal
+Strength Indicator (RSSI) is developed using Random Neural Networks
+(RNN). Various RNN architectures are used to evaluate the proposed
+model’s performance by applying diﬀerent learning rates on real RSSI
+LoRa measurements collected in the urban area of Glasgow City. The
+proposed model is used to predict the 2D cartesian position coordinates
+with a minimum mean localization error of 0.39 m.
+Keywords: IoT; LoRaWAN; RSSI; Localization; RNN
+1
+Introduction
+IoT connected devices are projected to increase exponentially [1], and this is ex-
+pected to trigger diﬀerent smart applications in various domains such as health-
+care, agriculture, transportation among others. Low Power Wide Area Networks
+(LPWAN) such as Long-Range Wide-Area Networks (LoRaWAN) are potential
+reliable low power connectivity solutions to large-scale IoT networks [2]. More-
+over, location-aware applications such as Remote Health Monitoring (RHM) is
+one of the promising smart applications of LoRaWAN [3]. Additionally, an accu-
+rate localization system for sensor nodes is crucial, particularly in applications
+where locating end devices is critical. A typical outdoor localization method in
+LoRa networks is the Time Diﬀerence of Arrival (TDoA) technique. However,
+this method performs well in open environments and poorly in harsh urban ar-
+eas. In comparison, WiFi and Bluetooth RSSI ﬁngerprint based techniques have
+been successfully applied for indoor localization [4]. While, end device ﬁngerprint
+2
+Winfred Ingabire et al.
+localization based on LoRaWAN RSSI characteristics is a research topic yet to
+be thoroughly investigated, both in indoor and outdoor environments.
+Furthermore, RNN has recently been used to create several resilient models with
+signiﬁcant results [24]. Currently, no one has reported RNN algorithms applied
+in end device localization models for IoT wireless sensor nodes. In this paper, we
+use real test LoRaWAN RSSI data collected in the urban area of Glasgow City
+to develop a localization model based on LoRaWAN RSSI characteristics using
+RNN.
+End device localization is vital in location-aware IoT applications whereby a sen-
+sor node needs to be accurately located for emergency or maintenance services.
+RSSI ﬁngerprint localization methods involve mapping RSSI values to corre-
+sponding X, Y Cartesian 2D position coordinates [32]. Moreover, RSSI ﬁnger-
+print localization approaches have been proposed for accurate localization mod-
+els in the literature using GNSS, Bluetooth, and WiFi wireless technologies and
+successfully implemented but all with signiﬁcant drawbacks and limitations. In
+Addition, the following challenges are among the issues limiting the performance
+of existing RSSI ﬁngerprint techniques for eﬀective end device localization:
+1. Fingerprint data maps are aﬀected by changing environments.
+2. Strong ﬁngerprint databases are needed.
+3. Manpower is needed for creating ﬁngerprint databases.
+4. Non-linearity challenge between end nodes and target gateways.
+5. High power-consumption and cost.
+6. Complicated infrastructure layout.
+Studies using LPWAN for sensor node localization are present in literature,
+however, frequently limited to speciﬁc settings such as a small area or ﬁxed end
+nodes. Furthermore, no other work has used RNN for LoRaWAN based node
+localization models (to the best of our knowledge). Therefore, this work aims at
+using RNN algorithms to develop a resilient novel system to improve location
+prediction accuracy compared to the existing RSSI ﬁngerprint approaches. The
+main contributions of this paper are summarized as:
+– Development of novel RNN based models for accurate LoRa end device lo-
+calization.
+– Real test data sets collected in Glasgow’s urban city are used to train and test
+the developed localization model with a diﬀerent number of hidden neurons.
+– The performance of the developed RNN based localization model is eval-
+uated, and improved accuracy is achieved by training and testing various
+RNN network architectures using diﬀerent learning rates.
+This paper is organized as follows: Section II introduces LoRa, and LoRaWAN.
+Section III discusses the related work. Section IV gives the details of the method-
+ology and the procedures used. Section IV presents the obtained results with the
+performance analysis of the developed model. Finally, Section VI gives conclu-
+sions and future work directions.
+Random Neural Networks
+3
+2
+LoRa and LoRaWAN
+The invention of low power wide-area network technologies like LoRaWAN, and
+other potential network enablers for the dense IoT networks, came as a perfect
+solution for large scale IoT smart applications. LoRa is a physical layer with
+the Chirp Spread Spectrum (CSS) modulation technique operated by Semetch
+within the license-free spectrum, whereas LoRaWAN is the connection protocol
+stack of the wide-area network of LoRa architecture on the MAC layer [6]. A
+LoRaWAN network is made up of LoRa end devices connected in a star topol-
+ogy that sends information to one or multiple LoRaWAN gateways. Therefore,
+the gateways that send the received message to a network server along with a
+recorded unique message’s metadata information, as shown in Figure 1. Thus,
+this metadata information enables localization in LoRaWAN networks, whereby
+gateways serve as anchor points to determine position coordinates. TDoA algo-
+rithms use timestamps at which diﬀerent gateways receive the same message,
+whereas the most critical metric for Fingerprinting is RSSI. Also, the more gate-
+ways that can receive the same message, the more accurate a localization al-
+gorithm is in any of the methods [8]. Furthermore, the Spreading Factor (SF)
+is a LoRa critical parameter that aﬀects localization accuracy, whereby lower
+SF limits the transmission range of LoRa devices. Consequently, fewer gateways
+receive the same message [7].
+3
+RELATED WORK
+This section presents an overview of existing RSSI Fingerprint localization tech-
+niques, Random Neural Networks, and Gradient Descent Algorithm (GDA).
+3.1
+Overview of RSSI Fingerprint Localization Methods
+Diﬀerent algorithms using RSSI ﬁngerprinting localization exist in literature
+using various wireless technologies. However, existing studies frequently investi-
+Fig. 1: LoRaWAN network architecture [6]
+4
+Winfred Ingabire et al.
+gated mostly indoor environments due to the training phase’s many data. Fur-
+thermore, limited studies are available for localization analysis in outdoor envi-
+ronments, mainly due to the hard work involved in collecting data. WiFi has been
+used widely in ﬁngerprint localization [9], [10], [11], and [12] whereby a smart-
+phone can be used to record its RSSI and estimate its location using the web.
+The authors make a comparative performance analysis of diﬀerent wireless tech-
+nologies based on RSSI localization in [13]. Research studies using LoRaWAN in
+ﬁngerprint localization are also available in literature [14], [15], [16], [17]. More-
+over, Choi. W et al. in [18] used LoRa for positioning using three ﬁngerprint
+algorithms and conﬁrmed LoRa to be eﬀective with the average accuracy of 28.8
+m for the three algorithms. Aernouts. M et al. in [19] presented ﬁngerprint local-
+ization data sets for LoRaWAN and Sigfox in large urban and rural areas with a
+mean estimation error of 398.40 m. Similarly, the authors in [20], [21], [22] also
+investigated LoRa RSSI based ﬁngerprint localization algorithms with signiﬁcant
+estimations.
+3.2
+Random Neural Networks
+RNN has recently been used to create resilient models with signiﬁcant results.
+Application in Heating, Ventilation, and Air Conditioning (HVAC) systems by
+Javed. A et al. in [23], [24], [25], energy prediction of non-occupied buildings by
+Ahmad. J et al. in [26], communication systems, image classiﬁcation, process-
+ing, pattern recognition by Simonyan. K and Zisserman [35], whereas intrusion
+detection systems were developed and analyzed by Ul-Haq Qureshi. A et al.
+in [27], [28], [29]. Nonetheless, no one has reported RNN algorithms applied in
+end device localization models (to the best of our knowledge).
+RNN is a unique class of ANN developed by Gelenbe [30], consisting of directed
+N multiple layers of connected neurons that exchange information signals as
+impulses, using a potential positive (+1) for excitation and a negative (-1) for
+inhibition signals to the receiving neuron. The potential of each neuron i at time
+t is represented by a nonnegative integer Ki(t). The neuron i is in excited state
+if Ki(t) > 0 and it is in idle state if Ki(t) = 0. If neuron i is excited, it forwards
+an impulse signal to another neuron j at the Poisson rate ri. The forwarded
+signal can reach neuron j as an impulse signal in excitation or inhibition with
+probabilities p+(i, j) or p−(i, j) respectively. Furthermore, the transmitted sig-
+nal can leave the network with a probability mathematically deﬁned in [26] by
+the following formulas:
+c(i) +
+N
+X
+j=1
+p+(i, j) + p−(i, j) = 1, ∀i,
+(1)
+w+(i, j) = rip+ + (i, j) ≥0,
+(2)
+Random Neural Networks
+5
+Equally
+w−(i, j) = rip−+ (i, j) ≥0.
+(3)
+Combining Equation 1, 2 and 3
+r(i) = (1 −c(i))−1
+N
+X
+j=1
+[w+(i, j) + w−(i, j)]
+(4)
+The transmission rate between neurons in Equation 4 is r(i), and is deﬁned as
+r(i) =
+N
+P
+j=1
+[w+(i, j) + w−(i, j)]. While ”w” determines the matrices of weight
+updates from neurons, it is always positive as it is a product of transmission
+rates and probabilities.
+In RNN based models, if a signal arrives at neuron (i) with a positive potential,
+it is denoted by Poison rate Λ(i), whereas a signal with a negative potential
+arrives at Poisson rate λ(i). Therefore, for every node ”i” the output activation
+function for that neuron is given by:
+q(i) =
+λ+(i)
+r(i) + λ−(i),
+(5)
+whereby
+λ+(i) =
+n
+X
+j=1
+q(j)r(j)p+(j, i) + Λ(i),
+(6)
+with
+λ−(i) =
+n
+X
+j=1
+q(j)r(j)p−(j, i) + λ(i).
+(7)
+More details about RNN are in [26].
+3.3
+Gradient Descent Algorithm
+Gradient Descent (GD) is a ﬁrst-order iterative optimization algorithm widely
+used for training by diﬀerent researchers. It is used to minimize the cost function
+whereby the error cost function is given by:
+Ep = 1
+2
+n
+X
+i=1
+γi(qp
+j −qp
+j )2, γi ≥0
+(8)
+whereby γ ∈(0, 1) presents the state of output neuron i, likewise qp
+j is a real
+diﬀerential function whereas qp
+j is the predicted output value. As, per Equation
+8, to ﬁnd the local minima and reduce the error value of the error cost function,
+6
+Winfred Ingabire et al.
+the relation between neurons y an z is considered, whereby weights w+(y, z) and
+w−(y, z) are updated by:
+w+t
+y,z = w+(t−1)
+y,z
+−η
+n
+X
+i=1
+γi(qp
+j −yp
+j )[∂qi∂w+
+y,z]t−1,
+(9)
+also:
+w−t
+y,z = w−(t−1)
+y,z
+−η
+n
+X
+i=1
+γi(qp
+j −yp
+j )[∂qi∂w−
+y,z]t−1.
+(10)
+The proposed RNN-LoRa RSSI based localization model is trained using GD,
+and the calculated weights and biases are updated to the neurons as the algo-
+rithm computes the error. More details about GD are found in [26].
+4
+Methodology
+This section gives details about all the procedures used in data collection and
+developing our RNN-LoRa RSSI based localization model.
+4.1
+Real Test Measurements
+Real test LoRa RSSI datasets were collected in Glasgow City for the training and
+testing of our developed RNN based end device localization models. Three LoRa
+SX1301-enabled Kerlink gateways were used to receive the same messages from
+a MultiTech systems’ LoRaWAN mDot end device controlled by Raspberry Pi.
+The three gateways were at 30m on George More building in Glasgow Caledo-
+nian University, at 27m on James Weir building at the University of Strathclyde,
+and at 25m on top of Skypark building, respectively. The LoRa mote was used
+to collect data and transmit it to the three gateways simultaneously at a walk-
+ing speed away from the gateways from diﬀerent locations. Figure 2. Shows a
+Bing map with three LoRaWAN gateways, LoRa end device locations, and the
+path is taken for measurements. More details about the procedure used in our
+measurements are given in [31].
+Data Normalization Our dataset’s RSSI absolute values are large, which re-
+sults in an unstable network due to large weights. Therefore, we scaled our
+dataset using the Min-Max Normalisation data pre-processing technique to the
+range of 0 to 1, using the following formula:
+xi =
+RSSIi −min(RSSI)
+max(RSSI) −min(RSSI),
+(11)
+where RSSI = (RSSI1, ..., RSSIn) is the raw RSSI input values and x(i) is the
+resultant normalized data.
+Random Neural Networks
+7
+Fig. 2: Glasgow City Bing Map showing three LoRaWAN gateways, LoRa end
+device positions and the path taken for data collection
+4.2
+RNN-LoRa RSSI based Localization Model
+End device localization using the RNN approach consists of directed multiple
+layers of connected nodes in a network. This network is used to develop a model
+that accurately maps the input to the output using historical data, and the model
+can then be used to output any desired unknown output. We used the RNN
+network to develop our proposed model that accurately maps the input RSSI
+values to the output Cartesian X, Y coordinates using real data measurements
+collected before, as presented in Figure 3. Then, the model is used to output any
+desired unkown position with minimum localization error. RNN learning GD
+algorithm that provides supervised training is considered for this research study.
+The RNN is trained to locate each end device in the network service area or grid,
+and then the trained network is extended further to predict the location of any
+other sensor nodes on the same network grid based on end-device LoRaWAN-
+RSSI ﬁngerprints.
+Using RNN, we develop RNN-LoRa RSSI-based Localization Model in MATLAB
+using ﬁngerprint data set created from real measurements taken in Glasgow
+City with three LoRaWAN gateways. The dataset contains for every message
+transmitted by the moving end device, the RSSI value at each of the three
+gateways that received the message with ground position coordinates of the end
+device at every transmission. Furthermore, we recorded -200 as the RSSI value
+for every gateway that did not receive a particular message.
+8
+Winfred Ingabire et al.
+Fig. 3: RSSI Fingerprint Localization Approach
+5
+RESULTS AND PERFORMANCE ANALYSIS
+In this section, various RNN architectures for a number of hidden neurons of 6,
+12, and 18 were modelled and analysed with 0.01, 0.1, and 0.4 learning rates.
+Corresponding training and test results of mean localization errors are recorded.
+A minimum mean localization error of 0.39 m is obtained in a sample size of
+1931 data points, whereby 80% of the dataset was used for training and 20% for
+testing the model with a minimum training mean square value of 0.005 m. The
+performance of the developed RNN based localization model is analysed using
+the average localization error (AE) deﬁned as follows:
+AE =
+n
+X
+i=1
+((Xreal −Xpred)2 + (Yreal −Ypred)2)0.5
+(12)
+Whereby (Xreal, Yreal) is the real true pre-recorded position using GPS and
+(Xpred, Ypred) is the predicted position of unknown location estimated by the
+LoRa RSSI based localization system developed using RNN. The total number
+of samples used in our localization dataset is given by n. Figure 4 presents re-
+sults for mean localization error values for all the three RNN-LoRa RSSI based
+localization system architectures using 0.01, 0.1, and 0.4 learning rates. The re-
+sults show that for the ﬁrst system network architecture (RNN-1); increasing the
+learning rate from 0.01 to 0.1 improved localization performance by minimizing
+the mean localization error. However, increasing the learning rate further to 0.4
+Random Neural Networks
+9
+Fig. 4: Performance analysis between RNN based localization network architec-
+tures with diﬀerent learning rates
+led to an increase in the mean localization error. Hence, using 0.1 learning rate
+had the best performance, whereby only six hidden neurons were used.
+For the second system architecture (RNN-2), increasing the learning rate from
+0.01 to 0.1 increased the system’s mean localization error whereas increasing the
+learning rate further to 0.4 decreased the error. Hence, using 0.01 learning rate
+had the best performance where twelve hidden neurons were used.
+Likewise, for the third system architecture (RNN-3); eighteen hidden neurons
+were used, and the learning rate increased with the decrease in the mean lo-
+calization error. Furthermore, three input neurons and two output neurons are
+considered for all the three RNN localization model architectures in our analysis.
+In general, our results show that the developed RNN LoRa RSSI based localiza-
+tion model performed best with a learning rate of 0.01 and when twelve hidden
+neurons were used. Also, increasing the number of hidden neurons does not sig-
+niﬁcantly improve the performance of the system apart from when the highest
+learning rate of 0.4 was used.
+A comparative performance analysis of localization accuracy of all analysed RNN
+based localization architectures with diﬀerent learning rates is summarised in
+TABLE I.
+According to our results, the developed RNN based localization models are
+reliable with signiﬁcant minimum mean localization errors and outperform the
+conventional LoRa localization approaches reported by diﬀerent researchers in
+literature [32], [8], [19], [33], and [34] with high accuracy for outdoor localization
+services.
+10
+Winfred Ingabire et al.
+Table 1: Performance of diﬀerent RNN based localization architectures
+Learning rates Mean localization error (m)
+RNN-1 RNN-2
+RNN-3
+0.01
+0.76
+0.39
+0.48
+0.1
+0.48
+0.48
+0.45
+0.4
+0.54
+0.41
+0.40
+6
+CONCLUSION AND FUTURE WORK
+In this study, we presented a LoRa RSSI based outdoor localization system us-
+ing Random Neural Networks. Three RNN architectures are used to evaluate our
+localization model’s performance using data collected in the urban area of Glas-
+gow City, considering 0.01, 0.1, and 0.4 as learning rates. The proposed model
+performed best with a minimum mean localization error of 0.39 m. Moreover,
+the analyzed RNN based localization system architectures showed that increas-
+ing the number of hidden neurons does not improve the localization system’s
+performance unless a high learning rate is used. Our results are signiﬁcant with
+high-level accuracy for outdoor positioning in urban areas and give important
+insights for using LoRaWAN and RNN in localization systems. We plan to do a
+comparative performance analysis of our developed localization model to existing
+localization models found in literature.
+ACKNOLEDGEMENT
+This work was funded by the Commonwealth Scholarships in the UK in part-
+nership with the Government of Rwanda.
+REFERENCES
+[1] Statista Says a Five-Fold Increase in Ten years in Internet-Connected Devices
+by 2025 Will Signiﬁcantly Increase the Internet’s Promise of Making the
+World Connected,[online]Available:https://www.statista.com/ statistics
+/471264/iot-number-of-connected-devices-worldwide/(Accessed October 27,
+2020).
+[2] A. I. Ahmad, B. Ray, and M. Chowdhury, “Performance evaluation of lo-
+raWAN for mission-critical IOT networks,”
+Commun.Comput. Inf. Sci.,
+vol. 1113 CCIS, pp. 37–51, 2019.
+[3] J. Kharel, H. T. Reda, and S. Y. Shin, “Fog Computing-Based Smart Health
+Monitoring System Deploying LoRa Wireless Communication,” IETE Tech.
+Random Neural Networks
+11
+Rev. (Institution Electron. Telecommun. Eng. India), vol. 36, no. 1, pp.
+69–82, 2019.
+[4] A. Poulose and D. S. Han, “UWB Indoor Localization Using Deep Learning
+LSTM Networks,” Appl. Sci., vol. 10, no. 18, p. 6290, 2020.
+[5] A. Javed, H. Larijani, A. Wixted, and R. Emmanuel, “Random neural net-
+works based cognitive controller for HVAC in non-domestic building using
+LoRa,” Proc. 2017 IEEE 16th Int. Conf. Cogn. Informatics Cogn. Comput.
+ICCI*CC 2017, pp. 220–226, 2017.
+[6] Semtech, “LoRaWANspeciﬁcationv1.1.” [Online]. Available:https://www.lora-
+alliance.org/technology. [Accessed October 27, 2020].
+[7] S. Ghoslya, “All about LoRa and LoRaWAN.” [Online]. Available:https://
+www.sghoslya.com.
+[8] D. Bissett, “Analysing tdoa localisation in LoRa networks,” Delft University
+of Technology, 2018.
+[9] N. Abdul, K. Zghair, M. S. Croock, A. Abdul, and R. Taresh, “Indoor Local-
+ization System Using Wi-Fi Technology,” Iraqi J. Comput. Commun. Control
+Syst. Eng., no. April, pp. 69–77, 2019.
+[10] N. Hern´andez, M. Oca˜na, J. M. Alonso, and E. Kim, “Continuous space
+estimation: Increasingwiﬁ-based indoor localization resolution without in-
+creasing the site-survey eﬀort,” Sensors (Switzerland), vol. 17, no. 1, 2017.
+[11] T. Janssen, M. Weyn, and R. Berkvens, “Localization in low power wide
+area networks using wi-ﬁﬁngerprints,” Appl. Sci., vol. 7, no. 9, 2017.
+[12] F. Zafari, A. Gkelias, and K. K. Leung, “A Survey of Indoor Localization
+Systems and Technologies,” IEEE Commun. Surv. Tutorials, vol. 21, no. 3,
+pp. 2568–2599, 2019.
+[13] S. Sadowski and P. Spachos, “RSSI-Based Indoor Localization with the In-
+ternet of Things,” IEEE Access, vol. 6, pp. 30149–30161, 2018.
+[14] H. Kwasme and S. Ekin, “RSSI-Based Localization Using LoRaWAN Tech-
+nology,” IEEE Access, vol. 7, pp. 99856–99866, 2019.
+[15] M. Anjum, M. A. Khan, S. Ali Hassan, A. Mahmood, and M. Gidlund,
+“Analysis of RSSI ﬁngerprinting in LoRa networks,” 2019 15th Int. Wirel.
+Commun. Mob. Comput. Conf. IWCMC 2019, no. June, pp. 1178–1183,
+2019.
+[16] Y. C. Lin, C. C. Sun, and K. T. Huang, “RSSI Measurement with Channel
+Model Estimating for IoT Wide Range Localization using LoRa Commu-
+nication,” Proc. - 2019 Int. Symp. Intell. Signal Process. Commun. Syst.
+ISPACS 2019, pp. 5–6, 2019.
+[17] E. Goldoni, L. Prando, A. Vizziello, P. Savazzi, and P. Gamba, “Experimen-
+tal data set analysis of RSSI-based indoor and outdoor localization in LoRa
+networks,” Internet Technol. Lett., vol. 2, no. 1, p. e75, 2019.
+[18] W. Choi, Y. S. Chang, Y. Jung, and J. Song, “Low-power LORa signal-
+based outdoor positioning using ﬁngerprint algorithm,” ISPRS Int. J. Geo-
+Information, vol. 7, no. 11, pp. 1–15, 2018.
+[19] M. Aernouts, R. Berkvens, K. Van Vlaenderen, and M. Weyn, “Sigfox and
+LoRaWAN datasets for ﬁngerprint localization in large urban and rural ar-
+eas,” Data, vol. 3, no. 2, pp. 1–15, 2018.
+12
+Winfred Ingabire et al.
+[20] K. H. Lam, C. C. Cheung, and W. C. Lee, “LoRa-based localization sys-
+tems for noisy outdoor environment,” Int. Conf. Wirel. Mob. Comput. Netw.
+Commun., vol. 2017-Octob, pp. 278–284, 2017.
+[21] A. A. A. Elsabaa, M. Ward, and W. Wu, “Hybrid localization techniques in
+lora-based WSN,” ICAC 2019 - 2019 25th IEEE Int. Conf. Autom. Comput.,
+no. September, pp. 1–5, 2019.
+[22] K. H. Lam, C. C. Cheung, and W. C. Lee, “RSSI-Based LoRa Localization
+Systems for Large-Scale Indoor and Outdoor Environments,” IEEE Trans.
+Veh. Technol., vol. 68, no. 12, pp. 11778–11791, 2019.
+[23] A. Javed, H. Larijani, A. Ahmadinia, R. Emmanuel, M. Mannion, and D.
+Gibson, “Design and Implementation of a Cloud Enabled Random Neu-
+ral Network-Based Decentralized Smart Controller with Intelligent Sensor
+Nodes for HVAC,” IEEE Internet Things J., vol. 4, no. 2, pp. 393–403, 2017.
+[24] A. Javed, H. Larijani, A. Wixted, and R. Emmanuel, “Random neural net-
+works based cognitive controller for HVAC in non-domestic building using
+LoRa,” Proc. 2017 IEEE 16th Int. Conf. Cogn. Informatics Cogn. Comput.
+ICCI*CC 2017, pp. 220–226, 2017.
+[25] A. Javed, H. Larijani, A. Ahmadinia, and D. Gibson, “Smart Random Neural
+Network Controller for HVAC Using Cloud Computing Technology,” IEEE
+Trans. Ind. Informatics, vol. 13, no. 1, pp. 351–360, 2017.
+[26] J. Ahmad, H. Larijani, R. Emmanuel, M. Mannion, A. Javed, and M. Phillip-
+son, “Energy demand prediction through novel random neural network pre-
+dictor for large non-domestic buildings,” 11th Annu. IEEE Int. Syst. Conf.
+SysCon 2017 - Proc., pp. 1–6, 2017.
+[27] A. U. H. Qureshi, H. Larijani, A. Javed, N. Mtetwa, and J. Ahmad, “Intru-
+sion Detection Using Swarm Intelligence,” 2019 UK/China Emerg. Technol.
+UCET 2019, pp. 1–5, 2019.
+[28] A. U. H. Qureshi, H. Larijani, J. Ahmad, and N. Mtetwa, “A Novel Random
+Neural Network Based Approach for Intrusion Detection Systems,” 2018
+10th Comput. Sci. Electron. Eng. Conf. CEEC 2018 - Proc., pp. 50–55,
+2019.
+[29] A. U. H. Qureshi, H. Larijani, N. Mtetwa, A. Javed, and J. Ahmad, “RNN-
+ABC: A new swarm optimization based technique for anomaly detection,”
+Computers, vol. 8, no. 3, 2019.
+[30] E.Gelenbe, “Random Neural Networks with Negative and Positive Signal
+and Product Form Solution.”
+[31] A. J. Wixted, P. Kinnaird, H. Larijani, A. Tait, A. Ahmadinia, and N. Stra-
+chan, “Evaluation of LoRa and LoRaWAN for wireless sensor networks,”
+Proc. IEEE Sensors, vol. 0, pp. 5–7, 2017.
+[32] G. G. Anagnostopoulos and A. Kalousis, “A Reproducible Comparison of
+RSSI Fingerprinting Localization Methods Using LoRaWAN,” 2019.
+[33] J. N. Purohit and X. Wang, “LoRa based Localization using Deep Learning
+Techniques,” p. 2019, ”California State University”, 2019.
+[34] T. A. Nguyen, “LoRa Localisation in Cities with Neural Networks,” p.
+71,”Delft University of Technology”, 2019.
+Random Neural Networks
+13
+[35] K. Simonyan and A. Zisserman, “Very deep convolutional networks for large-
+scale image recognition,” 3rd Int. Conf. Learn. Represent. ICLR 2015 - Conf.
+Track Proc., pp. 1–14, 2015.

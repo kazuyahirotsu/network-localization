@@ -1,0 +1,1410 @@
+Ad Hoc Networks 105 (2020) 102168 
+Contents lists available at ScienceDirect 
+Ad Hoc Networks 
+journal homepage: www.elsevier.com/locate/adhoc 
+Experimental evaluation of RSSI-based positioning system with 
+low-cost LoRa devices 
+Andres Vazquez-Rodas ∗, Fabian Astudillo-Salinas, Christian Sanchez, Braulio Arpi, 
+Luis I. Minchala 
+Department of Electrical, Electronics, and Telecommunications Engineering/Engineering Faculty, University of Cuenca, Av. 12 de abril 001, 010107 Cuenca, 
+Ecuador 
+a r t i c l e 
+i n f o 
+Article history: 
+Received 14 February 2020 
+Accepted 6 April 2020 
+Available online 7 May 2020 
+a b s t r a c t 
+Along the last years, we have witnessed the growing demand for services, applications, and systems that 
+depend on the speciﬁc location of both people and a variety of things and gadgets. Currently, the Global 
+Positioning System (GPS) offers good accuracy on-location services around the world. Nevertheless, it 
+does not work eﬃciently on applications that require several small, cheap, and low power devices. Under 
+such conditions, researchers prefer to work with low-cost wireless alternatives such as WiFi, Zigbee, LoRa, 
+Sigfox, among others. The purpose of this work is twofold. Firstly we evaluate the time-measurement and 
+radio frequency capabilities of Pycom LoRa hardware implementation, in order to develop a low-cost and 
+GPS-independent positioning system. Then, with these results, we propose and evaluate a positioning 
+system with LoRa technology and based on the received signal strength indicator. Extensive ﬁeld test 
+measurements in outdoor rural environments show that we can obtain position estimation errors lesser 
+than around 7% of the maximum distance between anchor nodes. 
+© 2020 Elsevier B.V. All rights reserved. 
+1. Introduction 
+Today, it is very important to localize people or objects for al- 
+most every life activity. Just to quote an example, in the commer- 
+cial ﬁeld, the location knowledge of the products of a company is 
+fundamental to reduce the search and operation times, and as a 
+result productivity is improved [1] . 
+The most utilized location method around the world is the 
+global positioning system (GPS). However, one the of main dis- 
+advantage of GPS is its high power consumption and cost, which 
+prohibits its large-scale deployment [2] . Nowadays, new low cost 
+and low power consumption wireless technologies are emerging, 
+which allow the deployment of densely distributed networks for 
+a wide range of applications. Among them, stands out environ- 
+mental monitoring, humans, animals, or vehicles monitoring [3,4] , 
+athletes tracking [5] , etc. In such applications, it is very important 
+to optimize the power consumption and the total network deploy- 
+ment costs. In general, data rate requirements of such applications 
+are less demanding. In this context, it is important to consider 
+∗Corresponding author. 
+E-mail 
+addresses: 
+andres.vazquezr@ucuenca.edu.ec 
+(A. 
+Vazquez-Rodas), 
+fabian.astudillos@ucuenca.edu.ec (F.
+Astudillo-Salinas), chrispsan@hotmail.com 
+(C. Sanchez), braulio.arpi.pc@gmail.com (B. Arpi), ismael.minchala@ucuenca.edu.ec 
+(L.I. Minchala). 
+solutions based on the emerging low-power wide-area networks 
+(LPWANs) which can eﬃciently operate over large areas and with 
+battery-powered devices [6–8] . 
+At present, the more relevant LPWANs are: LoRa [9] , Sigfox 
+[10] , and NarrowBand IoT (NB-IoT) [11] . Many research works have 
+shown the advantages of the new physical layer LoRa technolgy 
+and its upper layer LoRaWAN complement regarding scalability, 
+coverage, and energy eﬃciency [12,13] . From Neumann et al. [14] it 
+is apparent that LoRa technology has greater potential to develop a 
+positioning system alternative to GPS in comparison with the other 
+LPWANs. Of course, other wireless technologies such as WiFi or 
+Zigbee are useful for the development of low cost positioning sys- 
+tems. 
+On the other hand, the most common positioning algorithms 
+are time of arrival (ToA), time difference of arrival (TDoA), angle 
+of arrival (AoA), and received signal strength indicator (RSSI). Each 
+of these algorithms requires that wireless devices present differ- 
+ent features and hardware capabilities. Additionally, these last al- 
+gorithms are complemented with the localization algorithms such 
+as multilateration, triangulation, and trilateration. 
+On this basis, this work presents a deeper evaluation of a hard- 
+ware implementation of LoRa technology, speciﬁcally the LoPy and 
+FiPy devices of Pycom manufacturer. The evaluation focuses on the 
+study of the time measurement capabilities of the devices in order 
+to implement a time-based positioning system for real environ- 
+https://doi.org/10.1016/j.adhoc.2020.102168 
+1570-8705/© 2020 Elsevier B.V. All rights reserved. 
+2 
+A. Vazquez-Rodas, F. Astudillo-Salinas and C. Sanchez et al. / Ad Hoc Networks 105 (2020) 102168 
+Fig. 1. ToA and RSSI position estimation approach. 
+ments. We also evaluate the quality of the radio frequency com- 
+ponents in order to implement a positioning system based on RSSI 
+variable. Finally, with these results, we implement and evaluate a 
+low-cost RSSI-based positioning system. We evaluate the perfor- 
+mance of the system through extensive ﬁeld test measurements on 
+outdoor rural environments of Cuenca-Ecuador. 
+2. Background 
+2.1. Positioning systems 
+Positioning systems can be broadly classiﬁed in one of the fol- 
+lowing categories: global positioning systems, which allows the lo- 
+calization of targets around the globe, or local positioning systems, 
+which allow the localization of targets in a local environment of 
+established size [15] . This work focuses on local positioning sys- 
+tems and this section presents a brief background on position es- 
+timation algorithms. 
+The time of arrival (ToA) position estimation algorithm gets the 
+distance between the target node (TN) and each anchor node (AN) 
+through the travel time measurements of the respective reference 
+signals. Then, with a minimum of three anchor nodes with known 
+positions and strict time synchronization, it is possible to local- 
+ize the target node using a trilateration approach ( Fig. 1 ). Mean- 
+while, the time difference of arrival (TDoA) estimation relaxes the 
+synchronization requirements between the target node and the an- 
+chors, just anchor nodes must be synchronized. And in general, it 
+overcomes the drawbacks of ToA. 
+In the angle of arrival (AoA) estimation, the anchor nodes esti- 
+mate the target location based on the angle of the respective ar- 
+riving signal. In a coplanar scenario, AoA requires just two anchor 
+nodes, but they must be equipped with smart antenna arrays. 
+On the other hand, in the estimation based on the received sig- 
+nal strength indicator (RSSI), the anchor nodes estimate the target 
+location mapping the RSSI with the distance traveled by the sig- 
+nal. It requires a path loss model to estimate such distance. Then, 
+in the same way that ToA with a minimum of three anchor nodes 
+the target node position is estimated by trilateration ( Fig. 1 ) [15] . 
+Path loss models are usually expressed in a logarithmic form as 
+shown in Eq. (1) [16] . 
+P L (dB ) = P 0 + 20 log 
+
+d 
+d 0 
+
++ X σ
+(1) 
+where: 
+d , is the transmission distance, 
+d 0 , is the reference distance, 
+P 0 , is the power strength at distance d 0 , 
+X σ , is usually a zero mean Gaussian distributed random variable 
+of the received signal with standard deviation σ . 
+Another widely used model is the exponential decay model, 
+shown in Eq. (2) [17] . This equation shows that path loss is an 
+exponential function with frequency f and distance d . This equa- 
+tion was proposed for cases were the antennas are located near 
+to trees and thus the signal propagates through the trees. Weiss- 
+berger and COST-235 models are modiﬁcations of this model to 
+different forested environments. 
+L (dB ) = A f B d C 
+(2) 
+These models can be simpliﬁed into Eq. (3) , as is proposed in 
+[16] . 
+P L (dB ) = a + b log (d) + X σ
+(3) 
+In this case, all the characteristics of Eq. (2) are expressed in 
+Eq. (3) . The exponential factor of distance is b , and the other com- 
+ponents are expressed by a . Both are adjusted by means of the val- 
+ues obtained in the measurement campaign. As in Eq. (1) , the ran- 
+domness of the received signal is expressed in X σ . It is assumed 
+that the error of ﬁtting in Eq. (3) follows a Gaussian distribution 
+with zero mean and standard deviation ( σ ). The standard deviation 
+can be calculated between the ﬁtted curve and the mean values of 
+every measurement point as shown in Eq. (4) . 
+σ = std (P L −FittedCurve ) 
+(4) 
+To calculate the P L values from RSSI and SNR, Eq. (5) is used 
+according to [18] . 
+P L = | RSSI | + SNR + P tx + G rx 
+(5) 
+While the received signal strength can be expressed as in 
+Eq. (6) 
+RSSI = P tx + G tx + G rx −P L 
+(6) 
+Where, P tx is the transmitted power in dBm, G tx and G rx , are 
+the transmitter and receiver antenna gains respectively in dBi, and 
+P L represents the path loss model in dB. 
+Therefore, we can get the RSSI logarithmic model equation 
+through a minimum squares ﬁtting of the RSSI ﬁeld measurements 
+as in Eq. (7) . Here, c and b , are constants. 
+y = c × ln x + b 
+(7) 
+For ToA and RSSI, in a 3D scenario, the target node location is de- 
+termined by the intersection of all spheres, whose centers are the 
+coordinates of the anchor nodes and the radii are the distances be- 
+tween the anchor nodes and the target node, Eq. (8) . 
+(x −x i ) 2 + (y −y i ) 2 + (z −z i ) 2 = m 2 
+i , (i = 1 , 2 , . . . , n ) 
+(8) 
+Where ( x i , y i , z i ) are the known coordinates of anchor nodes, m i 
+are the estimations of the distance between the anchors and the 
+target node, and n is the number of anchor nodes. In this way, 
+solving this equation, we get the target node coordinates ( x, y, z ). 
+Then, the trilateration localization algorithm derives from this fun- 
+damental Eq. (8) , which is the math basis for the ToA or RSSI based 
+positioning systems. In the case of a 2D scenario with three an- 
+chor nodes, we get the system of second-order equations shown in 
+Eq. (9) . 
+⎧ 
+⎨ 
+⎩ 
+(x −x 1 ) 2 + (y −y 1 ) 2 = m 2 
+1 
+(x −x 2 ) 2 + (y −y 2 ) 2 = m 2 
+2 
+(x −x 3 ) 2 + (y −y 3 ) 2 = m 2 
+3 
+(9) 
+In this work, we use an analytical model to solve this system 
+of equations and to implement them in the proposed positioning 
+system. Speciﬁcally, we use the variable changes of Eq. (10) 
+
+x = x ′ + x 1 
+y = y ′ + y 1 
+(10) 
+Replacing Eq. (10) in Eq. (9) , we obtain Eq. (11) 
+⎧ 
+⎨ 
+⎩ 
+x ′ 2 + y ′ 2 = m 2 
+1 
+(x ′ + x 1 −x 2 ) 2 + (y ′ + y 1 −y 2 ) 2 = m 2 
+2 
+(x ′ + x 1 −x 3 ) 2 + (y ′ + y 1 −y 3 ) 2 = m 2 
+3 
+(11) 
+A. Vazquez-Rodas, F. Astudillo-Salinas and C. Sanchez et al. / Ad Hoc Networks 105 (2020) 102168 
+3 
+With the variable changes of the following Eq. (12) 
+⎧ 
+⎪ 
+⎪ 
+⎨ 
+⎪ 
+⎪ 
+⎩ 
+x ′ 
+2 = x 2 −x 1 
+x ′ 
+3 = x 3 −x 1 
+y ′ 
+2 = y 2 −y 1 
+y ′ 
+3 = y 3 −y 1 
+(12) 
+And replacing this variable changes of Eq. (12) in Eq. (11) we 
+obtain the resulting linear system of equations of Eq. (13) ready to 
+be implemented in the positioning system. 
+⎧ 
+⎨ 
+⎩ 
+x ′ x ′ 
+2 + y ′ y ′ 
+2 = 1 
+2 
+	
+m 2 
+1 −m 2 
+2 + x ′ 
+2 
+2 + y ′ 
+2 
+2 
+x ′ x ′ 
+3 + y ′ y ′ 
+3 = 1 
+2 
+	
+m 2 
+1 −m 2 
+3 + x ′ 
+3 
+2 + y ′ 
+3 
+2 
+(13) 
+This methodology could be extended for a two dimensional sys- 
+tem with n number of anchor nodes, and following the preceding 
+procedure, we can obtain the general linear system of equations 
+shown in Eq. (14) 
+⎧ 
+⎪ 
+⎪ 
+⎪ 
+⎪ 
+⎪ 
+⎨ 
+⎪ 
+⎪ 
+⎪ 
+⎪ 
+⎪ 
+⎩ 
+x ′ x ′ 
+2 + y ′ y ′ 
+2 = 1 
+2 (m 2 
+1 −m 2 
+2 + x ′ 
+2 
+2 + y ′ 
+2 
+2 ) 
+x ′ x ′ 
+3 + y ′ y ′ 
+3 = 1 
+2 (m 2 
+1 −m 2 
+3 + x ′ 
+3 
+2 + y ′ 
+3 
+2 ) 
+x ′ x ′ 
+4 + y ′ y ′ 
+4 = 1 
+2 (m 2 
+1 −m 2 
+4 + x ′ 
+4 
+2 + y ′ 
+4 
+2 ) 
+. . . 
+x ′ x ′ 
+n + y ′ y ′ 
+n = 1 
+2 (m 2 
+1 −m 2 
+n + x ′ 
+n 
+2 + y ′ 
+n 
+2 ) 
+(14) 
+It must be used the variable changes of Eq. (15) 
+⎧ 
+⎪ 
+⎪ 
+⎪ 
+⎪ 
+⎨ 
+⎪ 
+⎪ 
+⎪ 
+⎪ 
+⎩ 
+x ′ 
+2 = x 2 −x 1 , 
+y ′ 
+2 = y 2 −y 1 
+x ′ 
+3 = x 3 −x 1 , 
+y ′ 
+3 = y 3 −y 1 
+x ′ 
+4 = x 4 −x 1 , 
+y ′ 
+4 = y 4 −y 1 
+. . . 
+x ′ 
+n = x n −x 1 , 
+y ′ 
+n = y n −y n 
+(15) 
+And the requested coordinates are found by Eq. (16) 
+
+x = x ′ + x 1 
+y = y ′ + y 1 
+(16) 
+2.2. LoRa technology 
+Low power wide area networks (LPWANs) represent a new 
+trend in the evolution of wireless communication technologies. 
+This communication technology is able to connect and monitor 
+high number of sensors, covering wide areas at low energy cost 
+[19] . One of the newest approaches to this technology is long range 
+(LoRa) [20] . LoRa gives all the LPWAN advantages, adding low de- 
+vice cost and easy deployment. LoRa-based wireless sensor net- 
+works (WSNs) are able to collect real time information such as 
+temperature, rain, humidity, ﬂow, among many others. One of the 
+clear application scenario for LoRa is rural environments. 
+The general characteristics of an LPWAN network are: 
+• LPWAN requires a minimum energy consumption during oper- 
+ation. This is because the limited capacity of batteries and its 
+high cost. 
+• Cost is an important factor. Especially in the nodes, easy-to- 
+install tools must be provided, and both the hardware and soft- 
+ware should be low-cost. 
+• Although the level of activity depends on the speciﬁc applica- 
+tion, the device must be able to wake up only when be needed 
+to send information. This point would support the idea of star 
+type architectures against mesh architectures. 
+• The network infrastructure must be easy to assemble. The ad- 
+dition of devices or the transfer to other countries must comply 
+with international standards. 
+• The transferred information between the node and the ﬁnal 
+user must be secure. 
+As previously stated, long range (LoRa) is currently one of the 
+most relevant LPWAN technology. LoRa is a proprietary modulation 
+scheme derived from the chirp spread spectrum modulation (CSS). 
+Its main objective is to improve the sensitivity of the system at the 
+cost of a reduction in the data rate for a given bandwidth (BW). 
+LoRa implements variable data rates, using orthogonal spreading 
+factors (SF). This allows a compromise between the data rate and 
+coverage, as well as optimizing the performance of the network 
+with a constant bandwidth. 
+LoRa is a physical layer implementation and as such, it is in- 
+dependent on higher layers. This allows it to coexist with different 
+network architectures. Some basic concepts about LoRa modulation 
+and the advantages to develop an LPWAN network are presented 
+in [20] . Additionally, although the modulation of LoRa is patented, 
+a rigorous mathematical signal processing description of the LoRa 
+modulation and demodulation process can be found in [21] . 
+In information theory, Shannon-Hartley theorem, deﬁnes the 
+maximum rate at which the information can be transmitted on a 
+communication channel with a speciﬁc bandwidth in presence of 
+noise. From this well-known equation, it can be concluded that if 
+it increases bandwidth, it can compensate the degradation of the 
+signal-to-noise ratio (SNR) of the radio channel. 
+In direct sequence spread spectrum (DSSS), the transmitter car- 
+rier phase changes according to a code sequence. This process is 
+achieved by multiplying the desired data signal with a spreading 
+code, known as chip sequence. This chip sequence has a higher 
+rate than the data signal, so widens the bandwidth of the origi- 
+nal signal. As a result, a reduction in the amount of interference 
+occurs due to a processing gain. DSSS is widely used in communi- 
+cation applications. However, there are challenges when it is nec- 
+essary to reduce the cost and energy consumption of devices with 
+this technology. 
+LoRa modulation solves the DSSS problems by providing an al- 
+ternative of lower cost and lower energy consumption. In LoRa 
+modulation, the spread spectrum is achieved by generating a chirp 
+signal that continuously varies in the frequency domain. An ad- 
+vantage of this method is that the timing and frequency variations 
+between the transmitter and the receiver are equivalent, reducing 
+the receiver complexity. 
+This chirp bandwidth is equivalent to the spectral signal band- 
+width. The desired signal is widened with a chip and modulated 
+on a chirp. The relationship between the desired data rate, the 
+symbol rate and the chip rate for LoRa, is expressed by the Eq. (17) . 
+R b = SF CodeRate 
+2 SF 
+BW 
+[bps] 
+(17) 
+where: 
+• R b is the bit rate of the modulation 
+• SF corresponds to the spreading factor, and could be in the 
+range ( 7 −12 ) 
+• CR is the code rate option ( 1 −4 ) 
+• BW represents the bandwidth in [Hz] 
+• CodeRate = 4 / (4 + CR ) 
+2.2.1. LoRa transmission parameters 
+LoRa devices can be conﬁgured using different Transmission 
+Power (TP), Carrier Frequency (CF), Spreading Factor (SF), Band- 
+width (BW) and Coding Rate (CR). This parameters are tuned to 
+achieve the best connection performance and the lowest energy 
+consumption. 
+The previous variables combination results in around 6720 pos- 
+sible conﬁgurations, which allows a user to completely adjust LoRa 
+4 
+A. Vazquez-Rodas, F. Astudillo-Salinas and C. Sanchez et al. / Ad Hoc Networks 105 (2020) 102168 
+to the required application [22] . Next, a brief description of the 
+mentioned parameters is presented [23] : 
+1. Transmission Power (TP) : It can varies between −4 dBm and 
+20 dBm, but due to implementation limits, it can be adjusted 
+from 2 dBm to 20 dBm. With transmission power of more than 
+17 dBm, only 1% of the duty cycle can be used. 
+2. Carrier Frequency (CF) : It is the central frequency that can be 
+varied in 61 Hz steps between 137 MHz and 1020 MHz, depend- 
+ing on the chip and the region of use. 
+3. Spreading Factor (SF) : It is the ratio between the symbol rate 
+and the chip rate. A higher SF not only increases the SNR, range 
+and sensitivity, but also the air time of the packet. Each in- 
+crease in the SF reduces the transmission rate, doubling the du- 
+ration of the transmission and the energy consumption. The SF 
+can vary between 6 and 12, being useful for network separation 
+since the SFs are orthogonal. 
+4. Bandwidth (BW) : It is the frequency range in the transmis- 
+sion band. A higher BW gives a higher data rate (less airtime), 
+but lower sensitivity for noise aggregation. A lower BW requires 
+more precise crystals, that is, less parts per million (ppm). The 
+data is sent at a chip rate equivalent to the BW. A BW of 
+125 kHz is equivalent to a chip rate of 125 kcps. A typical LoRa 
+network operates at: 125 kHz, 250 kHz or 500 kHz. 
+5. Code Rate (CR) : It is the Forward Error Correction rate (FEC) 
+used by LoRa against interference. It can be conﬁgured with: 
+4/5, 4/6, 4/7 and 4/8. A larger CR offers more protection against 
+noise, but increases the airtime. Transmitters with different CR 
+can communicate since the CR is in the header of the packet 
+that is always encoded at a 4/8 rate. 
+2.2.2. Key LoRa modulation properties 
+In the following we describe some key aspects that highlight 
+LoRa and make it one of the best candidates for IoT applications 
+[20] : 
+• Scalable Bandwidth : It can be used in narrow band frequency 
+jumps and broadband direct sequence applications. 
+• Low Energy Consumption : Power output can be reduced com- 
+pared to FSK, while keeping the same or better link budget. 
+• High Robustness : Due to its asynchronous nature, the LoRa sig- 
+nal is resistant to in-band and out-band interference. 
+• Fade Resistant : Thanks to the broadband chirp pulses, LoRa of- 
+fers fading and multipath immunity, making it ideal for urban 
+and suburban environments. 
+• Doppler Resistant : Doppler shift causes a small frequency shift 
+in the LoRa pulse that introduces a non signiﬁcant time axis 
+shift of the baseband signal, making it immune to the Doppler 
+effect. 
+• Wide Coverage Capability : Compared to FSK, maintaining the 
+same transmission power, the link budget is higher in LoRa. 
+• Enhanced Network Capability : SemTech LoRa modulation em- 
+ploys orthogonal SFs that allow multiple propagation signals 
+to be transmitted at the same time and on the same channel 
+without substantial sensitivity degradation. The modulated sig- 
+nals with different SFs appear as noise to the target receiver 
+and can be treated as such. 
+3. Related work 
+As low power wide area networks, and speciﬁcally LoRa tech- 
+nology become more popular, many researchers around the world 
+focuses on evaluate the performance of such technology through 
+experimental studies. For instance, in [24] authors present a test- 
+bed for the study of a University campus IoT network using LoRa. 
+They focuses on link quality and transmission performance eval- 
+uation. In [25] the performance of LoRa technology under two or 
+more concurrent transmissions is evaluated. In [26] , authors evalu- 
+ate the performance of the LoRaWAN protocol by means of a per- 
+manent outdoor test-bed. The main objective is to evaluate the 
+impact of the adaptive data rate scheme, the payload length, and 
+the acknowledgments over the packet delivery ratio. The RSSI and 
+SNR variables analysis shows the LoRa high sensitivity. The mea- 
+sured RSSI values are between −125 dBm and −78 dBm, while the 
+extreme values for SNR are between −19.2 dB and 12.8 dB. Kaz- 
+daridis et al. [27] present the evaluation of LoRa performance us- 
+ing a test-bed deployed in the city of Volos, Greece. The system 
+evaluate, under realistic conditions, the link quality by continu- 
+ously monitoring the packet delivery ratio versus the RSSI relation. 
+In [28] authors evaluate LoRa fading characteristics, coverage, and 
+energy consumption in multi-ﬂoor indoor buildings. For smart city 
+applications, in [29] authors present an experimental evaluation 
+of LoRaWAN technology under real conditions in the city of Brno, 
+Czech Republic. End-nodes use an Arduino Mega micro-controller 
+with a RN2483 radio modules. The obtained values for RSSI ranges 
+from -111 dBm to -64 dBm. The work in [30] presents a moni- 
+toring network based on LoRa connectivity to measure structural 
+displacements of the medieval City Walls in the city of Siena, Italy. 
+On the other hand, several recent works focus on the imple- 
+mentation of low-cost and energy eﬃcient positioning systems 
+based on LoRa technology. For example, authors in [31] propose an 
+hybrid LoRa-GPS tracker for dementia patients. Users incorporate 
+LoRa appliances as end systems. The main objective of this work 
+is to improve the energy eﬃciency of the GPS system by integrat- 
+ing LoRa communications and using a GPS duty cycling strategy. In 
+[32] authors propose a TDoA LoRa positioning system which uses 
+a multilateration location algorithm. Although authors entitle their 
+proposal as GPS-free geolocation, the end-nodes and the gateways 
+incorporate GPS for synchronization purposes. This work presents 
+an accuracy of around 100 m in a 2 km ×
+2 km urban area. 
+The LoRa Alliance in [33] presents a compilation of technical capa- 
+bilities of LoRaWAN-based geolocation. The work focuses on new 
+generation of LoRaWAN gateways which incorporate TDoA posi- 
+tioning algorithm capabilities. Paper also include real deployment 
+case studies, with this specialized high cost gateways, in Barcelona 
+port, urban environment of Issy-les-Moulineaux, Bolougne next to 
+Paris, among others. In [34] authors provide experimental quantiﬁ- 
+cation of TDoA geolocation performance for outdoor tracking pur- 
+poses using a public LoRaWAN network in Netherlands. Using six 
+LoRa nodes conﬁgured with spreading factors between 7 and 12, 
+and a single gateway, authors found that the median error of the 
+raw TDoA location was around 200 m and in 90% of the cases the 
+error was less than 500 m. In [35] authors propose a LoRa-based 
+long range emergency communication system. The aim is to be a 
+support for survivors and rescue teams and it is intended for criti- 
+cal environments where there is no cellular coverage and the com- 
+mon GPS-based localization is not completely available. Authors in- 
+clude simulation an experimental evaluation of the capabilities of 
+the LoRa-based trilateration technique. For smart farming, one of 
+the possible applications of our proposal, authors in [36] propose 
+an agro-industry platform intended for monitoring, traceability and 
+optimization of farming resources and processes. It includes WiFi- 
+based localization for detecting anomalous behavior patterns of an- 
+imals. In this line, a review of communication technologies for pre- 
+cision agriculture, which includes LoRa can be found in [37] . 
+Our proposal strongly depends on precise path loss modeling, 
+regarding this, our workgroup presents in [38] a methodology to 
+experimentally study LoRa transmission range based on path-loss 
+modeling, and through RSSI and SNR measured variables on real 
+environments in the City of Cuenca, Ecuador. Other works related 
+to propagation and coverage measurements are summarized in the 
+following. In [18] , authors present a study of performance and cov- 
+erage that uses LoRa transceivers and RSSI as the main measure- 
+A. Vazquez-Rodas, F. Astudillo-Salinas and C. Sanchez et al. / Ad Hoc Networks 105 (2020) 102168 
+5 
+ment variable to develop a path loss model. The study is conducted 
+in water and a coast environment. Authors use European 868 MHz 
+ISM band. Another outdoor measurement based study is presented 
+in [39] , where the authors use PER and RSSI to estimate the per- 
+formance of the system under two different tests. Authors evaluate 
+the system under different payload length, bandwidth, spreading 
+factor, and modulation schemes. The work uses different payload 
+lengths, transmission with the FSK modulation scheme, and the 
+Fresnel zone is taken into account. The work in [40] , presents a 
+general evaluation of LoRa using multiple gateways, RSSI and ACKs 
+to estimate the connection rate. A main aspect of the study is the 
+reliability that was measured using long transmission periods. The 
+study detected mobile network interference during certain hours. 
+Indoor measurements have been conducted in [41] and [42] . In 
+[41] , DR, SF, bandwidth and bit rate are ﬁxed and RSSI is used to 
+measure performance. In [42] , the study is more speciﬁc, the au- 
+thors evaluated the performance of LoRa in health and wellbeing 
+applications. 
+This work focuses on a deeper evaluation of the capabilities of 
+low cost Pycom LoRa hardware implementation, in order to de- 
+velop a totally GPS-independent positioning system. We also in- 
+clude the performance evaluation of a RSSI-based positioning sys- 
+tem through extensive ﬁeld test on rural and open environments. 
+An important remark is that most of the experimental studies re- 
+ported in the literature were conducted on cities that are a few 
+meters above the sea level. In this work, the evaluation was done 
+in the southern Ecuadors Andes mountains at an altitude of around 
+2660 m above sea level. 
+4. Methodology 
+To develop a GPS-independent positioning system using low 
+cost Pycom LoRa devices, ﬁrstly it is necessary to evaluate the be- 
+havior and performance of such devices under real environments. 
+The proposed system could be based on time or RSSI variables, as 
+stated in the Background section. For the time-based positioning, 
+we require to evaluate the time measurement capabilities. To per- 
+form this evaluation we search different ways to measure and es- 
+timate the round trip time (RTT). For the system based on RSSI, in 
+ﬁrst place, we evaluate at laboratory in a controlled environment 
+the RSSI sensitivity and the dynamic range. Another important pa- 
+rameter is the transmission power, the evaluation of this param- 
+eter has been executed using a National Instruments PXI system. 
+Finally, we analyze the resulting positioning system through exten- 
+sive measurement campaigns. 
+The positioning proposal based on the RSSI and the trilateration 
+location algorithm has been evaluated by measurement campaigns. 
+The measurement interval is based on spatial averaging. The au- 
+thors of [38,43] deﬁned a suitable measurement interval between 
+20 λ and 40 λ. The available LoRa device works in the 915 MHz ISM 
+band. The corresponding lower and upper distance for this band 
+are 6.5573 m and 13.1147 m. We select an integer value between 
+the lower and upper limit. The chosen value was 10 m. 
+The behavior of the RSSI variable is evaluated in several loca- 
+tions of the Cuenca City in Ecuador. The goal is to identify locations 
+that present stable and reliable results for the characterization of 
+the path loss model. The PLM is used to estimate the location of 
+the target node in the positioning system. The main feature of the 
+location is that it covers a large open area. This area will allow LoS 
+communication between all devices. We selected three main loca- 
+tions for the tests: 
+• Location 1 ( Fig. 2 (a)): Soccer ﬁeld of the University of Cuenca 
+(2 ◦54 ′ 7.63 ′′ S ; 79 ◦0 ′ 41.20 ′′ O ). The terrain is ﬂat with total LoS 
+and with approximate dimensions of 150 × 150m. 
+• Location 2 ( Fig. 2 (b)): Pachamama plateau of the Cuenca city 
+(2 ◦49 ′ 58.72 ′′ S ; 78 ◦55 ′ 43.75 ′′ O ). It is a ﬂat terrain with total LoS 
+and with an approximate dimension of 500 × 500m. 
+Fig. 2. Test locations. 
+6 
+A. Vazquez-Rodas, F. Astudillo-Salinas and C. Sanchez et al. / Ad Hoc Networks 105 (2020) 102168 
+Table 1 
+Description of the test scenarios of the positioning system. 
+Type 
+Description 
+Symmetric 
+Scenario 1: 90 × 90m 
+Scenario 2: 150 × 150m 
+Non-symmetric 
+Scenario 3: with error introduced, distances ≥100m 
+Scenario 4: without error introduced, distances < 100m 
+• Location 3 ( Fig. 2 (c)): Irquis Farm of the University of Cuenca 
+(3 ◦4 ′ 49.20 ′′ S ; 79 ◦4 ′ 31.26 ′′ O ). It is a ﬂat land with total LoS and 
+with an approximate dimension of 200 × 200m. 
+Several tests have been performed to evaluate the system at 
+each location. The tests consist of establishing communication 
+links between FiPy and/or LoPy devices to assess the behavior of 
+the system. For all locations, it has been measured the RSSI in 
+function of the distance. The measurement interval was the pre- 
+viously deﬁned 10 m. 
+At ﬁrst stage, the variables RSSI and SNR are acquired and 
+stored. The outbound link is measured in the anchor node and 
+stored in the target node. The return link is measured and stored in 
+the target node. As second stage, the null RSSI values are ﬁltered. 
+These values are given when the transmission is not completed. 
+Some evaluation scenarios have been established, with certain 
+differences between them. Such different parameters to conﬁgure 
+the scenarios are the number of anchor nodes, distances between 
+anchor nodes, and RSSI characterization approaches. The aim of the 
+study is to evaluate the position estimation errors for each case. 
+The position error is evaluated by both, through simulations and 
+by real measurements. 
+The measurements has been taken in an open area with no 
+obstacles. We deﬁned two types of scenarios: symmetric and not 
+symmetric. These scenarios differ in the geometric distribution of 
+anchor nodes. In symmetric type scenario, anchor nodes have a 
+regular square distribution ( Fig. 2 (d)). In the non-symmetric type 
+scenario, the distribution of anchor nodes is random. Table 1 lists 
+the analyzed scenarios. There are three scenarios of symmetric 
+type and two scenarios of non-symmetric type. 
+5. Performance evaluation of LoRa device capabilities 
+The purpose of this section is to evaluate the performance of 
+LoPy and FiPy LoRa devices regarding their time measurement ca- 
+pabilities, RSSI sensitivity, and dynamic range. 
+5.1. LoPy and FiPy devices description 
+LoPy and FiPy are low-cost development boards produced by 
+Pycom manufacturer, which include LoRa technology [44] . Table 2 
+summarizes the more relevant technical features of these boards. 
+Besides, these devices have incorporated a 150kHz real-time clock 
+(RTC) and a RSSI sensitivity sensor. In this section, we evaluate 
+the real performance of these two last characteristics through ﬁeld 
+Table 2 
+Technical features of LoPy and FiPy devices 
+[45,46] . 
+Feature 
+LoPy 1.0 and FiPy 
+RTC (kHz) 
+150 
+ISM bands (MHz) 
+868, and 915 
+Semtech [47] chip 
+SX 1272 
+Range (MHz) 
+860 −1020 
+SF 
+6 −12 
+BW (kHz) 
+125 −500 
+Data Rate (kbps) 
+0 . 24 −37 . 5 
+RSSI sensitivity (dBm) 
+−117 to −137 
+Table 3 
+RSSI Sensitivity of LoPy and FiPy devices [45,46] . 
+BW (kHz) and SF 
+LoPy 1.0 (dBm) 
+FiPy (dBm) 
+125 and 6 
+−121 
+−122 
+250 and 12 
+−134 
+−135 
+500 and 12 
+−129 
+−131 
+measurements. The goal is to determine if they are suitable for ei- 
+ther time or RSSI based positioning system. 
+It is important to note that the RSSI sensitivity of the LoRa 
+devices vary in function of the operation bandwidth ( BW ) and 
+spreading factor ( SF ). In this context, Table 3 presents the RSSI sen- 
+sitivity of LoPy and FiPy devices under different BW and SF conﬁg- 
+urations. 
+5.2. Evaluation of LoPy and FiPy time measurement capabilities 
+Time-based positioning algorithms such as ToA or TDoA have 
+strict requirements regarding the time measurement capabilities 
+of the devices. For LoPy and FiPy boards we identify and evaluate 
+three different ways to measure and estimate the round trip time 
+(RTT): (1) through the built-in chronometer function, (2) using the 
+internal RTC, and (3) through the CPU instruction or cycle time. 
+In order to evaluate and compare the real time measurement 
+capabilities of LoPy and FiPy devices, we develop a set of ﬁeld tests 
+in which we establish a communication link between the target 
+node and one anchor node. We measure the RTT for three differ- 
+ent distances (15m, 2.6km, 10km) between the target and anchor 
+nodes. For each evaluation point, the target node sends a message, 
+then the anchor replies with an echo. After that, the target mea- 
+sures and estimates the RTT using one of the previously mentioned 
+evaluation methods. In order to present reliable results, the target 
+node repeats the experiment around 200 times for each point and 
+we report the average RTT with 95% conﬁdence interval. 
+Fig. 3 compares the resulting RTT estimation using the 
+chronometer function, the internal RTC, and the CPU cycle method 
+respectively. From this ﬁgure, we can conclude that, with these 
+low-cost devices, no one of the RTT estimation methods present 
+suitable results for a time-based positioning system development. 
+We can observe an overlapping of conﬁdence intervals of the mea- 
+sured RTT for all the cases with the chronometer function esti- 
+mation. We can also see that the built-in chronometer function 
+presents more variable results in comparison with the other two 
+methods. Finally, for RTC and CPU cycle we can observe also an 
+overlapping of the conﬁdence intervals of the RTT between the 
+measurements at 15m and the measurements at 2.6km, and a 
+slight time difference for the 10km distance. 
+5.3. Evaluation of RSSI sensitivity and dynamic range 
+LoPy and FiPy devices allow the conﬁguration of their LoRa 
+modulation RF features such as: transmission power ( P TX ), band- 
+width, and spreading factor. As expected, these different conﬁgu- 
+ration possibilities have a direct impact on the device RSSI sensi- 
+tivity, as reported by the manufacturer in Table 3 . Accordingly, in 
+this section we evaluate the real dynamic range and sensitivity of 
+LoPy and FiPy devices through controlled ﬁeld tests. 
+The controlled ﬁeld test consists of establishing a communi- 
+cation link between a LoPy 1.0 transmitter and other LoPy 1.0 
+receiver. In order to control the attenuation of the transmission 
+power, the LoPy transmitter is connected to a Hewlett Packard (HP) 
+8496B variable attenuator ( Fig. 4 ). This HP attenuator has a resolu- 
+tion of 1dB, and its attenuation ranges from 1 to 121dB. 
+We evaluate the LoPy RSSI behavior under two different con- 
+ﬁgurations of P TX , BW , and SF . The ﬁrst set of tests was done 
+A. Vazquez-Rodas, F. Astudillo-Salinas and C. Sanchez et al. / Ad Hoc Networks 105 (2020) 102168 
+7 
+Fig. 3. Performance results of three different methods of RTT measurements, with 
+BW = 500 kHz, SF = 12 and P TX = 20 dBm. 
+Fig. 4. Dynamic range tests of RSSI sensitivity. 
+with BW = 500 kHz , and SF = 12 . In turn, the second set used a 
+BW = 125 kHz , and a SF = 7 . In both cases we evaluate the system 
+conﬁgured with the minimum and the maximum allowed trans- 
+mission power corresponding to 5 dBm and 20 dBm respectively. 
+Furthermore, we establish and evaluate three different separation 
+distances between the transmitter and the receiver ( d = 10 m , d = 
+30 m , and d = 50 m ). In turn, for each separation distance, we vary 
+the attenuation from 0dB to 50dB with 5dB steps. 
+Fig. 5 shows the resulting RSSI value evolution measured by 
+the receiver node, for each described test. From Fig. 5 (b), in ﬁrst 
+Fig. 5. Field controlled tests of links between a LoPy 1.0 as T X with variable atten- 
+uator and other LoPy 1.0 as R X . 
+place, we can observe that when the system is conﬁgured with 
+BW = 125 kHz , and a SF = 7 the behavior of the RSSI is more un- 
+predictable and so the dynamic range in this case is not clear. Thus, 
+this conﬁguration does not allow to have a good characterization of 
+the communication link between the transmitter and the receiver. 
+Then, this conﬁguration is not suitable for a RSSI-based position- 
+ing system. On the other hand, for the system conﬁgured with 
+BW = 500 kHz , and SF = 12 , on Fig. 5 (a), we observe a stable be- 
+havior of the RSSI variable for all the cases until an attenuation 
+of around 30dB, which corresponds to a RSSI value greater than 
+around −110 dBm. This implies that the dynamic range of LoPy de- 
+vices is suitable for a RSSI-based positioning system development 
+for values of RSSI greater than −110 dBm and when the LoRa mod- 
+ulation is conﬁgured with BW = 500 kHz , SF = 12 and P T X = 5 dBm. 
+Another observation from the ﬁeld tests is the fact that differ- 
+ent LoPy and FiPy devices, in spite of using the same chip Semtech 
+SX1272 [47] , exhibits different behaviors regarding RSSI sensitivity 
+and dynamic range. Additionally we expect a greater impact of the 
+selected transmission power over the resulting RSSI values. These 
+two facts motivated us to make a deeper analysis of the real trans- 
+mission power of the LoPy and FiPy devices and its variability. 
+5.4. Evaluation of the transmission power 
+In order to make a deeper and reliable evaluation of the LoPy 
+and FiPy devices transmission power, we use as a receiver a Na- 
+tional Instruments PXI system. For this test set, the LoPy or FiPy 
+8 
+A. Vazquez-Rodas, F. Astudillo-Salinas and C. Sanchez et al. / Ad Hoc Networks 105 (2020) 102168 
+Fig. 6. Power transmission evaluation of LoPy and FiPy devices with BW = 500 kHz, SF = 12 and 30 dB of attenuation. 
+transmitter is connected to the attenuator conﬁgured with an at- 
+tenuation value of 30dB to guarantee that the power keeps in the 
+range accepted by the PXI receiver module. Each device is evalu- 
+ated for its minimum ( P T X = 5 dBm) and its maximum ( P T X = 20 
+dBm) transmission power. 
+The ﬁrst test was done with a FiPy device conﬁgured with the 
+following LoRa modulation parameters: P T X = 5 dBm and BW = 
+500 kHz. Since we use an attenuation of 30dB we expect that the 
+received power in the PXI system to be around −25 dBm. How- 
+ever, as it can be observed in the Fig. 6 (a), the real received power 
+is −29 . 74 dBm. Thus for this FiPy device we obtain a power er- 
+ror of −4 . 74 dBm. We also observe a real transmission bandwidth 
+of BW = 608 . 97 kHz. Then, it is around of 108.97 kHz out of band 
+emission. 
+In the second case, the FiPy device was conﬁgured with P T X = 
+20 dBm and BW = 500 kHz. Fig. 6 (b) presents the resulting power 
+and BW reported by the PXI for this conﬁguration. We observe a 
+received power of -23.75 dBm, so an error of -13.75 dBm is ob- 
+tained. Thus, when the device is conﬁgured with the maximum 
+transmission power, the error of the power ampliﬁer is signiﬁ- 
+cantly increased. Regarding the BW error it remains the same as 
+the previous case (108.97 kHz). 
+In turn, for the LoPy device conﬁgured with P T X = 5 dBm and 
+BW = 500 kHz, the resulting power error is around −0 . 94 dBm as 
+it is depicted in the Fig. 6 (d). The measured BW is 528.84kHz so 
+the obtained error is 28.84 kHz. Finally, when the LoPy device is 
+conﬁgured with the maximum transmission power P T X = 20 dBm 
+and BW = 500 kHz, the power error is −1 . 97 dBm as it can be see 
+in the Fig. 6 (c). For this last case the measured transmission BW is 
+520.83 kHz and therefore we obtain a 20.83kHz out of band emis- 
+sion. 
+Therefore, we can conclude that the radio frequency compo- 
+nents of LoPy 1.0 devices and its RF accessories are of better qual- 
+ity than the FiPy devices. Also, in order to have a better behav- 
+ior of the positioning system, the preferred conﬁguration of LoRa 
+modulation parameters for this kind of devices is BW = 500 kHz, 
+SF = 12 , P T X = 5 dBm, preamble equal to 8 and CR = 4 / 5 . 
+6. RSSI-Based positioning system 
+Based on the LoPy and FiPy devices detailed evaluation pre- 
+sented in the Section 5 , in this section we start deﬁning the 
+proposed RSSI-based positioning system architecture and then we 
+present the performance evaluation of the system. 
+6.1. System architecture 
+For the proposed positioning system, we choose an architec- 
+ture centralized on the target node. We do not use any specialized 
+gateway, with dedicated localization features, with the purpose of 
+keep at the minimum the system costs. Then, in such architecture, 
+the target node establishes a communication link with each anchor 
+A. Vazquez-Rodas, F. Astudillo-Salinas and C. Sanchez et al. / Ad Hoc Networks 105 (2020) 102168 
+9 
+Fig. 7. General Architecture. 
+Fig. 8. Sequence diagram of the link between the target node and one anchor node. 
+node at a time, following a round-robin type procedure ( Fig. 7 ). 
+The aim of each link is to measure and store the value of the 
+RSSI variable resulting of the communication between the target 
+node and the respective anchor node. After that, using the RSSI- 
+based positioning and the trilateration localization algorithm, we 
+estimate the location of the target node. 
+There are three main components in the positioning system 
+(see Fig. 7 ): the target node, the anchor nodes, and the main pro- 
+cessor. We also identify two communication links: (1) The link be- 
+tween the target node and each of the anchor nodes using a LoRa 
+interface to send request messages and to obtain relevant values 
+such as RSSI and SNR. (2) The communication link between the 
+target node and the processor through a WiFi interface. We use the 
+FTP protocol to get the variable registers from the internal memory 
+of the target node to the processor system. 
+The LoRa communication link between the target node and 
+each anchor node follows the messages sequence shown in Fig. 8 . 
+The target node sends a request to one anchor node, identiﬁed 
+with 1 byte of unique identity ﬁeld included in the payload of the 
+LoRa frame. Then, the anchor node with such identity sends a re- 
+ply message. For the positioning system, the reply message corre- 
+sponds to the return link and we also measure the RSSI value of 
+this link. 
+6.2. Performance evaluation 
+The positioning system uses two relevant RSSI measurements 
+on each link between the target node and the anchor nodes. 
+Speciﬁcally, the RSSI value of the forward link measured by the 
+anchor node, and the RSSI of the return link measured by the tar- 
+get node. In this way, we analyze the performance of the system 
+under three different approaches. (1) The location of the target us- 
+ing only the RSSI of the forward link. (2) The location of the target 
+using only the RSSI of the backward link. (3) The location of the 
+target using the average RSSI value of the forward and return links. 
+The evaluation is based on ﬁeld test measurements, carried out 
+in the rural area of Pachamama in Cuenca-Ecuador (2 ◦49 ′ 58.72 ′′ S ; 
+78 ◦55 ′ 43.75 ′′ O ). This is a ﬂat land of around 500 ×
+500 m and 
+all the communication links are with line of sight (LoS). Among 
+Fig. 9. The characteristic curve of the return link for the 90 m × 90 m scenario 
+with BW = 500 kHz, SF = 12 y P TX = 5 dBm. 
+others, we consider and report here the evaluation for two square 
+area scenarios. One of 90 × 90 m, and the other of 150 × 150 m. 
+In both cases we consider a symmetric distribution of four anchor 
+nodes, one on each corner of the square. 
+Firstly, it is necessary to characterize each communication link 
+between the target node and each of the anchor nodes. The aim is 
+to obtain the path loss model of each link through a least squares 
+adjustment of the RSSI values. For illustration purposes, Fig. 9 
+shows such resulting characterization for the return link of the 90 
+m × 90 m scenario. We follow a similar procedure for the forward 
+link, the round trip link, and for the 150 × 150 m scenario. 
+6.2.1. Results analysis 
+One of the ﬁeld measurement study was done in the 90 m × 90 
+m previously described scenario. We use four anchor nodes with 
+identiﬁers A, B, C y D and ﬁxed positions at the corners (0,0), 
+(0,90), (90,90), (90,0) respectively. Table 4 summarizes the real po- 
+sition of the target node for ﬁve different test points. As previously 
+said, we evaluate the performance of the positioning system for 
+three different approaches: using only the RSSI value of the for- 
+ward link, denoted by ( e 1 ), the RSSI of the return link ( e 2 ), and the 
+average RSSI of the forward and return links ( e 3 ). Since we use four 
+anchor nodes, therefore, there are one useful estimation through 
+the trilateration localization algorithm. On the other hand, it is im- 
+portant to note that if we use the RSSI information of just three 
+of the anchor nodes for the trilateration algorithm, by combina- 
+torics, there are C 3 
+4 = 4 possible useful position estimations. Then, 
+we have a total of ﬁve valid possible position estimation for this 
+reported test. We compute and select the centroid point of the 
+whole set of estimations as the better approximation of the tar- 
+get position. As an illustration, Fig. 10 shows the whole set of ﬁve 
+resulting estimations which are reported by our positioning system 
+for one of the test points. Each of these are used to compute the 
+centroid point as the better location approximation. 
+10 
+A. Vazquez-Rodas, F. Astudillo-Salinas and C. Sanchez et al. / Ad Hoc Networks 105 (2020) 102168 
+Table 4 
+Real position of the test points ( x, y ). 
+Scenario 
+P 1 
+P 2 
+P 3 
+P 4 
+P 5 
+90 m × 90 m 
+(35.35, 35.35) 
+(56.56,56.56) 
+(54.64,35.35) 
+(45,45) 
+(33.43,56.56) 
+150 m × 150 m 
+(63.63,63.63) 
+(84.85,84.85) 
+(86.36,63.63) 
+(75,75) 
+(65.14,84.85) 
+Table 5 
+Position estimation error. 
+Scenario 
+e link 
+P 1 
+P 2 
+P 3 
+P 4 
+P 5 
+¯e (m) 
+(%) 
+90 m × 90 m 
+e 1 (m) 
+7.44 
+11.05 
+22.30 
+26.07 
+23.22 
+18.01 
+14.15 
+e 2 (m) 
+8.19 
+8.54 
+12.60 
+1.36 
+12.06 
+8.55 
+6.72 
+e 3 (m) 
+7.49 
+10.84 
+21.61 
+18.27 
+19.89 
+15.62 
+12.27 
+150 m × 150 m 
+e 1 (m) 
+9.57 
+10.74 
+10.96 
+13.59 
+15.66 
+12.11 
+5.70 
+e 2 (m) 
+19.03 
+18.04 
+12.96 
+22.91 
+29.85 
+20.56 
+9.69 
+e 3 (m) 
+12.69 
+14.18 
+11.73 
+22.91 
+22.19 
+16.74 
+7.89 
+In this context, we evaluate the accuracy of the system by 
+means of the position estimation error, which in turn, is the dis- 
+tance between the real position and the estimated position of the 
+target. 
+Table 5 summarizes the position estimation error of the system 
+for each of the above described approaches. From these results, 
+we can conclude that the use of the RSSI value of the return link 
+presents a better approximation than the other two methods. In 
+fact, the percentage of the average estimation error of this method 
+is around the half of the error resulting with the other two meth- 
+ods. 
+Additionally, we evaluate the positioning system in a bigger 
+area of 150 m × 150 m. We also use four anchor nodes located 
+at the corners of this square area. Table 4 shows the real posi- 
+tion of the target node for the ﬁve different test points. While 
+Table 5 summarizes the position estimation error for this case. Ac- 
+cording to these results, and for this second scenario, we obtain a 
+better accuracy using the RSSI information of the forward link. It is 
+important to note that in no case the use of the average RSSI value 
+of the forward and the return link present a better approximation. 
+This is due to the great variability of each individual link and also 
+of both links as a whole. It is also required to make a previous 
+analysis of the behavior of the system for each operation scenario. 
+This in order to deﬁne the more suitable approach which will re- 
+sult in the lesser localization error than the other approaches. 
+6.2.2. Simulation analysis 
+We complement the measurement-based evaluation of the sys- 
+tem with a simulation-based analysis. The main objective is to pre- 
+dict the uncertainty resulting from the path loss model character- 
+Fig. 10. Set of valid possible position estimations. 
+ization of each link between the target and the anchor nodes, and 
+the RSSI values of such links. 
+In order to be more reliable, we use the standard deviation of 
+the RSSI variable obtained from the measurement-based character- 
+ization procedure ( Fig. 9 ). We also utilize probabilistic distributions 
+to establish a simulation set that allows to predict the behavior of 
+the system for different locations of the target node. 
+Fig. 11 shows the resulting outputs of our system for ten differ- 
+ent simulation tests. We evaluate one different location of the real 
+points for each of the 60 × 60 m, 90 × 90 m, 150 × 150 m, and 
+200 × 200 m scenario. 
+Finally, for the 90 m × 90 m and 150 × 150 m scenarios, Fig. 12 
+shows the comparison of the position estimation error for the sim- 
+ulation results versus the evaluation based on real measurements. 
+We observe an agreement between the simulation and the real 
+measurements which validates our ﬁeld test results. 
+We made additional ﬁeld test evaluations including asymmetric 
+scenarios and other rural zones around Cuenca city and the results 
+are similar to the presented in this section. 
+6.2.3. Sources of uncertainty in positioning systems 
+Positioning system based on the RSSI variable has many sources 
+of uncertainty that affect the measurements. This is mainly due 
+to the inﬂuence of environmental factors, which cause radio fre- 
+quency problems such: instability in the orientation of the anten- 
+nas, transmission power variability, variability in RSSI sensitivity, 
+among others. Some of the sources of uncertainty suffered in this 
+work are: 
+• The measurements of the RSSI variable may vary by meteoro- 
+logical factors, that is, it could be different if the day is cloudy, 
+sunny or rainy. 
+• Each antenna has its own radiation pattern that is not uniform. 
+Therefore, a communication link between the anchor node and 
+the target node can vary the RSSI measurement. It depends on 
+the change in the orientation of the transmitter and receiver 
+antennas. 
+• Based on the experimental evaluations carried out during this 
+project, it can be aﬃrmed that the FiPy and LoPy version 
+1.0 devices under the same LoRa conﬁguration at the same 
+P TX have different behaviors in their real transmission powers. 
+Therefore, RSSI measurements may be altered due to their in- 
+ternal manufacturing nature. 
+• Between the FiPy and LoPy devices there are different behaviors 
+in their RSSI sensitivity. It happens under the same conﬁgura- 
+tion parameters in LoRa modulation. 
+• If there are many transmitters operating at the same frequency 
+in the measurement area. They can inﬂuence the measurements 
+of the RSSI. 
+A. Vazquez-Rodas, F. Astudillo-Salinas and C. Sanchez et al. / Ad Hoc Networks 105 (2020) 102168 
+11 
+Fig. 11. Simulation results for different size scenarios. 
+Fig. 12. Simulation errors versus real measurement errors. 
+• Current RSSI sensors have low resolution, that is, integer val- 
+ues in units of dBm, therefore they introduce quantization noise 
+into the measurement. 
+• RSSI sensitivity is altered when the state of the power battery 
+is discharged below a certain level. 
+7. Conclusions and future work 
+In this work, ﬁrstly, we have evaluated the Semtech LoRa de- 
+vices regarding their time measurement capabilities, and the qual- 
+ity of their RF components. This evaluation focuses on the develop- 
+ment of a low cost LoRa-based positioning system. Although with 
+these devices we dispose of three options for the time measure- 
+ment, the ﬁeld test evaluation shows that no one of the RTT esti- 
+mation methods are suitable for the development of a time-based 
+positioning system such as ToA or TDoA. On the other hand, the 
+evaluation of the quality of the RF components focuses on the RSSI 
+sensitivity and dynamic range. We include the analysis of two ver- 
+sions of Semtech devices, i.e. LoPy 1.0 and FiPy. We observe that, 
+although both kind of devices are based on the same SX1272 chip, 
+they exhibit different RSSI behaviors. We also determine that the 
+useful dynamic range for a RSSI-based positioning system is val- 
+ues of RSSI > −110 dBm. Since we are using a LPWAN technology, 
+we really expect a wider dynamic range which would allow the 
+positioning system to work in more extensive areas. Additionally, 
+a deeper analysis of the real transmission power of the devices 
+12 
+A. Vazquez-Rodas, F. Astudillo-Salinas and C. Sanchez et al. / Ad Hoc Networks 105 (2020) 102168 
+shows that LoPy 1.0 power ampliﬁer and accessories present better 
+quality than the FiPy one. 
+On this basis, we develop a RSSI-based positioning system with 
+the trilateration algorithm and we evaluate it by means of exten- 
+sive ﬁeld test on different rural scenarios and environment con- 
+siderations. For this low cost system, we found on average a po- 
+sition estimation error of around 8.55 m corresponding to a error 
+of 6.72% for the 90 m × 90 m square scenario. Meanwhile, for the 
+150 m × 150 m scenario the average error is around 12.11 m cor- 
+responding to a 5.70%. 
+Future research will include the evaluation and use of exter- 
+nal RTC modules in order to be able to implement a time-based 
+positioning system. We should also consider the use of different 
+LoRa hardware implementations which present, at similar costs, 
+better RSSI sensitivity and dynamic range. Temperature and hu- 
+midity sensors should be included in the system, in order to de- 
+termine the impact of the weather conditions over the RSSI val- 
+ues and its variability. Although our ﬁrst objective is the evalua- 
+tion of LoRa for outdoor positioning systems, we will include also 
+the evaluation for indoor environments. Finally, we will evaluate 
+alternative methods for solving the system of equations of the tri- 
+latearion algorithm such as minimum squares or Taylor series. 
+Declaration of Competing Interests 
+The authors declare that they have no known competing ﬁnan- 
+cial interests or personal relationships that could have appeared to 
+inﬂuence the work reported in this paper. 
+Acknowledgments 
+This work was ﬁnanced by the Research Department of the Uni- 
+versity of Cuenca (DIUC), Cuenca–Ecuador. 
+References 
+[1] R.U. Mondal, Radio frequency ﬁngerprinting for outdoor user equipment local- 
+ization, Jyväskylä Studies in Computing (271) (2017). https://jyx.jyu.ﬁ/handle/ 
+123456789/56222 . 
+[2] A. Savvides, C.-C. Han, M.B. Strivastava, Dynamic ﬁne-grained localization in 
+Ad-Hoc networks of sensors, in: Proceedings of the 7th Annual International 
+Conference on Mobile Computing and Networking - MobiCom ’01, ACM Press, 
+Rome, Italy, 2001, pp. 166–179, doi: 10.1145/381677.381693 . http://portal.acm. 
+org/citation.cfm?doid=381677.381693 . 
+[3] S. Benaissa, D. Plets, E. Tanghe, J. Trogh, L. Martens, L. Vandaele, L. Ver- 
+loock, F. Tuyttens, B. Sonck, W. Joseph, Internet of animals: characterisation 
+of LoRa sub-GHz off-body wireless channel in dairy barns, Electronics Let- 
+ters 53 (18) (2017) 1281–1283, doi: 10.1049/el.2017.1344 . http://digital-library. 
+theiet.org/content/journals/10.1049/el.2017.1344 . 
+[4] A.M. Baharudin, W. Yan, Long-range wireless sensor networks for geo-location 
+tracking: Design and evaluation, in: 2016 International Electronics symposium 
+(IES), IEEE, Denpasar, Indonesia, 2016, pp. 76–80, doi: 10.1109/ELECSYM.2016. 
+7860979 . http://ieeexplore.ieee.org/document/7860979/ . 
+[5] T. Sathyan, R. Shuttleworth, M. Hedley, K. Davids, Validity and reliabil- 
+ity of a radio positioning system for tracking athletes in indoor and 
+outdoor team sports, Behavior Research Methods 44 (4) (2012) 1108–
+1114, doi: 10.3758/s13428- 012- 0192- 2 . http://www.springerlink.com/index/10. 
+3758/s13428- 012- 0192- 2 . 
+[6] U. Raza, P. Kulkarni, M. Sooriyabandara, Low power wide area networks: an 
+overview, IEEE Commun Surv Tut 19 (2) (2017) 855–873, doi: 10.1109/COMST. 
+2017.2652320 . 
+[7] D. Patel, M. Won, Experimental study on low power wide area networks (LP- 
+WAN) for mobile internet of things, in: 2017 IEEE 85th Vehicular Technol- 
+ogy Conference (VTC Spring), IEEE, Sydney, NSW, 2017, pp. 1–5, doi: 10.1109/ 
+VTCSpring.2017.8108501 . http://ieeexplore.ieee.org/document/8108501/ . 
+[8] J.J. Kang, I. Khodasevych, S. Adibi, A disaster recovery system for location 
+identiﬁcation-based low power wide area networks (LPWAN), in: 2017 27th In- 
+ternational Telecommunication Networks and Applications Conference (ITNAC), 
+IEEE, Melbourne, VIC, 2017, pp. 1–6, doi: 10.1109/ATNAC.2017.8215359 . http: 
+//ieeexplore.ieee.org/document/8215359/ . 
+[9] Sujuan Liu, Chuyu Xia, Zhenzhen Zhao, A low-power real-time air quality 
+monitoring system using LPWAN based on LoRa, in: 2016 13th IEEE Interna- 
+tional Conference on Solid-State and Integrated Circuit Technology (ICSICT), 
+IEEE, Hangzhou, China, 2016, pp. 379–381, doi: 10.1109/ICSICT.2016.7998927 . 
+http://ieeexplore.ieee.org/document/7998927/ . 
+[10] Sigfox, Sigfox, 2020. https://www.sigfox.com/ . 
+[11] N.S. Knyazev, V.A. Chechetkin, D.A. Letavin, Comparative analysis of standards 
+for low-power wide-area network, in: 2017 Systems of Signal Synchroniza- 
+tion, Generating and Processing in Telecommunications (SINKHROINFO), IEEE, 
+Kazan, Russia, 2017, pp. 1–4, doi: 10.1109/SINKHROINFO.2017.7997528 . http: 
+//ieeexplore.ieee.org/document/7997528/ . 
+[12] O. Georgiou, U. Raza, Low Power Wide Area Network Analysis: Can LoRa Scale? 
+IEEE Wireless Communications Letters 6 (2) (2017) 162–165, doi: 10.1109/LWC. 
+2016.2647247 . http://ieeexplore.ieee.org/document/7803607/ . 
+[13] B. Oniga, V. Dadarlat, E. De Poorter, A. Munteanu, Analysis, design and im- 
+plementation of secure LoRaWAN sensor networks, in: 2017 13th IEEE Inter- 
+national Conference on Intelligent Computer Communication and Processing 
+(ICCP), IEEE, Cluj-Napoca, 2017, pp. 421–428, doi: 10.1109/ICCP.2017.8117042 . 
+http://ieeexplore.ieee.org/document/8117042/ . 
+[14] P. Neumann, J. Montavont, T. Noel, Indoor deployment of low-power wide area 
+networks (LPWAN): A LoRaWAN case study, in: 2016 IEEE 12th International 
+Conference on Wireless and Mobile Computing, Networking and Communica- 
+tions (WiMob), IEEE, New York, NY, 2016, pp. 1–8, doi: 10.1109/WiMOB.2016. 
+7763213 . http://ieeexplore.ieee.org/document/7763213/ . 
+[15] , Handbook of Position Location: Theory, Practice, and Advances, S.A.R. Zekavat, 
+R.M. Buehrer (Eds.), John Wiley & Sons, Inc., Hoboken, NJ, USA, 2011, doi: 10. 
+1002/9781118104750 . 
+[16] Iswandi, H.T. Nastiti, I.E. Praditya, I.W. Mustika, Evaluation of XBee-Pro trans- 
+mission range for wireless sensor network’s node under forested environ- 
+ments based on received signal strength indicator (RSSI), in: 2016 2nd In- 
+ternational Conference on Science and Technology-Computer (ICST), IEEE, Yo- 
+gyakarta, Indonesia, 2016, pp. 56–60, doi: 10.1109/ICSTC.2016.7877347 . http: 
+//ieeexplore.ieee.org/document/7877347/ . 
+[17] T. Rama Rao, D. Balachander, A. Nanda Kiran, S. Oscar, RF propagation mea- 
+surements in forest & plantation environments for wireless sensor networks, 
+in: International Conference on Recent Trends in Information Technology, ICR- 
+TIT 2012, 2012, pp. 308–313, doi: 10.1109/ICRTIT.2012.6206765 . 
+[18] K. Mikhaylov , On the coverage of LPWANs: range evaluation and channel at- 
+tenuation model for LoRa technology, in: ITS Telecommunications (ITST), 2015 
+14th International Conference on, 2016, pp. 55–59 . 
+[19] A. Augustin, J. Yi, T. Clausen, W. Townsley, A Study of LoRa: ong Range & Low 
+Power Networks for the Internet of Things, Sensors 16 (9) (2016) 1466, doi: 10. 
+3390/s16091466 . http://www.mdpi.com/1424-8220/16/9/1466 . 
+[20] Semtech, LoRa Modulation Basics, Technical Report, Semtech, 2015. http:// 
+www.semtech.com/images/datasheet/an1200.22.pdf . 
+[21] L. Vangelista, Frequency shift chirp modulation: the LoRa modulation, IEEE Sig- 
+nal Process Lett 24 (12) (2017) 1818–1821, doi: 10.1109/LSP.2017.2762960 . 
+[22] M. Bor, U. Roedig, LoRa Transmission Parameter Selection, in: Proceedings 
+of the 13th IEEE International, 2017. http://www.research.lancs.ac.uk/portal/ 
+services/downloadRegister/164374357/lora _ tps _ r1342.pdf . 
+[23] M. Bor , J. Vidler , U. Roedig , Lora for the internet of things, in: Proceedings of 
+the 2016 International Conference on Embedded Wireless Systems and Net- 
+works, 2016, pp. 361–366 . 
+[24] P. Kulkarni, Q.O.A . Hakim, A . Lakas, Experimental evaluation of a campus- 
+deployed IoT network using lora, IEEE Sens. J. 20 (5) (2020) 2803–2811, doi: 10. 
+1109/JSEN.2019.2953572 . 
+[25] R. Fernandes, R. Oliveira, M. Luís, S. Sargento, On the real capacity of LoRa 
+networks: the impact of non-destructive communications, IEEE Commun. Lett. 
+23 (12) (2019) 2437–2441, doi: 10.1109/LCOMM.2019.2941476 . 
+[26] J.M. Marais, R. Malekian, A.M. Abu-Mahfouz, Evaluating the LoRaWAN protocol 
+using a permanent outdoor testbed, IEEE Sens. J. 19 (12) (2019) 4726–4733, 
+doi: 10.1109/JSEN.2019.2900735 . 
+[27] G. Kazdaridis, S. Keranidis, P. Symeonidis, P. Tzimotoudis, I. Zographopou- 
+los, P. Skrimponis, T. Korakis, Evaluation of LoRa performance in a City-wide 
+testbed: experimentation insights and ﬁndings, in: Proceedings of the 13th 
+International Workshop on Wireless Network Testbeds, Experimental Evalua- 
+tion & Characterization, in: WiNTECH 19, Association for Computing Machin- 
+ery, New York, NY, USA, 2019, pp. 29–36, doi: 10.1145/3349623.3355474 . 
+[28] W. Xu, J.Y. Kim, W. Huang, S.S. Kanhere, S.K. Jha, W. Hu, Measurement, char- 
+acterization, and modeling of LoRa technology in multiﬂoor buildings, IEEE In- 
+ternet Things J. 7 (1) (2020) 298–310, doi: 10.1109/JIOT.2019.2946900 . 
+[29] D. Poluektov , M. Polovov , P. Kharin , M. Stusek , K. Zeman , P. Masek , I. Gud- 
+kova , J. Hosek , K. Samouylov , On the performance of LoRaWAN in smart 
+city: end-device design and communication coverage, in: V.M. Vishnevskiy, 
+K.E. Samouylov, D.V. Kozyrev (Eds.), Distributed Computer and Communication 
+Networks, Springer International Publishing, Cham, 2019, pp. 15–29 . 
+[30] T. Addabbo, A. Fort, M. Mugnaini, E. Panzardi, A. Pozzebon, V. Vignoli, 
+A city-scale IoT architecture for monumental structures monitoring, Mea- 
+surement 131 (2019) 349–357, doi: 10.1016/j.measurement.2018.08.058 . http: 
+//www.sciencedirect.com/science/article/pii/S0263224118307978 . 
+[31] T. Hadwen, V. Smallbon, Q. Zhang, M. D’Souza, Energy eﬃcient LoRa GPS 
+tracker for dementia patients, in: 2017 39th Annual International Conference 
+of the IEEE Engineering in Medicine and Biology Society (EMBC), IEEE, Seog- 
+wipo, 2017, pp. 771–774, doi: 10.1109/EMBC.2017.8036938 . https://ieeexplore. 
+ieee.org/document/8036938/ . 
+[32] B.C. Fargas, M.N. Petersen, GPS-free geolocation using LoRa in low-power 
+WANs, in: 2017Global Internet of Things Summit (GIoTS), IEEE, Geneva, 
+Switzerland, 2017, pp. 1–6, doi: 10.1109/GIOTS.2017.8016251 . http://ieeexplore. 
+ieee.org/document/8016251/ . 
+[33] Lora alliance, 2020. https://lora-alliance.org/ . 
+[34] N. Podevijn, D. Plets, J. Trogh, L. Martens, P. Suanet, K. Hendrikse, W. Joseph, 
+TDoA-Based Outdoor Positioning with Tracking Algorithm in a Public LoRa 
+A. Vazquez-Rodas, F. Astudillo-Salinas and C. Sanchez et al. / Ad Hoc Networks 105 (2020) 102168 
+13 
+Network, Wireless Communications and Mobile Computing 2018 (2018) 1–
+9, doi: 10.1155/2018/1864209 . https://www.hindawi.com/journals/wcmc/2018/ 
+1864209/ . 
+[35] L. Sciullo, A. Trotta, M.D. Felice, Design and performance evaluation of a LoRa- 
+based mobile emergency management system (LOCATE), Ad Hoc Networks 
+96 (2020) 101993, doi: 10.1016/j.adhoc.2019.101993 . http://www.sciencedirect. 
+com/science/article/pii/S1570870518309004 . 
+[36] R.S. Alonso, I. Sittón-Candanedo, Óscar García, J. Prieto, S. Rodríguez- 
+González, An intelligent edge-IoT platform for monitoring livestock and 
+crops in a dairy farming scenario, Ad Hoc Networks 98 (2020) 102047, 
+doi: 10.1016/j.adhoc.2019.102047 . http://www.sciencedirect.com/science/article/ 
+pii/S1570870519306043 . 
+[37] M.C. Vuran, A. Salam, R. Wong, S. Irmak, Internet of underground things in 
+precision agriculture: Architecture and technology aspects, Ad Hoc Networks 
+81 (2018) 160–173, doi: 10.1016/j.adhoc.2018.07.017 . http://www.sciencedirect. 
+com/science/article/pii/S1570870518305067 . 
+[38] P. Avila-Campos, F. Astudillo-Salinas, A. Vazquez-Rodas, A. Araujo, Evaluation of 
+LoRaWAN transmission range for wireless sensor networks in riparian forests, 
+in: Proceedings of the 22nd International ACM Conference on Modeling, Anal- 
+ysis and Simulation of Wireless and Mobile Systems, in: MSWIM 19, Asso- 
+ciation for Computing Machinery, New York, NY, USA, 2019, pp. 199–206, 
+doi: 10.1145/3345768.3355934 . 
+[39] M. Aref, A. Sikora, Free space range measurements with Semtech LoRa technol- 
+ogy, in: Wireless Systems within the Conferences on Intelligent Data Acquisi- 
+tion and Advanced Computing Systems: Technology and Applications (IDAACS- 
+SWS), 2014 2nd International Symposium on, 2014, pp. 19–23, doi: 10.1109/ 
+IDAACS-SWS.2014.6954616 . 
+[40] A.J. Wixted, P. Kinnaird, H. Larijani, A. Tait, A. Ahmadinia, N. Strachan, Eval- 
+uation of LoRa and LoRaWAN for wireless sensor networks, Proc IEEE Sens 0 
+(2017) 5–7, doi: 10.1109/ICSENS.2016.7808712 . 
+[41] L. Gregora , L. Vojtech , M. Neruda , Indoor signal propagation of LoRa technol- 
+ogy, in: 2016 17th International Conference on Mechatronics - Mechatronika 
+(ME), 2016, pp. 13–16 . 
+[42] J. Petäjäjärvi, K. Mikhaylov, Evaluation of LoRa LPWAN technology for re- 
+mote health and wellbeing monitoring, (ISMICT), 2016 10th..., 2016. http:// 
+ieeexplore.ieee.org/abstract/document/7498898/ . 
+[43] W.C.Y. Lee, Estimate of local average power of a mobile radio signal, IEEE Trans. 
+Veh. Technol. 34 (1) (1985) 22–27, doi: 10.1109/T-VT.1985.24030 . 
+[44] Pycom, Pycom. https://pycom.io/ . 
+[45] Pycom, Datasheet FiPy, Datasheet, Pycom, 2018a. Versión 1.0. https://docs. 
+pycom.io/.gitbook/assets/ﬁpy- specsheet- 1.pdf . 
+[46] Pycom, Datasheet LoPy versión 1.0, Datasheet, Pycom, 2018b. Versión 1.0. 
+https://docs.pycom.io/.gitbook/assets/lopy-specsheet.pdf . 
+[47] Semtech, Semtech, 2020. https://www.semtech.com/ . 
+Andres Vazquez-Rodas received the Electronics Engineer- 
+ing degree in 2004 from the Universidad Politécnica Sale- 
+siana Cuenca Ecuador, the Master degree in Telematics 
+Engineering (Honors) from the Universidad de Cuenca 
+Ecuador in 2010, and the Ph.D. from the Networking 
+Department of the Universitat Politècnica de Catalunya 
+BarcelonaTech (UPC), Spain in 2015. He was also an assis- 
+tant professor at the Universidad Politécnica Salesiana un- 
+til 2017. Since 2015 he is full time professor of the Univer- 
+sidad de Cuenca at the Electric, Electronic and Telecom- 
+munication Department (DEET) and the Engineering Fac- 
+ulty. His research interests include wireless mesh net- 
+works, wireless sensor networks, industrial networking 
+and complex systems. 
+Darwin F. Astudillo-Salinas received the B.S.E (C.S) de- 
+gree from Universidad de Cuenca, Cuenca, Ecuador, in 
+2007, and the M.S. and Ph.D. degrees from the Institut 
+National Polytechnique de Toulouse, Toulouse, France, in 
+2009 and 2013, respectively. Since 2013, he has been a 
+Full-Time Researcher with the Department of Electrical, 
+Electronic, and Telecommunications Engineering, Univer- 
+sidad de Cuenca, Cuenca, Ecuador. His research interests 
+include network coding, wireless sensor networks, vehic- 
+ular networks, networked control systems, network simu- 
+lation, network performance, cybersecurity and HPC. 
+Christian P. Sánchez Venenaula received his Electron- 
+ics and Telecomunnication degree from the University 
+of Cuenca, Cuenca Ecuador, in 2019. His research inter- 
+ests include wireless mesh networks, wireless sensor net- 
+works, network simulation, industrial networking, and cy- 
+bersecurity. 
+Braulio Arpi received his Electronics and Telecomunni- 
+cation degree from the University of Cuenca, Cuenca 
+Ecuador, in 2019. His research interests include low power 
+wide area networks, wireless sensor networks, network 
+simulation, industrial networking, and cybersecurity. 
+Luis I. Minchala received the B.S.E.E. degree in electronics 
+from the Salesian Polytechnic University, Cuenca, Ecuador, 
+in 2006, and the M.S. and Ph.D. degrees in control engi- 
+neering from Tecnológico de Monterrey, Monterrey, Méx- 
+ico, in 2011 and 2014, respectively. From summer 2012 
+to summer 2013, he was a Visiting Scholar at Concordia 
+University, Montreal, QC, Canada. Between 2017–2018, he 
+was a Postdoctoral Fellow at Tecnológico de Monterrey 
+in the Climate Change Research Group. He is currently 
+a full-time researcher with the Department of Electrical, 
+Electronic and Telecommunications Engineering, Universi- 
+dad de Cuenca, Ecuador. Dr. Minchala has authored and 
+co-authored more than 40 indexed publications, including 
+journal articles, conference proceedings, book chapters, and a book. His research in- 
+terests are fault tolerant control applied to energy systems, automation and process 
+control. 

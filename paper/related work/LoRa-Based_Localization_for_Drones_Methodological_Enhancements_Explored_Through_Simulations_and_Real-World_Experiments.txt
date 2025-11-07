@@ -1,0 +1,750 @@
+Received 2 August 2024, accepted 14 September 2024, date of publication 18 September 2024, date of current version 15 October 2024.
+Digital Object Identifier 10.1109/ACCESS.2024.3463175
+LoRa-Based Localization for Drones:
+Methodological Enhancements Explored Through
+Simulations and Real-World Experiments
+KAZUYA HIROTSU
+1, FABRIZIO GRANELLI
+2, (Senior Member, IEEE),
+AND AKIHIRO NAKAO
+1, (Member, IEEE)
+1School of Engineering, The University of Tokyo, Tokyo 113-8654, Japan
+2Department of Information Engineering and Computer Science, University of Trento, 38123 Trento, Italy
+Corresponding author: Kazuya Hirotsu (hirotsu@g.ecc.u-tokyo.ac.jp)
+This work was supported in part by the National Institute of Information and Communications Technology (NICT), under Grant
+JPJ012368C01901; in part by the Japan Science and Technology Agency (JST) under Adopting Sustainable Partnerships for
+Innovative Research Ecosystem (ASPIRE), Japan, under Grant JPMJAP2323; and in part by ERASMUS+.
+ABSTRACT As the use of drones escalates, ensuring their reliable and accurate localization, especially
+in potential GPS-compromised situations is crucial. This paper introduces a cutting-edge localization
+method for drones, leveraging LoRa’s long-range, low-power capabilities, ideal for drone communication.
+We especially focus on enhancing RSSI-based localization, commonly used for its simplicity yet prone to
+inaccuracies due to the large variance in received signal strength. By integrating sensor-derived altitude
+data and applying the Huber loss function in the optimization process of multilateration, our approach not
+only outperforms traditional RSSI-based techniques in accuracy but also scales better with an increasing
+number of beacons as demonstrated through comprehensive simulations and real-world experiments. These
+results highlight our method’s applicability in various scenarios, such as emergency response, environmental
+monitoring, or delivering in dense urban environments, where GPS reliability is uncertain. This research
+makes a substantial contribution to the field of drone navigation, offering a robust alternative to GPS-reliant
+systems and paving the way for enhanced autonomous drone operations in challenging environments.
+INDEX TERMS Drone, localization, LoRa, navigation, wireless networks, received signal strength indicator.
+I. BACKGROUND
+The rise of Unmanned Aerial Vehicles (UAVs) has rev-
+olutionized a multitude of sectors, from commerce to
+entertainment. These drones play pivotal roles in activities
+such as surveillance [1], delivery [2], [3], and aerial photog-
+raphy [4]. A fundamental requirement for these varied tasks
+is accurate localization, traditionally dominated by GPS [5].
+However, there are environments where GPS signals may be
+weak or obstructed. In large indoor settings such as facto-
+ries, stadiums, baseball fields, and underground structures,
+GPS signals are often non-existent or severely weakened.
+Even in outdoor environments, such as dense urban areas
+with high-rise buildings, mountainous regions, and dense
+forests, GPS faces challenges. Furthermore, in extraterrestrial
+The associate editor coordinating the review of this manuscript and
+approving it for publication was Tao Liu
+.
+environments such as the Moon or outer space, GPS is
+entirely unusable. In these scenarios, integrating alternative
+localization techniques to provide redundancy to GPS is
+crucial to ensure robust operation.
+In recent years, Low-Power Wide-Area Network (LPWAN)
+technologies have gained significant attention for their
+potential to provide long-range communication with low
+power consumption, which is ideal for applications such
+as IoT and drone communication [6]. Among the LPWAN
+technologies, LoRa stands out due to its large coverage area
+of up to 15 km, yet low power consumption, and the ability
+to work in various environments where GPS signals are
+unavailable [7]. The use of LoRa in drone communication
+and localization offers a promising alternative to conventional
+methods.
+The localization methods commonly used for drone navi-
+gation can be classified into GPS-based and non-GPS-based
+145988
+ 2024 The Authors. This work is licensed under a Creative Commons Attribution 4.0 License.
+For more information, see https://creativecommons.org/licenses/by/4.0/
+VOLUME 12, 2024
+K. Hirotsu et al.: LoRa-Based Localization for Drones
+techniques. The latter includes Received Signal Strength
+Indicator (RSSI), Time of Flight (ToF), Time Difference
+of Arrival (TDoA), and Angle of Arrival (AoA), among
+others [8]. RSSI-based localization, in particular, is advan-
+tageous due to its simplicity and the ability to function
+without the need for high-cost and complex equipment. How-
+ever, conventional RSSI-based methods often suffer from
+inaccuracy due to signal attenuation, multipath propagation,
+and interference [9]. Hence, enhancing the reliability and
+accuracy of RSSI-based localization in drones forms the crux
+of the research in this field.
+II. PROBLEM STATEMENT
+With the increasing use of drones in various applications,
+there is a need to address the issue of drone localization
+when GPS signals are lost. Currently, drones often rely on
+GPS signals for their localization, and in case of GPS signal
+loss, they try to maintain their position until GPS signal
+recovery. However, due to the inaccuracy of dead-reckoning
+through gyro and accelerometer, drones may not be able to
+navigate as intended, leading to crashes. This issue raises
+concerns about the safety and reliability of drone operations
+in the future. In summary, the problem is the insufficiency
+of GPS as a standalone localization solution for robust
+drone operation, which necessitates alternative localization
+methods that provide redundancy to the system.
+III. OBJECTIVE
+The primary objective of this paper is to propose a novel
+RSSI-based positioning system with LoRa for drones.
+We conduct simulations to evaluate the accuracy of our
+proposed method in comparison to conventional localization
+techniques under controlled conditions in various settings.
+In addition to simulations, empirical studies are carried out
+to assess the practical feasibility of the system and uncover
+any potential issues that simulations alone may not reveal.
+IV. RELATED WORK
+There has been an increasing number of attempts to improve
+the accuracy of the positioning system with LoRa protocol.
+References [10] and [11] utilizes TDoA data for localization.
+Although the TDoA-based method generally outperforms its
+RSSI-based counterpart, it necessitates time synchronization,
+which is realized through GPS as exemplified in [10]. How-
+ever, given our aim of developing a LoRa-based positioning
+system as a redundancy to GPS, dependence on GPS is not a
+viable option. Other works [12], [13], [14], [15] have made
+use of RSSI for localization. Whereas [12], [13], and [14]
+employ a single antenna at each location for RSSI collection,
+[15] incorporates two antennas to not only capture RSSI but
+also Angle of Arrival (AoA) data. This results in a reported
+accuracy of 3 m within a 55 m x 101 m field, although such a
+setup requires custom and precise modifications to the device.
+There have also been initiatives aiming at positioning
+for aircraft utilizing LoRa. For example, [16] reports an
+RSSI-based LoRa localization system for winged model
+airplanes.
+While these studies have advanced the field of drone
+localization, they often face challenges such as the need
+for complex setups, dependence on GPS, and significant
+inaccuracies due to signal attenuation and multipath prop-
+agation. Our RSSI-based approach addresses these issues
+by integrating sensor-derived altitude data and applying the
+Huber loss function in the multilateration process. This
+combination not only enhances accuracy but also improves
+scalability, making our system more robust and practical for
+real-world applications.
+FIGURE 1. Overview of the network.
+V. PROPOSED METHODOLOGY
+A. SYSTEM DESIGN
+Our proposed system envisions the utilization of multiple
+unmanned aerial vehicles (UAVs) in the airspace. Unique to
+our system design is that it does not require bi-directional
+communication, thereby eliminating the need for signal
+traffic control as the number of UAVs increases. This aspect
+of the design simplifies the system architecture and reduces
+operational costs.
+A challenge of this design, however, is the difficulty
+associated with acquiring Time of Flight (ToF) or Time
+Difference of Arrival (TDoA) data. These types of data
+could offer more precise distance estimations but necessitate
+synchronization of time between beacons and receivers. One
+of the primary objectives of this research is to engineer
+a cost-effective system compatible with existing hardware,
+so our focus is solely on Received Signal Strength Indicator
+(RSSI) data, which can be collected using readily available
+hardware.
+In terms of signal protocol, we have selected LoRa for
+its ability to cover distances from a few to 15 km. This
+range significantly reduces the number of beacons needed
+compared to shorter-range wireless protocols such as Wi-Fi
+or Bluetooth, as well as other LPWAN systems such as Sigfox
+and NB-IoT. While these other LPWAN systems may offer
+higher data rates, our system does not require the transmission
+of substantial information. Instead, the relatively low-power
+operation of LoRa makes solar-powered and battery-operated
+beacons feasible. Additionally, obtaining modules for Pri-
+vate LoRa is easier compared to other LPWAN systems.
+These characteristics make LoRa an ideal choice for our
+system.
+VOLUME 12, 2024
+145989
+K. Hirotsu et al.: LoRa-Based Localization for Drones
+B. SYSTEM OVERVIEW
+Our system places multiple beacons either in rural areas
+or atop city buildings where they can maintain a clear line
+of sight to the sky. These beacons emit LoRa signals at
+random intervals, transmitting either their identification or
+location data. Each UAV is equipped with a receiver capable
+of detecting these signals (Fig. 1.) In the event of GPS failure,
+the UAVs are designed to switch over to the LoRa-based
+positioning system.
+C. LOCALIZATION
+The UAVs utilize received signals to extract the RSSI value
+and the source location of the signal (lonbi, latbi, altbi) where
+bi indexes the beacons. These RSSI values are then converted
+into distance estimation di between the UAV and the beacon.
+The conversion from RSSI to distance estimation is accom-
+plished using a logarithmic model fitted with experimental
+data, which is described as:
+di = A log10(RSSIi) + B
+(1)
+where A and B are coefficients determined through curve
+fitting on experimental data.
+These sets of data ((lonbi, latbi, altbi) and di) are temporar-
+ily stored in a cache where they can be used for localization
+of the UAV before being discarded.
+To perform localization, we convert the 3D geographic
+coordinates of the beacons (lonb, latb, altb) to 3D Cartesian
+coordinates (Xb, Yb, Zb). Then we use multilateration to
+determine the location of the UAV. The primary constraints
+for beacon i are expressed as
+( ˆX −Xbi)2 + ( ˆY −Ybi)2 + ( ˆZ −Zbi)2 = d2
+i
+(2)
+For optimizing the position estimate, the conventional
+method uses the squared loss function which is defined as
+L2(di, ˆdi) = (di −ˆdi)2
+(3)
+and minimize P L2(di, ˆdi), however, instead of the squared
+loss function, we propose the use of the Huber loss function
+which is defined as
+Lhuber(di, ˆdi) =
+
+
+
+1
+2(di −ˆdi)2
+if |di −ˆdi| ≤δ
+δ|di −ˆdi| −1
+2δ2
+otherwise
+(4)
+and minimize P Lhuber(di, ˆdi)
+The Huber loss function combines the advantages of
+both squared loss and absolute loss functions, making
+it particularly effective in scenarios where a balance is
+needed between reducing the impact of significant errors
+and avoiding the excessive punishment of minor deviations.
+Squared loss is highly sensitive to small errors, which helps
+in fine-tuning the accuracy of distance estimations. However,
+it can disproportionately weight large errors, potentially
+skewing the error minimization process. In contrast, absolute
+loss is more resilient to large deviations, preventing outliers
+from having too much influence, but it may be less precise in
+minimizing smaller errors.
+In our application, the inherent large variance in RSSI
+values, caused by environmental factors such as signal atten-
+uation and multipath propagation, often leads to substantial
+estimation errors. The Huber loss function addresses this
+challenge by behaving like squared loss when the error is
+small (within a predefined threshold δ), ensuring precise error
+minimization, and like absolute loss when the error is large,
+thereby limiting the influence of outliers.
+This dual characteristic allows the Huber loss function
+to maintain robustness against the significant variances
+in RSSI readings while still providing accurate distance
+estimations for smaller errors. By employing the Huber loss
+function, our system effectively mitigates the impact of these
+variances, leading to enhanced accuracy and robustness in
+the localization process. This makes the Huber loss function
+particularly well-suited for improving the reliability of our
+RSSI-based localization method in diverse and unpredictable
+environments.
+During the minimization process, altitude constraints are
+integrated to enhance localization accuracy. These altitude
+data are derived directly from onboard drone sensors such
+as laser altimeters or barometers which utilize air pressure,
+bypassing the need for GPS input. This integration helps
+mitigate inaccuracies caused by signal attenuation and
+multipath propagation, as the altitude data is captured by a
+different system that does not suffer from these issues. Once
+an estimated position in Cartesian coordinates is ascertained,
+we first transition it to its equivalent geographic coordinates:
+( ˆlat, ˆ
+lon, ˆalt) =
+to_gps( ˆX, ˆY, ˆZ)
+(5)
+Then, using the desired altitude constraint, it is converted
+again into Cartesian coordinates:
+(Xadjusted, Yadjusted, Zadjusted) = to_cartesian( ˆlat, ˆ
+lon, altitude)
+(6)
+VI. SIMULATION
+Since the experimental study is limited in terms of space,
+number of beacons, and obstacles, we conduct a simulation
+with omnnet++ to evaluate the performance of the proposed
+method.
+A. METHOD
+1) LOCALIZATION TECHNIQUES
+We conduct multilateration with 4 methods and compare the
+results. We will refer to them as method 1–4.
+• method 1:
+Squared error loss (conventional method).
+• method 2:
+Squared error loss with altitude constraints.
+• method 3:
+Huber loss.
+• method 4:
+Huber loss with altitude constraints (proposed method).
+145990
+VOLUME 12, 2024
+K. Hirotsu et al.: LoRa-Based Localization for Drones
+2) SIMULATION SETUP
+Our simulation is based on omnet++, which is a c++
+simulation library and framework for network simulation.
+On top of that, we utilize INET framework for mobile
+networks, FLoRa [17] for simulating LoRa, and OSM
+Buildings for 3D buildings to create a city environment.
+The 3D map of our simulation contains the urban area of
+1 tile in Berlin at the zoom level of 15 in open street map,
+whose area is 0.5537 km2. 10 beacons are placed on top of
+the 3D buildings that are randomly chosen. The altitude of
+the drone is fixed at 100 m and the beacons emit 1 signal per
+second to the receiver on the drone.
+The parameters of the simulation are shown in Table 1.
+TABLE 1. Simulation parameter.
+TABLE 2. Results of static simulation.
+3) SIMULATION SCENARIOS
+Simulation is divided into two sections.
+First, we compare the static accuracy, meaning that the
+drone is hovering at one position, and we use the average
+RSSI value of the signals that are emitted in 500 s so that
+we can reduce the error in RSSI-to-distance conversion and
+compare purely the difference between four methods.
+Secondly, we compare the dynamic accuracy, meaning that
+the drone is flying in a circle centered on the map area, with
+a 200 m radius, and a speed of 10 m/s. We use 5 s as the
+sample time for the received signals and update the position
+with the frequency of 1 Hz, which is the normal frequency for
+common GPS use.
+For the RSSI-to-distance model, we conduct simulations
+beforehand in an obstacle-free environment to collect data
+correlating RSSI values with distances. This controlled
+setting allows for the accurate measurement of RSSI values
+at varying distances without interference from environmental
+factors. Once this data are gathered, we apply least squares
+regression to fit it to the logarithmic model (1).
+B. RESULTS/EVALUATION
+1) STATIC ANALYSIS
+Fig. 2–5 shows a boxplot of the error in position estimation
+in 2D/3D with methods 1–4, utilizing different numbers of
+reference nodes. This is conducted by generating all possible
+combinations of reference nodes and estimating positions
+using only the signals from the selected beacon nodes.
+Particularly, the results in 3D with methods 1 and 3, which
+do not use altitude constraints, exhibit significantly higher
+errors compared to the results in 3D with other methods. This
+underscores the beneficial impact of incorporating altitude
+constraints.
+Fig. 5 (a) shows the occurrences of substantial error with
+method 4, which is not observed with other methods. The
+large value factor in the graph is intentional and highlights
+significant outliers, a disadvantage of method 4. However,
+as shown in Fig. 6, an R-squared value of 0.99 is obtained
+by performing a linear regression analysis, suggesting a
+very strong correlation between the minimization error
+and the estimation error for method 4. This indicates that
+substantial errors can be effectively addressed by monitoring
+the minimization error during the multilateration process.
+FIGURE 2. Localization error with method 1. (a) 2D. (b) 3D.
+FIGURE 3. Localization error with method 2 in 2D/3D.
+Table 2 shows the results of method 1-4 with 10 reference
+nodes, displaying the error in both 2D and 3D. Fig. 7 shows
+the difference of each method in the accuracy when the
+number of reference node increases. It is evident that the
+VOLUME 12, 2024
+145991
+K. Hirotsu et al.: LoRa-Based Localization for Drones
+FIGURE 4. Localization error with method 3. (a) 2D. (b) 3D.
+FIGURE 5. Localization error with method 4. (a) 2D/3D. (b) cropped
+2D/3D.
+accuracy of methods that utilizes huber loss gets better with
+more reference nodes when the one with squared error loss
+worsens, which indicates better scalability of the proposed
+method.
+FIGURE 6. Correlation between minimization error and estimation error.
+FIGURE 7. Comparison of localization error with method 1–4.
+TABLE 3. Results of dynamic simulation.
+2) DYNAMIC ANALYSIS
+Table 3 shows the results of the accuracy in dynamic
+simulation with methods 1–4.
+In dynamic simulation, the accuracy markedly diminishes
+compared to static scenarios due to the inherent variability
+in RSSI-based distance estimations. However, our proposed
+method outperforms others in terms of both median error and
+standard deviation.
+To enhance the system’s accuracy further, we recommend
+more frequent data acquisition. This could be achieved by
+increasing the frequency of beacon signals or by reducing
+the drone’s speed. For example, at a reduced speed of
+1 m/s, the system exhibits a much-improved median error
+of 33.22 m and a standard deviation of 14.36 m in 2D with
+method 4 according to our simulation with the said parameter.
+It should be noted, however, that reducing the drone’s speed
+increases energy consumption per travel distance, presenting
+a trade-off.
+3) SUMMARY
+In summary, the simulation results show that our proposed
+method is more stable and accurate compared to others
+145992
+VOLUME 12, 2024
+K. Hirotsu et al.: LoRa-Based Localization for Drones
+in 2D/3D and static/dynamic scenarios, and it scales well
+with an increased number of beacons. The main challenge
+is the potential for large errors, which can be mitigated
+by monitoring minimization errors. Additionally, the accu-
+racy in dynamic scenarios is significantly lower than in
+static scenarios but can be improved by reducing drone
+speed.
+TABLE 4. Simulation parameter.
+FIGURE 8. Hardware for the experiment. (a) drone. (b) beacon.
+VII. EXPERIMENTAL STUDY
+The objective of this experiment is to validate the accuracy
+of the proposed localization methodology and assess its
+practical feasibility in a real-world setting.
+A. METHOD
+1) HARDWARE
+The experimental setup utilizes readily available commercial
+hardware components, as delineated in Table 4.
+Fig. 8 shows the drone and one of the deployed beacons.
+2) EXPERIMENTAL METHOD
+The field tests are conducted in a parking area located in
+Pergine, Italy. We position four beacons in a rectangle shape,
+as illustrated in Fig. 9, and set them to transmit signals at
+intervals modeled by a normal distribution with a mean value
+of 0.5 seconds. The area surrounded by the beacons is 610 m2.
+FIGURE 9. Map of the beacons.
+Under handheld control at altitudes between 5–10 m, the
+drone executes an oval maneuver in experiment 1 and pylon
+eights in experiment 2. In autonomous control at an altitude
+of 15 m, it performs an oval maneuver in experiment 3 and
+pylon eights in experiment 4.
+3) EVALUATION METHOD
+Since beacon signals are more frequent than GPS data,
+aligning them for evaluation can result in data mismatches.
+We address this by employing interpolation on the GPS data,
+estimating the drone’s GPS position at the precise moment of
+signal reception.
+B. RESULTS/EVALUATION
+Table 5 presents the results of experiments 1 to 4, employing
+methods 1–4. The table displays median errors and standard
+deviations for 2D and 3D in each cell, formatted as ‘‘Med
+2D/3D’’ and ‘‘Std 2D/3D’’, all values are in meters. For
+methods 2 and 4, only a single set of values is shown for each
+metric, as these methods yield identical results in 2D and 3D
+due to altitude constraints.
+In the practical implementation, our proposed method does
+not show the same level of improvement over the conven-
+tional method as observed in simulations. A contributing
+factor is the limited number of 4 beacons used as opposed
+to many. Furthermore, the outcomes from experiments 3 and
+4 are less favorable than those from experiments 1 and 2. This
+discrepancy is attributed to the antenna’s radiation pattern.
+With the drone operating at a higher altitude in experiments
+3 and 4, our model for correlating RSSI to distance proves less
+adept. We present a more detailed exploration of this aspect
+in the discussion section.
+VIII. DISCUSSION
+A. RSSI-TO-DISTANCE MODEL IMPROVEMENT
+Fig. 10 depicts the RSSI-to-distance models derived from
+data in experiments 1–2 and 3–4. The contrasting relational
+VOLUME 12, 2024
+145993
+K. Hirotsu et al.: LoRa-Based Localization for Drones
+TABLE 5. Results of experimental study.
+trends between RSSI and distance arise from the beacon’s
+monopole antenna configuration. The weakening of signal
+strength directly above the antenna, despite its proximity,
+becomes pronounced at greater altitudes, as evidenced by
+Fig. 11.
+FIGURE 10. RSSI-to-distance model. (a) trained with experiments 1–2.
+(b) trained with experiments 3–4.
+FIGURE 11. Signal strength in different altitudes.
+A viable refinement to the RSSI-to-distance model
+involves incorporating altitude parameters. Fig. 12 demon-
+strates an altitude-adjusted model using data from exper-
+iments 1 and 2. This model more accurately represents
+radiation patterns at varying altitudes. However, imple-
+menting this requires extensive data training and increases
+computational demands due to the need for a large dataset and
+advanced processing capabilities. Despite these challenges,
+this refinement is a promising area for future research to
+improve system precision.
+FIGURE 12. RSSI-to-distance model with altitude parameter.
+B. SAMPLING TIME OPTIMIZATION
+Fig. 13 demonstrates the correlation between sampling times
+for signal data and the observed median error and standard
+deviation. This highlights the critical role of choosing the
+suitable sampling duration tailored to the specific scenario.
+In stable environments, longer sampling times reduce noise
+impact, while dynamic conditions may require shorter
+sampling times to capture real-time variations. Developing
+adaptive algorithms to adjust sampling times based on
+environmental conditions can optimize system performance,
+enhancing accuracy and responsiveness in various scenarios.
+This optimization is another promising area for future work
+to further improve the adaptability and effectiveness of the
+localization system.
+C. COMPARISON WITH GPS
+From the user’s perspective, both GPS and the proposed
+system are straightforward to use with readily available
+modules. LoRa receivers consume less power compared to
+GPS receivers, offering an energy-efficient supplement. For
+the system provider, the proposed method is simpler as it uses
+RSSI without requiring time synchronization, unlike GPS
+which depends on precise synchronization with satellites.
+While GPS involves maintaining costly satellites, our system
+requires more ground-based beacons, which are cheaper
+and simpler to deploy and maintain. This ensures that the
+proposed method effectively supplements GPS, balancing
+energy efficiency, cost, and complexity.
+145994
+VOLUME 12, 2024
+K. Hirotsu et al.: LoRa-Based Localization for Drones
+FIGURE 13. Effect of Sample time on accuracy. (a) median error. (b) std.
+D. SCALABILITY
+The scalability of our proposed RSSI-based localization
+method is supported by several key factors. Firstly, LoRa
+technology’s long-range capability allows for coverage
+areas of up to 15 km, reducing the number of beacons
+needed. Secondly, the system design eliminates the need for
+bi-directional communication, simplifying the architecture
+and reducing operational costs as the number of UAVs
+increases. Finally, the method can scale with an increased
+number of beacons, improving localization accuracy propor-
+tionally. These factors ensure the method’s suitability for
+wide-area coverage and enhanced localization accuracy with
+minimal infrastructure.
+E. REAL-WORLD FEASIBILITY
+Lastly, system deployment in real-world contexts neces-
+sitates a cost-effectiveness analysis. Simulations indicate
+a direct correlation between drone speed and localization
+accuracy. Although the proposed method may not rival
+GPS accuracy for a moving drone, operational adaptations
+such as decelerating during critical phases (e.g., takeoff,
+landing, or approaching destinations) can optimize precision.
+According to our simulations, when the drone remains
+stationary, achieving a median error of 11.63 m necessitates
+a beacon density of 18.06 beacons/km2, and a median error
+of 4.502 m requires a density of 7.223 beacons/km2.
+IX. CONCLUSION
+In this study, we introduce a new method for drone
+localization using the RSSI values from LoRa beacons.
+By incorporating altitude constraints and the Huber loss func-
+tion, we aim to enhance the accuracy of drone positioning.
+Our simulations show that our proposed method con-
+sistently surpasses the conventional approach in terms of
+accuracy and reliability. Our proposed method is able to
+achieve a median error of 5.4m in static conditions. However,
+this error increases to 62.98 m in dynamic situations,
+primarily due to the unstable nature of RSSI values. One
+potential solution is to reduce the drone’s speed. For instance,
+when the drone’s speed drops to 1 m/s from 10 m/s, the
+median error improves to 33.22 m, though at the expense of
+battery life.
+In real-world experiments, the results are better than
+those of the dynamic simulations because of the lower
+altitude and denser beacon environment. However, perfor-
+mance decreases at higher altitudes, likely attributed to
+the directional nature of antenna signals. By adapting the
+RSSI-distance model to account for altitude, we believe we
+can achieve more accurate estimation.
+In summary, our experiments and simulations highlight
+both the potential of our method and areas for further
+refinement.
+X. CONTRIBUTIONS
+This research introduces the innovative use of Huber loss
+combined with altitude constraints in the realm of localization
+with RSSI data. Through simulations and real-world experi-
+ments, we highlight the superiority of our proposed method
+in comparison to the conventional method.
+A key finding from our field studies is the uncovering
+of additional errors attributed to antenna directivity, which
+is not apparent in simulations. This crucial insight leads to
+the promising approach of integrating an altitude variable
+into our RSSI-to-distance model, effectively mitigating errors
+linked to directivity.
+REFERENCES
+[1] S.
+Richhariya,
+K.
+Wanaskar,
+S.
+Shrivastava,
+and
+J.
+Gao,
+‘‘Surveillance
+drone
+cloud
+and
+intelligence
+service,’’
+in
+Proc.
+MobileCloud,
+Athens,
+Greece,
+Jul.
+2023,
+pp. 1–10,
+doi:
+10.1109/MobileCloud58788.2023.00007.
+[2] D. Schneider, ‘‘The delivery drones are coming,’’ IEEE Spectr., vol. 57,
+no. 1, pp. 28–29, Jan. 2020, doi: 10.1109/MSPEC.2020.8946304.
+[3] D.
+Cvitanic,
+‘‘Drone
+applications
+in
+transportation,’’
+in
+Proc.
+5th
+SpliTech,
+Split,
+Croatia,
+Sep.
+2020,
+pp. 1–4,
+doi:
+10.23919/
+SpliTech49282.2020.9243807.
+[4] B. Chamberlain and W. Sheikh, ‘‘Design and implementation of
+a quadcopter drone control system for photography applications,’’
+in
+Proc.
+IETC,
+Orem,
+UT,
+USA,
+May
+2022,
+pp. 1–7,
+doi:
+10.1109/IETC54973.2022.9796735.
+[5] J.-H. Kang, K.-J. Park, and H. Kim, ‘‘Analysis of localization for drone-
+fleet,’’ in Proc. ICTC, Jeju, South Korea, Oct. 2015, pp. 533–538, doi:
+10.1109/ICTC.2015.7354604.
+[6] R. S. Sinha, Y. Wei, and S.-H. Hwang, ‘‘A survey on LPWA technology:
+LoRa and NB-IoT,’’ ICT Exp., vol. 3, no. 1, pp. 14–21, Mar. 2017, doi:
+10.1016/j.icte.2017.03.004.
+[7] J. P. S. Sundaram, W. Du, and Z. Zhao, ‘‘A survey on LoRa networking:
+Research problems, current solutions, and open issues,’’ IEEE Commun.
+Surveys Tuts., vol. 22, no. 1, pp. 371–388, 1st Quart., 2020, doi:
+10.1109/COMST.2019.2949598.
+VOLUME 12, 2024
+145995
+K. Hirotsu et al.: LoRa-Based Localization for Drones
+[8] M. D. Jovanovic and S. M. Djosic, ‘‘Analysis of indoor localization
+techniques,’’ in Proc. ICEST, Nis, Serbia, Jun. 2023, pp. 219–222, doi:
+10.1109/icest58410.2023.10187323.
+[9] J. Xiong, Q. Qin, and K. Zeng, ‘‘A distance measurement wireless
+localization correction algorithm based on RSSI,’’ in Proc. ISCID,
+Hangzhou, China, Dec. 2014, pp. 276–278, doi: 10.1109/ISCID.2014.246.
+[10] B. C. Fargas and M. N. Petersen, ‘‘GPS-free geolocation using LoRa
+in low-power WANs,’’ in Proc. GIoTS, Geneva, Switzerland, Jun. 2017,
+pp. 1–6.
+[11] M. Chen, H. Zhao, C. Shi, X. Chen, and D. Niu, ‘‘Multi-scene LoRa
+positioning algorithm based on Kalman filter and its implementation
+on NS3,’’ Ad Hoc Netw., vol. 141, Mar. 2023, Art. no. 103097, doi:
+10.1016/j.adhoc.2023.103097.
+[12] A. Vazquez-Rodas, F. Astudillo-Salinas, C. Sanchez, B. Arpi, and
+L. I. Minchala, ‘‘Experimental evaluation of RSSI-based positioning
+system with low-cost LoRa devices,’’ Ad Hoc Netw., vol. 105, Aug. 2020,
+Art. no. 102168, doi: 10.1016/j.adhoc.2020.102168.
+[13] P.
+Müller,
+H.
+Stoll,
+L.
+Sarperi,
+and
+C.
+Schüpbach,
+‘‘Outdoor
+ranging
+and
+positioning
+based
+on
+LoRa
+modulation,’’
+in
+Proc.
+ICL-GNSS, Tampere, Finland, Jun. 2021, pp. 1–6, doi: 10.1109/ICL-
+GNSS51451.2021.9452277.
+[14] J. Purohit, X. Wang, S. Mao, X. Sun, and C. Yang, ‘‘Fingerprinting-
+based indoor and outdoor localization with LoRa and deep learning,’’ in
+Proc. GLOBECOM, Taiwan, Dec. 2020, pp. 1–6, doi: 10.1109/GLOBE-
+COM42002.2020.9322261.
+[15] K.-J. Baik, S. Lee, and B.-J. Jang, ‘‘Hybrid RSSI-AoA positioning
+system with single time-modulated array receiver for LoRa IoT,’’
+in Proc. EuMC, Madrid, Spain, Sep. 2018, pp. 1133–1136, doi:
+10.23919/EuMC.2018.8541736.
+[16] S. Yucer, F. Tektas, M. V. Kilinc, I. Kandemir, H. Celebi, Y. Genc,
+and Y. S. Akgul, ‘‘RSSI-based outdoor localization with single unmanned
+aerial vehicle,’’ 2020, arXiv:2004.10083.
+[17] M. Slabicki, G. Premsankar, and M. Di Francesco, ‘‘Adaptive configuration
+of LoRa networks for dense IoT deployments,’’ in Proc. NOMS, Taiwan,
+Apr. 2018, pp. 1–9, doi: 10.1109/NOMS.2018.8406255.
+KAZUYA
+HIROTSU
+received the bachelor’s
+degree in engineering from The University of
+Tokyo, in 2023, where he is currently pursuing the
+master’s degree in engineering.
+FABRIZIO GRANELLI (Senior Member, IEEE)
+received the Laurea (M.Sc.) and Ph.D. degrees
+from the University of Genoa, Italy, in 1997 and
+2001, respectively. He is a Full Professor with
+the Department of Information Engineering and
+Computer Science (DISI), University of Trento,
+Italy. He was a Visiting Professor with the
+State University of Campinas, Brazil, and The
+University of Tokyo, Japan. He is the author
+or co-author of more than 270 papers published
+in international journals, books, and conferences. He was an IEEE
+ComSoc Distinguished Lecturer (2012–2015 and 2021–2023), the ComSoc
+Director for Online Content (2016–2017), a Delegate of Education at
+DISI (2015–2017), the IEEE ComSoc Director for Educational Services
+(2018–2019), and the IEEE ComSoc Director for Conference Development
+(2022–2023). He was the General Chair or the TPC Chair of several
+prestigious IEEE conferences, such as IEEE Globecom, IEEE NFV-SDN,
+and IEEE CAMAD; and chaired several symposia at IEEE ICC and
+Globecom. He is the Founding Chair of the Aerial Communication Emerging
+Technology Initiative of IEEE Communications Society and the Chair of the
+IEEE P1954 Standard Working Group. He was the Associate Editor-in-Chief
+of IEEE COMMUNICATIONS SURVEYS AND TUTORIALS, from 2017 to 2022.
+AKIHIRO NAKAO (Member, IEEE) received
+the B.S. degree in physics and the M.E. degree
+in information engineering from The University
+of Tokyo,1991 and 1994, respectively, and the
+M.S. and Ph.D. degrees in computer science
+from Princeton University, in 2001 and 2005,
+respectively. From 1994 to 2005, he was with
+the IBM Yamato Laboratory; Tokyo Research
+Laboratory; and IBM Texas, Austin. He taught
+as an Associate Professor (2005–2014) and a
+Professor (2014–2021) of applied computer science with the Interfaculty
+Initiative in Information Studies, Graduate School of Interdisciplinary
+Information Studies, The University of Tokyo. He was the Vice Dean
+for the Interfaculty Initiative in Information Studies, The University of
+Tokyo, from 2019 to 2021. In April 2021, he has moved to the School
+of Engineering, The University of Tokyo (since 2021). Since April 2023,
+he has been the Head of the Department of System Innovations, School
+of Engineering. He was appointed as an Adviser to the President of
+The University of Tokyo (2019–2020) and has been a Special Adviser
+to the President of The University of Tokyo (since 2020). He has been
+the Director of the Collaborative Research Institute for Next-Generation
+Cyber Infrastructure (NGCI), The University of Tokyo, since 2021. For
+social services, he has been playing several important roles in Japanese
+government and also at research societies. He has been the Chairperson of
+the 5G Mobile Network Promotion Forum (5GMF) Network Architecture
+Committee by Japanese Government. He has been appointed as the
+Chairperson of 5G/Beyond 5G Committee, Space ICT Promotion Initiative
+Forum, International Committee, and Beyond 5G Promotion Consortium,
+since 2020. Since 2020, he has been the Chair and an Advisor of the
+IEICE Technical Committee on Network Systems (NS) and the Chair
+of the IEICE Technical Committee on Cross-Field Research Association
+of Super-Intelligent Networking (RISING). He will be the President of
+Communication Society, IEICE, in 2024.
+145996
+VOLUME 12, 2024
