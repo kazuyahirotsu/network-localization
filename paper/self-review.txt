@@ -96,11 +96,15 @@ Validate through field experiments
 
 todo
 ✅improve graph and table title
-make sure every figure and tables are mentioned
-improve baseline explanation
-improve discussion
+✅make sure every figure and tables are mentioned
+✅improve baseline explanation
+✅improve discussion
 do some experiments and add ablation section
     being near the anchor
     data size
 ✅experiment terrain image and rssi data plot
 past tense check
+
+
+2d and not 3d result
+param result

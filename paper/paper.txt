@@ -52,13 +52,13 @@ The remainder of this paper is structured as follows. We first review related wo
 
 2. Related Work
 
-Our work is positioned at the intersection of classical geometric localization, learning-based methods, and graph neural networks. This section reviews these areas, focusing on the methods and data modalities relevant to outdoor, GNSS-denied localization.
+This work bridges classical geometric localization and graph-based deep learning. This section reviews these areas, focusing on the methods and data modalities relevant to outdoor, GNSS-denied localization.
 
 2.1 Localization Methods
 
-Classical multilateration and its iterative variants form the foundation of geometric localization, recovering node positions from pairwise distances using solvers like least-squares [2], [3]. Iterative multilateration improves coverage by temporarily promoting newly localized nodes to anchor status. However, as noted in [13], this strategy is vulnerable to error propagation in sparse graphs with limited line-of-sight, where early inaccuracies in promoted nodes can compound catastrophically. Our work avoids this sequential promotion, instead performing collective inference over the entire graph simultaneously.
+Classical multilateration and its iterative variants form the foundation of geometric localization, recovering node positions from pairwise distances using solvers like least-squares [2], [3]. Iterative multilateration improves coverage by temporarily promoting newly localized nodes to anchor status. However, as noted in [13], this strategy is vulnerable to error propagation in sparse graphs with limited line-of-sight, where early inaccuracies in promoted nodes can compound catastrophically.
 
-Fingerprinting methods learn a direct mapping from signal observations (e.g., RSSI vectors) to coordinates. While effective in constrained environments, this approach requires extensive, laborious site surveys to build the signal map and is sensitive to environmental changes, limiting its practicality for large-scale outdoor deployments [4], [7]. Our method circumvents this laborious process by enabling pre-training on terrain-aware simulations, drastically reducing the on-site data collection required.
+Fingerprinting methods learn a direct mapping from signal observations (e.g., RSSI vectors) to coordinates. While effective in constrained environments, this approach requires extensive, laborious site surveys to build the signal map and is sensitive to environmental changes, limiting its practicality for large-scale outdoor deployments [4], [7]. 
 
 Graph Neural Networks (GNNs) have emerged as a powerful paradigm for localization by explicitly modeling the network as a graph, which allows them to leverage connectivity between unknown nodes—a source of information that geometric solvers cannot use. Prior work has demonstrated the value of GNNs for various localization tasks, including indoor localization with high-order GNNs [9] and graph-fusion designs [8], large-scale network localization [10], and indoor positioning using WiFi RSSI [11]. Our work builds directly on the principles of edge-conditioned convolutions, as proposed in [12], where edge attributes dynamically shape the message-passing function. However, previous GNN applications have primarily focused on indoor environments or have not integrated an explicit, trainable physical propagation model. Our key distinction is the introduction of a physically-informed RSSI-to-distance module, which provides an interpretable prior that is learned jointly with the graph network, a technique specifically tailored for sparse, outdoor LPWA topologies.
 
@@ -75,7 +75,7 @@ Given these practical constraints, we focus on an RSSI-only approach that is com
 
 2.3 Relation to Our Previous Work
 
-Our previous work [1] focused on the localization of a mobile drone relative to a set of beacons with known, fixed positions. In contrast, the present work addresses a different and complementary problem: the self-localization of the static beacons themselves, using only pairwise RSSI measurements within the beacon network.
+Our previous work [1] focuses on the localization of a mobile drone relative to a set of beacons with known, fixed positions. In contrast, the present work addresses a different and complementary problem: the self-localization of the static beacons themselves, using only pairwise RSSI measurements within the beacon network.
 
 -----------------------------------------------------------------------------------------------------
 
@@ -112,7 +112,7 @@ We learn the global path-loss parameters ($n, o$) as trainable scalars, holding 
 
 Anchor node coordinates are treated as fixed ground truth throughout training and inference. While messages are passed through all nodes, the predicted coordinates for anchors are overwritten with their known values after each forward pass and are excluded from the loss calculation.
 
-The model is trained end-to-end by minimizing a robust Smooth L1 (Huber) loss between the predicted and true coordinates for all unknown nodes: $\mathcal{L} = \sum_{i \in \mathcal{U}} \rho(\hat{\mathbf{p}}_i - \mathbf{p}_i)$. We use the Adam optimizer with weight decay applied to both the GCN and path-loss parameters, along with gradient clipping for stability. We train on standardized features and targets, and inverse-transform the predictions for evaluation. Key hyperparameters are listed in Table \ref{tab:hyperparams}.
+The training objective is to minimize a robust Smooth L1 (Huber) loss between the predicted and true coordinates for all unknown nodes: $\mathcal{L} = \sum_{i \in \mathcal{U}} \rho(\hat{\mathbf{p}}_i - \mathbf{p}_i)$.
 
 -----------------------------------------------------------------------------------------------------
 
@@ -151,7 +151,7 @@ SUBSUBSECTION: Iterative Multilateration
 This baseline follows a classical two-stage, iterative geometry-solving approach that requires no training. The process repeats for 10 iterations:
 1. **Path-Loss Estimation:** A simple log-distance model, $\mathrm{RSSI}(d) = A - 10n\log_{10}(d)$, is fit to the anchor-anchor links to find the optimal parameters $(A, n)$ for the current graph.
 2. **Distance Conversion:** The fitted model is used to convert the mean RSSI of all other links to distance estimates, $\hat{d}$.
-3. **Position Solving:** The 2D coordinates of each unknown node with at least three known neighbors are solved using a bounded nonlinear least-squares optimizer (trust-region reflective).
+3. **Position Solving:** The 2D coordinates of each unknown node with at least three known neighbors are solved using a bounded nonlinear least-squares optimizer.
 4. **Anchor Promotion:** Nodes that were successfully localized with a low residual error are temporarily promoted to anchor status for the next iteration.
 
 SUBSUBSECTION: Plain GCN Ablation
@@ -159,7 +159,8 @@ This model serves as a direct ablation to measure the benefit of our physically-
 
 4.3 Training and Implementation Details
 
-All GCN models are implemented in PyTorch Geometric. We standardize all node features and target coordinates using scalers fit on the training data. The models are trained end-to-end using the Adam optimizer to minimize the Smooth L1 loss on the unknown nodes' coordinates. Key hyperparameters are summarized in Table \ref{tab:hyperparams}.
+All GCN models are implemented in PyTorch Geometric. We standardize all node features and target coordinates using scalers fit on the training data and inverse-transform the predictions for evaluation. The models are trained end-to-end using the Adam optimizer to minimize the Smooth L1 loss on the unknown nodes' coordinates, with weight decay applied to both the GCN and path-loss parameters, along with gradient clipping for stability. Key hyperparameters are summarized in Table \ref{tab:hyperparams}.
+
 
 TAB: Key GCN training hyperparameters | tab:hyperparams | Applies to proposed and plain GCN unless noted.
 | Hyperparameter | Value |
@@ -213,12 +214,6 @@ TAB: Free-space localization error (m) | tab:free_results | Units are meters.
 | Plain GCN | 257.80 | 210.44 | 494.98 | 632.21 |
 | Multilateration | 6.28 | 5.80 | 10.87 | 12.65 |
 
-
-
-5.3 Ablations
-
-Effect of (A) RSSI time‑series vs aggregates, (B) trainable path‑loss vs none, (C) anchor density, (D) node density (fixed ratio), (E) measurements per edge (10→100), (F) anchor layout, (G) environment mismatch (train/test regions), (H) receiver sensitivity thresholds, (I) connectivity (degree) vs error. Keep figures concise and focus on trends.
-
 -----------------------------------------------------------------------------------------------------
 
 6. Discussion
@@ -259,7 +254,7 @@ The results suggest a pragmatic, multi-stage workflow for deploying this system 
 
 This paper addresses the problem of beacon self-localization in sparse, outdoor LPWA networks using only RSSI. We introduce a physically-informed, edge-conditioned GCN that integrates a trainable RSSI-to-distance module learned jointly with the graph network. This approach provides a robust physical prior while leveraging unknown-to-unknown connectivity, keeping anchor nodes fixed to prevent drift.
 
-In comprehensive, terrain-aware simulations, our model achieves a mean error of 206.74 m, significantly outperforming a plain GCN (750.87 m) and iterative multilateration (1974.40 m), most notably by reducing the long tail of large errors. Our results also demonstrate that idealized free-space evaluations can be misleading, as they invert the performance ranking of the methods. We further propose a practical deployment workflow, beginning with pre-training on terrain-aware simulations and followed by a lightweight, on-site calibration step.
+In extensive terrain-aware simulations, our model achieves a mean error of 206.74 m, significantly outperforming a plain GCN (750.87 m) and iterative multilateration (1974.40 m), most notably by reducing the long tail of large errors. Our results also demonstrate that idealized free-space evaluations can be misleading, as they invert the performance ranking of the methods. We further propose a practical deployment workflow, beginning with pre-training on terrain-aware simulations and followed by a lightweight, on-site calibration step.
 
 Future work will focus on bridging the sim-to-real gap, analyzing sensitivity to anchor geometry, and exploring more advanced loss functions. This work establishes that physically-grounded graph learning, paired with terrain-matched simulation, provides a viable and robust foundation for dependable localization in GNSS-denied environments.
 
