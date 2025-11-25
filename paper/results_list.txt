@@ -53,6 +53,22 @@ free: mid-term/multilateration/64beacon_200instances_free.py
 to run the trained pth file, just python ...pth_test...py
 and then use plot_eval_dump_power13.py to create graphs
 
-todo: 
-- make graph with multiple methods to compare the results
-- start writing results Section
+ablation
+
+gcn 1x1: mid-term/gcn/64beacon_1000instances_fixed_power13_1x1.py
+    Mean: 45.59 m
+    Median: 39.91 m
+    P90: 81.59 m
+    P95: 98.21 m
+
+gcn 2x2: mid-term/gcn/64beacon_1000instances_fixed_power13_2x2.py
+    Mean: 98.67 m
+    Median: 84.75 m
+    P90: 184.76 m
+    P95: 222.16 m
+
+gcn 3x3: mid-term/gcn/64beacon_1000instances_fixed_power13_3x3.py
+    Mean: 217.00 m
+    Median: 192.83 m
+    P90: 385.49 m
+    P95: 465.39 m
