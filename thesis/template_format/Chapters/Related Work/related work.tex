@@ -1,0 +1,56 @@
+\chapter{Related Work}
+\label{chap: related work}
+
+This chapter summarized the existing research on anomaly detection in IIoT environments. This chapter also includes our previous research: a U-Plane-based two-level anomaly detection scheme for large-scale 5G-IIoT: an open-source approach for Aether Onramp \cite{shi2024uplane}.
+
+\section{A survey of related research}
+\subsection{Industrial IoT Anomaly Detection: Overview}
+The Industrial Internet of Things (IIoT) integrates sensors, networks, and data analytics to enable connectivity and intelligent management of devices, systems, and processes in industrial environments \cite{lee2014industrial}. However, the complexity, diversity, and real-time nature of IIoT data pose challenges for anomaly detection \cite{chandola2009anomaly}. Anomaly detection involves identifying events or data points that deviate from expected behavior, playing a crucial role in fault prediction, efficiency enhancement, and safety assurance. Recent research has explored anomaly detection algorithms based on statistical methods, machine learning, and deep learning, applying them to various industrial scenarios such as predictive maintenance, cybersecurity, and quality control \cite{hodge2004survey}.
+
+\subsection{Categorization of Anomalies in Industrial IoT}
+Before performing anomaly detection, defining what constitutes an anomaly is essential. Based on their characteristics, anomalies can generally be classified into the following categories:
+
+\begin{description}
+    \item[Point Anomalies] a single data point's behavior deviates from the normal pattern, often caused by sensor errors or short-term events \cite{hawkins1980identification}.
+    \item[Contextual Anomalies] Data points that are counted as anomaly in specific contexts, such as a sudden increase in nighttime energy consumption \cite{chandola2009anomaly}.
+    \item[Collective Anomalies] Anomaly behavior observed in a group of data points, such as sustained vibrations exceeding normal thresholds \cite{breunig2000lof}.
+\end{description}
+
+Identifying anomalies requires determining thresholds, specifically how far a data point must deviate from the normal cluster to qualify as an anomaly. Anomaly detection relies on modeling normal behavior, and integrating contextual and historical information from time-series data is a key challenge \cite{markou2003novelty}. Due to the difficulty of manually selecting parameters and thresholds in large-scale IIoT environments, machine-learning approaches have been introduced to perform anomaly detection.
+
+\subsection{Categorization of Machine Learning Approaches}
+The vast data streams and dynamic traffic patterns in IIoT surpass the adaptability of traditional ruleset-based methods. Moreover, manual supervision for rule-setting and adjustment often leads to unacceptable delays in this situation. As a result, machine learning methods capable of autonomous parameter selection play a pivotal role in IIoT anomaly detection. These methods are categorized as follows:
+
+\begin{description}
+    \item[Supervised Learning] Requires labeled training data and uses classifiers (e.g., SVM) to identify anomalies \cite{vapnik1999nature}. Although accurate, this approach depends on sufficient labeled datasets. Without adequate labeled data, it fails to recognize new classes or anomalies, leading to misclassification.
+    \item[Unsupervised Learning] Detects anomalies through data distribution or clustering methods, such as the density-based DBSCAN algorithm \cite{ester1996density}. This method is suitable for large-scale unlabeled data but can be sensitive to parameter settings.
+    \item[Self-Supervised Learning] Trains using pseudo-labels in an unlabeled environment and has recently demonstrated strong adaptability \cite{chen2020simple}.
+    \item[Deep Learning] Techniques such as LSTM, Autoencoders (AE), and Variational Autoencoders (VAE) excel in detecting anomalies in time-series and high-dimensional data \cite{hochreiter1997long, kingma2013auto}.
+\end{description}
+
+
+\subsection{Applications in Industrial IoT}
+Anomaly detection in IIoT has broad applications, extending beyond congestion-related anomaly detection discussed in this thesis to monitoring device conditions and providing early warnings across the entire IIoT network.
+
+\begin{description}
+    \item[Device Condition Monitoring] Detects equipment faults using vibration signals and temperature data. Typical methods include Mahalanobis distance and wavelet transforms.
+    \item[Smart Manufacturing] Optimizes production processes by monitoring sensor data and employing deep learning methods (e.g., CNN) to improve product quality \cite{krizhevsky2012imagenet}.
+    \item[Cybersecurity] Identifies malicious activities and data breaches in IoT networks, such as DDoS attack detection \cite{zhang2013privacy}.
+    \item[Smart Energy Management] Uses smart meter data to optimize energy distribution and detect energy theft \cite{depuru2011electricity}.
+\end{description}
+
+\subsection{Challenges}
+Despite significant progress in related research, IIoT anomaly detection still faces major challenges associated with the intrinsic features of IIoT systems, traffic patterns, and the performance constraints of edge devices.
+
+\begin{description}
+    \item[Non-stationary Pattern] Algorithms must dynamically adapt to changes in statistical properties over time, such as traffic pattern variations among similar device types \cite{gama2010knowledge}.
+    \item[Multimodal Data Fusion] Combining data from different sensors and utilizing their spatiotemporal correlations is essential \cite{baltrusaitis2019multimodal}. As an example for this thesis, integrating C-Plane KPIs with detailed U-Plane parameters is critical for accurate classification.
+    \item[Resource Constraints] Lightweight algorithm design is vital for edge devices, which often lack significant computational capacity and rely on servers for analytical tasks \cite{sze2017efficient}.
+    \item[Privacy and Security] Anomaly detection methods must preserve user privacy and data integrity. This involves minimizing the decryption of encrypted IIoT traffic and extracting limited session information (e.g., TCP session details) \cite{li2017efficient}.
+\end{description}
+
+
+\subsection{Summary}
+This Section reviewed the current state and categorization of IIoT anomaly detection methods and discussed the application scenarios and suitability of different machine learning techniques. While existing technologies have achieved efficient detection in some areas, the complexity of industrial environments demands higher standards for anomaly detection methods. In summary, IIoT anomaly detection methods must enable real-time, autonomous detection in large-scale, resource-constrained environments by combining diverse data sources, minimizing decryption efforts, and intelligently selecting features and thresholds. This necessitates designing a flexible and autonomous anomaly detection framework.
+
+\input{Chapters/Related Work/Sections/aether onramp}

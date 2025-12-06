@@ -1,0 +1,43 @@
+\subsection{RAN Intelligent Control}
+
+\subsubsection{RAN Intelligent Controller}
+
+The RAN Intelligent Controller (RIC) is a central element in modern Radio Access Networks (RANs), particularly within the Open RAN (O-RAN) architecture. It introduces programmability and intelligence into RAN operations, enabling real-time and non-real-time optimization of network resources. Designed to enhance the efficiency, flexibility, and intelligence of the Radio Access Network (RAN), the standout features are programmability, AI/ML Integration, and its base on open interfaces. The programmability of RIC supports the development and deployment of custom applications for RAN management, known as xApps and rApps. 
+
+\subsubsection{near-realtime xAPPs and non-realtime rAPPs}
+
+xAPPs are for near-realtime management, which means the control loop is finished in no longer than 10miliseconds to 1 second. rAPPs are non-realtime, which means the response time is normally longer than 1 second. xAPPs achieve rapid response management by feeding on the KPIs provided by E2, while rAPPs are capable of interacting with more data as input from other sources. These applications enable dynamic network optimization without requiring hardware modifications, offering operators outstanding flexibility in adapting to evolving network demands. The difference between non-realtime and near-realtime control loops can be summarized as the follows:
+
+\begin{itemize}
+    \item \textbf{Non-Real-Time Control Loop:} Managed by the Non-RT RIC, this loop focuses on long-term network optimization, leveraging advanced analytics and AI/ML models. Key functions include policy generation, machine learning model training, and high-level orchestration. The Non-RT RIC communicates its outputs to the Near-RT RIC via the A1 interface, enabling predictive and policy-driven control.
+    \item \textbf{Near-Real-Time Control Loop:} Operated by the Near-RT RIC, this loop addresses latency-sensitive tasks with timescales ranging from milliseconds to seconds. It handles resource allocation, interference management, and dynamic adjustments in response to real-time network conditions. Communication between the Near-RT RIC and RAN components occurs via the E2 interface.
+\end{itemize}
+
+RIC xAPP and rAPPs are bridges between RAN management and AI/ML models and provide a way to utilize advanced machine-learning models to analyze vast volumes of network data. These models enable predictive and adaptive adjustments to network operations, improving performance and resource utilization. According to the O-RAN definition, RIC leverages open interfaces such as A1 and E2, enabling seamless communication with RAN components and fostering interoperability across multiple vendors. This open framework ensures that operators can create diverse, multi-vendor network ecosystems while optimizing their networks in near-real-time, aligning with the broader goals of 5G technology.
+
+\subsubsection{Control loops of RIC}
+
+As the bridge between RAN (Radio Access Network) management and machine learning models, RIC (RAN Intelligent Controller) applications rely heavily on their control loop, which is the most important workflow. The general workflow for a single operation performed by the RIC can be summarized as follows:
+
+\begin{description}
+    \item [Data Collection] The RIC gathers telemetry data from various RAN elements, including user behavior, network performance metrics, and environmental factors.
+    \item [Analysis and Decision-Making] AI/ML models and analytics engines process the collected data to identify optimization opportunities or potential issues.
+    \item [Action Execution] The RIC applies control decisions to the RAN through interfaces like E2 and A1, ensuring real-time or policy-driven changes are implemented effectively.
+    \item [Feedback Loop] Continuous monitoring evaluates the effectiveness of actions taken, feeding insights back into the decision-making process for iterative improvements.
+\end{description}
+
+Based on the above workflow, RIC and machine learning models can be utilized for RAN management to achieve various specific control objectives. Previous research \cite{sun2023intelligent} has summarized the existing methods for achieving these goals through RIC, which can be briefly categorized as follows:
+
+\begin{description}
+    \item [Traffic Management] Dynamically allocates resources to manage varying traffic loads and ensure QoS requirements are met.
+    \item [Energy Optimization] Adjusts power levels and resource usage to minimize energy consumption without compromising service quality.
+    \item [Interference Mitigation] Proactively addresses interference issues to maintain signal quality and network stability.
+    \item [Quality of Service (QoS) Optimization:] Ensures consistent user experience by prioritizing critical traffic and allocating resources efficiently.
+\end{description}
+
+Control loops are vital for transforming RANs into intelligent and autonomous systems. By integrating real-time adaptability with long-term strategic insights, they enable 5G networks to meet the diverse and evolving demands of modern connectivity, ensuring efficiency, reliability, and user satisfaction.
+
+
+
+
+

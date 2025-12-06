@@ -1,0 +1,30 @@
+\subsection{Radio Access Network}
+
+The Radio Access Network (RAN) is a fundamental component of modern cellular architecture, serving as the critical link between user devices and the core network. Its primary role is to manage radio resources, facilitating seamless transmission and reception of data packets across the network infrastructure. With the emergence of 5G, RAN design has evolved significantly, placing greater emphasis on flexibility, scalability, and software-defined solutions to meet the demands of next-generation connectivity.
+
+\subsubsection{Packet Processing Pipeline}
+
+The packet processing pipeline is at the heart of RAN operations, ensuring efficient data handling between user equipment (UE) and the network. This pipeline consists of several interconnected stages. Initially, the pipeline receives data packets from user devices or upstream network elements. Once acquired, the packets undergo classification to determine their type and priority, ensuring that Quality of Service (QoS) requirements are met. Following classification, resources are dynamically allocated, and scheduling is performed to optimize throughput and minimize latency. Finally, packets are forwarded to their intended destination with minimal delay, completing the transmission process. In 5G networks, where ultra-reliable and low-latency communications (URLLC) are critical, the pipeline must maintain high efficiency and low latency to meet stringent performance standards.
+
+\subsubsection{Software-Defined RAN}
+
+The evolution of RAN has been shaped by the introduction of software-defined principles, giving rise to Software-Defined Radio Access Networks (SD-RAN). By decoupling hardware and software components, SD-RAN introduces significant flexibility in network management and optimization. A centralized controller manages distributed radio units, enhancing coordination and resource utilization. This approach allows operators to dynamically adapt network behavior through software updates, enabling the rapid deployment of new features and services. Additionally, SD-RAN reduces reliance on specialized hardware, lowering capital expenditure and supporting scalable network deployments. These characteristics make SD-RAN a cornerstone of 5G, enabling innovations such as network slicing and enhanced mobile broadband.
+
+\subsubsection{O-RAN Architecture and Interfaces}
+
+The Open Radio Access Network (O-RAN) architecture is designed to bring openness, flexibility, and intelligence to traditional RAN systems. By disaggregating hardware and software components, O-RAN promotes multi-vendor interoperability and supports programmable network features. Central to this architecture are three key components: the Central Unit (CU), which handles non-real-time functions like mobility management and signaling; the Distributed Unit (DU), responsible for real-time processing tasks such as scheduling and radio link control; and the Radio Unit (RU), which interfaces with the physical layer to transmit and receive radio signals. Together, these components enable a highly modular and efficient architecture.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Img/related/o-ran-architecture.png}
+    \caption{O-RAN Architecture and Interfaces}
+    \label{fig:o-ran-architecture}
+\end{figure}
+
+O-RAN employs a service-based architecture, where standardized interfaces and APIs facilitate communication between network functions. The Open Fronthaul Interface supports communication between the RU and DU, replacing proprietary solutions with open standards. The E2 Interface connects the Near-Real-Time RAN Intelligent Controller (Near-RT RIC) with the CU/DU, enabling dynamic resource management. Meanwhile, the A1 Interface links the Non-Real-Time RIC with the Near-RT RIC to facilitate policy updates and AI/ML model integration. Finally, the O1 Interface supports management and orchestration, connecting the Service Management and Orchestration (SMO) platform to RAN components.
+
+The O-RAN architecture offers several key benefits. It fosters interoperability, enabling a multi-vendor ecosystem through standardized interfaces. Its modular design allows for flexible deployments and upgrades without disrupting the network. By incorporating AI/ML-driven control and automation through RICs, it introduces intelligence to network operations. Additionally, the architecture reduces dependency on proprietary hardware, supporting cost-effective scaling. These features position O-RAN as a critical enabler for agile and efficient networks that meet the diverse demands of 5G and beyond.
+
+\subsubsection{Summary}
+
+The Radio Access Network remains a cornerstone of cellular communication, continuously adapting to the requirements of modern connectivity. Advances in packet processing pipelines and the adoption of software-defined architectures have made RAN more flexible and efficient, capable of supporting the diverse use cases enabled by 5G. These developments ensure that RAN continues to play an integral role in the telecommunication ecosystem, paving the way for future innovations.

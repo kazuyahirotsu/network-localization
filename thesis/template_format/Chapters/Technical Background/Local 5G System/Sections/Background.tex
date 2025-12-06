@@ -1,0 +1,46 @@
+\subsubsection{Background}
+
+The Industrial Internet of Things (IIoT) environment is characterized by its vast number of connected devices, including numerous sensors, industrial equipment, monitors, and recording devices. Such application environments impose significant performance demands on Radio Access Networks (RAN). WiFi and Local 5G are often discussed and compared among the potential solutions for providing radio network services. In the following section, we will analyze the performance requirements of RAN in IIoT environments and compare the advantages and disadvantages of Local 5G and its main competitor, wifi, under the use case and conditions of IIoT. This section answers why we should choose Local 5G instead of WiFi as the RAN system for IIoT, based on the results of in-depth research \cite{wen2022private5g}.
+
+
+\subsubsection{Performance Requirements of RAN in IIoT Environments}
+
+Private 5G networks, as discussed in \cite{wen2022private5g}, possess advanced features that meet the demands of IIoT environments. One of the most critical requirements is ultra-low latency, which enables real-time communication essential for applications that require synchronization, such as robotic control and machine-to-machine interaction. Even slight delays can lead to significant inefficiencies or operational risks in these scenarios. Furthermore, high reliability is obviously an essential requirement, particularly in industrial processes where interruptions are not tolerated, such as safety-critical warning systems. 
+
+Additionally, IIoT environments are characterized by the massive deployment of connected devices, ranging from sensors to cameras and augmented reality tools for digital twins. These devices collectively demand networks capable of supporting high-density connectivity without performance degradation. 
+
+\subsubsection{Comparison Between WiFi and Local 5G}
+
+\begin{table}[ht]
+\caption{Comparison between Wi-Fi 6 and Private 5G (From \cite{wen2022private5g})}
+\label{tab:compare}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|l|l|}
+\hline
+                      & Wifi-6               & Private 5G       \\ \hline
+Spectrum              & Unlicensed           & Licensed         \\ \hline
+Coverage              & Local                & Wide             \\ \hline
+Reliability           & Low                  & High             \\ \hline
+Mobility \& off-site  & Low                  & High             \\ \hline
+Security              & Low                  & High             \\ \hline
+Outdoor suitability   & Low                  & High             \\ \hline
+Cost                  & Cheap                & High             \\ \hline
+Application scenarios & Non-mission-critical & Mission-critical \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+Although WiFi, particularly in its latest version, such as WiFi 6, has achieved improved capacity and data rates compared to formal standards, it faces inherent limitations in meeting the specific requirements of IIoT applications. Operating mainly in unlicensed spectrum, WiFi is susceptible to interference, leading to variability in performance that is unsuitable for mission-critical tasks. Moreover, its reliance on listen-before-talk mechanisms for channel access increases latency in congested environments, making it less reliable for applications demanding near-instantaneous response times. While WiFi excels in cost-effectiveness and ease of deployment, its inability to meet the rigorous demands of industrial settings often surpasses these benefits.
+
+In contrast, Local 5G networks utilize licensed or dedicated spectrum, providing reliable and interference-free operation. This capability is essential for ultra-reliable low-latency communication (URLLC) in IIoT applications. For example, when Local 5G is integrated with Time Sensitive Networking (TSN), it guarantees deterministic communication, which is vital for automation and real-time control systems. Private 5G effectively meets this challenge by adapting numerous device connections while ensuring steady throughput and low latency, even during heavy usage scenarios, including mainly constant or spiking heavy traffic. Security remains a major concern since IIoT applications often manage sensitive data, and detecting intrusions in extensive networks can be challenging. Essentially, Local 5G functions as a private cellular system that can be customized to specific requirements. For instance, advanced security certification can be implemented by organizing UE groups and verifying SIM details to enforce access restrictions. Additionally, Local 5G offers sophisticated features like vertical network slicing, enabling operators to allocate network resources according to particular applications, thus optimizing performance for various use cases. Its scalability and mobility management capabilities also exceed those of WiFi, making it the preferred option for expansive and dynamic IIoT settings.
+
+\begin{figure}[hb]
+    \centering
+    \includegraphics[width=1.0\linewidth]{Img/related/l5g_spectrum.png}
+    \caption{The Deployment and Spectrum Options for Private 5G Networks (From \cite{wen2022private5g})}
+    \label{fig:spectrum}
+\end{figure}
+
+\subsubsection{Summary}
+
+Given the performance demands of IIoT settings, Local 5G outperforms its competitor WiFi for RAN solutions. The advantages of private local 5G, such as extremely low latency, high reliability, and extensive connectivity, align well with the needs of IIoT environments. Additionally, its improved security features, customization options, and capacity to sustain connections for mobile devices further establish it as a preferable option for contemporary industrial applications.

@@ -1,0 +1,16 @@
+\subsection{Mobile Cellular Network Architecture Overview}
+
+Mobile cellular networks form the backbone of modern wireless communication systems, enabling connectivity for a wide range of devices, from traditional mobile phones to advanced Internet of Things (IoT) devices and industrial machinery. In the context of IIoT environments, private local 5G networks offer a novel approach to addressing the performance demands of mission-critical applications. This section provides an overview of the architectural components and functionalities of private local 5G networks, emphasizing their suitability for industrial use cases.
+
+Private local 5G networks are structured around two primary subsystems: the Radio Access Network (RAN) and the Core Network. These components are paired together to deliver the ultra-reliable, low-latency, and secure connectivity required for IIoT environments. As illustrated in Fig. \ref{fig:network_architecture}, the RAN includes multiple gNodeB (next generation Node B), which are the base stations, and the User Equipment (UE), which are the devices connected to the network. The 5G Core provides IP connectivity to the RAN and authenticates UEs, as well as overwatch the whole network to ensure the required QoS is satisfied. 
+
+The following sections will provide an in-depth description of the two parts based on the research of Professor Larry Peterson et al\cite{systemsapproach}. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Img/related/network_architecture.png}
+    \caption{Architecture of private local 5G networks illustrating the RAN and Core Network components. Adapted from \cite{systemsapproach}.}
+    \label{fig:network_architecture}
+\end{figure}
+
+

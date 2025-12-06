@@ -1,0 +1,16 @@
+\section{Related Work}
+%partly done need review
+\subsection{Quality of Service Management Utilizing RIC}
+ RAN Intelligent Controller \cite{RIC}, alongside machine-learning-based RIC xAPPs \cite{RICKPI}, has been proven as a resolution for QoS management in 5G systems. The traditional methods utilize C-Plane KPIs\cite{RICKPIFILE} to sense the load status of each base station. RIC evaluates whether the end users are satisfied by sensing KPIs, including throughput and integrated downlink latency. When the QoS cannot fulfill the requirement, RIC can manage the QoS by steering User Equipment (UE) to the optimized gNodeB (gNB).
+ However, RIC in existing studies relies solely on C-Plane parameters and cannot process U-Plane parameters. This limits the accuracy of the device classification task, which is vital for anomaly detection.
+ This limits the device classification task, which is vital for anomaly detection. Traditional C-Plane-based RIC has limited features, so the accuracy of device classification tasks is not ideal compared to U-Plane-based methods. 
+ The proposed method shares the same congestion detection and traffic steering method as the traditional method. Still, it replaces its C-Plane KPIs-based device classification model with our unsupervised online learning model utilizing U-Plane parameters. 
+
+\subsection{Machine Learning Approaches}
+
+For U-Plane parameters, AI-based device classification methods are widely applied in IoT environments\cite{SmartHome}. These methods are trained to adopt multiple-protocol environments and are limited to non-protocol-specified statistical features, such as packet length, IP addresses, and port numbers. 
+However, the IIoT environment usually adopts unified data transmission and uses a single protocol for major workloads, making the multi-protocol capability in traditional methods less suitable. Also, the non-protocol-specified features are insufficient to distinguish IIoT devices since the differences are contained in the message payload. Thus, the conventional method is not designed for and cannot achieve peak performance in the IIoT environment.    
+
+The majority of conventional methods are based on supervised learning to achieve accurate classification for predetermined traffic patterns\cite{cook2019anomaly}. However, these methods rely heavily on labeled datasets and lack flexibility against unknown classes. Compared with supervised learning, unsupervised learning does not rely on labeled datasets to operate and is more flexible against unknown targets. Clustering models require large datasets to identify borders between clusters, which is not ideal for classifying small datasets. The large dataset required by unsupervised learning models could be obtained by implementing online learning. 
+
+Online learning is a method for constantly collecting data and reinforcing the classification model to identify new classes. Existing studies based on supervised learning rarely implement online learning due to the cost of labeling work for every update. However, unsupervised learning does not require a labeling process. Thus, unsupervised online learning could be an economical and flexible choice for anomaly detection tasks in large-scale IIoT systems.

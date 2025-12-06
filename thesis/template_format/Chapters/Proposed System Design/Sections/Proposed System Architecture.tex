@@ -1,0 +1,38 @@
+\section{Proposed System Architecture}
+This thesis proposes a congestion solution system for large-scale IIoT to address the outlined challenges based on non-supervised clustering device classification.  
+
+\begin{figure}[h]
+
+    \centering
+    \includegraphics[width=1\linewidth]{Img/fig_shi/initnew.png}
+
+    \caption{Initial State of the Proposed System}
+    \label{fig:ps_init}
+
+\end{figure}
+
+\begin{figure}[h]
+
+    \centering
+    \includegraphics[width=1\linewidth]{Img/fig_shi/alarmnew.png}
+    \caption{Anomaly Detection State during Congestion}
+    \label{fig:ps_alert}
+
+\end{figure}
+
+\begin{figure}[h]
+
+    \centering
+    \includegraphics[width=1\linewidth]{Img/fig_shi/finishnew.png}
+
+    \caption{Congestion Solution Method Activation State}
+    \label{fig:ps_finish}
+\end{figure}
+
+\subsection{Overview of the System}
+As shown in Fig. \ref{fig:ps_init}, the proposed system constantly collects U-Plane traffic using Tshark, a traffic packet capture and protocol analyzer tool. The collected data undergoes preprocessing to become training data for the unsupervised clustering device classification model. Device classification is performed every hour to learn traffic patterns for each device. The system will maintain this phase as long as there is no sign of congestion. If a device's classification result changes during this phase, it will be adopted as a normal situation. This scenario is common when new devices are added to the factory's IIoT network or a certain device is temporarily modified for maintenance. This mechanism eliminates false alarms during routine maintenance and other situations. The congestion detection is performed using KPI monitor xAPP, which collects C-Plane KPIs including throughput and latency.
+
+
+Fig. \ref{fig:ps_alert} illustrates the system when congestion is detected. The proposed system immediately performs anomaly device detection as the RIC xAPP detects congestion in the RAN. The proposed method is designed to maintain devices that follow their normal traffic pattern work as usual. In contrast, the anomaly devices are moved to another gNB by RIC traffic steering xAPP. The devices having their traffic patterns changed are identified as anomalies.
+
+Alongside with anomaly device detection, a backup gNB is activated. The anomaly device list is sent to the RIC, and Traffic Steering RIC xAPP steers all anomaly devices on the list from gNB1 (the gNB to which normal devices are connected) to the backup gNB to reduce the congestion at gNB1. The state where the congestion resolution method is activated is illustrated in Fig. \ref{fig:ps_finish}. When the overall throughput decreases to a certain level that will not cause congestion on gNB1, all the anomaly devices will be steered back to gNB1, the reserved gNB is shut down, and the system returns to its initial state. This approach effectively prevents congestion from affecting normal devices, ensuring the stability and reliability of the IIoT network.

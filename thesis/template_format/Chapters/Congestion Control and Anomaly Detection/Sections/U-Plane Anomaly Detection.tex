@@ -1,0 +1,7 @@
+\section{U-Plane Anomaly Detection}
+
+在过往研究已经涉及过的设备分类/异常检测任务中，U-Plane data由于包含real traffic，也就是说，并非只是某种特征的indicator，而有广泛的应用。传统方法往往使用wireshark等工具，直接在客户端处captureU-Plane通讯。以此方式获取的通讯提供了大量有助于实现设备/应用分类的特征量，尤其是OSI模型中较高层的特征量。例如，TCP封包的flag和其他众多重要参数可以在此获取。作为一种IoT环境下常用的轻量级通讯协议，MQTT协议的通讯内容也属于application layer，并且也可以被wireshark等工具获取。客户端ID，Topic ID和QoS Flag等等重要的参数均可被获取，由此使得针对MQTT设备的异常检测得以实现。
+
+（此处过往研究介绍）
+
+在5G RAN系统中，U-Plane data通常在UPF处取得。我们在（（哪一章节？？））介绍过5G RAN系统中 5G Corenet的具体结构，UPF是其中负责承载和沟通U-Plane数据的重要功能模块。然而，在目前的5G RAN management中，O-RAN架构并未定义有关UPF的interface，这给基于U-Plane的网络管理和控制带来了诸多不便。

@@ -1,0 +1,115 @@
+\section{Anomaly Detection Scheme}
+
+\subsection{Data Collection and Preprocessing}
+The data collection module collects U-Plane traffic data and decrypts Transport Layer Security (TLS) encoded traffic. The proposed system uses Tshark to collect U-Plane traffic, including parameters from Open Systems Interconnection (OSI) layer 2 to layer 7. Traffic data collection is performed continuously for online learning.
+Let the number of IoT devices (i.e., UEs) be \(N\). The UEs are denoted as \(U = \{ 
+U_1, U_2, ..., U_N \}\), connecting with the gNB. 
+
+The captured traffic for  \(U_n\) at time slot \(t\) is expressed as \(U{_{n}}^{(t)}\) , each batched \texttt{pcap} files \(B_i\) for online learning can be expressed as below: 
+
+\begin{equation}
+B_i = \{ U_n^{(t)} \mid 0 < n \leq N, i < t \leq 2i \}
+\end{equation}
+
+When the system starts, the initial timeslot is defined as \(0\), with an interval between batches \(i\). The batched data is stored as \texttt{pcap} files for online learning. The decryption of TLS-encoded traffic is performed by using the TLS encryption key shared from the MQTT Broker in advance, and decrypted traffic data is processed to create a training dataset. A maximum timeslot window is selected during the deployment. When the batch data count reaches max value, the oldest batch is removed from the dataset when a new batch is collected.
+
+\subsection{K-Means with Silhouette Index-based k-value estimation}
+
+In the proposed method, K-Means\cite{kmeans} is utilized for unsupervised clustering, and silhouette index\cite{silhouette} is used for cluster (class) count estimation. Although the K-means clustering is not the fastest method with top efficiency, it is the simplest implementation for a proof of concept.
+
+In the proposed system, each data point indicates an individual MQTT session, a cluster is a specific type of communication. The data points included in the cluster are traffic sessions classified as belonging to this traffic class. The K-Means algorithm performs unsupervised clustering based on Euclidean distance between data point \(U_n^{(t)}\), then updates the centroids of clusters \(c_j\) to its Euclidean center. This progress is repeated until the squared Euclidean distance \(||U{_{n}}^{(t)} - c_j||^2\) is minimized. 
+
+To determine the optimal cluster count of K-Means, the proposed method selects the silhouette index to estimate the K value.
+The silhouette index evaluates how similar an object is to its own cluster compared to others. The formula gives the silhouette score for a single sample:
+
+\begin{equation}
+    s = \frac{(b-a)}{max(a,b)}
+\end{equation}
+
+Where a is the mean distance between a sample and all other points in the same cluster, and b is the smallest mean distance of the sample to all points in any other cluster of which the sample is not a part. The silhouette value \(s\) is calculated for all \(\left \{\ k\ |\ 1\leq k \leq n \ \right \}\), the best k value among all is selected to present the estimated cluster count.
+
+\subsection{Traffic Classification and Anomaly Detection}
+
+
+\begin{algorithm}[]
+\centering
+\caption{Traffic Classification and Anomaly Detection}
+\begin{algorithmic}[3] % Enable line numbering
+\REQUIRE Perform KMeans clustering on \(B_i\) to obtain cluster labels \(L\)
+\REQUIRE Congestion indicator \(Congest\)
+\STATE Initialize congestion indicator \(Congest\)
+\FORALL{device \({U_n} \in U\)}
+      \IF{\(c_{U_n}^{i} \neq c_{U_n}^{(i-1)}\)}
+      \STATE Select action based on \(Congest\) indicator
+        \IF{\(Congest = 1\)}
+        \STATE Label \({U_n}\) as anomaly device
+        \ELSE
+        \STATE Update \(c_{U_n}^{(i-1)}\) to the value of \(c_{U_n}^{i}\)
+        \ENDIF
+      \ENDIF
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[ht]
+\caption{Phase 1: Device-Based Detection}
+\begin{algorithmic}
+\REQUIRE Device Groups \(D\), Applications \(A\), and 
+Registration Mapping \(R = \{ a \rightarrow d \mid a \in A, d \in D \}\)
+\ENSURE Anomalies List \(E\)
+
+\FOR{each device \(d \in D\)}
+    \FOR{each application \(a \in A\) on device \(d\)}
+        \IF{\(d \notin f(a)\)}
+            \STATE Mark \(a\) on \(d\) as anomaly \(e_a^d\)
+            \STATE Append \(e_a^d\) to set \(E\)
+        \ENDIF
+    \ENDFOR
+\ENDFOR
+\RETURN Appended Anomalies List \(E\)
+\end{algorithmic}
+\end{algorithm}
+
+\vspace{-4mm}
+
+\begin{algorithm}[hb]
+\caption{Phase 2: Application-Based Detection}
+\begin{algorithmic}
+\REQUIRE Device Groups \(D\), Applications \(A\), and Anomalies List \(E\)
+\ENSURE Complete Anomalies List \(E\)
+
+\FOR{each device group \(g \in D\)}
+    \FOR{each subset \(g' \subseteq d\) such that \(d \in f(a)\)}
+        \STATE Collect subset \(S_{g,a}\) of \(a\) on \(g\)
+        \STATE Apply Unsupervised Isolation Forest on \(S_{g,a}\)
+        \STATE Detect anomalies in \(S_{g,a}\)
+        \FOR{each anomaly \(e_a^d \in S_{g,a}\)}
+            \STATE Append \(e_a^d\) to set \(E\)
+        \ENDFOR
+    \ENDFOR
+\ENDFOR
+\RETURN Detected anomalies \(E\)
+\end{algorithmic}
+\end{algorithm}
+
+
+In the proposed method, unsupervised clustering methods are used for traffic classification. Since unsupervised methods do not require direct correspondence between clusters and specific communication types (device types, attack methods, etc.), the proposed method creates and maintains a table including the device's identifier and the identifier of the cluster it belongs to. The cluster tag of device \(U_n\) in batch \(i\) is expressed as \(c_{U_n}^{i}\). In particular, for newly detected device \(U_x\), the \(c_{U_x}^{(i-1)}\) is treated as \texttt{null}. The congestion indicator \(Congest\) is a Boolean value set to 1 when congestion is detected and set to 0 if not. Algorithm 1 shows the process of classification and anomaly detection. The proposed method utilizes online learning to adapt to changes in traffic patterns if there is no congestion. Suppose the communication pattern of an existing device has changed (due to situations such as a device under maintenance or a new device being installed), but the system is not congested currently. In that case, the change will be recorded without throwing an alarm. Algorithm 1 returns the anomaly device list for congestion resolution RIC xAPP. The RIC xAPP performs traffic steering for the anomaly devices, isolating them to the backup gNB to prevent congestion on the main gNB.
+
+\begin{table}[]
+\caption{MQTT Features Selected for the Classification}
+\label{tab:types}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|ccc|}
+\hline
+\textbf{Device}             & \multicolumn{3}{c|}{\textbf{Features}}                                            \\ \cline{2-4} 
+ & \multicolumn{1}{c|}{\textit{\textbf{Data type}}} & \multicolumn{1}{c|}{\textit{\textbf{Length}}} & \textit{\textbf{Pattern}} \\ \hline
+Temperature sensor          & \multicolumn{1}{c|}{Float}            & \multicolumn{1}{c|}{Short}     & Periodic \\ \hline
+Log file uploader           & \multicolumn{1}{c|}{File (Binary)}    & \multicolumn{1}{c|}{Very long} & Periodic \\ \hline
+Valve controller            & \multicolumn{1}{c|}{ON/OFF (Boolean)} & \multicolumn{1}{c|}{Short}     & Burst    \\ \hline
+Error log collector         & \multicolumn{1}{c|}{File (Binary)}    & \multicolumn{1}{c|}{Long}      & Burst    \\ \hline
+Camera                      & \multicolumn{1}{c|}{Stream (Binary)}  & \multicolumn{1}{c|}{Very long} & Constant \\ \hline
+Pressure alarm (Anomaly)    & \multicolumn{1}{c|}{Float}            & \multicolumn{1}{c|}{Short}     & Burst    \\ \hline
+Malicious Enquiry (Anomaly) & \multicolumn{1}{c|}{String}           & \multicolumn{1}{c|}{Medium}    & Burst    \\ \hline
+\end{tabular}%
+}
+\end{table}

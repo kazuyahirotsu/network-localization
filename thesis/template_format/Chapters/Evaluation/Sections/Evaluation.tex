@@ -1,0 +1,64 @@
+\section{Evaluation Results}
+
+\subsection{Anomaly Detectio Results}
+
+\begin{figure}[]
+    \centering
+    \includegraphics[width=\linewidth]{Img/fig_shi/accuracy_new.png}
+        \caption{Accuracy Over Time for All Methods}
+        \label{fig:accuracy}
+\end{figure}
+
+\begin{figure}[]
+    \centering
+    \includegraphics[width=\linewidth]{Img/fig_shi/cm_cplane.png}
+        \caption{Confusion Matrix for C-Plane KPI-based Anomaly Detection}
+        \label{fig:cm_cplane}
+\end{figure}
+
+\begin{figure}[]
+    \centering
+    \includegraphics[width=\linewidth]{Img/fig_shi/cm_enc.png}
+        \caption{Confusion Matrix for Encoded U-Plane Data-based Anomaly Detection}
+        \label{fig:cm_enc}
+\end{figure}
+
+\begin{figure}[]
+    \centering
+    \includegraphics[width=\linewidth]{Img/fig_shi/cm_dec.png}
+        \caption{Confusion Matrix for Decoded U-Plane Data-based Anomaly Detection}
+        \label{fig:cm_dec}
+\end{figure}
+
+
+The accuracy over time for all three methods is shown in Fig \ref{fig:accuracy}. The results for the first four batches are not taken into account since the portion of the dataset is too small to create meaningful results. From the 5th batch, the accuracy of all methods starts to drop as the clustering model gradually fitting to the dataset. In the final epoch, the median accuracy of the decoded method is 94\%, while the encoded method achieved 90\% median accuracy. However, the C-Plane method's accuracy reached 63\% and barely converged. According to the experiment results, C-Plane-based methods do not perform well in the classification. The decrease in accuracy during the final batches indicates the presence of overfitting. This is considered the result of a lack of critical parameters for class identification, which shows the difference between device types and thus impacts clustering performance significantly. The lack of essential parameters results in worse performance, especially for long-term performance, which is closer to the actual implementation scenario.
+
+As the final evaluation for the accuracy of all methods, the confusion matrices of all three methods during the final batch are present in the following figures: Fig. \ref{fig:cm_dec}, Fig. \ref{fig:cm_enc}, and Fig. \ref{fig:cm_cplane}. As shown in these figures, the anomaly detection accuracy of both proposed methods is higher than the control group's value. While the existing method had difficulties in classifying normal devices and also had no ideal accuracy for anomaly detection tasks, the proposed method has significantly increased the accuracy. While the decoded method has roughly the same overall accuracy, it performs better than the encoded method in anomaly detection tasks. 
+For the confusion matrices, the decoded method demonstrated the best performance in device classification accuracy due to the use of more detailed MQTT parameters. The encoded method, lacking these detailed parameters, relied solely on packet parameters for classification, which led to minor misclassifications, particularly in burst traffic scenarios. This is considered a result of relying heavily on packet features, mainly the packet interval time, which is not applicable for burst traffic such as error log uploaders and malicious inquiries. Burst traffic with similar lengths cannot be classified correctly without in-detail MQTT features, but overall accuracy remains acceptable. On the contrary, the C-Plane method experienced significant accuracy issues due to the absence of critical parameters. In conclusion, both U-Plane-based methods converge in cluster count estimation and score acceptable accuracy in traffic classification. Compared to the C-Plane-based method, the proposed method can handle traffic classification and anomaly detection tasks.
+
+\subsection{Simulated U-Plane Interface with OAIC}
+
+The RIC-related experiments are operated in the OAIC environment. The experiment includes congestion detection based on C-Plane KPIs monitoring xAPP and isolation of anomaly devices by traffic steering xAPP. For KPI monitoring (KPIMON), O-RAN Software Community (O-RAN SC)'s kpimon xAPP\cite{oranscORANProjects} is used. The kpimon xAPP is onboarded to the OAIC-T test environment, connected with the E2-like interface.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Img/fig_shi/gnuradio.png}
+    \caption{The Simulated RAN of OAIC (based on Gnuradio)}
+    \label{fig:gnuradio}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Img/fig_shi/wireshark.png}
+    \caption{Captured U-Plane Traffic by Wireshark (IP Address 172.16.0.* belongs to the namespace of simulated RAN) }
+    \label{fig:wireshark}
+\end{figure}
+
+The simulation on the OAIC-T environment is performed and validates the following items:
+
+\begin{description}
+    \item[Capture Generated U-Plane Traffic] We use the same dataset we generated on the laboratory's 5G system and replay them on the simulated UEs (UERANSIM) connected to OAIC. The U-Plane traffic is then captured by wireshark at the srsRAN's UPF interface. This validates the U-Plane interface in our proposed system.
+    \item[Congestion Sensing] As the traffic volume grows, the congestion builds up, causes lag, and creates a lot of retransmission, as appeared in the captured traffic. The proposed system sensors the congestion by counting the failed transmissions as one of the major C-Plane KPIs. A congestion alarm is sent when the amount exceeds a predefined threshold, and machine learning-based anomaly detection is performed. 
+    \item[Machine Learning-based Anomaly Detection] Same as the system deployed on physical Local 5G RAN, the machine learning model located on the processing node (in this case, the same PC as 5GC located at) performs anomaly detection and outputs a list of identified anomaly devices.
+    \item[Perform Traffic Steering] The onboarded traffic steering xAPP steers the designated anomaly UE from gNB1 and offloads it to gNB2 instead. The RIC-related experiments confirm that the kpimon xAPP and the traffic steering xAPP are available for the proposed method for congestion detection and anomaly device isolation.
+\end{description}

@@ -1,0 +1,22 @@
+\section{Supervised Learning}
+
+Multiple conventional methods for anomaly detection in IIoT environments are implemented using supervised learning. Supervised learning relies on labeled datasets for training, where all classes—including types of benign devices and anomalies—are predefined. By training classification models on manually labeled datasets, conventional methods achieve high anomaly detection accuracy for all known device types.
+
+As the name suggests, the most significant characteristic of supervised learning is that the model is trained under supervision. For example, in the training of classification models, each training sample is associated with a single, correct label, which is typically assigned manually. When encountering an unknown device, a model trained in this way will compare it to the categories included in the training dataset and select the most similar one as the classification result. In supervised learning, the output is often readable in the form of natural language tags. In contrast, unsupervised learning, which lacks labeled input, typically produces unreadable cluster labels as classification results. This difference makes supervised learning-based anomaly detection algorithms more advantageous in terms of interpretability and precision.
+
+However, supervised learning also has notable limitations. The most significant drawback is its reliance on labeled datasets. Any dataset used for training a supervised learning model must first be labeled, meaning each data point must be explicitly assigned to a specific class. This requirement significantly increases the operational cost of supervised learning compared to unsupervised learning, which does not rely on labeled data. In IIoT environments, where massive data streams are continuously generated, capturing and labeling all the data can be a daunting challenge.
+
+Another critical limitation of supervised learning is its lack of adaptability when dealing with unknown classes. Since the model can only recognize anomaly types already included in the training dataset, it fails to identify new anomalies or devices as distinct classes. Instead, it classifies them as the closest existing class in the dataset. This limitation is particularly problematic for anomaly detection models: when a new, previously unknown threat emerges, a supervised learning model that has not been specifically trained for it will fail to detect the anomaly. In rapidly evolving environments where new attack methods and failure modes are continuously introduced, the poor adaptability of supervised learning models to new targets is a critical issue.
+
+\subsection{Summary}
+In this section, we discussed supervised learning as a machine-learning approach. The advantages and disadvantages of utilizing a supervised learning-based model can be summarized as follows:
+\begin{description}
+    \item[Advantages:] Delivers excellent accuracy for classification tasks involving known classes. Produces classification results in predefined, human-readable tags, ensuring interpretability.
+    \item[Disadvantages:] Requires labeled datasets, significantly increasing operational costs compared to unsupervised learning.
+Struggles to detect and classify unknown classes, limiting effectiveness in dynamic environments with evolving threats or new device types.
+\end{description}
+
+
+
+
+

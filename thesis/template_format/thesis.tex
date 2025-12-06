@@ -1,0 +1,70 @@
+\documentclass[master,final,11pt]{iscs-thesis}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{url}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+%\usepackage{algpseudocode}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{array}
+% 論文の種類とフォントサイズをオプションに
+%-------------------
+\etitle{Anomaly Detection and Congestion Avoidance for Large Scale 5G-IIoT using Unsupervised Online Machine Learning}
+\jtitle{教師なしオンライン機械学習による大規模5G-IIoT\\トラフィック異常検出・輻輳回避手法}
+%
+\eauthor{Yuxuan Shi}
+\jauthor{師宇軒}
+\esupervisor{Akihiro Nakao}
+\jsupervisor{中尾彰宏}
+\supervisortitle{Professor} % Professor, etc.
+\date{February 20, 2025}
+%-------------------
+\begin{document}
+\begin{eabstract}
+The large-scale deployment of Internet of Things (IoT) devices and the increasing traffic volume bring congestion-related challenges to IoT systems. A large-scale IoT system, including a swarm of devices, has certain difficulties in managing a large amount of devices and is weak to intrusions and unexpected defects. These challenges are particularly significant in Industrial IoT (IIoT) environments, where congestion caused by attacks or malfunctions threatens reliability greatly, and the reliability problem is often security-critical. Undetected anomalies, which can be a sign of intrusion or defect taking place, can cascade effects and threaten the system's stability. In worst conditions, the failure of safety-critical systems can result in a halt of production processing or even end up causing security incidents.
+The academic society is already working on detecting anomalies in IoT environments, especially for intrusion prevention systems. However, existing methods suffer from the following issues: Control plane (C-Plane) key performance indicators (KPI)-based congestion avoidance methods cannot accurately classify devices based solely on C-Plane features. Existing User Plane (U-Plane) empowered anomaly detection methods are mainly based on supervised learning and rely heavily on labeled datasets. To solve the problems, we propose an anomaly detection and congestion solution system based on U-Plane traffic data and Radio access network intelligent controller (RIC). First, we propose an unsupervised online learning-based anomaly traffic detection and congestion avoidance framework, where U-plane data is utilized to provide accurate classification. Second, we propose an anomaly device isolation mechanism from the main network by steering traffic using a near real-time RIC application (xAPP). Finally, we establish the simulation and hardware experimental platform to evaluate the effectiveness of our proposed system. In the experiment, the proposed method achieves a 94\% classification accuracy, while the accuracy of the traditional method is 63\%.
+\end{eabstract}
+\begin{jabstract}
+IoT(Internet of  Things)デバイスの大規模な普及とトラフィック量の増加は、IoTシステムにおいて混雑に関連する重大な課題を引き起こしている。大規模なIoTシステムは、多数のデバイスを効率的に管理することが困難であり、侵入や予期しない欠陥に対する脆弱性を抱えている。この問題は特に産業用IoT（IIoT）環境において顕著であり、攻撃や障害による混雑がシステムの信頼性を大きく損なうリスクを伴う。さらに、未検出の異常は侵入や欠陥の兆候となる可能性があり、それが連鎖的な影響を引き起こしてシステムの安定性を脅かすことがある。最悪の場合、安全性が求められるクリティカルなシステムが停止し、生産ラインの稼働中断や重大な事故に発展する可能性がある。
+これらの課題に対応するため、学術界ではIoT環境における異常検出技術、とりわけ侵入防止システムの研究開発に注力している。しかし、既存の手法には以下のような問題が存在する。制御プレーン（C-Plane）の主要パフォーマンス指標（KPI）に基づく混雑回避手法は、C-Planeの特徴量に依存しているため、デバイスを正確に分類する能力に限界がある。また、ユーザープレーン（U-Plane）を活用した既存の異常検出手法は、主に教師あり学習に基づいており、ラベル付きデータセットに対する過度の依存が課題となっている。
+本研究では、これらの問題を解決するため、U-Planeトラフィックデータと無線アクセスネットワークインテリジェントコントローラ（RIC）を活用した異常検出および混雑を解消するシステムを提案する。本提案手法では、U-Planeデータに基づき分類精度を向上させる教師なしオンライン学習手法を採用し、異常トラフィックの検出と混雑回避を実現する仕組みを構築する。さらに、リアルタイムRICアプリケーション（xAPP）を用いてトラフィックを制御し、発見された異常デバイスをメインネットワークから隔離するメカニズムを提案する。最後に、提案手法の有効性を評価するため、シミュレーションおよびハードウェア実験環境を構築し、精度を検証する。
+実験結果では、提案手法が94％の分類精度を達成し、従来手法の63％を大幅に上回ることが確認されている。 
+\end{jabstract}
+\maketitle
+
+\begin{acknowledge}
+ I want to express my deepest gratitude and appreciation to my advisor, Professor Akihiro Nakao. Professor Akihiro Nakao has been supportive, friendly, and helpful throughout my master's program. His encouragement and understanding helped me overcome difficulties and have led me the way to develop my research topics and ideas. I have always been fascinated by Professor Akihiro Nakao's insights into information science and his ability to identify and solve problems, and his example in time planning has enabled me to learn and apply it well in my research and daily life. Furthermore, his enthusiasm and knowledge in Networking Technologies have sparked my interest in continuing more profound research in this area, shaped my critical thinking, and challenged me to become a higher-level thinker.
+    
+    Working with Professor Qianqian Pan has been an enlightening and enriching experience. Whenever I needed advice, she was always quick and patient to help. Moreover, she was always polite and willing to share her experiences and views on persuasive research.  
+    
+    I also want to thank Assistant Professor Kenji Kanai for his help during the experiment phase and helped me polish the concept during the early stages of my research.
+    
+    I would also like to thank my family and friends for their continuous support and understanding in my pursuit of scientific research. Without their help, I would not have pursued my studies without worry.
+
+    Finally, I would like to thank the official members of my examining committee for their efforts in reviewing my thesis and providing helpful suggestions.
+\end{acknowledge}
+
+\frontmatter %% 前付け
+\tableofcontents % 目次
+\listoffigures % 図目次
+\listoftables % 表目次
+%\lstlistoflistings % ソースコード目次
+%-------------------
+\mainmatter %% 本文
+
+\input{Chapters/Introduction/Introduction}
+\input{Chapters/Technical Background/Technical Background}
+\input{Chapters/Related Work/related work}
+\input{Chapters/Proposed System Design/Design}
+\input{Chapters/Evaluation/Evaluation}
+\input{Chapters/Conclusion/Conclusion}
+\input{Chapters/Future Work/Future Work}
+
+%-------------------
+\bibliographystyle{ieeetr} % 参考文献
+\bibliography{myref} %
+%-------------------
+\end{document}

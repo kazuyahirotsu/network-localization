@@ -1,0 +1,16 @@
+\section{Thesis Statement}
+
+To effectively solve the above-mentioned problems in anomaly detection tasks with the existing scheme, this thesis proposes a congestion solution system for large-scale IIoT based on non-supervised clustering device classification. We propose a novel scheme that utilizes U-Plane parameters to enhance the anomaly detection capability using RIC\cite{RIC}. We capture the generated IIoT traffic at U-Plane, extract U-Plane parameters, and train the anomaly detection model by performing unsupervised online learning. Then, we apply the trained model to detect anomalies in the traffic and utilize RIC to steer traffic in case of congestion. The result indicates the proposed method achieves a 94\% classification accuracy, a 31\% advantage compared with the accuracy of the traditional method, which is 63\%. The proposed system shows advantages in the following aspects:
+
+\begin{description}
+    \item[Low-cost Training with High Accuracy] In response to the high model training costs of supervised learning, this thesis proposes an anomaly detection scheme based on unsupervised learning. By adopting an unsupervised learning approach, this method completely eliminates the need for manually labeled datasets, thereby reducing training costs. At the same time, the scheme utilizes U-Plane traffic, which contains detailed features, to achieve high-accuracy anomaly detection while keeping training costs low.
+    
+    \item[Flexible Anomaly Detection] This study introduces online learning to achieve flexible anomaly detection. The proposed method processes U-Plane traffic streams directly captured from the IIoT network by segmenting them into time-based batches and feeding them into the anomaly detection model for online learning. In this way, the anomaly detection model can periodically adapt to changes in the IIoT network, such as adding new devices or changes in device attributes due to testing or rearrangement. Furthermore, since the proposed system uses a clustering-based anomaly detection algorithm, it detects anomalies through changes in cluster membership or as outliers. This approach overcomes the inherent limitation of traditional supervised learning-based systems that can only detect labeled anomaly types, thus enhancing system flexibility.
+
+    \item[Unattended Autonomous Congestion Solution] The proposed system is a fully unattended autonomous system. From collecting U-Plane traffic to training the model and leveraging RIC to steer traffic from detected anomalous devices during congestion to offload the burden from the main gNB, the proposed system achieves fully automated congestion resolution and anomaly detection.
+\end{description}
+
+
+
+
+

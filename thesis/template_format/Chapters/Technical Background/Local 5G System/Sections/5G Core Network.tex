@@ -1,0 +1,88 @@
+\subsection{5G Core Network}
+
+The 5G Core Network (5GC) is the backbone of the 5G system, enabling advanced features such as network slicing, enhanced security, and seamless mobility. Designed with a service-based architecture, the 5GC provides modularity and scalability to support diverse 5G use cases, ranging from enhanced mobile broadband (eMBB) to ultra-reliable low-latency communication (URLLC) and massive machine-type communication (mMTC). 
+
+This section provides a brief introduction to the 5G core network structure, functions, and components. It also introduces the two split planes in the 5G network: the control plane and the user plane.
+
+\subsubsection{5GC Functions and Components}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Img/related/5gc.png}
+    \caption{A structural overview of 5G Mobile Core, represented as a collection of microservices. From \cite{systemsapproach}}
+    \label{fig:5gc}
+\end{figure}
+
+5G Core is built around several micro-services for its functions, known as the 3GPP Service Based Architecture, illustrated in Fig. \ref{fig:5gc}. As the 5G split control plane and user plane, the components for network and access control tasks and the User Plane Function (UPF) are viewed as two separate planes, which we will make a closer introduction in the following subsections. Internal 5GC control plane services are not our main topic, and we will focus on the Access and Mobility Management Function (AMF), Session Management Function (SMF) and User Plane Function (UPF) in the following subsections. Below is the chart for reference of the remaining control plane microservices:
+
+\begin{itemize}
+    \item AUSF (Authentication Server Function): Authenticates UEs.
+    \item UDM (Unified Data Management): Manages user identity, including the generation of authentication credentials and access authorization.
+    \item UDR (Unified Data Repository): Manages user static subscriber-related information.
+    \item UDSF (Unstructured Data Storage Function): Used to store unstructured data, and so is similar to a key-value store.
+    \item NEF (Network Exposure Function): Exposes select capabilities to third-party services, and so is similar to an API Server.
+    \item NRF (Network Repository Function): Used to discover available services (network functions), and so is similar to a Discovery Service.
+    \item PCF (Policy Control Function): Manages the policy rules for the rest of the Mobile Core CP.
+    \item NSSF (Network Slice Selection Function): Manages how network slices are selected to serve a given UE.
+\end{itemize}
+
+
+\subsubsection{Control Plane KPIs and Management}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Img/related/cplane.png}
+    \caption{SD-Core implementation of the Mobile Core Control Plane, including support for Standalone (SA) deployment of both 4G and 5G. from \cite{systemsapproach}}
+    \label{fig:c-plane}
+\end{figure}
+
+The control plane (C-Plane), as shown in Fig. \ref{fig:c-plane} in the 5GC is responsible for signaling, session management, and mobility management. Key responsibilities include:
+
+\begin{itemize}
+    \item \textbf{Signaling and Authentication:} Ensuring secure and efficient communication between UEs and the network.
+    \item \textbf{Policy and QoS Management:} Enforcing network policies and maintaining quality of service for various applications.
+    \item Session Management: Establishing and maintaining sessions for data transfer.
+    \item Mobility Management: Seamlessly handling UE mobility across different cells and access networks.
+\end{itemize}
+
+The control plane's efficiency and robustness are critical to the reliability and performance of 5G networks. According to 3GPP definitions \cite{RICKPIFILE}, several KPIs are selected to observe the C-Plane performance and are used as input in network management. Table. \ref{table:kpi-summary} is a summary of KPIs defined by the standard, data types, and short descriptions. Existing research \cite{c-plane_parameter} utilizes the RAN Intelligent Controller (RIC) in network management based on C-Plane KPIs. 
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.5} % Optional: Adjust row height for better readability
+\setlength{\tabcolsep}{4pt}       % Optional: Adjust column spacing
+\caption{C-Plane Key Performance Indicators (KPIs) Summary}
+\label{table:kpi-summary}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|p{5cm}|p{3cm}|p{8cm}|}
+\hline
+\textbf{KPI Name} & \textbf{Type} & \textbf{Description} \\ \hline
+Mean Registered Subscribers & Cumulative (Integer) & Mean number of subscribers registered to a network slice. \\ \hline
+Registration Success Rate & Ratio & Percentage of successful registration procedures. \\ \hline
+DRB Accessibility & Ratio & Success rate of Data Radio Bearer (DRB) setup. \\ \hline
+PDU Session Establishment Success Rate & Ratio & Percentage of successful PDU session establishment requests. \\ \hline
+End-to-End Latency & Mean (ms) & Average latency experienced in the network slice or RAN. \\ \hline
+Upstream Throughput & Cumulative (kbit/s) & Total data throughput in the upstream direction. \\ \hline
+Downstream Throughput & Cumulative (kbit/s) & Total data throughput in the downstream direction. \\ \hline
+QoS Flow Retainability & Ratio & Retainability rate of quality of service flows. \\ \hline
+Energy Efficiency & Mean & Data energy efficiency in NG-RAN. \\ \hline
+Mobility Handover Success Rate & Ratio & Percentage of successful inter-gNB handovers. \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+Each KPI is described with detailed formulas, measurement levels, and target applicability (e.g., NetworkSlice, SubNetwork, NRCellDU). The detailed specifications for each KPI can be referenced in the document \cite{RICKPIFILE}.
+
+\subsubsection{User Plane}
+
+The user plane (U-Plane) in the 5GC is focused on data forwarding and traffic management. Its primary roles include:
+
+\begin{itemize}
+    \item \textbf{Data Forwarding:} Routing user data packets between UEs and external networks.
+    \item \textbf{Traffic Steering:} Implementing policies to direct traffic flows according to network slicing and QoS requirements.
+    \item \textbf{Low-Latency Processing:} Ensuring minimal delay for latency-sensitive applications like autonomous driving and remote surgery.
+\end{itemize}
+
+By separating the control and user planes, the 5GC achieves flexibility and efficiency, supporting diverse 5G use cases while optimizing resource utilization.
+
+As the user plane manages the traffic between UEs and external networks, the packets can be captured at the user plane for deeper and in-detail network analysis. Wireshark \cite{wireshark} is one of the tools that is capable of capturing user plane traffic for this task.

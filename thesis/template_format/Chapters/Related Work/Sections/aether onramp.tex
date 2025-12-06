@@ -1,0 +1,36 @@
+\section{Aether Onramp based Previous Research}
+
+One of our previous research focuses on the same concept as this thesis, which also utilizes U-Plane traffic for congestion solution and anomaly detection tasks in large-scale 5G IIoT environment \cite{shi2024uplane}. This scheme relies heavily on Aether ROC's unique capability to perform RAN management based on predefined groups. The groups can be defined at both the device and application levels, enabling the two-level congestion solution. It is a unique capability compared to RIC, which can only perform device-level management.
+
+The proposed scheme aims to increase the anomaly detection system's performance by releasing Aether Onramp's potential for two-level RAN management.
+
+\subsection{Aether Onramp Testbed Compared to O-RAN-based Conventional Ones}
+Most existing studies use the O-RAN architecture for KPI monitoring and network management. However, O-RAN-based RAN management methods, such as network slicing, can only manage radio resources at the device (UE) level and lack the capability to manage resources at the application level.
+In contrast, Aether Onramp\cite{aetheronramp} is a fully open-source software-defined radio network system. It features comprehensive KPI monitoring and RAN management capabilities. Aether Onramp uses Mega-patch to read in a preset network configuration, including predefined device groups, applications, network slicing, etc. Compared to O-RAN, another significant advantage of Aether Onramp is its ability to manage resources on an application basis. Its capability of managing network slices at both the device and application levels enables a two-level RAN management approach.
+
+\subsection{System Overview and Strenth}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Img/fig_shi/overview_mod.png}
+    \caption{the Overview of the Proposed System}
+    \label{fig:overview}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Img/fig_shi/process_mod.png}
+    \caption{the Overview of the Anomaly Detection Scheme}
+    \label{fig:adsystem}
+\end{figure}
+
+As shown in Fig. \ref{fig:overview}, this scheme consists of three main parts: a Local 5G RAN system based on Aether Onramp, a cluster of MQTT-based IIoT devices, and the anomaly detection core, including the machine learning model and I/O modules. The RAN system is the backbone of the IIoT network. In this scheme, the Aether Onramp 5G Core network (5GC) is hosted as a series of Kubernetes containers, gNodeB (gNB), and UEs provided by UERANSIM are deployed on separate machines. Similar to the proposed system of this thesis, the MQTT protocol has also been selected for the implementation scenario of this scheme. 
+
+\subsubsection{Summary}
+
+Although Aether ROC possesses a unique two-level RAN management capability, it is inferior compared to O-RAN RIC in terms of responsiveness. This is because the Mega-Patch design of Aether ROC was not originally intended for real-time adjustment of slice settings during network operations. Instead, it was designed to rapidly initialize network structures post-deployment. As a result, Aether ROC is incapable of achieving near-real-time control.
+
+In contrast, one of RIC's core design objectives was to enable near-real-time management, which gives it a significant advantage in responsiveness. Furthermore, Aether ROC is not a component of the O-RAN standard, which limits the rapid adoption of Aether-based solutions within the standardized O-RAN environment.
+
+On the other hand, RIC and other standardized O-RAN components, thanks to their standardized development, are compatible with nearly all RAN systems built on the same architecture. While Aether ROC offers the unique two-level management capabilities, its limitations in responsiveness and standardization pose significant challenges to its broader applicability.

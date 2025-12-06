@@ -1,0 +1,93 @@
+
+\section{Experiment Platform Establishment}
+
+\begin{figure*}[]
+        \centering
+        \includegraphics[width=1\linewidth]{Img/fig_shi/exp_env.PNG}
+        \caption{Experiment Platform}
+        \label{fig:image}   
+\end{figure*}
+
+
+An experiment platform is established to evaluate the proposed method. 
+Fig \ref{fig:image} shows all parts of the experiment platform, including the following parts:  
+
+\textbf{Local 5G Connected Traffic Generator PC} - A PC running Paho MQTT client-side scripts to generate the seven variations of MQTT-IIoT traffic. The traffic generator PC is connected to the laboratory's local 5G network by wire-connecting to a local 5G-enabled smartphone, providing wireless access as a 5G gateway.
+
+\textbf{MQTT Broker PC} - A PC hosts EMQX \cite{EMQX} MQTT Broker and is connected to 5GC directly by wired connection. The traffic capture is also performed on this broker PC.
+
+\textbf{5GC and gNB Unit} - The experiment took place in the laboratory's original software-based Local 5G system\cite{nakaolab}. The system includes a server hosting 5GC and gNB, with an antenna for wireless transmission.
+
+As shown in Table \ref{tab:types}, five types of regular and two types of anomaly traffic are generated. The content of the traffic (e.g., temperature values emitted by temperature sensors) is created using a bounded random number generator.
+
+\begin{table}[]
+\caption{Selected Features: Decoded Method}
+\label{proposed}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|cc|}
+\hline
+\textbf{Feature}  & \multicolumn{2}{c|}{\textbf{Description}}                                         \\ \cline{2-3} 
+                  & \multicolumn{1}{c|}{\textit{\textbf{Type}}} & \textit{\textbf{Meaning}}           \\ \hline
+MQTT ClientID.len & \multicolumn{1}{c|}{N/A}                    & ClientID Length                     \\ \hline
+MQTT Topic.len    & \multicolumn{1}{c|}{N/A}                    & Topic Length                        \\ \hline
+MQTT Msg.len      & \multicolumn{1}{c|}{Max}                    & Message Payload Length              \\ \cline{2-2}
+                  & \multicolumn{1}{c|}{Min}                    &                                     \\ \cline{2-2}
+                  & \multicolumn{1}{c|}{Avg}                    &                                     \\ \hline
+Pkt interval      & \multicolumn{1}{c|}{Avg}                    & Interval time from previous message \\ \hline
+Pkt count         & \multicolumn{1}{c|}{N/A}                    & Packet count during the connection  \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\begin{table}[]
+\caption{Selected Features: Encoded Method}
+\label{Legacy}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|cc|}
+\hline
+\textbf{Feature} & \multicolumn{2}{c|}{\textbf{Description}}                                         \\ \cline{2-3} 
+                 & \multicolumn{1}{c|}{\textit{\textbf{Type}}} & \textit{\textbf{Meaning}}           \\ \hline
+Pkt.len          & \multicolumn{1}{c|}{Max}                    & Packet length during the connection \\ \cline{2-2}
+                 & \multicolumn{1}{c|}{Min}                    &                                     \\ \cline{2-2}
+                 & \multicolumn{1}{c|}{Avg}                    &                                     \\ \hline
+Pkt interval     & \multicolumn{1}{c|}{Avg}                    & Interval time from previous message \\ \hline
+Pkt count        & \multicolumn{1}{c|}{N/A}                    & Packet count during the connection  \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\begin{table}[]
+\caption{Selected Features: C-Plane-based Method}
+\label{cplane}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|cc|}
+\hline
+\textbf{Feature} & \multicolumn{2}{c|}{\textbf{Description}}                                              \\ \cline{2-3} 
+                 & \multicolumn{1}{c|}{\textit{\textbf{Type}}} & \textit{\textbf{Meaning}}                \\ \hline
+Throughput       & \multicolumn{1}{c|}{Max}                    & Overall throughput during the connection \\ \hline
+Pkt interval     & \multicolumn{1}{c|}{Avg}                    & Interval time from previous message      \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+The time interval \(i\) between updates is set to 3600 seconds, which is the point of balance between accuracy and processing speed for our experiment scenario. Tshark is used for traffic acquisition, operating on the MQTT Broker server and capturing all MQTT traffic flow from simulated IIoT devices. The batched file is processed into three datasets according to the accessible features of all three methods. The three different sets of features are selected as below:
+
+\textbf{Decoded Method} - shown in Table \ref{proposed}, the features are selected from decoded MQTT messages, including detailed features unique to the MQTT protocol. The packets are decoded by Tshark using the MQTT Broker's TLS certification and further processed to extract the MQTT-related features. Since decoded traffic is utilized, we can dig into MQTT packets to extract relevant features, enabling higher classification accuracy. In the cases of real-world production environments, the device IDs of the same device type are usually composed of a fixed header and a random string, and devices with different purposes tend to communicate over distinct Topics. Additionally, the messages sent back by sensors typically exhibit similar formats and consistent traffic patterns, as indicated by packet parameters. Therefore, we select the set of features presented in Table II for classification based on decoded traffic.
+
+\textbf{Encoded method} - shown in Table \ref{Legacy}, the features are selected from non-protocol unique features, simulating a traditional method based on U-Plane traffic but not specified on any protocol. In practice, these are calculated from U-Plane packet information. Unlike the decoded method, we cannot dig into MQTT packets for more distinctive MQTT parameters. However, compared to C-Plane parameters, the packet parameters still provide some helpful information on classifying traffic patterns.
+
+\textbf{C-Plane Method} - shown in Table \ref{cplane}, the features are limited to those available on the C-Plane KPI Monitor, simulating traditional C-Plane KPIs-based methods. These features are calculated into equivalent C-Plane KPIs, as the C-Plane-based method can only observe these KPIs and cannot observe U-Plane data directly.
+
+To evaluate the unsupervised learning method, the true label category with the highest proportion within a cluster will be designated as that cluster's predicted label. To simulate the online learning process, the dataset is split evenly into 20 batches, each including 5\% of the dataset. For each batch, 5\% more data is fed into the clustering model. In the final batch, 100\% of all data is used in the clustering. The experiment is operated 10 times with different seeds for the traffic generator to generate different traffic data. 
+
+\subsection{OAIC-based Simulated U-Plane Interface with RIC Tester}
+
+Since the laboratory's Local 5G system does not support the O-RAN RIC controller and the U-Plane interface for interacting with RIC, we establish another testbed for the evaluation of U-Plane-based RIC controlflow. 
+
+OAIC \cite{OAIC}, similar to the aforementioned Aether Onramp, is also a local 5G RAN testbed. Built on srsRAN \cite{srsran}, OAIC is particularly designed for the development and testing of machine learning-based RICs. It offers a fully open-source architecture, a library and toolsets for developing AI controllers (OAIC-C), and a framework for testing AI-based RICs (OAIC-T). 
+
+For the needs of the proposed system, OAIC provides two unique tools: an open UPF interface inherited from its parent project, srsRAN, and a testing tool named E2-like for RIC validation.
+
+The open UPF interface allows capturing all U-Plane traffic using tools like Wireshark, enabling the testing of the proposed U-Plane-based concept within the OAIC environment. This simulated U-Plane interface addresses the absence of a U-Plane interface in the O-RAN architecture, which is exactly our proposed interface.
+
+E2-like, as part of OAIC’s testing framework (OAIC-T), simulates the functionality of the O-RAN E2 interface by providing RIC with equivalent data and receiving control commands from RIC. This enables testing and validation of RIC-based control flows within the OAIC environment. Since the proposed system in this thesis is primarily tested on our lab’s original local 5G RAN, OAIC is utilized specifically for capturing generated U-Plane traffic and conducting unit tests of RIC within OAIC’s test environment.
