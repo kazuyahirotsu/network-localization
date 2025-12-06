@@ -8,8 +8,8 @@ mapOriginLon = 33.898610;  % Longitude
 
 % Map and tile sizes in meters
 mapSizeMeters = 4000;    % 4 km
-tileSizeMeters = 1000;    % 2 km
-numTilesPerAxis = mapSizeMeters / tileSizeMeters;  % Should be 2
+tileSizeMeters = 1000;    % 1 km
+numTilesPerAxis = mapSizeMeters / tileSizeMeters;
 
 % Earth's radius in meters
 earthRadius = 6378137;  % Mean radius
@@ -118,7 +118,7 @@ for instanceIdx = 1:numInstances
     end
 
     % Save data to file for each instance
-    filename = sprintf('data/64beacons_100instances/data_instance_%d.mat', instanceIdx);
+    filename = sprintf('data/64beacons_1000instances/data_instance_%d.mat', instanceIdx);
     save(filename, 'nodeLatitudes', 'nodeLongitudes', 'signal_strength_matrix');
 end
 
