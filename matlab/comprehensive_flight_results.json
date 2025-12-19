@@ -1,0 +1,160 @@
+{
+  "config": {
+    "mission_waypoints": [
+      [
+        500,
+        500
+      ],
+      [
+        1500,
+        500
+      ],
+      [
+        1500,
+        1500
+      ],
+      [
+        2500,
+        1500
+      ],
+      [
+        2500,
+        2500
+      ],
+      [
+        3500,
+        2500
+      ],
+      [
+        3500,
+        3500
+      ]
+    ],
+    "ideal_path_length": 6000.0,
+    "num_beacons": 64,
+    "grid_size": 400,
+    "grid_spacing_m": 10.0,
+    "drone_altitude_m": 100.0,
+    "drone_speed_ms": 15.0,
+    "waypoint_threshold_m": 200,
+    "top_k": 10,
+    "num_trials": 5
+  },
+  "sensitivity_results": [
+    {
+      "beacon_noise_std_m": 0,
+      "waypoints_reached": 6.0,
+      "mean_localization_error_m": 113.29836594630123,
+      "median_localization_error_m": 112.47634645365659,
+      "p90_localization_error_m": 161.44038430839393,
+      "path_efficiency_pct": 110.01100110010998,
+      "mean_final_wp_error_m": 179.53038072884453
+    },
+    {
+      "beacon_noise_std_m": 10,
+      "waypoints_reached": 6.0,
+      "mean_localization_error_m": 112.28258636669793,
+      "median_localization_error_m": 111.44696994396767,
+      "p90_localization_error_m": 162.05719560991628,
+      "path_efficiency_pct": 110.17462678345176,
+      "mean_final_wp_error_m": 180.94872518969524
+    },
+    {
+      "beacon_noise_std_m": 25,
+      "waypoints_reached": 6.0,
+      "mean_localization_error_m": 108.39195959734113,
+      "median_localization_error_m": 106.30458086062379,
+      "p90_localization_error_m": 162.8199891724933,
+      "path_efficiency_pct": 111.35237458938812,
+      "mean_final_wp_error_m": 189.20456095713004
+    },
+    {
+      "beacon_noise_std_m": 50,
+      "waypoints_reached": 6.0,
+      "mean_localization_error_m": 101.8012823163643,
+      "median_localization_error_m": 98.2296821693983,
+      "p90_localization_error_m": 162.59864881625649,
+      "path_efficiency_pct": 114.76444597463706,
+      "mean_final_wp_error_m": 211.94297112282158
+    },
+    {
+      "beacon_noise_std_m": 75,
+      "waypoints_reached": 6.0,
+      "mean_localization_error_m": 100.57669302574872,
+      "median_localization_error_m": 95.9163511522512,
+      "p90_localization_error_m": 167.81859844581444,
+      "path_efficiency_pct": 116.75423234092236,
+      "mean_final_wp_error_m": 219.87507543045677
+    },
+    {
+      "beacon_noise_std_m": 100,
+      "waypoints_reached": 6.0,
+      "mean_localization_error_m": 105.8405510411269,
+      "median_localization_error_m": 99.67164477434099,
+      "p90_localization_error_m": 178.62206273814746,
+      "path_efficiency_pct": 119.6458482890644,
+      "mean_final_wp_error_m": 246.18899032500775
+    },
+    {
+      "beacon_noise_std_m": 125,
+      "waypoints_reached": 6.0,
+      "mean_localization_error_m": 115.14155242327683,
+      "median_localization_error_m": 107.83559547687045,
+      "p90_localization_error_m": 196.31986702907588,
+      "path_efficiency_pct": 120.55455093429777,
+      "mean_final_wp_error_m": 269.43124269018415
+    },
+    {
+      "beacon_noise_std_m": 150,
+      "waypoints_reached": 6.0,
+      "mean_localization_error_m": 128.86448554433207,
+      "median_localization_error_m": 118.5732849341227,
+      "p90_localization_error_m": 223.4479669374824,
+      "path_efficiency_pct": 123.00123001230017,
+      "mean_final_wp_error_m": 304.36566424039404
+    },
+    {
+      "beacon_noise_std_m": 175,
+      "waypoints_reached": 6.0,
+      "mean_localization_error_m": 140.01295837094958,
+      "median_localization_error_m": 129.70973553101166,
+      "p90_localization_error_m": 242.46397451727225,
+      "path_efficiency_pct": 124.0771760034742,
+      "mean_final_wp_error_m": 308.2914323252389
+    },
+    {
+      "beacon_noise_std_m": 200,
+      "waypoints_reached": 6.0,
+      "mean_localization_error_m": 154.52961676519095,
+      "median_localization_error_m": 142.1978402936026,
+      "p90_localization_error_m": 267.9378153029428,
+      "path_efficiency_pct": 124.44776305145915,
+      "mean_final_wp_error_m": 330.9204903121727
+    },
+    {
+      "beacon_noise_std_m": 250,
+      "waypoints_reached": 6.0,
+      "mean_localization_error_m": 186.432320904591,
+      "median_localization_error_m": 169.99436881601892,
+      "p90_localization_error_m": 323.45886315539707,
+      "path_efficiency_pct": 127.93449753726101,
+      "mean_final_wp_error_m": 386.59571443232613
+    },
+    {
+      "beacon_noise_std_m": 300,
+      "waypoints_reached": 6.0,
+      "mean_localization_error_m": 216.98152877119202,
+      "median_localization_error_m": 199.07153639274438,
+      "p90_localization_error_m": 379.4119672290258,
+      "path_efficiency_pct": 129.2991983449703,
+      "mean_final_wp_error_m": 401.5285708390583
+    }
+  ],
+  "key_findings": {
+    "baseline_mean_error_m": 113.29836594630123,
+    "baseline_median_error_m": 112.47634645365659,
+    "baseline_path_efficiency_pct": 110.01100110010998,
+    "error_double_at_sigma_m": null,
+    "efficiency_50pct_at_sigma_m": null
+  }
+}
