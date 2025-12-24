@@ -147,3 +147,4 @@
     *   Local Parameter Learningによる精度向上。
     *   Antenna Orientationの補正。
     *   実機での統合実験。
+    *   カルマンフィルタ
