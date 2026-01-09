@@ -1,0 +1,254 @@
+\contentsline {paragraph}{Wireless Positioning Fundamentals:}{iii}{section*.3}%
+\contentsline {paragraph}{Client-Side: UAV Localization Approaches:}{iii}{section*.4}%
+\contentsline {paragraph}{Infrastructure-Side: Network Self-Localization:}{iii}{section*.5}%
+\contentsline {paragraph}{Sensitivity Analysis:}{v}{section*.10}%
+\contentsline {paragraph}{Navigation Feasibility:}{v}{section*.11}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Problem Statement}{2}{section.1.2}%
+\contentsline {paragraph}{Challenge 1: Client-Side Localization Accuracy}{2}{section*.16}%
+\contentsline {paragraph}{Challenge 2: Infrastructure Self-Localization}{2}{section*.17}%
+\contentsline {section}{\numberline {1.3}Contributions}{3}{section.1.3}%
+\contentsline {paragraph}{Scope and Evaluation Methodology}{4}{section*.18}%
+\contentsline {section}{\numberline {1.4}Thesis Outline}{4}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Related Work}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Wireless Positioning Fundamentals}{5}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Signal Metrics for Distance Estimation}{5}{subsection.2.1.1}%
+\contentsline {paragraph}{Received Signal Strength Indicator (RSSI)}{5}{section*.19}%
+\contentsline {paragraph}{Time-Based Methods (ToF/TDoA)}{6}{section*.20}%
+\contentsline {paragraph}{Angle-of-Arrival (AoA)}{6}{section*.21}%
+\contentsline {paragraph}{Channel State Information (CSI)}{6}{section*.22}%
+\contentsline {subsection}{\numberline {2.1.2}Why LoRa and RSSI}{6}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}UAV Localization Approaches}{7}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Non-RF Methods}{7}{subsection.2.2.1}%
+\contentsline {paragraph}{Visual SLAM}{7}{section*.23}%
+\contentsline {paragraph}{LiDAR-Based Navigation}{7}{section*.24}%
+\contentsline {paragraph}{Inertial Navigation}{7}{section*.25}%
+\contentsline {subsection}{\numberline {2.2.2}RF-Based UAV Localization}{7}{subsection.2.2.2}%
+\contentsline {paragraph}{TDoA-Based Systems}{7}{section*.26}%
+\contentsline {paragraph}{RSSI-Based Systems}{8}{section*.27}%
+\contentsline {paragraph}{Hybrid Approaches}{8}{section*.28}%
+\contentsline {subsection}{\numberline {2.2.3}Positioning of This Work}{8}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Network Self-Localization}{8}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Classical Geometric Methods}{8}{subsection.2.3.1}%
+\contentsline {paragraph}{Multilateration}{8}{section*.29}%
+\contentsline {paragraph}{Iterative Multilateration}{9}{section*.30}%
+\contentsline {subsection}{\numberline {2.3.2}Data-Driven Methods}{9}{subsection.2.3.2}%
+\contentsline {paragraph}{Fingerprinting}{9}{section*.31}%
+\contentsline {paragraph}{Machine Learning for RSSI-Distance Mapping}{9}{section*.32}%
+\contentsline {subsection}{\numberline {2.3.3}Graph Neural Networks for Localization}{9}{subsection.2.3.3}%
+\contentsline {paragraph}{Indoor Localization}{9}{section*.33}%
+\contentsline {paragraph}{Large-Scale Network Localization}{9}{section*.34}%
+\contentsline {paragraph}{Edge-Conditioned Convolutions}{9}{section*.35}%
+\contentsline {subsection}{\numberline {2.3.4}Positioning of This Work}{10}{subsection.2.3.4}%
+\contentsline {section}{\numberline {2.4}Summary}{10}{section.2.4}%
+\contentsline {chapter}{\numberline {3}System Architecture}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Design Goals and Principles}{11}{section.3.1}%
+\contentsline {paragraph}{Rapid Deployment}{11}{section*.36}%
+\contentsline {paragraph}{GNSS Independence}{11}{section*.37}%
+\contentsline {paragraph}{Scalability}{11}{section*.38}%
+\contentsline {paragraph}{Privacy Preservation}{11}{section*.39}%
+\contentsline {paragraph}{Cost Effectiveness}{11}{section*.40}%
+\contentsline {subsection}{\numberline {3.1.1}Asymmetric Communication Model}{12}{subsection.3.1.1}%
+\contentsline {section}{\numberline {3.2}Infrastructure Segment}{12}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Beacon Hardware}{12}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Operating Modes}{13}{subsection.3.2.2}%
+\contentsline {paragraph}{Mode A: Self-Organization}{13}{section*.41}%
+\contentsline {paragraph}{Mode B: Service Operation}{13}{section*.42}%
+\contentsline {subsection}{\numberline {3.2.3}Energy Management}{13}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Client Segment}{14}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}UAV Hardware}{14}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Positioning Process}{14}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Scalability Analysis}{15}{subsection.3.3.3}%
+\contentsline {section}{\numberline {3.4}Hub Segment}{15}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Hub Deployment Options}{15}{subsection.3.4.1}%
+\contentsline {paragraph}{Fixed Base Station}{15}{section*.43}%
+\contentsline {paragraph}{Mobile Command Post}{15}{section*.44}%
+\contentsline {paragraph}{Aerial Hub (Mother UAV)}{15}{section*.45}%
+\contentsline {subsection}{\numberline {3.4.2}Hub Functions}{15}{subsection.3.4.2}%
+\contentsline {paragraph}{Data Aggregation}{15}{section*.46}%
+\contentsline {paragraph}{Self-Localization Computation}{15}{section*.47}%
+\contentsline {paragraph}{Position Distribution}{16}{section*.48}%
+\contentsline {paragraph}{Anchor Management}{16}{section*.49}%
+\contentsline {section}{\numberline {3.5}Pre-Deployment Planning and Model Training}{16}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Terrain-Aware Simulation}{16}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Feasibility Assessment}{16}{subsection.3.5.2}%
+\contentsline {paragraph}{Minimum Beacon Count}{16}{section*.50}%
+\contentsline {paragraph}{Placement Recommendations}{16}{section*.51}%
+\contentsline {paragraph}{Expected Accuracy}{17}{section*.52}%
+\contentsline {subsection}{\numberline {3.5.3}Model Training}{17}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}Simulation-to-Real Transfer}{17}{subsection.3.5.4}%
+\contentsline {section}{\numberline {3.6}System Integration}{17}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Operational Timeline}{17}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Failure Modes and Recovery}{18}{subsection.3.6.2}%
+\contentsline {paragraph}{Beacon Failure}{18}{section*.53}%
+\contentsline {paragraph}{Hub Failure}{18}{section*.54}%
+\contentsline {paragraph}{Partial Network Partition}{19}{section*.55}%
+\contentsline {section}{\numberline {3.7}Summary}{19}{section.3.7}%
+\contentsline {chapter}{\numberline {4}Robust UAV Localization with Altitude Constraints}{20}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Problem Formulation}{20}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Scenario}{20}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Challenges}{20}{subsection.4.1.2}%
+\contentsline {paragraph}{Signal Variance}{20}{section*.56}%
+\contentsline {paragraph}{Non-Line-of-Sight (NLOS)}{20}{section*.57}%
+\contentsline {paragraph}{Antenna Effects}{20}{section*.58}%
+\contentsline {paragraph}{Three-Dimensional Geometry}{21}{section*.59}%
+\contentsline {subsection}{\numberline {4.1.3}Objectives}{21}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}Proposed Method}{21}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}System Overview}{21}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}RSSI-to-Distance Conversion}{21}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Multilateration Formulation}{22}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Huber Loss Function}{22}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}Altitude Constraints}{22}{subsection.4.2.5}%
+\contentsline {paragraph}{Dimensionality Reduction}{23}{section*.60}%
+\contentsline {paragraph}{Error Decoupling}{23}{section*.61}%
+\contentsline {subsection}{\numberline {4.2.6}Implementation}{23}{subsection.4.2.6}%
+\contentsline {section}{\numberline {4.3}Simulation Study}{23}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Simulation Setup}{23}{subsection.4.3.1}%
+\contentsline {paragraph}{Simulation Framework}{23}{section*.62}%
+\contentsline {paragraph}{Environment}{23}{section*.63}%
+\contentsline {paragraph}{Radio Parameters}{24}{section*.64}%
+\contentsline {paragraph}{RSSI-to-Distance Model Calibration}{24}{section*.65}%
+\contentsline {subsection}{\numberline {4.3.2}Compared Methods}{24}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Evaluation Scenarios}{25}{subsection.4.3.3}%
+\contentsline {paragraph}{Static Scenario}{25}{section*.66}%
+\contentsline {paragraph}{Dynamic Scenario}{25}{section*.67}%
+\contentsline {subsection}{\numberline {4.3.4}Results}{25}{subsection.4.3.4}%
+\contentsline {subsubsection}{Static Analysis}{25}{section*.68}%
+\contentsline {paragraph}{Altitude Constraints are Essential for 3D}{25}{section*.69}%
+\contentsline {paragraph}{Huber Loss Improves Robustness}{27}{section*.70}%
+\contentsline {paragraph}{Combined Approach is Optimal}{27}{section*.71}%
+\contentsline {subsubsection}{Scalability Analysis}{27}{section*.72}%
+\contentsline {subsubsection}{Error Monitoring}{30}{section*.73}%
+\contentsline {subsubsection}{Dynamic Analysis}{30}{section*.74}%
+\contentsline {paragraph}{Speed-Accuracy Trade-off}{31}{section*.75}%
+\contentsline {section}{\numberline {4.4}Experimental Study}{31}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Hardware}{31}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Experimental Setup}{32}{subsection.4.4.2}%
+\contentsline {paragraph}{Ground Truth Evaluation}{33}{section*.76}%
+\contentsline {subsection}{\numberline {4.4.3}Results}{33}{subsection.4.4.3}%
+\contentsline {paragraph}{Comparison with Simulation}{34}{section*.77}%
+\contentsline {paragraph}{Altitude Effects}{34}{section*.78}%
+\contentsline {section}{\numberline {4.5}Discussion}{34}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Antenna Directivity Effects}{34}{subsection.4.5.1}%
+\contentsline {paragraph}{Mitigation Approaches}{34}{section*.79}%
+\contentsline {subsection}{\numberline {4.5.2}Sampling Time Optimization}{34}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Scalability Considerations}{38}{subsection.4.5.3}%
+\contentsline {paragraph}{Number of UAVs}{38}{section*.80}%
+\contentsline {paragraph}{Coverage Area}{38}{section*.81}%
+\contentsline {paragraph}{Beacon Density}{38}{section*.82}%
+\contentsline {subsection}{\numberline {4.5.4}Comparison with GPS}{38}{subsection.4.5.4}%
+\contentsline {section}{\numberline {4.6}Summary}{38}{section.4.6}%
+\contentsline {chapter}{\numberline {5}Infrastructure Self-Localization via Graph Learning}{40}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Problem Formulation}{40}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Scenario}{40}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Graph Formulation}{40}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Path-Loss Model}{41}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}Challenges}{41}{subsection.5.1.4}%
+\contentsline {paragraph}{Sparse Anchor Information}{41}{section*.83}%
+\contentsline {paragraph}{Error Propagation}{41}{section*.84}%
+\contentsline {paragraph}{Terrain Effects}{41}{section*.85}%
+\contentsline {paragraph}{No External Reference}{41}{section*.86}%
+\contentsline {section}{\numberline {5.2}Proposed Method}{42}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Architecture Overview}{42}{subsection.5.2.1}%
+\contentsline {paragraph}{Node Features}{42}{section*.87}%
+\contentsline {paragraph}{Edge Features}{43}{section*.88}%
+\contentsline {subsection}{\numberline {5.2.2}Edge-Conditioned Graph Convolution}{43}{subsection.5.2.2}%
+\contentsline {paragraph}{EdgeNet Architecture}{43}{section*.89}%
+\contentsline {paragraph}{Network Structure}{44}{section*.90}%
+\contentsline {subsection}{\numberline {5.2.3}Trainable Path-Loss Module}{44}{subsection.5.2.3}%
+\contentsline {paragraph}{Numerical Stability Constraints}{44}{section*.91}%
+\contentsline {paragraph}{Benefits of Learned Parameters}{44}{section*.92}%
+\contentsline {subsection}{\numberline {5.2.4}Anchor Handling}{45}{subsection.5.2.4}%
+\contentsline {paragraph}{Fixed Coordinates}{45}{section*.93}%
+\contentsline {paragraph}{Loss Exclusion}{45}{section*.94}%
+\contentsline {paragraph}{Message Passing Participation}{45}{section*.95}%
+\contentsline {subsection}{\numberline {5.2.5}Training Objective}{45}{subsection.5.2.5}%
+\contentsline {section}{\numberline {5.3}Evaluation Setup}{45}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Dataset and Environment}{45}{subsection.5.3.1}%
+\contentsline {paragraph}{Geographic Area}{45}{section*.96}%
+\contentsline {paragraph}{Network Configuration}{45}{section*.97}%
+\contentsline {paragraph}{RSSI Measurements}{46}{section*.98}%
+\contentsline {paragraph}{Dataset Split}{46}{section*.99}%
+\contentsline {subsection}{\numberline {5.3.2}Propagation Regimes}{46}{subsection.5.3.2}%
+\contentsline {paragraph}{Terrain-Aware Regime}{46}{section*.100}%
+\contentsline {paragraph}{Free-Space Regime}{46}{section*.101}%
+\contentsline {subsection}{\numberline {5.3.3}Baseline Methods}{47}{subsection.5.3.3}%
+\contentsline {subsubsection}{Iterative Multilateration}{47}{section*.102}%
+\contentsline {subsubsection}{Plain GCN (Ablation)}{49}{section*.103}%
+\contentsline {subsection}{\numberline {5.3.4}Training Details}{49}{subsection.5.3.4}%
+\contentsline {section}{\numberline {5.4}Results}{50}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Terrain-Aware Results}{50}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Free-Space Results}{50}{subsection.5.4.2}%
+\contentsline {paragraph}{Model Specification}{51}{section*.104}%
+\contentsline {paragraph}{Evaluation Realism}{51}{section*.105}%
+\contentsline {section}{\numberline {5.5}Discussion}{57}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Performance Drivers}{57}{subsection.5.5.1}%
+\contentsline {paragraph}{Why Multilateration Fails}{57}{section*.106}%
+\contentsline {paragraph}{Why the Proposed Method Succeeds}{57}{section*.107}%
+\contentsline {paragraph}{Role of Physics-Aware Features}{57}{section*.108}%
+\contentsline {subsection}{\numberline {5.5.2}Limitations}{57}{subsection.5.5.2}%
+\contentsline {paragraph}{Absolute Accuracy}{57}{section*.109}%
+\contentsline {paragraph}{Anchor Geometry}{57}{section*.110}%
+\contentsline {paragraph}{Simulation-to-Reality Gap}{58}{section*.111}%
+\contentsline {paragraph}{Global Path-Loss Parameters}{58}{section*.112}%
+\contentsline {subsection}{\numberline {5.5.3}Deployment Considerations}{58}{subsection.5.5.3}%
+\contentsline {paragraph}{Pre-Deployment Training}{58}{section*.113}%
+\contentsline {paragraph}{Post-Installation Calibration}{58}{section*.114}%
+\contentsline {paragraph}{Inference}{58}{section*.115}%
+\contentsline {section}{\numberline {5.6}Summary}{58}{section.5.6}%
+\contentsline {chapter}{\numberline {6}Integrated System Analysis and Navigation Feasibility}{60}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Simulation Framework}{60}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Environment Setup}{60}{subsection.6.1.1}%
+\contentsline {paragraph}{RSSI Model}{60}{section*.116}%
+\contentsline {paragraph}{Beacon Position Uncertainty}{60}{section*.117}%
+\contentsline {subsection}{\numberline {6.1.2}Evaluation Metrics}{61}{subsection.6.1.2}%
+\contentsline {section}{\numberline {6.2}Sensitivity Analysis}{61}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Grid-Wide Localization Analysis}{61}{subsection.6.2.1}%
+\contentsline {paragraph}{Sub-Linear Degradation}{61}{section*.118}%
+\contentsline {paragraph}{Graceful Degradation}{62}{section*.119}%
+\contentsline {paragraph}{Tail Behavior}{62}{section*.120}%
+\contentsline {subsection}{\numberline {6.2.2}Implications for GCN-Based Infrastructure}{62}{subsection.6.2.2}%
+\contentsline {section}{\numberline {6.3}Navigation Simulations}{63}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Simulation Setup}{63}{subsection.6.3.1}%
+\contentsline {paragraph}{Control Model}{63}{section*.121}%
+\contentsline {paragraph}{Waypoint Threshold}{63}{section*.122}%
+\contentsline {paragraph}{Mission Profiles}{63}{section*.123}%
+\contentsline {subsection}{\numberline {6.3.2}Diagonal Transit Results}{64}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}Circular Patrol Results}{64}{subsection.6.3.3}%
+\contentsline {subsection}{\numberline {6.3.4}Area Sweep Results}{65}{subsection.6.3.4}%
+\contentsline {paragraph}{Coverage Implications}{65}{section*.124}%
+\contentsline {subsection}{\numberline {6.3.5}Comparative Analysis}{66}{subsection.6.3.5}%
+\contentsline {section}{\numberline {6.4}Discussion}{76}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Geometric Stability}{76}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Operational Envelope}{77}{subsection.6.4.2}%
+\contentsline {paragraph}{Supported Operations}{77}{section*.125}%
+\contentsline {paragraph}{Unsupported Operations}{77}{section*.126}%
+\contentsline {subsection}{\numberline {6.4.3}Design Trade-offs}{77}{subsection.6.4.3}%
+\contentsline {subsection}{\numberline {6.4.4}Comparison with GNSS}{77}{subsection.6.4.4}%
+\contentsline {subsection}{\numberline {6.4.5}Limitations}{78}{subsection.6.4.5}%
+\contentsline {paragraph}{Simulation Fidelity}{78}{section*.127}%
+\contentsline {paragraph}{Static Environment}{78}{section*.128}%
+\contentsline {paragraph}{Single Altitude}{78}{section*.129}%
+\contentsline {section}{\numberline {6.5}Summary}{78}{section.6.5}%
+\contentsline {chapter}{\numberline {7}Conclusion}{79}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Summary of Contributions}{79}{section.7.1}%
+\contentsline {paragraph}{Contribution 1: Robust Client-Side Localization}{79}{section*.130}%
+\contentsline {paragraph}{Contribution 2: Physics-Aware Infrastructure Self-Localization}{79}{section*.131}%
+\contentsline {paragraph}{Contribution 3: Integrated System Feasibility Analysis}{80}{section*.132}%
+\contentsline {paragraph}{Overall Achievement}{80}{section*.133}%
+\contentsline {section}{\numberline {7.2}Limitations}{80}{section.7.2}%
+\contentsline {paragraph}{Simulation-Based Evaluation}{80}{section*.134}%
+\contentsline {paragraph}{Accuracy Limitations}{80}{section*.135}%
+\contentsline {paragraph}{Anchor Requirements}{81}{section*.136}%
+\contentsline {paragraph}{Static Environment Assumption}{81}{section*.137}%
+\contentsline {paragraph}{Single Altitude Operation}{81}{section*.138}%
+\contentsline {section}{\numberline {7.3}Future Work}{81}{section.7.3}%
+\contentsline {paragraph}{Field Validation}{81}{section*.139}%
+\contentsline {paragraph}{Simulation-to-Real Transfer}{81}{section*.140}%
+\contentsline {paragraph}{Dynamic Beacon Networks}{81}{section*.141}%
+\contentsline {paragraph}{Multi-UAV Coordination}{81}{section*.142}%
+\contentsline {paragraph}{Hybrid Systems}{81}{section*.143}%
+\contentsline {paragraph}{Altitude-Aware Models}{82}{section*.144}%
+\contentsline {section}{\numberline {7.4}Concluding Remarks}{82}{section.7.4}%
+\contentsline {chapter}{References}{83}{chapter*.145}%

@@ -1,0 +1,120 @@
+---
+alwaysApply: true
+---
+# Thesis Writing Rules
+
+## Document Information
+- **Title**: Resilient UAV Positioning System in GNSS-Denied Environments via Physics-Aware GCN and Robust Multilateration
+- **Author**: Kazuya Hirotsu
+- **Type**: Master's Thesis (修士論文), University of Tokyo
+- **Language**: English
+
+## File Locations
+- **Main thesis file**: `thesis/paper/paper.tex`
+- **Bibliography**: `thesis/paper/references.bib`
+- **Template**: `thesis/overleaf/iscs-thesis.cls`
+- **Template example**: `thesis/overleaf/thesis.tex`
+- **Images**: `thesis/images/`
+- **Plan document**: `thesis/paper_plan.md`
+- **Abstract reference**: `thesis/abstract.tex`
+
+## Source Papers to Adapt
+1. **Chapter 4**: `thesis/LoRa-based Localization for Drones.tex` (IEEE Access, 2024)
+2. **Chapter 5**: `thesis/GCN-Based Localization for Low-Density LPWA Networks in GNSS-Denied Environments.tex`
+
+## Chapter Structure
+1. **Chapter 1: Introduction** - Background, motivation, problem statement, thesis outline
+2. **Chapter 2: Related Work** - Wireless positioning fundamentals, UAV localization, network self-localization
+3. **Chapter 3: System Architecture** - Overall concept, infrastructure segment, client segment, hub segment
+4. **Chapter 4: Robust UAV Localization** - Problem formulation, proposed method, simulation, experiments, discussion
+5. **Chapter 5: Infrastructure Self-Localization** - Problem formulation, GCN method, evaluation, results, discussion
+6. **Chapter 6: Integrated System Analysis** - Sensitivity analysis, navigation feasibility, deployment strategy
+7. **Chapter 7: Conclusion** - Summary of contributions, future work
+
+## Writing Style Guidelines
+
+### Language
+- Use **present tense** throughout (never past tense)
+- Use clear, accessible vocabulary (avoid rare/obscure words)
+- **Never use em-dash** (use comma, semicolon, or restructure sentence instead)
+- Be concise but complete
+
+### Introduction Structure (per professor's guidelines)
+- **Paragraph 1**: High-level problem area and importance (motivation)
+- **Paragraph 2**: Specific problem considered in this paper (narrow down)
+- **Paragraph 3**: "In this paper, we show that..." - main contributions (KEY paragraph)
+- **Paragraph 4**: High-level differences from prior work
+- **Paragraph 5**: Paper roadmap ("The remainder of this paper is structured as follows...")
+
+### Technical Writing
+- Define acronyms on first use
+- Use consistent terminology (UAV not drone, GNSS not GPS when referring to general satellite navigation)
+- Include equations with proper numbering
+- Reference figures and tables by number
+- Cite sources appropriately
+
+### Figures
+- All figures should be in `thesis/images/`
+- Use descriptive captions
+- Reference figures in text before they appear
+
+## LaTeX Template Usage
+
+### Document Class
+```latex
+\documentclass[master,final,11pt]{iscs-thesis}
+```
+
+### Required Preamble
+```latex
+\etitle{Resilient UAV Positioning System in GNSS-Denied Environments via Physics-Aware GCN and Robust Multilateration}
+\jtitle{物理モデル考慮型GCNとロバスト三辺測量によるGNSS拒否環境下でのUAV測位システム}
+\eauthor{Kazuya Hirotsu}
+\jauthor{廣津 和哉}
+\esupervisor{Nakao Akihiro}
+\jsupervisor{中尾 彰宏}
+\supervisortitle{Professor}
+```
+
+### Main Content Structure
+```latex
+\begin{document}
+\begin{eabstract}
+% Extended abstract content
+\end{eabstract}
+\maketitle
+\begin{acknowledge}
+% Acknowledgements
+\end{acknowledge}
+\frontmatter
+\tableofcontents
+\listoffigures
+\listoftables
+\mainmatter
+\chapter{Introduction}
+% Chapter content
+\bibliographystyle{plain}
+\bibliography{myref}
+\end{document}
+```
+
+## Available Images (thesis/images/)
+- Model architecture: `model_architecture.png`
+- Experiment area: `experiment_area_comparison.png`
+- RSSI variance: `rssi_variance_comparison.png`
+- Results CDFs: `three_methods_cdf.png`, `three_methods_cdf_free.png`
+- Results histograms: `three_methods_hist.png`, `three_methods_hist_free.png`
+- Qualitative visualizations: `sample_visualization_*.png`
+- UAV experiment: `system_overview.png`, `drone.jpg`, `beacon.jpg`, `beacon_map.png`
+- Method comparisons: `method1_2d.png`, `method2.png`, `method3_2d.png`, `method4.png`, etc.
+- Discussion figures: `antenna.png`, `correlation.png`, `model_3d.png`, etc.
+
+## Quality Checklist
+- [ ] All acronyms defined on first use
+- [ ] Consistent terminology throughout
+- [ ] All figures referenced in text
+- [ ] All equations numbered and referenced
+- [ ] Citations for all claims
+- [ ] Present tense used throughout
+- [ ] Clear, accessible language
+- [ ] Proper LaTeX formatting

@@ -1,0 +1,505 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {paragraph}{Wireless Positioning Fundamentals:}{iii}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Client-Side: UAV Localization Approaches:}{iii}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Infrastructure-Side: Network Self-Localization:}{iii}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Sensitivity Analysis:}{v}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Navigation Feasibility:}{v}{section*.11}\protected@file@percent }
+\citation{ref_surveillance,ref_delivery}
+\citation{ref_gps_analysis}
+\citation{ref_urban_canyon}
+\citation{gpsjam}
+\citation{ref_slam}
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{chap:introduction}{{1}{1}{Introduction}{chapter.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}\protected@file@percent }
+\newlabel{sec:background}{{1.1}{1}{Background}{section.1.1}{}}
+\citation{ref_lpwan_survey}
+\citation{ref_lora_survey}
+\citation{ref_rssi_variance}
+\citation{ref_tdoa_lora}
+\citation{ref_aoa_lora}
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}Problem Statement}{2}{section.1.2}\protected@file@percent }
+\newlabel{sec:problem_statement}{{1.2}{2}{Problem Statement}{section.1.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Challenge 1: Client-Side Localization Accuracy}{2}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Challenge 2: Infrastructure Self-Localization}{2}{section*.17}\protected@file@percent }
+\citation{ref_iterative_mlat}
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}Contributions}{3}{section.1.3}\protected@file@percent }
+\newlabel{sec:contributions}{{1.3}{3}{Contributions}{section.1.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Scope and Evaluation Methodology}{4}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}Thesis Outline}{4}{section.1.4}\protected@file@percent }
+\newlabel{sec:outline}{{1.4}{4}{Thesis Outline}{section.1.4}{}}
+\citation{vazquez2020rssi}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Related Work}{5}{chapter.2}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{chap:related_work}{{2}{5}{Related Work}{chapter.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Wireless Positioning Fundamentals}{5}{section.2.1}\protected@file@percent }
+\newlabel{sec:positioning_fundamentals}{{2.1}{5}{Wireless Positioning Fundamentals}{section.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.1}Signal Metrics for Distance Estimation}{5}{subsection.2.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Received Signal Strength Indicator (RSSI)}{5}{section*.19}\protected@file@percent }
+\newlabel{eq:pathloss}{{2.1}{5}{Received Signal Strength Indicator (RSSI)}{equation.2.1}{}}
+\citation{ref_rssi_variance}
+\citation{pospisil2020tdoa}
+\citation{fargas2017gps}
+\citation{ref_aoa_lora}
+\citation{fan2023csi}
+\citation{ref_lora_survey}
+\newlabel{eq:rssi_to_dist}{{2.2}{6}{Received Signal Strength Indicator (RSSI)}{equation.2.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Time-Based Methods (ToF/TDoA)}{6}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Angle-of-Arrival (AoA)}{6}{section*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Channel State Information (CSI)}{6}{section*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.2}Why LoRa and RSSI}{6}{subsection.2.1.2}\protected@file@percent }
+\citation{ref_slam}
+\citation{fargas2017gps}
+\citation{ref_tdoa_lora}
+\citation{vazquez2020rssi}
+\citation{muller2021outdoor}
+\citation{ingabire2021lora}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}UAV Localization Approaches}{7}{section.2.2}\protected@file@percent }
+\newlabel{sec:uav_localization_related}{{2.2}{7}{UAV Localization Approaches}{section.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Non-RF Methods}{7}{subsection.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Visual SLAM}{7}{section*.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{LiDAR-Based Navigation}{7}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Inertial Navigation}{7}{section*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}RF-Based UAV Localization}{7}{subsection.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{TDoA-Based Systems}{7}{section*.26}\protected@file@percent }
+\citation{ref_aoa_lora}
+\citation{hada2025hybrid}
+\@writefile{toc}{\contentsline {paragraph}{RSSI-Based Systems}{8}{section*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hybrid Approaches}{8}{section*.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Positioning of This Work}{8}{subsection.2.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Network Self-Localization}{8}{section.2.3}\protected@file@percent }
+\newlabel{sec:network_localization_related}{{2.3}{8}{Network Self-Localization}{section.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}Classical Geometric Methods}{8}{subsection.2.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Multilateration}{8}{section*.29}\protected@file@percent }
+\newlabel{eq:multilateration}{{2.3}{8}{Multilateration}{equation.2.3}{}}
+\citation{hada2025hybrid}
+\citation{purohit2020fingerprinting}
+\citation{purohit2020fingerprinting}
+\citation{yan2021gnn}
+\citation{kang2023indoor}
+\citation{fan2023csi}
+\citation{vishwakarma2023indoorgnn}
+\citation{yan2021gnn}
+\citation{simonovsky2017nnconv}
+\@writefile{toc}{\contentsline {paragraph}{Iterative Multilateration}{9}{section*.30}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Data-Driven Methods}{9}{subsection.2.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Fingerprinting}{9}{section*.31}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Machine Learning for RSSI-Distance Mapping}{9}{section*.32}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Graph Neural Networks for Localization}{9}{subsection.2.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Indoor Localization}{9}{section*.33}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Large-Scale Network Localization}{9}{section*.34}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Edge-Conditioned Convolutions}{9}{section*.35}\protected@file@percent }
+\citation{fargas2017gps}
+\citation{ref_aoa_lora}
+\citation{purohit2020fingerprinting}
+\citation{vishwakarma2023indoorgnn}
+\citation{hada2025hybrid}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.4}Positioning of This Work}{10}{subsection.2.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Summary}{10}{section.2.4}\protected@file@percent }
+\newlabel{sec:related_work_summary}{{2.4}{10}{Summary}{section.2.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Comparison of localization approaches}}{10}{table.2.1}\protected@file@percent }
+\newlabel{tab:related_work_summary}{{2.1}{10}{Comparison of localization approaches}{table.2.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}System Architecture}{11}{chapter.3}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{chap:architecture}{{3}{11}{System Architecture}{chapter.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Design Goals and Principles}{11}{section.3.1}\protected@file@percent }
+\newlabel{sec:design_goals}{{3.1}{11}{Design Goals and Principles}{section.3.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Rapid Deployment}{11}{section*.36}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{GNSS Independence}{11}{section*.37}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Scalability}{11}{section*.38}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Privacy Preservation}{11}{section*.39}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cost Effectiveness}{11}{section*.40}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Asymmetric Communication Model}{12}{subsection.3.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Asymmetric communication model}}{12}{figure.3.1}\protected@file@percent }
+\newlabel{fig:comm_model}{{3.1}{12}{Asymmetric communication model}{figure.3.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Infrastructure Segment}{12}{section.3.2}\protected@file@percent }
+\newlabel{sec:infrastructure_segment}{{3.2}{12}{Infrastructure Segment}{section.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Beacon Hardware}{12}{subsection.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Operating Modes}{13}{subsection.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Mode A: Self-Organization}{13}{section*.41}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Mode B: Service Operation}{13}{section*.42}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Energy Management}{13}{subsection.3.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Client Segment}{14}{section.3.3}\protected@file@percent }
+\newlabel{sec:client_segment}{{3.3}{14}{Client Segment}{section.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}UAV Hardware}{14}{subsection.3.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Positioning Process}{14}{subsection.3.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Scalability Analysis}{15}{subsection.3.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Hub Segment}{15}{section.3.4}\protected@file@percent }
+\newlabel{sec:hub_segment}{{3.4}{15}{Hub Segment}{section.3.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Hub Deployment Options}{15}{subsection.3.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Fixed Base Station}{15}{section*.43}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Mobile Command Post}{15}{section*.44}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Aerial Hub (Mother UAV)}{15}{section*.45}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Hub Functions}{15}{subsection.3.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Data Aggregation}{15}{section*.46}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Self-Localization Computation}{15}{section*.47}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Position Distribution}{16}{section*.48}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Anchor Management}{16}{section*.49}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Pre-Deployment Planning and Model Training}{16}{section.3.5}\protected@file@percent }
+\newlabel{sec:predeployment}{{3.5}{16}{Pre-Deployment Planning and Model Training}{section.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Terrain-Aware Simulation}{16}{subsection.3.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}Feasibility Assessment}{16}{subsection.3.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Minimum Beacon Count}{16}{section*.50}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Placement Recommendations}{16}{section*.51}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Expected Accuracy}{17}{section*.52}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}Model Training}{17}{subsection.3.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.4}Simulation-to-Real Transfer}{17}{subsection.3.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}System Integration}{17}{section.3.6}\protected@file@percent }
+\newlabel{sec:system_integration}{{3.6}{17}{System Integration}{section.3.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Operational Timeline}{17}{subsection.3.6.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces System architecture overview}}{18}{figure.3.2}\protected@file@percent }
+\newlabel{fig:system_architecture}{{3.2}{18}{System architecture overview}{figure.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Failure Modes and Recovery}{18}{subsection.3.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Beacon Failure}{18}{section*.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hub Failure}{18}{section*.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Partial Network Partition}{19}{section*.55}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.7}Summary}{19}{section.3.7}\protected@file@percent }
+\newlabel{sec:architecture_summary}{{3.7}{19}{Summary}{section.3.7}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Robust UAV Localization with Altitude Constraints}{20}{chapter.4}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{chap:uav_localization}{{4}{20}{Robust UAV Localization with Altitude Constraints}{chapter.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Problem Formulation}{20}{section.4.1}\protected@file@percent }
+\newlabel{sec:uav_problem}{{4.1}{20}{Problem Formulation}{section.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Scenario}{20}{subsection.4.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Challenges}{20}{subsection.4.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Signal Variance}{20}{section*.56}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Non-Line-of-Sight (NLOS)}{20}{section*.57}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Antenna Effects}{20}{section*.58}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Three-Dimensional Geometry}{21}{section*.59}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Objectives}{21}{subsection.4.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Proposed Method}{21}{section.4.2}\protected@file@percent }
+\newlabel{sec:uav_method}{{4.2}{21}{Proposed Method}{section.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}System Overview}{21}{subsection.4.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}RSSI-to-Distance Conversion}{21}{subsection.4.2.2}\protected@file@percent }
+\newlabel{eq:rssi_distance_ch4}{{4.1}{21}{RSSI-to-Distance Conversion}{equation.4.1}{}}
+\citation{huber1964robust}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Multilateration Formulation}{22}{subsection.4.2.3}\protected@file@percent }
+\newlabel{eq:distance_constraint}{{4.3}{22}{Multilateration Formulation}{equation.4.3}{}}
+\newlabel{eq:optimization}{{4.4}{22}{Multilateration Formulation}{equation.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}Huber Loss Function}{22}{subsection.4.2.4}\protected@file@percent }
+\newlabel{eq:huber}{{4.6}{22}{Huber Loss Function}{equation.4.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.5}Altitude Constraints}{22}{subsection.4.2.5}\protected@file@percent }
+\newlabel{sec:altitude_constraints}{{4.2.5}{22}{Altitude Constraints}{subsection.4.2.5}{}}
+\citation{slabicki2018flora}
+\newlabel{eq:constrained_optimization}{{4.7}{23}{Altitude Constraints}{equation.4.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{Dimensionality Reduction}{23}{section*.60}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Error Decoupling}{23}{section*.61}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.6}Implementation}{23}{subsection.4.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Simulation Study}{23}{section.4.3}\protected@file@percent }
+\newlabel{sec:uav_simulation}{{4.3}{23}{Simulation Study}{section.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Simulation Setup}{23}{subsection.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Simulation Framework}{23}{section*.62}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Environment}{23}{section*.63}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Radio Parameters}{24}{section*.64}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Simulation parameters}}{24}{table.4.1}\protected@file@percent }
+\newlabel{tab:sim_params}{{4.1}{24}{Simulation parameters}{table.4.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{RSSI-to-Distance Model Calibration}{24}{section*.65}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}Compared Methods}{24}{subsection.4.3.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Compared localization methods}}{24}{table.4.2}\protected@file@percent }
+\newlabel{tab:methods}{{4.2}{24}{Compared localization methods}{table.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}Evaluation Scenarios}{25}{subsection.4.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Static Scenario}{25}{section*.66}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Dynamic Scenario}{25}{section*.67}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.4}Results}{25}{subsection.4.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Static Analysis}{25}{section*.68}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Static simulation results (10 beacons)}}{25}{table.4.3}\protected@file@percent }
+\newlabel{tab:static_results}{{4.3}{25}{Static simulation results (10 beacons)}{table.4.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Altitude Constraints are Essential for 3D}{25}{section*.69}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Static error: Method 1 (squared loss, no altitude constraint)}}{26}{figure.4.1}\protected@file@percent }
+\newlabel{fig:static_method1}{{4.1}{26}{Static error: Method 1 (squared loss, no altitude constraint)}{figure.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Static error: Method 2 (squared loss with altitude constraint)}}{27}{figure.4.2}\protected@file@percent }
+\newlabel{fig:static_method2}{{4.2}{27}{Static error: Method 2 (squared loss with altitude constraint)}{figure.4.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Huber Loss Improves Robustness}{27}{section*.70}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Combined Approach is Optimal}{27}{section*.71}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Scalability Analysis}{27}{section*.72}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Static error: Method 3 (Huber loss, no altitude constraint)}}{28}{figure.4.3}\protected@file@percent }
+\newlabel{fig:static_method3}{{4.3}{28}{Static error: Method 3 (Huber loss, no altitude constraint)}{figure.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Static error: Method 4 (proposed: Huber loss with altitude constraint)}}{29}{figure.4.4}\protected@file@percent }
+\newlabel{fig:static_method4}{{4.4}{29}{Static error: Method 4 (proposed: Huber loss with altitude constraint)}{figure.4.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Localization error versus number of beacons}}{30}{figure.4.5}\protected@file@percent }
+\newlabel{fig:scalability}{{4.5}{30}{Localization error versus number of beacons}{figure.4.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Error Monitoring}{30}{section*.73}\protected@file@percent }
+\newlabel{sec:error_monitoring}{{4.3.4}{30}{Error Monitoring}{section*.73}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Dynamic Analysis}{30}{section*.74}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Correlation between minimization error and localization error}}{31}{figure.4.6}\protected@file@percent }
+\newlabel{fig:correlation}{{4.6}{31}{Correlation between minimization error and localization error}{figure.4.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Dynamic simulation results (10 beacons, 10~m/s)}}{31}{table.4.4}\protected@file@percent }
+\newlabel{tab:dynamic_results}{{4.4}{31}{Dynamic simulation results (10 beacons, 10~m/s)}{table.4.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Speed-Accuracy Trade-off}{31}{section*.75}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Experimental Study}{31}{section.4.4}\protected@file@percent }
+\newlabel{sec:uav_experiment}{{4.4}{31}{Experimental Study}{section.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Hardware}{31}{subsection.4.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Experimental hardware}}{32}{table.4.5}\protected@file@percent }
+\newlabel{tab:hardware}{{4.5}{32}{Experimental hardware}{table.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Experimental Setup}{32}{subsection.4.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Beacon placement for field experiments}}{32}{figure.4.7}\protected@file@percent }
+\newlabel{fig:beacon_map}{{4.7}{32}{Beacon placement for field experiments}{figure.4.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Experimental hardware}}{33}{figure.4.8}\protected@file@percent }
+\newlabel{fig:hardware_photos}{{4.8}{33}{Experimental hardware}{figure.4.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{Ground Truth Evaluation}{33}{section*.76}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.3}Results}{33}{subsection.4.4.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces Experimental results (median error / standard deviation in meters)}}{33}{table.4.6}\protected@file@percent }
+\newlabel{tab:experiment_results}{{4.6}{33}{Experimental results (median error / standard deviation in meters)}{table.4.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Comparison with Simulation}{34}{section*.77}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Altitude Effects}{34}{section*.78}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Discussion}{34}{section.4.5}\protected@file@percent }
+\newlabel{sec:uav_discussion}{{4.5}{34}{Discussion}{section.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}Antenna Directivity Effects}{34}{subsection.4.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Mitigation Approaches}{34}{section*.79}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}Sampling Time Optimization}{34}{subsection.4.5.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces RSSI-to-distance relationships at different altitudes}}{35}{figure.4.9}\protected@file@percent }
+\newlabel{fig:rssi_models}{{4.9}{35}{RSSI-to-distance relationships at different altitudes}{figure.4.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Signal strength variation with UAV altitude}}{36}{figure.4.10}\protected@file@percent }
+\newlabel{fig:antenna_pattern}{{4.10}{36}{Signal strength variation with UAV altitude}{figure.4.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.11}{\ignorespaces Altitude-parameterized RSSI-to-distance model}}{36}{figure.4.11}\protected@file@percent }
+\newlabel{fig:model_3d}{{4.11}{36}{Altitude-parameterized RSSI-to-distance model}{figure.4.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.12}{\ignorespaces Effect of sampling time on localization accuracy}}{37}{figure.4.12}\protected@file@percent }
+\newlabel{fig:sampling}{{4.12}{37}{Effect of sampling time on localization accuracy}{figure.4.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.3}Scalability Considerations}{38}{subsection.4.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Number of UAVs}{38}{section*.80}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Coverage Area}{38}{section*.81}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Beacon Density}{38}{section*.82}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.4}Comparison with GPS}{38}{subsection.4.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Summary}{38}{section.4.6}\protected@file@percent }
+\newlabel{sec:uav_summary}{{4.6}{38}{Summary}{section.4.6}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Infrastructure Self-Localization via Graph Learning}{40}{chapter.5}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{chap:infrastructure}{{5}{40}{Infrastructure Self-Localization via Graph Learning}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Problem Formulation}{40}{section.5.1}\protected@file@percent }
+\newlabel{sec:infra_problem}{{5.1}{40}{Problem Formulation}{section.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Scenario}{40}{subsection.5.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Graph Formulation}{40}{subsection.5.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Path-Loss Model}{41}{subsection.5.1.3}\protected@file@percent }
+\newlabel{eq:pathloss_infra}{{5.2}{41}{Path-Loss Model}{equation.5.2}{}}
+\newlabel{eq:rssi_to_distance}{{5.3}{41}{Path-Loss Model}{equation.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Challenges}{41}{subsection.5.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Sparse Anchor Information}{41}{section*.83}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Error Propagation}{41}{section*.84}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Terrain Effects}{41}{section*.85}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{No External Reference}{41}{section*.86}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Proposed Method}{42}{section.5.2}\protected@file@percent }
+\newlabel{sec:infra_method}{{5.2}{42}{Proposed Method}{section.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Architecture Overview}{42}{subsection.5.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Architecture of the proposed edge-conditioned GCN}}{42}{figure.5.1}\protected@file@percent }
+\newlabel{fig:gcn_architecture}{{5.1}{42}{Architecture of the proposed edge-conditioned GCN}{figure.5.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Node Features}{42}{section*.87}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Edge Features}{43}{section*.88}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Edge-Conditioned Graph Convolution}{43}{subsection.5.2.2}\protected@file@percent }
+\newlabel{eq:nnconv}{{5.6}{43}{Edge-Conditioned Graph Convolution}{equation.5.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{EdgeNet Architecture}{43}{section*.89}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Network Structure}{44}{section*.90}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Trainable Path-Loss Module}{44}{subsection.5.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Numerical Stability Constraints}{44}{section*.91}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Benefits of Learned Parameters}{44}{section*.92}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}Anchor Handling}{45}{subsection.5.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Fixed Coordinates}{45}{section*.93}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Loss Exclusion}{45}{section*.94}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Message Passing Participation}{45}{section*.95}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.5}Training Objective}{45}{subsection.5.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Evaluation Setup}{45}{section.5.3}\protected@file@percent }
+\newlabel{sec:infra_evaluation}{{5.3}{45}{Evaluation Setup}{section.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Dataset and Environment}{45}{subsection.5.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Geographic Area}{45}{section*.96}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Network Configuration}{45}{section*.97}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{RSSI Measurements}{46}{section*.98}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Dataset Split}{46}{section*.99}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Core experimental parameters}}{46}{table.5.1}\protected@file@percent }
+\newlabel{tab:core_params}{{5.1}{46}{Core experimental parameters}{table.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Propagation Regimes}{46}{subsection.5.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Terrain-Aware Regime}{46}{section*.100}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Free-Space Regime}{46}{section*.101}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Evaluation area}}{47}{figure.5.2}\protected@file@percent }
+\newlabel{fig:experiment_area}{{5.2}{47}{Evaluation area}{figure.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Baseline Methods}{47}{subsection.5.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Iterative Multilateration}{47}{section*.102}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces RSSI versus distance relationship}}{48}{figure.5.3}\protected@file@percent }
+\newlabel{fig:rssi_variance}{{5.3}{48}{RSSI versus distance relationship}{figure.5.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Plain GCN (Ablation)}{49}{section*.103}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Training Details}{49}{subsection.5.3.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces GCN training hyperparameters}}{49}{table.5.2}\protected@file@percent }
+\newlabel{tab:gcn_hyperparams}{{5.2}{49}{GCN training hyperparameters}{table.5.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Results}{50}{section.5.4}\protected@file@percent }
+\newlabel{sec:infra_results}{{5.4}{50}{Results}{section.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Terrain-Aware Results}{50}{subsection.5.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.3}{\ignorespaces Terrain-aware localization error (meters)}}{50}{table.5.3}\protected@file@percent }
+\newlabel{tab:terrain_results}{{5.3}{50}{Terrain-aware localization error (meters)}{table.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Free-Space Results}{50}{subsection.5.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.4}{\ignorespaces Free-space localization error (meters)}}{50}{table.5.4}\protected@file@percent }
+\newlabel{tab:freespace_results}{{5.4}{50}{Free-space localization error (meters)}{table.5.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces CDF of localization error in terrain-aware setting}}{51}{figure.5.4}\protected@file@percent }
+\newlabel{fig:cdf_terrain}{{5.4}{51}{CDF of localization error in terrain-aware setting}{figure.5.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Model Specification}{51}{section*.104}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Evaluation Realism}{51}{section*.105}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Histogram of localization error in terrain-aware setting}}{52}{figure.5.5}\protected@file@percent }
+\newlabel{fig:hist_terrain}{{5.5}{52}{Histogram of localization error in terrain-aware setting}{figure.5.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Qualitative result: proposed GCN}}{53}{figure.5.6}\protected@file@percent }
+\newlabel{fig:qualitative_proposed}{{5.6}{53}{Qualitative result: proposed GCN}{figure.5.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Qualitative result: plain GCN ablation}}{54}{figure.5.7}\protected@file@percent }
+\newlabel{fig:qualitative_plain}{{5.7}{54}{Qualitative result: plain GCN ablation}{figure.5.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces Qualitative result: iterative multilateration}}{55}{figure.5.8}\protected@file@percent }
+\newlabel{fig:qualitative_mlat}{{5.8}{55}{Qualitative result: iterative multilateration}{figure.5.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.9}{\ignorespaces CDF of localization error in free-space setting}}{56}{figure.5.9}\protected@file@percent }
+\newlabel{fig:cdf_freespace}{{5.9}{56}{CDF of localization error in free-space setting}{figure.5.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Discussion}{57}{section.5.5}\protected@file@percent }
+\newlabel{sec:infra_discussion}{{5.5}{57}{Discussion}{section.5.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Performance Drivers}{57}{subsection.5.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Why Multilateration Fails}{57}{section*.106}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Why the Proposed Method Succeeds}{57}{section*.107}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Role of Physics-Aware Features}{57}{section*.108}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Limitations}{57}{subsection.5.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Absolute Accuracy}{57}{section*.109}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Anchor Geometry}{57}{section*.110}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Simulation-to-Reality Gap}{58}{section*.111}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Global Path-Loss Parameters}{58}{section*.112}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.3}Deployment Considerations}{58}{subsection.5.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Pre-Deployment Training}{58}{section*.113}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Post-Installation Calibration}{58}{section*.114}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Inference}{58}{section*.115}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.6}Summary}{58}{section.5.6}\protected@file@percent }
+\newlabel{sec:infra_summary}{{5.6}{58}{Summary}{section.5.6}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Integrated System Analysis and Navigation Feasibility}{60}{chapter.6}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{chap:integration}{{6}{60}{Integrated System Analysis and Navigation Feasibility}{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Simulation Framework}{60}{section.6.1}\protected@file@percent }
+\newlabel{sec:integration_framework}{{6.1}{60}{Simulation Framework}{section.6.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.1}Environment Setup}{60}{subsection.6.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{RSSI Model}{60}{section*.116}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Beacon Position Uncertainty}{60}{section*.117}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.2}Evaluation Metrics}{61}{subsection.6.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Sensitivity Analysis}{61}{section.6.2}\protected@file@percent }
+\newlabel{sec:sensitivity}{{6.2}{61}{Sensitivity Analysis}{section.6.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}Grid-Wide Localization Analysis}{61}{subsection.6.2.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces UAV localization error versus beacon position error}}{61}{table.6.1}\protected@file@percent }
+\newlabel{tab:sensitivity_results}{{6.1}{61}{UAV localization error versus beacon position error}{table.6.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Sub-Linear Degradation}{61}{section*.118}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces UAV localization error vs beacon position error}}{62}{figure.6.1}\protected@file@percent }
+\newlabel{fig:sensitivity_main}{{6.1}{62}{UAV localization error vs beacon position error}{figure.6.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Graceful Degradation}{62}{section*.119}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Tail Behavior}{62}{section*.120}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.2}Implications for GCN-Based Infrastructure}{62}{subsection.6.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces 90th percentile UAV error vs beacon position error}}{63}{figure.6.2}\protected@file@percent }
+\newlabel{fig:sensitivity_p90}{{6.2}{63}{90th percentile UAV error vs beacon position error}{figure.6.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Navigation Simulations}{63}{section.6.3}\protected@file@percent }
+\newlabel{sec:nav_simulations}{{6.3}{63}{Navigation Simulations}{section.6.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1}Simulation Setup}{63}{subsection.6.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Control Model}{63}{section*.121}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Waypoint Threshold}{63}{section*.122}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Mission Profiles}{63}{section*.123}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.2}Diagonal Transit Results}{64}{subsection.6.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Diagonal transit with perfect beacon positions}}{64}{figure.6.3}\protected@file@percent }
+\newlabel{fig:diagonal_0m}{{6.3}{64}{Diagonal transit with perfect beacon positions}{figure.6.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.3}Circular Patrol Results}{64}{subsection.6.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces Diagonal transit with 200 m beacon position error}}{65}{figure.6.4}\protected@file@percent }
+\newlabel{fig:diagonal_200m}{{6.4}{65}{Diagonal transit with 200 m beacon position error}{figure.6.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.4}Area Sweep Results}{65}{subsection.6.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Coverage Implications}{65}{section*.124}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces Localization error during diagonal transit with 200 m beacon error}}{66}{figure.6.5}\protected@file@percent }
+\newlabel{fig:diagonal_200m_timeline}{{6.5}{66}{Localization error during diagonal transit with 200 m beacon error}{figure.6.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.5}Comparative Analysis}{66}{subsection.6.3.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Navigation simulation results}}{66}{table.6.2}\protected@file@percent }
+\newlabel{tab:nav_results}{{6.2}{66}{Navigation simulation results}{table.6.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.6}{\ignorespaces Error distribution during diagonal transit}}{67}{figure.6.6}\protected@file@percent }
+\newlabel{fig:diagonal_200m_dist}{{6.6}{67}{Error distribution during diagonal transit}{figure.6.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces Circular patrol with perfect beacon positions}}{68}{figure.6.7}\protected@file@percent }
+\newlabel{fig:circular_0m}{{6.7}{68}{Circular patrol with perfect beacon positions}{figure.6.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces Circular patrol with 200 m beacon position error}}{69}{figure.6.8}\protected@file@percent }
+\newlabel{fig:circular_200m}{{6.8}{69}{Circular patrol with 200 m beacon position error}{figure.6.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces Localization error during circular patrol}}{70}{figure.6.9}\protected@file@percent }
+\newlabel{fig:circular_200m_timeline}{{6.9}{70}{Localization error during circular patrol}{figure.6.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces Error distribution during circular patrol}}{71}{figure.6.10}\protected@file@percent }
+\newlabel{fig:circular_200m_dist}{{6.10}{71}{Error distribution during circular patrol}{figure.6.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces Area sweep with perfect beacon positions}}{72}{figure.6.11}\protected@file@percent }
+\newlabel{fig:sweep_0m}{{6.11}{72}{Area sweep with perfect beacon positions}{figure.6.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces Area sweep with 200 m beacon position error}}{73}{figure.6.12}\protected@file@percent }
+\newlabel{fig:sweep_200m}{{6.12}{73}{Area sweep with 200 m beacon position error}{figure.6.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.13}{\ignorespaces Localization error during area sweep}}{74}{figure.6.13}\protected@file@percent }
+\newlabel{fig:sweep_200m_timeline}{{6.13}{74}{Localization error during area sweep}{figure.6.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.14}{\ignorespaces Error distribution during area sweep}}{75}{figure.6.14}\protected@file@percent }
+\newlabel{fig:sweep_200m_dist}{{6.14}{75}{Error distribution during area sweep}{figure.6.14}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Discussion}{76}{section.6.4}\protected@file@percent }
+\newlabel{sec:integration_discussion}{{6.4}{76}{Discussion}{section.6.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}Geometric Stability}{76}{subsection.6.4.1}\protected@file@percent }
+\newlabel{sec:geometric_stability}{{6.4.1}{76}{Geometric Stability}{subsection.6.4.1}{}}
+\newlabel{eq:heading_error}{{6.1}{76}{Geometric Stability}{equation.6.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.15}{\ignorespaces Geometric stability: heading error vs distance}}{76}{figure.6.15}\protected@file@percent }
+\newlabel{fig:geometric_stability}{{6.15}{76}{Geometric stability: heading error vs distance}{figure.6.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}Operational Envelope}{77}{subsection.6.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Supported Operations}{77}{section*.125}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Unsupported Operations}{77}{section*.126}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.3}Design Trade-offs}{77}{subsection.6.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.4}Comparison with GNSS}{77}{subsection.6.4.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Comparison with GNSS navigation}}{77}{table.6.3}\protected@file@percent }
+\newlabel{tab:gnss_comparison}{{6.3}{77}{Comparison with GNSS navigation}{table.6.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.5}Limitations}{78}{subsection.6.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Simulation Fidelity}{78}{section*.127}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Static Environment}{78}{section*.128}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Single Altitude}{78}{section*.129}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}Summary}{78}{section.6.5}\protected@file@percent }
+\newlabel{sec:integration_summary}{{6.5}{78}{Summary}{section.6.5}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Conclusion}{79}{chapter.7}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{chap:conclusion}{{7}{79}{Conclusion}{chapter.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Summary of Contributions}{79}{section.7.1}\protected@file@percent }
+\newlabel{sec:contributions_summary}{{7.1}{79}{Summary of Contributions}{section.7.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Contribution 1: Robust Client-Side Localization}{79}{section*.130}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Contribution 2: Physics-Aware Infrastructure Self-Localization}{79}{section*.131}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Contribution 3: Integrated System Feasibility Analysis}{80}{section*.132}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Overall Achievement}{80}{section*.133}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7.2}Limitations}{80}{section.7.2}\protected@file@percent }
+\newlabel{sec:limitations}{{7.2}{80}{Limitations}{section.7.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Simulation-Based Evaluation}{80}{section*.134}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Accuracy Limitations}{80}{section*.135}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Anchor Requirements}{81}{section*.136}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Static Environment Assumption}{81}{section*.137}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Single Altitude Operation}{81}{section*.138}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7.3}Future Work}{81}{section.7.3}\protected@file@percent }
+\newlabel{sec:future_work}{{7.3}{81}{Future Work}{section.7.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Field Validation}{81}{section*.139}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Simulation-to-Real Transfer}{81}{section*.140}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Dynamic Beacon Networks}{81}{section*.141}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Multi-UAV Coordination}{81}{section*.142}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hybrid Systems}{81}{section*.143}\protected@file@percent }
+\bibstyle{plain}
+\bibdata{references}
+\@writefile{toc}{\contentsline {paragraph}{Altitude-Aware Models}{82}{section*.144}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7.4}Concluding Remarks}{82}{section.7.4}\protected@file@percent }
+\newlabel{sec:concluding_remarks}{{7.4}{82}{Concluding Remarks}{section.7.4}{}}
+\bibcite{ref_aoa_lora}{1}
+\bibcite{ref_slam}{2}
+\bibcite{fan2023csi}{3}
+\bibcite{fargas2017gps}{4}
+\bibcite{gpsjam}{5}
+\bibcite{ref_urban_canyon}{6}
+\bibcite{ref_iterative_mlat}{7}
+\bibcite{hada2025hybrid}{8}
+\bibcite{huber1964robust}{9}
+\bibcite{ingabire2021lora}{10}
+\bibcite{ref_gps_analysis}{11}
+\bibcite{kang2023indoor}{12}
+\bibcite{muller2021outdoor}{13}
+\bibcite{ref_tdoa_lora}{14}
+\@writefile{toc}{\contentsline {chapter}{References}{83}{chapter*.145}\protected@file@percent }
+\bibcite{pospisil2020tdoa}{15}
+\bibcite{purohit2020fingerprinting}{16}
+\bibcite{ref_surveillance}{17}
+\bibcite{ref_delivery}{18}
+\bibcite{simonovsky2017nnconv}{19}
+\bibcite{ref_lpwan_survey}{20}
+\bibcite{slabicki2018flora}{21}
+\bibcite{ref_lora_survey}{22}
+\bibcite{vazquez2020rssi}{23}
+\bibcite{vishwakarma2023indoorgnn}{24}
+\bibcite{ref_rssi_variance}{25}
+\bibcite{yan2021gnn}{26}
+\gdef \@abspage@last{93}

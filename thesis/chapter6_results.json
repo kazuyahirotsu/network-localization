@@ -1,0 +1,160 @@
+{
+  "grid_analysis": {
+    "sample_size": 2000,
+    "num_trials": 3,
+    "results": [
+      {
+        "beacon_error": 0,
+        "mean": 122.33962439281008,
+        "median": 115.24667812887026,
+        "std": 63.02206149164813,
+        "p90": 181.58113934035111,
+        "p95": 216.10164077363032
+      },
+      {
+        "beacon_error": 50,
+        "mean": 118.61136044248443,
+        "median": 109.75083712465234,
+        "std": 66.36671045285456,
+        "p90": 193.34195863038707,
+        "p95": 219.4497888051751
+      },
+      {
+        "beacon_error": 100,
+        "mean": 121.74396866877494,
+        "median": 110.00954847575142,
+        "std": 77.99860942910772,
+        "p90": 209.88652709417224,
+        "p95": 249.07694301802022
+      },
+      {
+        "beacon_error": 150,
+        "mean": 124.57501824476947,
+        "median": 112.10856853418275,
+        "std": 74.86951242144315,
+        "p90": 219.93145439046296,
+        "p95": 252.949882086312
+      },
+      {
+        "beacon_error": 200,
+        "mean": 157.18955632608433,
+        "median": 134.0875762519252,
+        "std": 102.93618009818893,
+        "p90": 287.296410386027,
+        "p95": 356.5862391574842
+      },
+      {
+        "beacon_error": 250,
+        "mean": 181.0758794706057,
+        "median": 155.55472578780333,
+        "std": 117.62858713928291,
+        "p90": 340.9882499691809,
+        "p95": 401.6150279470296
+      },
+      {
+        "beacon_error": 300,
+        "mean": 207.30797577708384,
+        "median": 188.50625150209592,
+        "std": 120.78025313412302,
+        "p90": 372.09534308653235,
+        "p95": 428.9939956088629
+      }
+    ]
+  },
+  "navigation_analysis": {
+    "patterns": [
+      "diagonal",
+      "circular",
+      "area_sweep"
+    ],
+    "results": {
+      "diagonal": [
+        {
+          "beacon_error": 0,
+          "success_rate": 100.0,
+          "mean_loc_error": 111.90126053315176
+        },
+        {
+          "beacon_error": 100,
+          "success_rate": 100.0,
+          "mean_loc_error": 112.67274175349662
+        },
+        {
+          "beacon_error": 150,
+          "success_rate": 100.0,
+          "mean_loc_error": 144.39734808691352
+        },
+        {
+          "beacon_error": 200,
+          "success_rate": 100.0,
+          "mean_loc_error": 151.75290639597065
+        },
+        {
+          "beacon_error": 250,
+          "success_rate": 66.66666666666667,
+          "mean_loc_error": 255.12903173263098
+        }
+      ],
+      "circular": [
+        {
+          "beacon_error": 0,
+          "success_rate": 100.0,
+          "mean_loc_error": 124.39914491101992
+        },
+        {
+          "beacon_error": 100,
+          "success_rate": 100.0,
+          "mean_loc_error": 111.61023200061523
+        },
+        {
+          "beacon_error": 150,
+          "success_rate": 100.0,
+          "mean_loc_error": 118.01863756725417
+        },
+        {
+          "beacon_error": 200,
+          "success_rate": 100.0,
+          "mean_loc_error": 136.74707707785004
+        },
+        {
+          "beacon_error": 250,
+          "success_rate": 100.0,
+          "mean_loc_error": 148.48511603487745
+        }
+      ],
+      "area_sweep": [
+        {
+          "beacon_error": 0,
+          "success_rate": 100.0,
+          "mean_loc_error": 114.77097584293107
+        },
+        {
+          "beacon_error": 100,
+          "success_rate": 100.0,
+          "mean_loc_error": 112.33829536210783
+        },
+        {
+          "beacon_error": 150,
+          "success_rate": 100.0,
+          "mean_loc_error": 126.63942212177727
+        },
+        {
+          "beacon_error": 200,
+          "success_rate": 100.0,
+          "mean_loc_error": 145.22725711220576
+        },
+        {
+          "beacon_error": 250,
+          "success_rate": 100.0,
+          "mean_loc_error": 189.99535151288572
+        }
+      ]
+    }
+  },
+  "key_findings": {
+    "baseline_mean_error": 122.33962439281008,
+    "baseline_median_error": 115.24667812887026,
+    "error_at_200m_beacon_noise": 157.18955632608433,
+    "degradation_at_200m": 28.486217859699742
+  }
+}

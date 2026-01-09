@@ -1,0 +1,205 @@
+{
+  "experiment_config": {
+    "num_beacons": 64,
+    "map_size_m": 4000.0,
+    "grid_size": 400,
+    "drone_altitude_m": 100.0,
+    "localization_samples": 2000,
+    "navigation_trials_per_condition": 3,
+    "waypoint_threshold_m": 200,
+    "top_k_beacons": 10
+  },
+  "localization_results": [
+    {
+      "beacon_error_mean_2d_m": 0,
+      "beacon_sigma_m": 0.0,
+      "uav_mean_error_m": 122.33962439281008,
+      "uav_median_error_m": 115.24667812887026,
+      "uav_p90_error_m": 181.58113934035111
+    },
+    {
+      "beacon_error_mean_2d_m": 50,
+      "beacon_sigma_m": 39.894228040143275,
+      "uav_mean_error_m": 118.86202050943218,
+      "uav_median_error_m": 110.12704575041892,
+      "uav_p90_error_m": 188.26243559277586
+    },
+    {
+      "beacon_error_mean_2d_m": 100,
+      "beacon_sigma_m": 79.78845608028655,
+      "uav_mean_error_m": 120.84575596503177,
+      "uav_median_error_m": 110.30088288377445,
+      "uav_p90_error_m": 205.78770345966433
+    },
+    {
+      "beacon_error_mean_2d_m": 150,
+      "beacon_sigma_m": 119.68268412042981,
+      "uav_mean_error_m": 133.33785290936876,
+      "uav_median_error_m": 119.02463164924885,
+      "uav_p90_error_m": 232.53497679943973
+    },
+    {
+      "beacon_error_mean_2d_m": 200,
+      "beacon_sigma_m": 159.5769121605731,
+      "uav_mean_error_m": 151.14573083699278,
+      "uav_median_error_m": 135.36582398474607,
+      "uav_p90_error_m": 264.0807861512839
+    },
+    {
+      "beacon_error_mean_2d_m": 206,
+      "beacon_sigma_m": 164.36421952539027,
+      "uav_mean_error_m": 153.5329156863,
+      "uav_median_error_m": 137.00573220774538,
+      "uav_p90_error_m": 268.63006906006484
+    },
+    {
+      "beacon_error_mean_2d_m": 250,
+      "beacon_sigma_m": 199.47114020071635,
+      "uav_mean_error_m": 172.88363814432773,
+      "uav_median_error_m": 155.99026702985432,
+      "uav_p90_error_m": 303.3075413183128
+    },
+    {
+      "beacon_error_mean_2d_m": 300,
+      "beacon_sigma_m": 239.36536824085962,
+      "uav_mean_error_m": 198.6274082305441,
+      "uav_median_error_m": 179.1565210652281,
+      "uav_p90_error_m": 351.91986914840413
+    }
+  ],
+  "navigation_results": {
+    "circular": [
+      {
+        "beacon_error_m": 0,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 123.84604299614382,
+        "mean_final_dist_m": 228.76313332483494
+      },
+      {
+        "beacon_error_m": 100,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 118.78279986650523,
+        "mean_final_dist_m": 287.50072404145016
+      },
+      {
+        "beacon_error_m": 150,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 130.02783101829195,
+        "mean_final_dist_m": 300.910548615618
+      },
+      {
+        "beacon_error_m": 200,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 147.33010393920802,
+        "mean_final_dist_m": 332.3319223733303
+      },
+      {
+        "beacon_error_m": 250,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 167.10710100095673,
+        "mean_final_dist_m": 371.94720061850825
+      }
+    ],
+    "diagonal": [
+      {
+        "beacon_error_m": 0,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 113.08011733532679,
+        "mean_final_dist_m": 45.50448076415537
+      },
+      {
+        "beacon_error_m": 100,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 119.44511561189385,
+        "mean_final_dist_m": 57.68041243294014
+      },
+      {
+        "beacon_error_m": 150,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 130.08791983796092,
+        "mean_final_dist_m": 148.14045937167182
+      },
+      {
+        "beacon_error_m": 200,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 147.34798224722275,
+        "mean_final_dist_m": 124.3240683501369
+      },
+      {
+        "beacon_error_m": 250,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 170.5524215323907,
+        "mean_final_dist_m": 177.44394832105863
+      }
+    ],
+    "lawnmower": [
+      {
+        "beacon_error_m": 0,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 126.31191347708211,
+        "mean_final_dist_m": 204.64160804788423
+      },
+      {
+        "beacon_error_m": 100,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 123.5928172491737,
+        "mean_final_dist_m": 246.13650427874578
+      },
+      {
+        "beacon_error_m": 150,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 137.77797472704233,
+        "mean_final_dist_m": 278.8682082304508
+      },
+      {
+        "beacon_error_m": 200,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 159.2423524404461,
+        "mean_final_dist_m": 311.373425924724
+      },
+      {
+        "beacon_error_m": 250,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 180.96598691939735,
+        "mean_final_dist_m": 346.4565527100908
+      }
+    ],
+    "figure8": [
+      {
+        "beacon_error_m": 0,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 107.76207382140024,
+        "mean_final_dist_m": 220.57720329056062
+      },
+      {
+        "beacon_error_m": 100,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 111.17630410119064,
+        "mean_final_dist_m": 269.35811756716646
+      },
+      {
+        "beacon_error_m": 150,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 121.86905398343949,
+        "mean_final_dist_m": 309.04948232042847
+      },
+      {
+        "beacon_error_m": 200,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 137.57946264531265,
+        "mean_final_dist_m": 341.49155603262443
+      },
+      {
+        "beacon_error_m": 250,
+        "success_rate_pct": 100.0,
+        "mean_loc_error_m": 157.15558042640473,
+        "mean_final_dist_m": 353.5526079080996
+      }
+    ]
+  },
+  "key_findings": {
+    "baseline_uav_error_m": 122.33962439281008,
+    "uav_error_at_gcn_level_m": 153.5329156863,
+    "error_degradation_at_gcn_pct": 25.497292024809536
+  }
+}

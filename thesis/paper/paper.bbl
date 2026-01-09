@@ -1,0 +1,134 @@
+\begin{thebibliography}{10}
+
+\bibitem{ref_aoa_lora}
+K.-J. Baik, S.~Lee, and B.-J. Jang.
+\newblock {Hybrid RSSI-AoA Positioning System with Single Time-Modulated Array Receiver for LoRa IoT}.
+\newblock In {\em Proc. EuMC}, pages 1133--1136, Madrid, Spain, 2018.
+
+\bibitem{ref_slam}
+H.~Durrant-Whyte and T.~Bailey.
+\newblock {\em {Simultaneous Localization and Mapping: Part I}}, volume~13.
+\newblock 2006.
+
+\bibitem{fan2023csi}
+S.~Fan and J.~Yan.
+\newblock {CSI Fingerprint and GCN-based Indoor Localization using Graph Structures Fusion}.
+\newblock In {\em Proc. 23rd IEEE Int. Conf. Commun. Technol. (ICCT)}, pages 111--116, Wuxi, China, 2023.
+
+\bibitem{fargas2017gps}
+B.~C. Fargas and M.~N. Petersen.
+\newblock {GPS-free Geolocation using LoRa in Low-power WANs}.
+\newblock In {\em Proc. Global Internet Things Summit (GIoTS)}, pages 1--6, Geneva, Switzerland, June 2017.
+
+\bibitem{gpsjam}
+{GPSJAM}.
+\newblock {Daily Maps of GPS Interference}.
+\newblock Online. Available: \url{https://gpsjam.org/}, 2025.
+\newblock Accessed Oct. 28, 2025. Data provided by ADSBexchange.
+
+\bibitem{ref_urban_canyon}
+P.~D. Groves.
+\newblock {Shadow Matching: A New GNSS Positioning Technique for Urban Canyons}.
+\newblock {\em Journal of Navigation}, 64(3):417--430, 2011.
+
+\bibitem{ref_iterative_mlat}
+R.~P.~S. Hada and A.~Srivastava.
+\newblock {A Hybrid Approach for Localisation of Sensor Nodes in Remote Locations}.
+\newblock {\em ACM Trans. Sensor Netw.}, 21(2):23, March 2025.
+
+\bibitem{hada2025hybrid}
+R.~P.~S. Hada and A.~Srivastava.
+\newblock {A Hybrid Approach for Localisation of Sensor Nodes in Remote Locations}.
+\newblock {\em ACM Trans. Sensor Netw.}, 21(2):23, March 2025.
+
+\bibitem{huber1964robust}
+P.~J. Huber.
+\newblock {Robust Estimation of a Location Parameter}.
+\newblock {\em Annals of Mathematical Statistics}, 35(1):73--101, 1964.
+
+\bibitem{ingabire2021lora}
+W.~Ingabire, H.~Larijani, and R.~M. Gibson.
+\newblock {LoRa RSSI based Outdoor Localization in an Urban Area using Random Neural Networks}.
+\newblock 284:1032--1043, 2021.
+
+\bibitem{ref_gps_analysis}
+J.-H. Kang, K.-J. Park, and H.~Kim.
+\newblock {Analysis of Localization for Drone-fleet}.
+\newblock In {\em Proc. ICTC}, pages 533--538, Jeju, Korea (South), 2015.
+
+\bibitem{kang2023indoor}
+X.~Kang, X.~Liang, and Q.~Liang.
+\newblock {Indoor Localization Algorithm based on a High-order Graph Neural Network}.
+\newblock {\em Sensors}, 23(19):8221, 2023.
+
+\bibitem{muller2021outdoor}
+P.~M\"{u}ller, H.~Stoll, L.~Sarperi, and C.~Sch\"{u}pbach.
+\newblock {Outdoor Ranging and Positioning based on LoRa Modulation}.
+\newblock In {\em Proc. Int. Conf. Localization GNSS (ICL-GNSS)}, pages 1--6, Tampere, Finland, June 2021.
+
+\bibitem{ref_tdoa_lora}
+J.~Pospisil, R.~Fujdiak, and K.~Mikhaylov.
+\newblock {Investigation of the Performance of TDoA-based Localization over LoRaWAN in Theory and Practice}.
+\newblock {\em Sensors}, 20(19):5464, 2020.
+
+\bibitem{pospisil2020tdoa}
+J.~Pospisil, R.~Fujdiak, and K.~Mikhaylov.
+\newblock {Investigation of the Performance of TDoA-based Localization over LoRaWAN in Theory and Practice}.
+\newblock {\em Sensors}, 20(19):5464, 2020.
+
+\bibitem{purohit2020fingerprinting}
+J.~Purohit, X.~Wang, S.~Mao, X.~Sun, and C.~Yang.
+\newblock {Fingerprinting-based Indoor and Outdoor Localization with LoRa and Deep Learning}.
+\newblock In {\em Proc. IEEE Global Commun. Conf. (GLOBECOM)}, pages 1--6, Taipei, Taiwan, December 2020.
+
+\bibitem{ref_surveillance}
+S.~Richhariya, K.~Wanaskar, S.~Shrivastava, and J.~Gao.
+\newblock {Surveillance Drone Cloud and Intelligence Service}.
+\newblock In {\em Proc. MobileCloud}, pages 1--10, Athens, Greece, 2023.
+
+\bibitem{ref_delivery}
+D.~Schneider.
+\newblock {The Delivery Drones are Coming}.
+\newblock {\em IEEE Spectrum}, 57(1):28--29, January 2020.
+
+\bibitem{simonovsky2017nnconv}
+M.~Simonovsky and N.~Komodakis.
+\newblock {Dynamic Edge-conditioned Filters in Convolutional Neural Networks on Graphs}.
+\newblock In {\em Proc. IEEE Conf. Comput. Vis. Pattern Recog. (CVPR)}, pages 29--38, Honolulu, HI, USA, July 2017.
+
+\bibitem{ref_lpwan_survey}
+R.~S. Sinha, Y.~Wei, and S.-H. Hwang.
+\newblock {A Survey on LPWA Technology: LoRa and NB-IoT}.
+\newblock {\em ICT Express}, 3(1):14--21, 2017.
+
+\bibitem{slabicki2018flora}
+M.~Slabicki, G.~Premsankar, and M.~{Di Francesco}.
+\newblock {Adaptive Configuration of LoRa Networks for Dense IoT Deployments}.
+\newblock In {\em Proc. NOMS}, pages 1--9, Taipei, Taiwan, 2018.
+
+\bibitem{ref_lora_survey}
+J.~P.~Shanmuga Sundaram, W.~Du, and Z.~Zhao.
+\newblock {A Survey on LoRa Networking: Research Problems, Current Solutions, and Open Issues}.
+\newblock {\em IEEE Commun. Surv. Tutorials}, 22(1):371--388, 2020.
+
+\bibitem{vazquez2020rssi}
+A.~Vazquez-Rodas, F.~Astudillo-Salinas, C.~Sanchez, B.~Arpi, and L.~I. Minchala.
+\newblock {Experimental Evaluation of RSSI-based Positioning System with Low-cost LoRa Devices}.
+\newblock {\em Ad Hoc Networks}, 105:102168, August 2020.
+
+\bibitem{vishwakarma2023indoorgnn}
+R.~Vishwakarma, R.~B. Joshi, and S.~Mishra.
+\newblock {IndoorGNN: A Graph Neural Network-based Approach for Indoor Localization using WiFi RSSI}.
+\newblock In V.~Goyal et~al., editors, {\em Big Data and Artificial Intelligence}, volume 14418, pages 134--144, Cham, Switzerland, 2023. Springer.
+
+\bibitem{ref_rssi_variance}
+J.~Xiong, Q.~Qin, and K.~Zeng.
+\newblock {A Distance Measurement Wireless Localization Correction Algorithm Based on RSSI}.
+\newblock In {\em Proc. ISCID}, pages 276--278, Hangzhou, China, 2014.
+
+\bibitem{yan2021gnn}
+W.~Yan, D.~Jin, Z.~Lin, and F.~Yin.
+\newblock {Graph Neural Network for Large-scale Network Localization}.
+\newblock In {\em Proc. IEEE Int. Conf. Acoust., Speech Signal Process. (ICASSP)}, pages 5250--5254, Toronto, ON, Canada, June 2021.
+
+\end{thebibliography}

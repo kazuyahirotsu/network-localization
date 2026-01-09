@@ -1,0 +1,186 @@
+\documentclass[master,final,11pt]{iscs-thesis}
+% 論文の種類とフォントサイズをオプションに
+%-------------------
+\etitle{Resilient UAV Positioning System in GNSS-Denied Environments via Physics-Aware GCN and Robust Multilateration}
+\jtitle{物理モデル考慮型GCNとロバスト三辺測量によるGNSS拒否環境下でのUAV測位システム}
+%
+\eauthor{Kazuya Hirotsu}
+\jauthor{廣津 和哉}
+\esupervisor{Nakao Akihiro}
+\jsupervisor{中尾 彰宏}
+\supervisortitle{Professor} % Professor, etc.
+\date{February XX, 20XX}
+%-------------------
+\begin{document}
+
+\begin{eabstract}
+% \section*{Abstract}
+
+\subsection*{1. Introduction}
+
+% === 背景 (Background) ===
+Unmanned Aerial Vehicles (UAVs) are now integral to sectors such as defense, infrastructure inspection, and disaster response.
+However, the operational reliability of these autonomous systems remains heavily dependent on Global Navigation Satellite Systems (GNSS) like GPS.
+This dependence creates a critical vulnerability: GNSS signals suffer obstruction in urban canyons and mountainous terrain, and face growing threats from intentional jamming and spoofing in conflict zones.
+Alternative navigation technologies, including Visual SLAM (Simultaneous Localization and Mapping) and LiDAR, impose heavy computational loads, require expensive hardware, and break down in feature-poor environments such as deserts, snow fields, or open water.
+A resilient, low-cost, and rapidly deployable backup positioning system that operates independently of GNSS remains an open challenge.
+
+Low-Power Wide-Area (LPWA) networks, specifically LoRa (Long Range), offer kilometer-range communication, low power consumption, and minimal hardware cost, making them attractive as positioning infrastructure.
+In such a system, ground-based beacons broadcast their known coordinates, and a receiver estimates its position by measuring the Received Signal Strength Indicator (RSSI) from multiple beacons and applying multilateration.
+
+% === 課題 (Problem Statement) ===
+
+Repurposing LoRa for localization raises two challenges:
+(1) On the client side, RSSI-based localization suffers from high variance due to multipath fading and environmental shadowing, directly degrading positioning accuracy.
+(2) On the infrastructure side, beacon positions must be known before they can serve as reference points, yet in GNSS-denied zones, conventional surveying or GNSS-based calibration may be unavailable.
+
+% === 目的 (Objective) ===
+This thesis investigates the feasibility of using LoRa networks as a standalone positioning infrastructure for GNSS-denied environments, addressing both the client-side localization challenge and the infrastructure initialization problem.
+
+% === 提案手法 (Proposed Method) ===
+We propose a two-layer architecture that addresses both challenges: (1) Robust Client-Side Localization, which enables UAV positioning given known beacon locations, and (2) Infrastructure Self-Organization, which enables the beacon network to localize itself in unknown environments.
+Together, these layers form a survivable positioning system that supports UAV operations in GNSS-denied regions with operationally useful accuracy.
+
+% === 新規性・貢献 (Novelty and Contributions) ===
+Our contributions are threefold:
+\begin{enumerate}
+    \item We introduce a robust multilateration algorithm that combines altitude constraints with the Huber loss function, suppressing the influence of RSSI outliers on UAV position estimates.
+    \item We develop a Physics-Aware Graph Convolutional Network (GCN) that enables sparse beacon networks to self-localize in complex terrain by learning a terrain-aware path-loss model jointly with the graph structure.
+    \item We present a feasibility analysis of the integrated system, showing that despite RSSI-induced localization errors on the order of 150 to 200 meters, point-to-point navigation and wide-area search missions remain achievable through geometric stability and strategic flight path planning.
+\end{enumerate}
+Our work differs from prior research by unifying infrastructure self-organization and robust client positioning into a single resilient system for GNSS-denied environments.
+Existing approaches treat these problems separately: UAV localization studies typically assume a pre-surveyed, high-precision anchor network, while sensor localization methods rely on high beacon densities or labor-intensive fingerprinting.
+We instead propose an integrated architecture that builds positioning capability from scratch.
+At the infrastructure layer, our physics-aware graph learning model embeds radio propagation physics, unlike standard black-box neural networks, enabling sparse beacon networks to self-localize in complex terrain without GNSS.
+At the client layer, we avoid hardware-intensive timing or angle-based techniques and instead develop a robust multilateration algorithm that exploits altitude constraints and the Huber loss to handle the volatility of low-power signals.
+This integrated approach removes the dependence on external positioning at both layers, yielding a standalone solution for unknown environments.
+
+% === 結論 (Conclusion) ===
+This thesis demonstrates that while LoRa-based positioning cannot match GNSS precision, it provides a viable backup system for emergency operations, enabling autonomous missions to continue when primary navigation fails.
+
+\subsection*{2. Related Work}
+
+\paragraph{Wireless Positioning Fundamentals:}
+Time-Difference-of-Arrival (TDoA) and Angle-of-Arrival (AoA) methods yield higher accuracy than Received Signal Strength Indicator (RSSI), but impose strict hardware constraints.
+TDoA demands nanosecond-level time synchronization, typically derived from GPS, which defeats the purpose of a GNSS-independent backup.
+AoA requires complex antenna arrays.
+We therefore focus on RSSI-based methods, which work with standard, low-cost LoRa modules.
+
+\paragraph{Client-Side: UAV Localization Approaches:}
+Conventional UAV navigation relies on GNSS or visual odometry (SLAM).
+SLAM performs well in structured environments but is computationally heavy and degrades in feature-poor settings such as deserts or open water.
+In the RF domain, prior work targets high-density indoor scenarios (WiFi or Bluetooth grids) or depends on hardware-intensive TDoA/AoA systems.
+These solutions do not transfer to sparse, large-scale outdoor deployments where hardware simplicity is critical.
+Our approach achieves robustness through algorithmic improvements, specifically altitude constraints and Huber loss, rather than specialized hardware or high beacon density, and operates with simple, single-antenna beacons.
+
+\paragraph{Infrastructure-Side: Network Self-Localization:}
+For self-localizing the beacon network, standard multilateration is insufficient as it 
+cannot localize nodes lacking direct connection to at least three anchors.
+Iterative Multilateration extends this by promoting newly localized nodes to anchor status, but it suffers from severe error propagation in sparse, non-line-of-sight (NLOS) conditions.
+Fingerprinting methods achieve high accuracy but require labor-intensive site surveys.
+Graph Neural Networks (GNNs) have been applied to sensor localization, yet prior studies typically treat the network as a black box or focus on dense indoor environments.
+Our work applies a \textit{Physics-Aware} GCN designed for sparse, outdoor LPWA networks, embedding path-loss physics directly into the learning process.
+
+\subsection*{3. System Architecture}
+To clarify the operational concept, we define the system architecture into two distinct components: the \textbf{Infrastructure} (Beacons) and the \textbf{Client} (UAV).
+\begin{itemize}
+    \item \textbf{Infrastructure (Beacons):} The ground segment consists of low-cost LoRa beacons. In scenarios where beacon positions are unknown (e.g., aerial deployment), the system initiates a \textbf{Self-Organization Process}.
+    This process uses a Physics-Aware GCN model, pre-trained on synthetic data derived from digital elevation models to capture site-specific propagation characteristics.
+    Beacons measure peer-to-peer RSSI, and this data is aggregated at a central hub where the model estimates their positions.
+    The hub then transmits the estimated coordinates back to each beacon.
+    Once localized (or if positions were already known), the beacons enter a power-saving state, activating \textbf{Broadcast Mode} only upon receiving a wake-up signal.
+    \item \textbf{Client (UAV):} The UAV primarily operates in a passive, receive-only mode.
+    It listens to the global broadcasts from the localized beacons.
+    Using the received RSSI and the broadcasted coordinates, the UAV performs onboard multilateration to estimate its own position.
+    To conserve infrastructure power, the UAV transmits a wake-up signal only when broadcast signals are unavailable, maintaining system scalability.
+\end{itemize}
+
+\subsection*{4. Robust UAV Localization}
+This section addresses the client-side localization problem: estimating the UAV's position given beacons with known locations.
+The core technical challenge is the high variance in RSSI data caused by multipath propagation and shadowing.
+
+To address this, we improve the standard multilateration algorithm with two key modifications:
+\begin{enumerate}
+    \item \textbf{Altitude Decoupling:} Modern UAVs carry reliable barometers or laser altimeters. We exploit this by decoupling vertical (Z-axis) estimation from horizontal (X/Y) positioning, reducing the optimization from three dimensions to two and preventing vertical errors from corrupting the horizontal solution.
+    \item \textbf{Huber Loss:} We replace the standard Least Squares (L2) objective with the Huber loss. Least Squares penalizes large errors quadratically and is therefore sensitive to outliers; Huber loss applies a linear penalty beyond a threshold, preventing occasional extreme RSSI values from distorting the position estimate.
+\end{enumerate}
+
+We validate this approach through simulation and field experiments:
+\begin{itemize}
+    \item \textbf{Simulation:} In static hover tests, the proposed method achieves a median error of \textbf{4.5 m}, compared to 29.7 m for the standard method.
+    In dynamic flight at 10 m/s, the median error rises to \textbf{62.9 m}, still a \textbf{25\%} reduction relative to the standard approach (84.1 m).
+    \item \textbf{Field Experiments:} Tests in Italy using a commercial UAV and four low-cost LoRa beacons confirm the simulation trends, though improvements are more modest with fewer beacons.
+    The experiments also reveal a hardware limitation: at higher altitudes, the antenna radiation pattern attenuates signals directly above the beacon (a ``cone of silence''), indicating the need for altitude-aware path-loss models or alternative antenna configurations.
+\end{itemize}
+
+\subsection*{5. Infrastructure Self-Localization}
+This section addresses the infrastructure-side problem: self-localization of the beacon network in a GNSS-denied environment where manual surveying is impractical.
+The deployment scenario assumes a subset of nodes serve as anchors with known positions (e.g., established at the perimeter of the denied zone or obtained during brief windows of GNSS availability), while the remaining beacons must determine their coordinates from peer-to-peer RSSI measurements alone.
+
+To solve this ill-posed inverse problem, we employ a \textbf{Graph Convolutional Network (GCN)} pre-trained on synthetic terrain data.
+Unlike standard data-driven models that treat the network as a black box, our architecture is physics-aware: it learns the parameters of a log-distance path-loss model ($n$ and $o$) jointly with the graph structure, allowing the model to adapt to local radio propagation characteristics.
+
+We evaluate the method on a terrain-aware simulation of a 4 km $\times$ 4 km mountainous region using the Longley-Rice propagation model, with 25\% of nodes designated as anchors (16 out of 64).
+\begin{itemize}
+    \item \textbf{Results:} At a beacon density of 4 per km\textsuperscript{2}, iterative multilateration fails with a mean error exceeding \textbf{1974 m}.
+    A standard GCN reduces this to \textbf{750 m}, but still performs poorly.
+    The proposed Physics-Aware GCN achieves a mean error of \textbf{206 m}, a \textbf{90\% improvement} over the baselines.
+    \item \textbf{Implication:} Although this accuracy marks an advance for RSSI-only self-localization in complex terrain, the residual error of roughly 200 m raises a practical question: is this accuracy sufficient for UAV operations?
+\end{itemize}
+
+\subsection*{6. Integrated Feasibility and Deployment Strategy}
+This section combines the infrastructure self-localization and robust UAV localization results.
+We analyze the full deployment lifecycle, from air-dropping beacons to executing a  mission, and simulate a UAV navigating with beacon positions estimated by the GCN.
+
+\paragraph{Sensitivity Analysis:}
+We first quantify how infrastructure errors propagate to the UAV.
+Adding Gaussian noise ($\sigma=150$ m) to beacon locations increases the UAV's localization error from a baseline of 116 m to 138 m.
+This linear degradation confirms system stability: errors in the infrastructure 
+do not cause catastrophic failure on the client side.
+
+\paragraph{Navigation Feasibility:}
+We then run a closed-loop flight simulation using the noisy beacon estimates.
+This analysis provides three insights into operational feasibility:
+
+\begin{enumerate}
+    \item \textbf{Geometric Stability:} When the UAV is more than 1 km from its target, a 150 m position error translates to a heading error below \textbf{10 degrees}.
+    This geometric dilution keeps the flight path stable and nearly straight toward the target, despite high positional uncertainty.
+    \item \textbf{Turning Point Problem:} As the UAV closes to within 200 m of a waypoint, the ratio of distance to error shrinks, causing heading error to spike and inducing erratic behavior.
+    We mitigate this by setting a \textbf{200 m arrival threshold}, favoring mission continuity over pinpoint waypoint accuracy.
+    \item \textbf{Area Sweep Feasibility:} For area coverage missions, planning flight paths with \textbf{50\% overlap} (e.g., 100 m spacing for a 200 m sensor swath) guarantees effective ground coverage.
+    This strategy effectively trades flight efficiency for reliability, ensuring mission 
+    success even with lateral position errors of up to 50 meters.
+\end{enumerate}
+
+\subsection*{7. Conclusion}
+This thesis shows that LoRa technology, while unsuitable for precision navigation, can serve as an effective backup for emergency positioning.
+By coupling a self-organizing ground network with robust UAV localization algorithms, we build a functional positioning infrastructure in environments with limited prior 
+infrastructure.
+The resulting system supports defense and disaster-response operations, allowing autonomous missions to continue when primary navigation fails.
+
+\end{eabstract}
+
+\maketitle
+
+% \begin{acknowledge}
+% Ack ack ack. 
+% \end{acknowledge}
+
+% \frontmatter %% 前付け
+% \tableofcontents % 目次
+%\listoffigures % 図目次
+%\listoftables % 表目次
+%\lstlistoflistings % ソースコード目次
+% %-------------------
+% \mainmatter %% 本文
+
+% \chapter{Joron}
+
+% Honbun honbun, honbun honbun
+% \cite{4065825}. 
+
+% %-------------------
+% \bibliographystyle{plain} % 参考文献
+% \bibliography{myref} %
+%-------------------
+\end{document}
