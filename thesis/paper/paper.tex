@@ -60,7 +60,6 @@
     In such a system, ground-based beacons broadcast their known coordinates, and a receiver estimates its position by measuring the Received Signal Strength Indicator (RSSI) from multiple beacons and applying multilateration.
     
     % === 課題 (Problem Statement) ===
-    \textbf{Problem Statement:}
     Repurposing LoRa for localization raises two challenges:
     (1) On the client side, RSSI-based localization suffers from high variance due to multipath fading and environmental shadowing, directly degrading positioning accuracy.
     (2) On the infrastructure side, beacon positions must be known before they can serve as reference points, yet in GNSS-denied zones, conventional surveying or GNSS-based calibration may be unavailable.
@@ -73,18 +72,18 @@
     Together, these layers form a survivable positioning system that supports UAV operations in GNSS-denied regions with operationally useful accuracy.
     
     % === 新規性・貢献 (Novelty and Contributions) ===
-    Our contributions are threefold:
+    This thesis makes three main contributions:
     \begin{enumerate}
         \item We introduce a robust multilateration algorithm that combines altitude constraints with the Huber loss function, suppressing the influence of RSSI outliers on UAV position estimates.
         \item We propose a Physics-Aware Graph Convolutional Network (GCN) that enables sparse beacon networks to self-localize in complex terrain by learning a terrain-aware path-loss model jointly with the graph structure.
-        \item We present a feasibility analysis of the integrated system, showing that despite RSSI-induced localization errors on the order of 150 to 200 meters, point-to-point navigation and wide-area search missions remain achievable through geometric stability and strategic flight path planning.
+        \item We present a feasibility analysis of the integrated system, showing that despite RSSI-induced localization errors on the order of 150 to 200 meters, point-to-point navigation, circular patrol, and area coverage missions remain achievable.
     \end{enumerate}
     Our work differs from prior research by unifying infrastructure self-organization and robust client positioning into a single resilient system for GNSS-denied environments.
     Existing approaches treat these problems separately: UAV localization studies typically assume a pre-surveyed, high-precision anchor network, while sensor localization methods rely on high beacon densities or labor-intensive fingerprinting.
-    We instead propose an integrated architecture that builds positioning capability from scratch.
+    We instead propose an integrated architecture that builds positioning capability from scratch using commodity hardware.
     At the infrastructure layer, our physics-aware GCN embeds radio propagation physics, unlike standard black-box neural networks, enabling sparse beacon networks to self-localize in complex terrain without GNSS.
     At the client layer, we avoid hardware-intensive timing or angle-based techniques and instead propose a robust multilateration algorithm that exploits altitude constraints and the Huber loss to handle the volatility of low-power signals.
-    This integrated approach removes the dependence on external positioning at both layers, yielding a standalone solution for unknown environments.
+    This integrated approach reduces dependence on continuous GNSS by requiring only a small set of anchors obtained before deployment (e.g., perimeter beacons or positions recorded during brief GNSS windows), after which the system operates independently.
     
     % === 結論 (Conclusion) ===
     This thesis demonstrates that while LoRa-based positioning cannot match GNSS precision, it provides a viable backup positioning system, enabling autonomous missions to continue when primary navigation fails.
@@ -97,14 +96,14 @@
     AoA requires complex antenna arrays.
     We therefore focus on RSSI-based methods, which work with standard, low-cost LoRa modules.
     
-    \paragraph{Client-Side: UAV Localization Approaches:}
+    \paragraph{Client-Side (UAV Localization):}
     Conventional UAV navigation relies on GNSS or visual odometry (SLAM).
     SLAM performs well in structured environments but is computationally heavy and degrades in feature-poor settings such as deserts or open water.
     In the RF domain, prior work targets high-density indoor scenarios (WiFi or Bluetooth grids) or depends on hardware-intensive TDoA/AoA systems.
     These solutions do not transfer to sparse, large-scale outdoor deployments where hardware simplicity is critical.
     Our approach achieves robustness through algorithmic improvements, specifically altitude constraints and Huber loss, rather than specialized hardware or high beacon density, and operates with simple, single-antenna beacons.
     
-    \paragraph{Infrastructure-Side: Network Self-Localization:}
+    \paragraph{Infrastructure-Side (Network Self-Localization):}
     For self-localizing the beacon network, standard multilateration is insufficient as it 
     cannot localize nodes lacking direct connection to at least three anchors.
     Iterative Multilateration extends this by promoting newly localized nodes to anchor status, but it suffers from severe error propagation in sparse, non-line-of-sight (NLOS) conditions.
@@ -113,20 +112,20 @@
     Our work applies a \textit{Physics-Aware} GCN designed for sparse, outdoor LPWA networks, embedding path-loss physics directly into the learning process.
     
     \subsection*{3. System Architecture}
-    To clarify the operational concept, we define the system architecture into two distinct components: the \textbf{Infrastructure} (Beacons) and the \textbf{Client} (UAV).
+    To clarify the operational concept, we define the system architecture into three distinct components: the \textbf{Infrastructure} (Beacons), the \textbf{Client} (UAV), and the \textbf{Hub}.
     \begin{itemize}
-        \item \textbf{Infrastructure (Beacons):} The ground segment consists of low-cost LoRa beacons. In scenarios where beacon positions are unknown (e.g., aerial deployment), the system initiates a \textbf{Self-Organization Process}.
-        This process uses a Physics-Aware GCN model, pre-trained on synthetic data derived from digital elevation models to capture site-specific propagation characteristics.
-        Beacons measure peer-to-peer RSSI, and this data is aggregated at a central hub where the model estimates their positions.
-        The hub then transmits the estimated coordinates back to each beacon.
-        Once localized (or if positions were already known), the beacons enter a power-saving state, activating \textbf{Broadcast Mode} only upon receiving a wake-up signal.
-        \item \textbf{Client (UAV):} The UAV primarily operates in a passive, receive-only mode.
-        It listens to the global broadcasts from the localized beacons.
-        Using the received RSSI and the broadcasted coordinates, the UAV performs onboard multilateration to estimate its own position.
-        To conserve infrastructure power, the UAV transmits a wake-up signal only when broadcast signals are unavailable, maintaining system scalability.
+        \item \textbf{Infrastructure (Beacons):} The ground segment consists of low-cost LoRa beacons deployed throughout the operational area.
+        In scenarios where beacon positions are unknown, beacons measure peer-to-peer RSSI and report measurements to the hub for self-localization.
+        Once positions are determined, beacons periodically broadcast their coordinates for UAV consumption.
+        \item \textbf{Client (UAV):} The UAV operates in a passive, receive-only mode, listening to beacon broadcasts without transmitting.
+        Using the received RSSI values and broadcasted coordinates, the UAV performs onboard multilateration to estimate its own position.
+        This asymmetric communication model enables unlimited simultaneous UAV users and preserves position privacy.
+        \item \textbf{Hub:} The hub provides centralized computation for infrastructure self-localization.
+        It aggregates RSSI measurements from all beacons, constructs a network graph, and executes the Physics-Aware GCN model (pre-trained on terrain-aware simulations) to estimate beacon positions.
+        The hub then distributes estimated coordinates back to each beacon.
     \end{itemize}
     
-    \subsection*{4. Robust UAV Localization}
+    \subsection*{4. UAV Localization}
     This section addresses the client-side localization problem: estimating the UAV's position given beacons with known locations.
     The core technical challenge is the high variance in RSSI data caused by multipath propagation and shadowing.
     
@@ -140,8 +139,8 @@
     \begin{itemize}
         \item \textbf{Simulation:} In static hover tests, the proposed method achieves a median error of \textbf{4.5 m}, compared to 29.7 m for the standard method.
         In dynamic flight at 10 m/s, the median error rises to \textbf{62.9 m}, still a \textbf{25\%} reduction relative to the standard approach (84.1 m).
-        \item \textbf{Field Experiments:} Tests in Italy using a commercial UAV and four low-cost LoRa beacons confirm the simulation trends, though improvements are more modest with fewer beacons.
-        The experiments also reveal a hardware limitation: at higher altitudes, the antenna radiation pattern attenuates signals directly above the beacon (a ``cone of silence''), indicating the need for altitude-aware path-loss models or alternative antenna configurations.
+        \item \textbf{Field Experiments:} Tests in Italy using a commercial UAV and four low-cost LoRa beacons confirm the simulation trends, achieving \textbf{7~m} median error in favorable conditions and \textbf{26~m} in challenging conditions.
+        The experiments also reveal a hardware limitation: the antenna radiation pattern has a null directly overhead, causing the RSSI-to-distance relationship to vary across flight altitudes and indicating the need for altitude-aware path-loss models or alternative antenna configurations.
     \end{itemize}
     
     \subsection*{5. Infrastructure Self-Localization}
@@ -153,15 +152,14 @@
     
     We evaluate the method on a terrain-aware simulation of a 4 km $\times$ 4 km mountainous region using the Longley-Rice propagation model, with 25\% of nodes designated as anchors (16 out of 64).
     \begin{itemize}
-        \item \textbf{Results:} At a beacon density of 4 per km\textsuperscript{2}, iterative multilateration fails with a mean error exceeding \textbf{1974 m}.
-        A standard GCN reduces this to \textbf{750 m}, but still performs poorly.
-        The proposed Physics-Aware GCN achieves a mean error of \textbf{206 m}, a \textbf{90\% improvement} over the baselines.
-        \item \textbf{Implication:} Although this accuracy marks an advance for RSSI-only self-localization in complex terrain, the residual error of roughly 200 m raises a practical question: is this accuracy sufficient for UAV operations?
+        \item \textbf{Terrain-Aware Results:} At a beacon density of 4 per km\textsuperscript{2}, iterative multilateration fails with a mean error exceeding \textbf{1974~m}. The proposed Physics-Aware GCN achieves a mean error of \textbf{206~m}, representing a \textbf{90\% improvement} over the baselines.
+        \item \textbf{Free-Space Comparison:} Under idealized free-space conditions, iterative multilateration achieves the best performance (\textbf{6~m} mean error), while the GCN achieves \textbf{51~m}.
+        \item \textbf{Key Insights:} The results demonstrate that the choice of environment dramatically affects method rankings. Classical geometric solvers excel when the path-loss model matches reality, but fail catastrophically in complex terrain. The advantage of the Physics-Aware GCN lies in its robustness to the severe model-reality mismatch inherent in realistic outdoor propagation.
     \end{itemize}
     
-    \subsection*{6. Integrated Feasibility and Deployment Strategy}
+    \subsection*{6. Integrated System Analysis and Navigation Feasibility}
     This section combines the infrastructure self-localization and robust UAV localization results.
-    We analyze the full deployment lifecycle, from air-dropping beacons to executing a mission, and simulate a UAV navigating with beacon positions estimated by the GCN.
+    We analyze how infrastructure errors propagate to the client and simulate a UAV navigating with beacon positions estimated by the GCN.
     
     \paragraph{Sensitivity Analysis:}
     We first quantify how infrastructure errors propagate to the UAV through grid-wide localization analysis at 2,000 sampled positions.
@@ -175,7 +173,7 @@
     \begin{enumerate}
         \item \textbf{Geometric Stability:} With 200~m beacon error, the UAV experiences approximately 150~m localization error.
         At 1~km from the target, this translates to a worst-case heading error of only \textbf{8.5 degrees}, keeping the flight path stable.
-        \item \textbf{Turning Point Problem:} As the UAV closes to within 200~m of a waypoint, the ratio of distance to error shrinks, causing heading error to spike and inducing erratic behavior.
+        \item \textbf{Close-Approach Instability:} As the UAV closes to within 200~m of a waypoint, the ratio of distance to error shrinks, causing heading error to spike and inducing erratic behavior.
         We mitigate this by setting a \textbf{200~m arrival threshold}, favoring mission continuity over pinpoint waypoint accuracy.
         \item \textbf{Mission Success:} All three mission profiles complete all waypoints even with 200~m beacon error.
         For area coverage missions, planning flight paths with overlapping tracks compensates for navigation uncertainty.
@@ -293,16 +291,16 @@ The infrastructure-side challenge is therefore: \textit{How can a sparse beacon 
 \section{Contributions}
 \label{sec:contributions}
 
-In this thesis, we demonstrate that a carefully designed system architecture, combined with targeted algorithmic improvements at both the client and infrastructure layers, can provide operationally useful positioning in GNSS-denied environments despite the inherent limitations of RSSI-based localization.
+In this thesis, we demonstrate that our proposed system architecture, combined with algorithmic improvements at both the client and infrastructure layers, can support UAV navigation when GNSS is unavailable despite the inherent limitations of RSSI-based localization.
 
-Our contributions are threefold:
+This thesis makes three main contributions:
 
 \begin{enumerate}
     \item \textbf{Robust Client-Side Localization Algorithm:}
     We introduce a multilateration algorithm that combines altitude constraints with the Huber loss function to suppress the influence of RSSI outliers on UAV position estimates.
     By exploiting reliable altitude data from barometers or laser altimeters, we decouple vertical estimation from horizontal positioning, reducing the optimization from three dimensions to two.
     The Huber loss function provides robustness against the large RSSI variance inherent in outdoor LoRa deployments.
-    Through comprehensive simulations and field experiments, we demonstrate median localization errors of 4.5~m in static conditions and 62.9~m during dynamic flight at 10~m/s, representing a 25\% improvement over conventional least-squares multilateration.
+    Through simulations and field experiments, we demonstrate median localization errors of 4.5~m in static conditions and 62.9~m during dynamic flight at 10~m/s, representing a 25\% improvement over conventional least-squares multilateration.
     
     \item \textbf{Physics-Aware Graph Convolutional Network for Infrastructure Self-Localization:}
     We develop a Graph Convolutional Network (GCN) architecture that embeds radio propagation physics directly into the learning process.
@@ -311,9 +309,9 @@ Our contributions are threefold:
     In terrain-aware simulations of a 4~km $\times$ 4~km mountainous region, our method achieves a mean localization error of 206~m, representing a 90\% improvement over iterative multilateration (1974~m) and 72\% improvement over a standard GCN without the physics-informed module (750~m).
     
     \item \textbf{Integrated System Feasibility Analysis:}
-    We present a comprehensive feasibility analysis of the integrated system.
+    We present a feasibility analysis of the integrated system.
     We conduct a sensitivity analysis to quantify how infrastructure estimation errors propagate to client-side localization.
-    Furthermore, through closed-loop navigation simulations, we demonstrate that despite localization errors on the order of 150--200~m, the system supports autonomous navigation, achieving 100\% waypoint arrival in tested scenarios.
+    Furthermore, through closed-loop navigation simulations, we demonstrate that despite localization errors on the order of 150--200~m, the system supports autonomous navigation, achieving 100\% waypoint arrival (with a 200~m waypoint threshold) in tested scenarios.
 \end{enumerate}
 
 Our work differs from prior research by unifying infrastructure self-organization and robust client positioning into a single resilient system for GNSS-denied environments.
@@ -928,9 +926,9 @@ This chapter has presented the system architecture for GNSS-denied positioning:
 The following chapters detail the algorithms that enable this architecture: Chapter~\ref{chap:uav_localization} addresses client-side positioning (UAV localization given beacon positions), and Chapter~\ref{chap:infrastructure} addresses infrastructure-side positioning (beacon self-localization from mutual measurements).
 
 %===================================================================
-% CHAPTER 4: ROBUST UAV LOCALIZATION
+% CHAPTER 4: UAV LOCALIZATION
 %===================================================================
-\chapter{Robust UAV Localization with Altitude Constraints}
+\chapter{UAV Localization}
 \label{chap:uav_localization}
 
 This chapter, based on our published work~\cite{hirotsu2024lora}, addresses the client-side localization problem: determining the position of a mobile UAV using RSSI measurements from beacons at known locations.
@@ -1064,7 +1062,7 @@ The threshold $\delta$ controls the transition point; we use $\delta = 100$~m in
 \subsection{Altitude Constraints}
 \label{sec:altitude_constraints}
 
-A key insight is that UAVs can obtain reliable altitude information from onboard sensors independent of the RF positioning system:
+UAVs can obtain reliable altitude information from onboard sensors, independent of the RF positioning system:
 \begin{itemize}
     \item \textbf{Barometric altimeters} measure atmospheric pressure, providing altitude relative to a calibrated reference (typically sea level or takeoff location) with accuracy of 1--5~m
     \item \textbf{Laser altimeters} measure height above ground using time-of-flight of laser pulses, providing centimeter-level accuracy over smooth terrain
@@ -1244,7 +1242,7 @@ We obtain these results by generating all possible combinations of beacon subset
         \includegraphics[width=0.48\columnwidth]{images/method4_cropped.png} \\
         (a) Full scale & (b) Cropped view
     \end{tabular}
-    \caption[Static error: Method 4 (proposed: Huber loss with altitude constraint)]{Static localization error for Method 4 (proposed: Huber loss with altitude constraint). (a) Full scale showing occasional large errors; (b) cropped view showing the majority of results achieving 4.5~m median.}
+    \caption[Static error: Method 4 (Huber loss with altitude constraint)]{Static localization error for Method 4 (proposed: Huber loss with altitude constraint). (a) Full scale showing occasional large errors; (b) cropped view showing the majority of results achieving 4.5~m median.}
     \label{fig:static_method4}
 \end{figure}
 
@@ -1589,7 +1587,7 @@ The method assumes beacon positions are known, either from prior survey or from 
 %===================================================================
 % CHAPTER 5: INFRASTRUCTURE SELF-LOCALIZATION
 %===================================================================
-\chapter{Infrastructure Self-Localization via Physics-Aware GCN}
+\chapter{Infrastructure Self-Localization}
 \label{chap:infrastructure}
 
 This chapter addresses the infrastructure-side localization problem: determining the positions of beacons themselves when only a subset have known coordinates.
@@ -1820,7 +1818,7 @@ The Smooth L1 loss combines the benefits of L1 and L2 losses: it is less sensiti
 \section{Evaluation Setup}
 \label{sec:infra_evaluation}
 
-We evaluate the proposed method through comprehensive simulations using a terrain-aware propagation model that captures the challenging conditions of real outdoor deployments.
+We evaluate the proposed method through simulations using a terrain-aware propagation model that captures the challenging conditions of real outdoor deployments.
 
 \subsection{Dataset and Environment}
 
@@ -2507,7 +2505,7 @@ This demonstrates that despite the substantial beacon position uncertainty intro
 \subsection{Geometric Stability}
 \label{sec:geometric_stability}
 
-A key insight enabling navigation despite high localization error is \textit{geometric stability}: the relationship between position error and navigation error depends strongly on distance to target.
+Navigation remains stable despite high localization error because of \textit{geometric stability}: the relationship between position error and navigation error depends strongly on distance to target.
 
 Consider a UAV at true position $\mathbf{p}_{\text{true}}$ with estimated position $\mathbf{p}_{\text{est}}$ attempting to navigate toward target $\mathbf{t}$.
 The worst-case heading error $\Delta\theta$ occurs when the position error is perpendicular to the true heading direction:
@@ -2581,7 +2579,7 @@ Table~\ref{tab:gnss_comparison} compares the proposed system with GNSS-based nav
 \midrule
 Position accuracy & 2--5~m & 120--160~m \\
 Global availability & Yes & No (local) \\
-Jamming resistance & Low & Configurable \\
+Jamming resistance & Low & Moderate \\
 Infrastructure required & Satellites & Beacons \\
 Cost per coverage area & Low & Moderate \\
 \bottomrule
@@ -2591,8 +2589,9 @@ Cost per coverage area & Low & Moderate \\
 The proposed system does not compete with GNSS for precision navigation.
 Instead, it provides a complementary capability for GNSS-denied environments, enabling continued operations when primary navigation fails.
 
-Regarding jamming resistance, GNSS uses fixed, publicly known frequencies that are easily targeted.
-The proposed system can use secret, dynamically changeable operating parameters (frequency, spreading factor, bandwidth) and encryption, providing resilience not available with GNSS.
+Regarding jamming resistance, GNSS uses fixed, publicly known frequencies that are easily targeted by narrowband jammers.
+The proposed system offers a more controllable attack surface: as a private network, operating parameters (frequency, spreading factor, bandwidth) can be kept secret or changed dynamically, and payload encryption can prevent spoofing of beacon coordinates.
+However, broadband jammers can still disrupt the system regardless of parameter choices.
 
 \subsection{Limitations}
 
@@ -2628,7 +2627,7 @@ The key findings are:
     \item \textbf{Operational Trade-offs:} A 200~m waypoint threshold balances reliability against accuracy, and area coverage missions can compensate for track deviation through planned overlap.
 \end{enumerate}
 
-These results establish that despite localization errors substantially larger than GNSS, the integrated system provides operationally useful positioning for emergency and backup navigation scenarios.
+These results establish that despite localization errors substantially larger than GNSS, the integrated system provides positioning accuracy that supports the navigation scenarios presented in this thesis.
 The system enables mission continuation when primary navigation fails, fulfilling its role as a resilient alternative for GNSS-denied environments.
 
 %===================================================================
@@ -2707,7 +2706,7 @@ This limits applicability to scenarios where approximate positioning is sufficie
 \paragraph{Anchor Requirements}
 The infrastructure self-localization assumes 25\% of nodes have known positions (anchors).
 In truly unknown environments, establishing even this anchor set may be challenging.
-The sensitivity of localization accuracy to anchor quantity and geometry is not comprehensively studied.
+The sensitivity of localization accuracy to anchor quantity and geometry is not studied in detail.
 
 \paragraph{Static Environment Assumption}
 Both the beacon network and the propagation environment are assumed static.

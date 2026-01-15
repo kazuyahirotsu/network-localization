@@ -111,6 +111,12 @@ INPUT /usr/local/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniquecounter
 INPUT /usr/local/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/placeins/placeins.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/placeins/placeins.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/subcaption.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/subcaption.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 OUTPUT paper.aux
@@ -173,6 +179,7 @@ INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx9.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx5.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT extractbb -B cropbox -O images/system_architecture.png
 INPUT extractbb -B cropbox -O images/method1_2d.png
 INPUT extractbb -B cropbox -O images/method1_3d.png
 INPUT extractbb -B cropbox -O images/method2.png
@@ -200,8 +207,10 @@ INPUT extractbb -B cropbox -O images/sample_visualization_loaded_model_trained_l
 INPUT extractbb -B cropbox -O images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.png
 INPUT extractbb -B cropbox -O images/sample_visualization_loaded_model_mlat_64beacons_100instances.png
 INPUT extractbb -B cropbox -O images/three_methods_cdf_free.png
+INPUT extractbb -B cropbox -O images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.png
+INPUT extractbb -B cropbox -O images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.png
+INPUT extractbb -B cropbox -O images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.png
 INPUT extractbb -B cropbox -O images/sensitivity_uav_vs_beacon.png
-INPUT extractbb -B cropbox -O images/sensitivity_p90.png
 INPUT extractbb -B cropbox -O images/diagonal_beacon0m_path.png
 INPUT extractbb -B cropbox -O images/diagonal_beacon200m_path.png
 INPUT extractbb -B cropbox -O images/diagonal_beacon200m_error_timeline.png
