@@ -59,7 +59,22 @@ K.-J. Baik, S.~Lee, and B.-J. Jang.
 \bibitem{hada2025hybrid}
 R.~P.~S. Hada and A.~Srivastava.
 \newblock {A Hybrid Approach for Localisation of Sensor Nodes in Remote Locations}.
-\newblock {\em ACM Trans. Sensor Netw.}, 21(2):23, March 2025.
+\newblock {\em ACM Trans. Sensor Netw.}, 21(2), March 2025.
+
+\bibitem{zafari2019survey}
+F.~Zafari, A.~Gkelias, and K.~K. Leung.
+\newblock {A Survey of Indoor Localization Systems and Technologies}.
+\newblock {\em IEEE Communications Surveys \& Tutorials}, 21(3):2568--2599, 2019.
+
+\bibitem{goldoni2019lora}
+E.~Goldoni, L.~Prando, A.~Vizziello, P.~Savazzi, and P.~Gamba.
+\newblock {Experimental Data Set Analysis of RSSI-based Indoor and Outdoor Localization in LoRa Networks}.
+\newblock {\em Internet Technology Letters}, 2(1):e75, 2019.
+
+\bibitem{murartal2017orbslam2}
+R.~Mur-Artal and J.~D. Tardos.
+\newblock {ORB-SLAM2: An Open-Source SLAM System for Monocular, Stereo, and RGB-D Cameras}.
+\newblock {\em IEEE Transactions on Robotics}, 33(5):1255--1262, 2017.
 
 \bibitem{fargas2017gps}
 B.~C. Fargas and M.~N. Petersen.
@@ -84,7 +99,7 @@ P.~M\"{u}ller, H.~Stoll, L.~Sarperi, and C.~Sch\"{u}pbach.
 \bibitem{ingabire2021lora}
 W.~Ingabire, H.~Larijani, and R.~M. Gibson.
 \newblock {LoRa RSSI based Outdoor Localization in an Urban Area using Random Neural Networks}.
-\newblock In K.~Arai, editor, {\em Intelligent Computing}, volume 284, pages 1032--1043. Springer Nature, Cham, Switzerland, 2021.
+\newblock In K.~Arai, editor, {\em Intelligent Computing}, volume 284, pages 1032--1043. Springer International Publishing, Cham, 2021.
 
 \bibitem{purohit2020fingerprinting}
 J.~Purohit, X.~Wang, S.~Mao, X.~Sun, and C.~Yang.
@@ -104,7 +119,7 @@ S.~Fan and J.~Yan.
 \bibitem{vishwakarma2023indoorgnn}
 R.~Vishwakarma, R.~B. Joshi, and S.~Mishra.
 \newblock {IndoorGNN: A Graph Neural Network-based Approach for Indoor Localization using WiFi RSSI}.
-\newblock In V.~Goyal et~al., editors, {\em Big Data and Artificial Intelligence}, volume 14418, pages 150--165. Springer, Cham, Switzerland, 2023.
+\newblock In {\em Big Data and Artificial Intelligence: 11th International Conference, BDA 2023, Delhi, India, December 7--9, 2023, Proceedings}, volume 14418, pages 150--165, Berlin, Heidelberg, 2023. Springer-Verlag.
 
 \bibitem{yan2021gnn}
 W.~Yan, D.~Jin, Z.~Lin, and F.~Yin.
@@ -118,13 +133,13 @@ M.~Simonovsky and N.~Komodakis.
 
 \bibitem{hirotsu2024lora}
 K.~Hirotsu, F.~Granelli, and A.~Nakao.
-\newblock {LoRa-based Localization for Drones: Methodological Enhancements Explored through Simulations and Real-World Experiments}.
+\newblock {LoRa-Based Localization for Drones: Methodological Enhancements Explored Through Simulations and Real-World Experiments}.
 \newblock {\em IEEE Access}, 12:145988--145996, 2024.
 
 \bibitem{huber1964robust}
 P.~J. Huber.
 \newblock {Robust Estimation of a Location Parameter}.
-\newblock {\em Annals of Mathematical Statistics}, 35(1):73--101, 1964.
+\newblock {\em Annals of Mathematical Statistics}, 35(1):73--101, March 1964.
 
 \bibitem{slabicki2018flora}
 M.~Slabicki, G.~Premsankar, and M.~{Di Francesco}.

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.5.6)  15 JAN 2026 18:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.5.6)  16 JAN 2026 22:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -336,23 +336,6 @@ Package hyperref Info: Link coloring OFF on input line 43.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 
-Overfull \hbox (19.74954pt too wide) in paragraph at lines 59--61
-[]\OT1/cmr/m/n/10 Low-Power Wide-Area (LPWA) net-works, specif-i-cally LoRa (Long Range), of-fer kilometer-
- []
-
-
-Overfull \hbox (1.45888pt too wide) in paragraph at lines 123--126
-[]\OT1/cmr/bx/n/10 Hub: \OT1/cmr/m/n/10 The hub pro-vides cen-tral-ized com-pu-ta-tion for in-fras-truc-ture self-localization.
- []
-
-LaTeX Font Info:    Trying to load font information for U+msa on input line 151.
-(/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 151.
- (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
 
 [1
 Non-PDF special ignored!
@@ -361,21 +344,13 @@ Non-PDF special ignored!
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
 [2]
-
-[3{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-
-[4]
-
-[5]
-
-[6]
 No file paper.toc.
 \tf@toc=\write4
 \openout4 = `paper.toc'.
 
 
 
-[7
+[3
 
 
 ]
@@ -385,7 +360,7 @@ No file paper.lof.
 
 
 
-[8
+[4
 
 ]
 No file paper.lot.
@@ -394,27 +369,27 @@ No file paper.lot.
 
 
 
-[9
+[5
 
 ]
 Chapter 1.
 
-LaTeX Warning: Citation `ref_surveillance' on page 1 undefined on input line 222.
+LaTeX Warning: Citation `ref_surveillance' on page 1 undefined on input line 84.
 
 
-LaTeX Warning: Citation `ref_delivery' on page 1 undefined on input line 222.
+LaTeX Warning: Citation `ref_delivery' on page 1 undefined on input line 84.
 
 
-LaTeX Warning: Citation `ref_gps_analysis' on page 1 undefined on input line 226.
+LaTeX Warning: Citation `ref_gps_analysis' on page 1 undefined on input line 88.
 
 
-LaTeX Warning: Citation `ref_urban_canyon' on page 1 undefined on input line 234.
+LaTeX Warning: Citation `ref_urban_canyon' on page 1 undefined on input line 96.
 
 
-LaTeX Warning: Citation `gpsjam' on page 1 undefined on input line 236.
+LaTeX Warning: Citation `gpsjam' on page 1 undefined on input line 98.
 
 
-LaTeX Warning: Citation `ref_slam' on page 1 undefined on input line 242.
+LaTeX Warning: Citation `ref_slam' on page 1 undefined on input line 104.
 
 
 
@@ -423,32 +398,32 @@ LaTeX Warning: Citation `ref_slam' on page 1 undefined on input line 242.
 
 ]
 
-LaTeX Warning: Citation `ref_lpwan_survey' on page 2 undefined on input line 248.
+LaTeX Warning: Citation `ref_lpwan_survey' on page 2 undefined on input line 110.
 
 
-LaTeX Warning: Citation `ref_lora_survey' on page 2 undefined on input line 249.
+LaTeX Warning: Citation `ref_lora_survey' on page 2 undefined on input line 111.
 
 
-LaTeX Warning: Citation `ref_rssi_variance' on page 2 undefined on input line 263.
+LaTeX Warning: Citation `ref_rssi_variance' on page 2 undefined on input line 125.
 
 
-LaTeX Warning: Citation `pospisil2020tdoa' on page 2 undefined on input line 267.
+LaTeX Warning: Citation `pospisil2020tdoa' on page 2 undefined on input line 129.
 
 
-LaTeX Warning: Citation `ref_aoa_lora' on page 2 undefined on input line 269.
+LaTeX Warning: Citation `ref_aoa_lora' on page 2 undefined on input line 131.
 
 
-Overfull \hbox (14.21542pt too wide) in paragraph at lines 266--270
+Overfull \hbox (14.21542pt too wide) in paragraph at lines 128--132
 \OT1/cmr/m/n/10.95 nanosecond-level clock syn-chro-niza-tion across all bea-cons, which is typ-i-cally achieved
  []
 
 
-Overfull \hbox (0.45581pt too wide) in paragraph at lines 266--270
+Overfull \hbox (0.45581pt too wide) in paragraph at lines 128--132
 \OT1/cmr/m/n/10.95 backup. Angle-of-Arrival (AoA) meth-ods de-ter-mine the di-rec-tion of sig-nal sources
  []
 
 
-Overfull \hbox (4.85442pt too wide) in paragraph at lines 274--277
+Overfull \hbox (4.85442pt too wide) in paragraph at lines 136--139
  []\OT1/cmr/bx/n/10.95 Challenge 2: In-fras-truc-ture Self-Localization[] \OT1/cmr/m/n/10.95 Mul-ti-lat-er-a-tion re-quires bea-
  []
 
@@ -456,71 +431,74 @@ Overfull \hbox (4.85442pt too wide) in paragraph at lines 274--277
 
 [2]
 
-LaTeX Warning: Citation `hada2025hybrid' on page 3 undefined on input line 284.
+LaTeX Warning: Citation `hada2025hybrid' on page 3 undefined on input line 146.
 
-
+LaTeX Font Info:    Trying to load font information for U+msa on input line 184.
+(/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 184.
+ (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
 
 [3]
-Overfull \hbox (3.81303pt too wide) in paragraph at lines 317--320
+Overfull \hbox (3.81303pt too wide) in paragraph at lines 192--195
 []\OT1/cmr/m/n/10.95 Our work dif-fers from prior re-search by uni-fy-ing in-fras-truc-ture self-organization
  []
 
 
-LaTeX Warning: Reference `chap:uav_localization' on page 4 undefined on input line 323.
+LaTeX Warning: Reference `chap:related_work' on page 4 undefined on input line 204.
 
 
-Overfull \hbox (0.1618pt too wide) in paragraph at lines 322--325
-\OT1/cmr/m/n/10.95 fras-truc-ture self-localization com-bined with UAV nav-i-ga-tion) is eval-u-ated through
- []
+LaTeX Warning: Reference `chap:architecture' on page 4 undefined on input line 207.
 
 
-LaTeX Warning: Reference `chap:related_work' on page 4 undefined on input line 334.
+LaTeX Warning: Reference `chap:uav_localization' on page 4 undefined on input line 209.
 
 
-LaTeX Warning: Reference `chap:architecture' on page 4 undefined on input line 337.
+LaTeX Warning: Reference `chap:infrastructure' on page 4 undefined on input line 212.
 
 
-LaTeX Warning: Reference `chap:uav_localization' on page 4 undefined on input line 339.
+LaTeX Warning: Reference `chap:integration' on page 4 undefined on input line 215.
 
 
-LaTeX Warning: Reference `chap:infrastructure' on page 4 undefined on input line 342.
-
-
-Overfull \hbox (7.76683pt too wide) in paragraph at lines 342--344
-[]\OT1/cmr/bx/n/10.95 Chapter []: In-fras-truc-ture Self-Localization \OT1/cmr/m/n/10.95 ad-dresses the infrastructure-
- []
-
-
-LaTeX Warning: Reference `chap:integration' on page 4 undefined on input line 345.
-
-
-LaTeX Warning: Reference `chap:conclusion' on page 4 undefined on input line 348.
+LaTeX Warning: Reference `chap:conclusion' on page 4 undefined on input line 218.
 
 
 
 [4]
 Chapter 2.
 
-LaTeX Warning: Reference `eq:pathloss' on page 5 undefined on input line 388.
+LaTeX Warning: Citation `zafari2019survey' on page 5 undefined on input line 235.
+
+
+LaTeX Warning: Reference `eq:pathloss' on page 5 undefined on input line 258.
 
 
 
 [5
 
-]
+{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 
-LaTeX Warning: Citation `ref_rssi_variance' on page 6 undefined on input line 396.
+LaTeX Warning: Citation `goldoni2019lora' on page 6 undefined on input line 266.
 
 
-Overfull \hbox (7.51408pt too wide) in paragraph at lines 421--422
+LaTeX Warning: Citation `zafari2019survey' on page 6 undefined on input line 270.
+
+
+LaTeX Warning: Citation `zafari2019survey' on page 6 undefined on input line 278.
+
+
+Overfull \hbox (7.51408pt too wide) in paragraph at lines 291--292
 []\OT1/cmr/bx/n/10.95 Hardware Avail-abil-ity: \OT1/cmr/m/n/10.95 RSSI is a stan-dard out-put of all LoRa transceivers,
  []
 
 
-LaTeX Warning: Citation `ref_lora_survey' on page 6 undefined on input line 425.
+LaTeX Warning: Citation `ref_lora_survey' on page 6 undefined on input line 295.
 
 
-Overfull \hbox (4.08597pt too wide) in paragraph at lines 427--428
+Overfull \hbox (4.08597pt too wide) in paragraph at lines 297--298
 []\OT1/cmr/bx/n/10.95 Power Ef-fi-ciency: \OT1/cmr/m/n/10.95 LoRa's low power con-sump-tion en-ables battery-powered
  []
 
@@ -528,50 +506,50 @@ Overfull \hbox (4.08597pt too wide) in paragraph at lines 427--428
 
 [6]
 
-LaTeX Warning: Reference `chap:uav_localization' on page 7 undefined on input line 438.
+LaTeX Warning: Reference `chap:uav_localization' on page 7 undefined on input line 308.
 
 
-LaTeX Warning: Citation `ref_slam' on page 7 undefined on input line 443.
+LaTeX Warning: Citation `murartal2017orbslam2' on page 7 undefined on input line 313.
 
 
-LaTeX Warning: Citation `fargas2017gps' on page 7 undefined on input line 461.
+LaTeX Warning: Citation `fargas2017gps' on page 7 undefined on input line 331.
 
 
-LaTeX Warning: Citation `ref_tdoa_lora' on page 7 undefined on input line 462.
+LaTeX Warning: Citation `ref_tdoa_lora' on page 7 undefined on input line 332.
 
 
-LaTeX Warning: Citation `vazquez2020rssi' on page 7 undefined on input line 466.
+LaTeX Warning: Citation `vazquez2020rssi' on page 7 undefined on input line 336.
 
 
-LaTeX Warning: Citation `muller2021outdoor' on page 7 undefined on input line 467.
+LaTeX Warning: Citation `muller2021outdoor' on page 7 undefined on input line 337.
 
 
-LaTeX Warning: Citation `ingabire2021lora' on page 7 undefined on input line 468.
+LaTeX Warning: Citation `ingabire2021lora' on page 7 undefined on input line 338.
 
 
 
 [7]
 
-LaTeX Warning: Citation `ref_aoa_lora' on page 8 undefined on input line 471.
+LaTeX Warning: Citation `ref_aoa_lora' on page 8 undefined on input line 341.
 
 
-Overfull \hbox (3.32512pt too wide) in paragraph at lines 476--478
+Overfull \hbox (3.32512pt too wide) in paragraph at lines 346--348
 \OT1/cmr/m/n/10.95 Existing RF-based UAV lo-cal-iza-tion meth-ods ei-ther achieve high ac-cu-racy through
  []
 
 
-Overfull \hbox (1.07547pt too wide) in paragraph at lines 485--486
+Overfull \hbox (1.07547pt too wide) in paragraph at lines 355--356
 []\OT1/cmr/m/n/10.95 This al-go-rith-mic ap-proach re-quires only com-mod-ity single-antenna LoRa mod-
  []
 
 
-LaTeX Warning: Reference `chap:infrastructure' on page 8 undefined on input line 493.
+LaTeX Warning: Reference `chap:infrastructure' on page 8 undefined on input line 363.
 
 
-LaTeX Warning: Citation `hada2025hybrid' on page 8 undefined on input line 509.
+LaTeX Warning: Citation `hada2025hybrid' on page 8 undefined on input line 379.
 
 
-Overfull \hbox (4.0249pt too wide) in paragraph at lines 509--511
+Overfull \hbox (4.0249pt too wide) in paragraph at lines 379--381
  []\OT1/cmr/bx/n/10.95 Iterative Mul-ti-lat-er-a-tion[] \OT1/cmr/m/n/10.95 It-er-a-tive mul-ti-lat-er-a-tion ex-tends the ba-sic ap-proach
  []
 
@@ -579,67 +557,67 @@ Overfull \hbox (4.0249pt too wide) in paragraph at lines 509--511
 
 [8]
 
-LaTeX Warning: Citation `hada2025hybrid' on page 9 undefined on input line 512.
+LaTeX Warning: Citation `hada2025hybrid' on page 9 undefined on input line 382.
 
 
-LaTeX Warning: Citation `purohit2020fingerprinting' on page 9 undefined on input line 519.
+LaTeX Warning: Citation `purohit2020fingerprinting' on page 9 undefined on input line 389.
 
 
-LaTeX Warning: Citation `purohit2020fingerprinting' on page 9 undefined on input line 520.
+LaTeX Warning: Citation `purohit2020fingerprinting' on page 9 undefined on input line 390.
 
 
-Overfull \hbox (5.5163pt too wide) in paragraph at lines 522--524
+Overfull \hbox (5.5163pt too wide) in paragraph at lines 392--394
 \OT1/cmr/m/n/10.95 These char-ac-ter-is-tics limit fin-ger-print-ing's ap-pli-ca-bil-ity to new en-vi-ron-ments where
  []
 
 
-LaTeX Warning: Citation `kang2023indoor' on page 9 undefined on input line 530.
+LaTeX Warning: Citation `kang2023indoor' on page 9 undefined on input line 400.
 
 
-LaTeX Warning: Citation `fan2023csi' on page 9 undefined on input line 531.
+LaTeX Warning: Citation `fan2023csi' on page 9 undefined on input line 401.
 
 
-LaTeX Warning: Citation `vishwakarma2023indoorgnn' on page 9 undefined on input line 532.
+LaTeX Warning: Citation `vishwakarma2023indoorgnn' on page 9 undefined on input line 402.
 
 
-LaTeX Warning: Citation `yan2021gnn' on page 9 undefined on input line 535.
+LaTeX Warning: Citation `yan2021gnn' on page 9 undefined on input line 405.
 
 
-LaTeX Warning: Citation `simonovsky2017nnconv' on page 9 undefined on input line 538.
+LaTeX Warning: Citation `simonovsky2017nnconv' on page 9 undefined on input line 408.
 
 
 
 [9]
 
-LaTeX Warning: Reference `tab:related_work_summary' on page 10 undefined on input line 560.
+LaTeX Warning: Reference `tab:related_work_summary' on page 10 undefined on input line 430.
 
 
-LaTeX Warning: Citation `fargas2017gps' on page 10 undefined on input line 570.
+LaTeX Warning: Citation `fargas2017gps' on page 10 undefined on input line 440.
 
 
-LaTeX Warning: Citation `ref_aoa_lora' on page 10 undefined on input line 571.
+LaTeX Warning: Citation `ref_aoa_lora' on page 10 undefined on input line 441.
 
 
-LaTeX Warning: Citation `purohit2020fingerprinting' on page 10 undefined on input line 572.
+LaTeX Warning: Citation `purohit2020fingerprinting' on page 10 undefined on input line 442.
 
 
-LaTeX Warning: Citation `vishwakarma2023indoorgnn' on page 10 undefined on input line 573.
+LaTeX Warning: Citation `vishwakarma2023indoorgnn' on page 10 undefined on input line 443.
 
 
-LaTeX Warning: Citation `hada2025hybrid' on page 10 undefined on input line 574.
+LaTeX Warning: Citation `hada2025hybrid' on page 10 undefined on input line 444.
 
 
-LaTeX Warning: Reference `chap:uav_localization' on page 10 undefined on input line 586.
+LaTeX Warning: Reference `chap:uav_localization' on page 10 undefined on input line 456.
 
 
-LaTeX Warning: Reference `chap:infrastructure' on page 10 undefined on input line 586.
+LaTeX Warning: Reference `chap:infrastructure' on page 10 undefined on input line 456.
 
 
 
 [10]
 Chapter 3.
 
-Overfull \hbox (0.57143pt too wide) in paragraph at lines 611--613
+Overfull \hbox (0.57143pt too wide) in paragraph at lines 481--483
  []\OT1/cmr/bx/n/10.95 GNSS In-de-pen-dence[] \OT1/cmr/m/n/10.95 The sys-tem must op-er-ate with-out any re-liance on GNSS
  []
 
@@ -649,19 +627,19 @@ Overfull \hbox (0.57143pt too wide) in paragraph at lines 611--613
 
 ]
 
-LaTeX Warning: Reference `fig:system_architecture' on page 12 undefined on input line 631.
+LaTeX Warning: Reference `fig:system_architecture' on page 12 undefined on input line 501.
 
 
-LaTeX Warning: File `images/system_architecture.png' not found on input line 646.
+LaTeX Warning: File `images/system_architecture.png' not found on input line 516.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:646: LaTeX Error: Cannot determine size of graphic in images/system_architecture.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:516: LaTeX Error: Cannot determine size of graphic in images/system_architecture.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.646 ...extwidth]{images/system_architecture.png}
+l.516 ...extwidth]{images/system_architecture.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -674,63 +652,71 @@ File: images/system_architecture.png Graphic file (type bmp)
 
 [13]
 
-LaTeX Warning: Reference `chap:infrastructure' on page 14 undefined on input line 679.
+LaTeX Warning: Reference `chap:infrastructure' on page 14 undefined on input line 549.
 
 
 
 [14]
 
-LaTeX Warning: Reference `chap:uav_localization' on page 15 undefined on input line 745.
+LaTeX Warning: Reference `chap:uav_localization' on page 15 undefined on input line 615.
 
 
 
 [15]
-Overfull \hbox (17.62215pt too wide) in paragraph at lines 769--770
+Overfull \hbox (17.62215pt too wide) in paragraph at lines 639--640
 \OT1/cmr/m/n/10.95 The hub seg-ment pro-vides cen-tral-ized com-pu-ta-tion for in-fras-truc-ture self-localization,
  []
 
 
-LaTeX Warning: Reference `chap:infrastructure' on page 16 undefined on input line 794.
+LaTeX Warning: Reference `chap:infrastructure' on page 16 undefined on input line 664.
 
 
 
 [16]
 
-LaTeX Warning: Reference `chap:infrastructure' on page 17 undefined on input line 848.
+LaTeX Warning: Reference `chap:infrastructure' on page 17 undefined on input line 718.
 
 
 
 [17]
 
-LaTeX Warning: Reference `chap:infrastructure' on page 18 undefined on input line 861.
+LaTeX Warning: Reference `chap:infrastructure' on page 18 undefined on input line 731.
 
 
-LaTeX Warning: Reference `fig:system_architecture' on page 18 undefined on input line 873.
+LaTeX Warning: Reference `fig:system_architecture' on page 18 undefined on input line 743.
 
 
 
 [18]
-Overfull \hbox (7.44876pt too wide) in paragraph at lines 919--920
+Overfull \hbox (7.44876pt too wide) in paragraph at lines 789--790
 []\OT1/cmr/m/n/10.95 The \OT1/cmr/bx/n/10.95 client seg-ment \OT1/cmr/m/n/10.95 en-ables scal-able, privacy-preserving po-si-tion-ing through
  []
 
 
-Overfull \hbox (9.66881pt too wide) in paragraph at lines 923--924
+Overfull \hbox (9.66881pt too wide) in paragraph at lines 793--794
 []\OT1/cmr/m/n/10.95 The \OT1/cmr/bx/n/10.95 pre-deployment phase \OT1/cmr/m/n/10.95 con-ducts fea-si-bil-ity as-sess-ment through terrain-
  []
 
 
-LaTeX Warning: Reference `chap:uav_localization' on page 19 undefined on input line 926.
+LaTeX Warning: Reference `chap:uav_localization' on page 19 undefined on input line 796.
 
 
-LaTeX Warning: Reference `chap:infrastructure' on page 19 undefined on input line 926.
+LaTeX Warning: Reference `chap:infrastructure' on page 19 undefined on input line 796.
 
 
 
 [19]
 Chapter 4.
 
-LaTeX Warning: Citation `hirotsu2024lora' on page 20 undefined on input line 934.
+LaTeX Warning: Reference `chap:architecture' on page 20 undefined on input line 804.
+
+
+Overfull \hbox (2.7775pt too wide) in paragraph at lines 804--807
+\OT1/cmr/m/n/10.95 The sys-tem ar-chi-tec-ture pre-sented in Chap-ter [] en-ables UAV po-si-tion-ing through
+ []
+
+
+LaTeX Warning: Citation `hirotsu2024lora' on page 20 undefined on input line 808.
 
 
 
@@ -738,70 +724,70 @@ LaTeX Warning: Citation `hirotsu2024lora' on page 20 undefined on input line 934
 
 ]
 
-LaTeX Warning: Reference `chap:architecture' on page 21 undefined on input line 993.
+LaTeX Warning: Reference `chap:architecture' on page 21 undefined on input line 866.
 
 
-LaTeX Warning: Reference `chap:related_work' on page 21 undefined on input line 1000.
+LaTeX Warning: Reference `chap:related_work' on page 21 undefined on input line 873.
 
 
-LaTeX Warning: Reference `eq:pathloss' on page 21 undefined on input line 1000.
+LaTeX Warning: Reference `eq:pathloss' on page 21 undefined on input line 873.
 
 
-LaTeX Warning: Reference `sec:uav_simulation' on page 21 undefined on input line 1007.
+LaTeX Warning: Reference `sec:uav_simulation' on page 21 undefined on input line 880.
 
 
-LaTeX Warning: Reference `sec:uav_discussion' on page 21 undefined on input line 1009.
+LaTeX Warning: Reference `sec:uav_discussion' on page 21 undefined on input line 882.
 
 
 
 [21]
 
-LaTeX Warning: Citation `huber1964robust' on page 22 undefined on input line 1042.
+LaTeX Warning: Citation `huber1964robust' on page 22 undefined on input line 915.
 
 
 
 [22]
 
-LaTeX Warning: Reference `eq:constrained_optimization' on page 23 undefined on input line 1090.
+LaTeX Warning: Reference `eq:constrained_optimization' on page 23 undefined on input line 963.
 
 
-LaTeX Warning: Reference `sec:error_monitoring' on page 23 undefined on input line 1103.
+LaTeX Warning: Reference `sec:error_monitoring' on page 23 undefined on input line 976.
 
 
-LaTeX Warning: Citation `slabicki2018flora' on page 23 undefined on input line 1117.
+LaTeX Warning: Citation `slabicki2018flora' on page 23 undefined on input line 990.
 
 
-LaTeX Warning: Reference `tab:sim_params' on page 23 undefined on input line 1127.
-
-
-LaTeX Warning: Reference `eq:rssi_distance_ch4' on page 23 undefined on input line 1151.
+LaTeX Warning: Reference `tab:sim_params' on page 23 undefined on input line 1000.
 
 
 
 [23]
 
-LaTeX Warning: Reference `tab:methods' on page 24 undefined on input line 1161.
+LaTeX Warning: Reference `eq:rssi_distance_ch4' on page 24 undefined on input line 1024.
+
+
+LaTeX Warning: Reference `tab:methods' on page 24 undefined on input line 1034.
 
 
 
 [24]
 
-LaTeX Warning: Reference `fig:static_method1' on page 25 undefined on input line 1206.
+LaTeX Warning: Reference `fig:static_method1' on page 25 undefined on input line 1079.
 
 
-LaTeX Warning: Reference `fig:static_method4' on page 25 undefined on input line 1206.
+LaTeX Warning: Reference `fig:static_method4' on page 25 undefined on input line 1079.
 
 
-LaTeX Warning: File `images/method1_2d.png' not found on input line 1212.
+LaTeX Warning: File `images/method1_2d.png' not found on input line 1085.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1212: LaTeX Error: Cannot determine size of graphic in images/method1_2d.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1085: LaTeX Error: Cannot determine size of graphic in images/method1_2d.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1212 ...0.48\columnwidth]{images/method1_2d.png}
+l.1085 ...0.48\columnwidth]{images/method1_2d.png}
                                                    &
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -809,16 +795,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/method1_2d.png Graphic file (type bmp)
 <images/method1_2d.png>
 
-LaTeX Warning: File `images/method1_3d.png' not found on input line 1213.
+LaTeX Warning: File `images/method1_3d.png' not found on input line 1086.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1213: LaTeX Error: Cannot determine size of graphic in images/method1_3d.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1086: LaTeX Error: Cannot determine size of graphic in images/method1_3d.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1213 ...0.48\columnwidth]{images/method1_3d.png}
+l.1086 ...0.48\columnwidth]{images/method1_3d.png}
                                                    \\
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -826,21 +812,21 @@ If that doesn't work, type  X <return>  to quit.
 File: images/method1_3d.png Graphic file (type bmp)
 <images/method1_3d.png>
 
-Overfull \hbox (8.63675pt too wide) in paragraph at lines 1211--1216
+Overfull \hbox (8.63675pt too wide) in paragraph at lines 1084--1089
  [][] 
  []
 
 
-LaTeX Warning: File `images/method2.png' not found on input line 1222.
+LaTeX Warning: File `images/method2.png' not found on input line 1095.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1222: LaTeX Error: Cannot determine size of graphic in images/method2.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1095: LaTeX Error: Cannot determine size of graphic in images/method2.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1222 ...dth=0.8\columnwidth]{images/method2.png}
+l.1095 ...dth=0.8\columnwidth]{images/method2.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -848,16 +834,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/method2.png Graphic file (type bmp)
 <images/method2.png>
 
-LaTeX Warning: File `images/method3_2d.png' not found on input line 1230.
+LaTeX Warning: File `images/method3_2d.png' not found on input line 1103.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1230: LaTeX Error: Cannot determine size of graphic in images/method3_2d.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1103: LaTeX Error: Cannot determine size of graphic in images/method3_2d.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1230 ...0.48\columnwidth]{images/method3_2d.png}
+l.1103 ...0.48\columnwidth]{images/method3_2d.png}
                                                    &
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -865,16 +851,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/method3_2d.png Graphic file (type bmp)
 <images/method3_2d.png>
 
-LaTeX Warning: File `images/method3_3d.png' not found on input line 1231.
+LaTeX Warning: File `images/method3_3d.png' not found on input line 1104.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1231: LaTeX Error: Cannot determine size of graphic in images/method3_3d.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1104: LaTeX Error: Cannot determine size of graphic in images/method3_3d.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1231 ...0.48\columnwidth]{images/method3_3d.png}
+l.1104 ...0.48\columnwidth]{images/method3_3d.png}
                                                    \\
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -882,21 +868,21 @@ If that doesn't work, type  X <return>  to quit.
 File: images/method3_3d.png Graphic file (type bmp)
 <images/method3_3d.png>
 
-Overfull \hbox (8.63675pt too wide) in paragraph at lines 1229--1234
+Overfull \hbox (8.63675pt too wide) in paragraph at lines 1102--1107
  [][] 
  []
 
 
-LaTeX Warning: File `images/method4.png' not found on input line 1241.
+LaTeX Warning: File `images/method4.png' not found on input line 1114.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1241: LaTeX Error: Cannot determine size of graphic in images/method4.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1114: LaTeX Error: Cannot determine size of graphic in images/method4.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1241 ...th=0.48\columnwidth]{images/method4.png}
+l.1114 ...th=0.48\columnwidth]{images/method4.png}
                                                    &
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -904,16 +890,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/method4.png Graphic file (type bmp)
 <images/method4.png>
 
-LaTeX Warning: File `images/method4_cropped.png' not found on input line 1242.
+LaTeX Warning: File `images/method4_cropped.png' not found on input line 1115.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1242: LaTeX Error: Cannot determine size of graphic in images/method4_cropped.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1115: LaTeX Error: Cannot determine size of graphic in images/method4_cropped.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1242 ...columnwidth]{images/method4_cropped.png}
+l.1115 ...columnwidth]{images/method4_cropped.png}
                                                    \\
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -921,21 +907,12 @@ If that doesn't work, type  X <return>  to quit.
 File: images/method4_cropped.png Graphic file (type bmp)
 <images/method4_cropped.png>
 
-Overfull \hbox (8.63675pt too wide) in paragraph at lines 1240--1245
+Overfull \hbox (8.63675pt too wide) in paragraph at lines 1113--1118
  [][] 
  []
 
 
-LaTeX Warning: Reference `tab:static_results' on page 25 undefined on input line 1249.
-
-
-LaTeX Warning: Reference `tab:static_results' on page 25 undefined on input line 1271.
-
-
-LaTeX Warning: Reference `fig:static_method2' on page 25 undefined on input line 1274.
-
-
-LaTeX Warning: Reference `fig:static_method4' on page 25 undefined on input line 1274.
+LaTeX Warning: Reference `tab:static_results' on page 25 undefined on input line 1122.
 
 
 
@@ -943,19 +920,28 @@ LaTeX Warning: Reference `fig:static_method4' on page 25 undefined on input line
 
 [26]
 
-LaTeX Warning: Reference `fig:static_method4' on page 27 undefined on input line 1281.
+LaTeX Warning: Reference `tab:static_results' on page 27 undefined on input line 1144.
 
 
-LaTeX Warning: File `method_comparison.png' not found on input line 1287.
+LaTeX Warning: Reference `fig:static_method2' on page 27 undefined on input line 1147.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1287: LaTeX Error: Cannot determine size of graphic in method_comparison.xbb (no BoundingBox).
+LaTeX Warning: Reference `fig:static_method4' on page 27 undefined on input line 1147.
+
+
+LaTeX Warning: Reference `fig:static_method4' on page 27 undefined on input line 1154.
+
+
+LaTeX Warning: File `method_comparison.png' not found on input line 1160.
+
+
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1160: LaTeX Error: Cannot determine size of graphic in method_comparison.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1287 ...=0.9\columnwidth]{method_comparison.png}
+l.1160 ...=0.9\columnwidth]{method_comparison.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -963,22 +949,22 @@ If that doesn't work, type  X <return>  to quit.
 File: method_comparison.png Graphic file (type bmp)
 <method_comparison.png>
 
-LaTeX Warning: Reference `fig:scalability' on page 27 undefined on input line 1292.
-
-
 
 [27]
 
-LaTeX Warning: File `correlation.png' not found on input line 1306.
+LaTeX Warning: Reference `fig:scalability' on page 28 undefined on input line 1165.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1306: LaTeX Error: Cannot determine size of graphic in correlation.xbb (no BoundingBox).
+LaTeX Warning: File `correlation.png' not found on input line 1179.
+
+
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1179: LaTeX Error: Cannot determine size of graphic in correlation.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1306 ...[width=0.8\columnwidth]{correlation.png}
+l.1179 ...[width=0.8\columnwidth]{correlation.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -986,31 +972,30 @@ If that doesn't work, type  X <return>  to quit.
 File: correlation.png Graphic file (type bmp)
 <correlation.png>
 
-LaTeX Warning: Reference `fig:correlation' on page 28 undefined on input line 1311.
+LaTeX Warning: Reference `fig:correlation' on page 28 undefined on input line 1184.
 
 
-LaTeX Warning: Reference `tab:dynamic_results' on page 28 undefined on input line 1319.
+LaTeX Warning: Reference `tab:dynamic_results' on page 28 undefined on input line 1192.
 
 
 
 [28]
 
-LaTeX Warning: Reference `tab:hardware' on page 29 undefined on input line 1355.
-
-
-
 [29]
 
-LaTeX Warning: File `beacon_map.png' not found on input line 1383.
+LaTeX Warning: Reference `tab:hardware' on page 30 undefined on input line 1228.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1383: LaTeX Error: Cannot determine size of graphic in beacon_map.xbb (no BoundingBox).
+LaTeX Warning: File `beacon_map.png' not found on input line 1256.
+
+
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1256: LaTeX Error: Cannot determine size of graphic in beacon_map.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1383 ...s[width=0.8\columnwidth]{beacon_map.png}
+l.1256 ...s[width=0.8\columnwidth]{beacon_map.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1018,22 +1003,19 @@ If that doesn't work, type  X <return>  to quit.
 File: beacon_map.png Graphic file (type bmp)
 <beacon_map.png>
 
-LaTeX Warning: Reference `fig:beacon_map' on page 30 undefined on input line 1389.
+LaTeX Warning: Reference `fig:beacon_map' on page 30 undefined on input line 1262.
 
 
-
-[30]
-
-LaTeX Warning: File `drone.jpg' not found on input line 1396.
+LaTeX Warning: File `drone.jpg' not found on input line 1269.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1396: LaTeX Error: Cannot determine size of graphic in drone.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1269: LaTeX Error: Cannot determine size of graphic in drone.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1396 ...phics[width=0.45\columnwidth]{drone.jpg}
+l.1269 ...phics[width=0.45\columnwidth]{drone.jpg}
                                                    &
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1041,16 +1023,16 @@ If that doesn't work, type  X <return>  to quit.
 File: drone.jpg Graphic file (type bmp)
 <drone.jpg>
 
-LaTeX Warning: File `beacon.jpg' not found on input line 1397.
+LaTeX Warning: File `beacon.jpg' not found on input line 1270.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1397: LaTeX Error: Cannot determine size of graphic in beacon.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1270: LaTeX Error: Cannot determine size of graphic in beacon.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1397 ...hics[width=0.45\columnwidth]{beacon.jpg}
+l.1270 ...hics[width=0.45\columnwidth]{beacon.jpg}
                                                    \\
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1058,25 +1040,27 @@ If that doesn't work, type  X <return>  to quit.
 File: beacon.jpg Graphic file (type bmp)
 <beacon.jpg>
 
-LaTeX Warning: Reference `tab:experiment_results' on page 31 undefined on input line 1420.
+LaTeX Warning: Reference `tab:experiment_results' on page 30 undefined on input line 1293.
 
 
+
+[30]
 
 [31]
 
-LaTeX Warning: Reference `sec:uav_discussion' on page 32 undefined on input line 1452.
+LaTeX Warning: Reference `sec:uav_discussion' on page 32 undefined on input line 1325.
 
 
-LaTeX Warning: File `model_1-2.png' not found on input line 1465.
+LaTeX Warning: File `model_1-2.png' not found on input line 1338.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1465: LaTeX Error: Cannot determine size of graphic in model_1-2.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1338: LaTeX Error: Cannot determine size of graphic in model_1-2.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1465 ...s[width=0.48\columnwidth]{model_1-2.png}
+l.1338 ...s[width=0.48\columnwidth]{model_1-2.png}
                                                    &
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1084,16 +1068,16 @@ If that doesn't work, type  X <return>  to quit.
 File: model_1-2.png Graphic file (type bmp)
 <model_1-2.png>
 
-LaTeX Warning: File `model_3-4.png' not found on input line 1466.
+LaTeX Warning: File `model_3-4.png' not found on input line 1339.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1466: LaTeX Error: Cannot determine size of graphic in model_3-4.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1339: LaTeX Error: Cannot determine size of graphic in model_3-4.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1466 ...s[width=0.48\columnwidth]{model_3-4.png}
+l.1339 ...s[width=0.48\columnwidth]{model_3-4.png}
                                                    \\
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1101,15 +1085,12 @@ If that doesn't work, type  X <return>  to quit.
 File: model_3-4.png Graphic file (type bmp)
 <model_3-4.png>
 
-Overfull \hbox (8.63675pt too wide) in paragraph at lines 1464--1469
+Overfull \hbox (8.63675pt too wide) in paragraph at lines 1337--1342
  [][] 
  []
 
 
-LaTeX Warning: Reference `fig:rssi_models' on page 32 undefined on input line 1473.
-
-
-LaTeX Warning: Citation `carr2012practical' on page 32 undefined on input line 1478.
+LaTeX Warning: Reference `fig:rssi_models' on page 32 undefined on input line 1346.
 
 
 
@@ -1118,19 +1099,22 @@ Non-PDF special ignored!
 <special> x:scale 0.60315 0.60315
 ]
 
-LaTeX Warning: Reference `fig:antenna_pattern' on page 33 undefined on input line 1485.
+LaTeX Warning: Citation `carr2012practical' on page 33 undefined on input line 1351.
 
 
-LaTeX Warning: File `antenna.png' not found on input line 1493.
+LaTeX Warning: Reference `fig:antenna_pattern' on page 33 undefined on input line 1358.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1493: LaTeX Error: Cannot determine size of graphic in antenna.xbb (no BoundingBox).
+LaTeX Warning: File `antenna.png' not found on input line 1366.
+
+
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1366: LaTeX Error: Cannot determine size of graphic in antenna.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1493 ...hics[width=0.7\columnwidth]{antenna.png}
+l.1366 ...hics[width=0.7\columnwidth]{antenna.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1138,19 +1122,22 @@ If that doesn't work, type  X <return>  to quit.
 File: antenna.png Graphic file (type bmp)
 <antenna.png>
 
-LaTeX Warning: Reference `fig:model_3d' on page 33 undefined on input line 1506.
+LaTeX Warning: Reference `fig:model_3d' on page 33 undefined on input line 1379.
 
 
-LaTeX Warning: File `images/model_3d.png' not found on input line 1515.
+
+[33]
+
+LaTeX Warning: File `images/model_3d.png' not found on input line 1388.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1515: LaTeX Error: Cannot determine size of graphic in images/model_3d.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1388: LaTeX Error: Cannot determine size of graphic in images/model_3d.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1515 ...th=0.8\columnwidth]{images/model_3d.png}
+l.1388 ...th=0.8\columnwidth]{images/model_3d.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1158,16 +1145,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/model_3d.png Graphic file (type bmp)
 <images/model_3d.png>
 
-LaTeX Warning: File `sample-median.png' not found on input line 1525.
+LaTeX Warning: File `sample-median.png' not found on input line 1398.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1525: LaTeX Error: Cannot determine size of graphic in sample-median.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1398: LaTeX Error: Cannot determine size of graphic in sample-median.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1525 ...dth=0.48\columnwidth]{sample-median.png}
+l.1398 ...dth=0.48\columnwidth]{sample-median.png}
                                                    &
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1175,16 +1162,16 @@ If that doesn't work, type  X <return>  to quit.
 File: sample-median.png Graphic file (type bmp)
 <sample-median.png>
 
-LaTeX Warning: File `sample-std.png' not found on input line 1526.
+LaTeX Warning: File `sample-std.png' not found on input line 1399.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1526: LaTeX Error: Cannot determine size of graphic in sample-std.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1399: LaTeX Error: Cannot determine size of graphic in sample-std.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1526 ...[width=0.48\columnwidth]{sample-std.png}
+l.1399 ...[width=0.48\columnwidth]{sample-std.png}
                                                    \\
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1192,15 +1179,12 @@ If that doesn't work, type  X <return>  to quit.
 File: sample-std.png Graphic file (type bmp)
 <sample-std.png>
 
-Overfull \hbox (8.63675pt too wide) in paragraph at lines 1524--1529
+Overfull \hbox (8.63675pt too wide) in paragraph at lines 1397--1402
  [][] 
  []
 
 
-
-[33]
-
-LaTeX Warning: Reference `fig:sampling' on page 34 undefined on input line 1533.
+LaTeX Warning: Reference `fig:sampling' on page 34 undefined on input line 1406.
 
 
 
@@ -1211,7 +1195,7 @@ LaTeX Warning: Reference `fig:sampling' on page 34 undefined on input line 1533.
 [36]
 Chapter 5.
 
-LaTeX Warning: Reference `chap:uav_localization' on page 37 undefined on input line 1594.
+LaTeX Warning: Reference `chap:uav_localization' on page 37 undefined on input line 1466.
 
 
 
@@ -1221,16 +1205,16 @@ LaTeX Warning: Reference `chap:uav_localization' on page 37 undefined on input l
 
 [38]
 
-LaTeX Warning: File `images/model_architecture.png' not found on input line 1686.
+LaTeX Warning: File `images/model_architecture.png' not found on input line 1563.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1686: LaTeX Error: Cannot determine size of graphic in images/model_architecture.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1563: LaTeX Error: Cannot determine size of graphic in images/model_architecture.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1686 ...umnwidth]{images/model_architecture.png}
+l.1563 ...umnwidth]{images/model_architecture.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1238,20 +1222,20 @@ If that doesn't work, type  X <return>  to quit.
 File: images/model_architecture.png Graphic file (type bmp)
 <images/model_architecture.png>
 
-LaTeX Warning: Reference `fig:gcn_architecture' on page 39 undefined on input line 1691.
+LaTeX Warning: Reference `fig:gcn_architecture' on page 39 undefined on input line 1568.
 
 
 
 [39]
 
-LaTeX Warning: Reference `eq:rssi_to_distance' on page 40 undefined on input line 1707.
+LaTeX Warning: Reference `eq:rssi_to_distance' on page 40 undefined on input line 1584.
 
 
 
 [40]
 
 [41]
-Overfull \hbox (2.21544pt too wide) in paragraph at lines 1826--1828
+Overfull \hbox (2.21544pt too wide) in paragraph at lines 1703--1705
  []\OT1/cmr/bx/n/10.95 Geographic Area[] \OT1/cmr/m/n/10.95 We sim-u-late a 4 km $\OMS/cmsy/m/n/10.95 ^^B$ \OT1/cmr/m/n/10.95 4 km out-door area in []orum Province,
  []
 
@@ -1259,19 +1243,19 @@ Overfull \hbox (2.21544pt too wide) in paragraph at lines 1826--1828
 
 [42]
 
-LaTeX Warning: Reference `tab:core_params' on page 43 undefined on input line 1846.
+LaTeX Warning: Reference `tab:core_params' on page 43 undefined on input line 1723.
 
 
-LaTeX Warning: File `images/experiment_area_comparison.png' not found on input line 1886.
+LaTeX Warning: File `images/experiment_area_comparison.png' not found on input line 1763.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1886: LaTeX Error: Cannot determine size of graphic in images/experiment_area_comparison.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1763: LaTeX Error: Cannot determine size of graphic in images/experiment_area_comparison.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1886 ...]{images/experiment_area_comparison.png}
+l.1763 ...]{images/experiment_area_comparison.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1279,19 +1263,19 @@ If that doesn't work, type  X <return>  to quit.
 File: images/experiment_area_comparison.png Graphic file (type bmp)
 <images/experiment_area_comparison.png>
 
-LaTeX Warning: Reference `fig:experiment_area' on page 43 undefined on input line 1891.
+LaTeX Warning: Reference `fig:experiment_area' on page 43 undefined on input line 1768.
 
 
-LaTeX Warning: File `images/rssi_variance_comparison.png' not found on input line 1900.
+LaTeX Warning: File `images/rssi_variance_comparison.png' not found on input line 1777.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1900: LaTeX Error: Cannot determine size of graphic in images/rssi_variance_comparison.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1777: LaTeX Error: Cannot determine size of graphic in images/rssi_variance_comparison.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1900 ...th]{images/rssi_variance_comparison.png}
+l.1777 ...th]{images/rssi_variance_comparison.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1299,45 +1283,44 @@ If that doesn't work, type  X <return>  to quit.
 File: images/rssi_variance_comparison.png Graphic file (type bmp)
 <images/rssi_variance_comparison.png>
 
-LaTeX Warning: Reference `fig:rssi_variance' on page 43 undefined on input line 1905.
+LaTeX Warning: Reference `fig:rssi_variance' on page 43 undefined on input line 1782.
 
 
 
 [43]
-Overfull \hbox (5.61372pt too wide) in paragraph at lines 1919--1922
+Overfull \hbox (5.61372pt too wide) in paragraph at lines 1796--1799
 []\OT1/cmr/bx/n/10.95 Path-Loss Es-ti-ma-tion: \OT1/cmr/m/n/10.95 A sim-ple log-distance model of the form $[](\OML/cmm/m/it/10.95 d\OT1/cmr/m/n/10.95 ) =
  []
 
 
 
 [44]
-Overfull \hbox (2.93086pt too wide) in paragraph at lines 1938--1940
+
+[45]
+Overfull \hbox (2.93086pt too wide) in paragraph at lines 1815--1817
 \OT1/cmr/m/n/10.95 This ab-la-tion study iso-lates the con-tri-bu-tion of the physics-aware RSSI-to-distance
  []
 
 
-
-[45]
-
-LaTeX Warning: Reference `tab:gcn_hyperparams' on page 46 undefined on input line 1952.
+LaTeX Warning: Reference `tab:gcn_hyperparams' on page 46 undefined on input line 1829.
 
 
-LaTeX Warning: Reference `tab:terrain_results' on page 46 undefined on input line 1991.
+LaTeX Warning: Reference `tab:terrain_results' on page 46 undefined on input line 1868.
 
 
 
 [46]
 
-LaTeX Warning: File `images/three_methods_cdf.png' not found on input line 2016.
+LaTeX Warning: File `images/three_methods_cdf.png' not found on input line 1893.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2016: LaTeX Error: Cannot determine size of graphic in images/three_methods_cdf.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1893: LaTeX Error: Cannot determine size of graphic in images/three_methods_cdf.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2016 ...lumnwidth]{images/three_methods_cdf.png}
+l.1893 ...lumnwidth]{images/three_methods_cdf.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1345,16 +1328,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/three_methods_cdf.png Graphic file (type bmp)
 <images/three_methods_cdf.png>
 
-LaTeX Warning: File `images/three_methods_hist.png' not found on input line 2023.
+LaTeX Warning: File `images/three_methods_hist.png' not found on input line 1900.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2023: LaTeX Error: Cannot determine size of graphic in images/three_methods_hist.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1900: LaTeX Error: Cannot determine size of graphic in images/three_methods_hist.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2023 ...umnwidth]{images/three_methods_hist.png}
+l.1900 ...umnwidth]{images/three_methods_hist.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1362,22 +1345,22 @@ If that doesn't work, type  X <return>  to quit.
 File: images/three_methods_hist.png Graphic file (type bmp)
 <images/three_methods_hist.png>
 
-LaTeX Warning: Reference `fig:cdf_terrain' on page 47 undefined on input line 2028.
+LaTeX Warning: Reference `fig:cdf_terrain' on page 47 undefined on input line 1905.
 
 
-LaTeX Warning: Reference `fig:hist_terrain' on page 47 undefined on input line 2028.
+LaTeX Warning: Reference `fig:hist_terrain' on page 47 undefined on input line 1905.
 
 
-LaTeX Warning: File `images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.png' not found on input line 2036.
+LaTeX Warning: File `images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.png' not found on input line 1913.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2036: LaTeX Error: Cannot determine size of graphic in images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1913: LaTeX Error: Cannot determine size of graphic in images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2036 ...beacons_1000instances_fixed_power13.png}
+l.1913 ...beacons_1000instances_fixed_power13.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1385,16 +1368,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.png Graphic file (type bmp)
 <images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.png>
 
-LaTeX Warning: File `images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.png' not found on input line 2042.
+LaTeX Warning: File `images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.png' not found on input line 1919.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2042: LaTeX Error: Cannot determine size of graphic in images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1919: LaTeX Error: Cannot determine size of graphic in images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2042 ...ns_1000instances_fixed_no_rssi2dist.png}
+l.1919 ...ns_1000instances_fixed_no_rssi2dist.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1402,16 +1385,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.png Graphic file (type bmp)
 <images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.png>
 
-LaTeX Warning: File `images/sample_visualization_loaded_model_mlat_64beacons_100instances.png' not found on input line 2048.
+LaTeX Warning: File `images/sample_visualization_loaded_model_mlat_64beacons_100instances.png' not found on input line 1925.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2048: LaTeX Error: Cannot determine size of graphic in images/sample_visualization_loaded_model_mlat_64beacons_100instances.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1925: LaTeX Error: Cannot determine size of graphic in images/sample_visualization_loaded_model_mlat_64beacons_100instances.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2048 ...d_model_mlat_64beacons_100instances.png}
+l.1925 ...d_model_mlat_64beacons_100instances.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1419,27 +1402,22 @@ If that doesn't work, type  X <return>  to quit.
 File: images/sample_visualization_loaded_model_mlat_64beacons_100instances.png Graphic file (type bmp)
 <images/sample_visualization_loaded_model_mlat_64beacons_100instances.png>
 
-LaTeX Warning: Reference `fig:qualitative_comparison' on page 47 undefined on input line 2055.
+LaTeX Warning: Reference `fig:qualitative_comparison' on page 47 undefined on input line 1932.
 
 
-
-[47]
-
-[48]
-
-LaTeX Warning: Reference `tab:freespace_results' on page 49 undefined on input line 2063.
+LaTeX Warning: Reference `tab:freespace_results' on page 47 undefined on input line 1940.
 
 
-LaTeX Warning: File `images/three_methods_cdf_free.png' not found on input line 2082.
+LaTeX Warning: File `images/three_methods_cdf_free.png' not found on input line 1959.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2082: LaTeX Error: Cannot determine size of graphic in images/three_methods_cdf_free.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1959: LaTeX Error: Cannot determine size of graphic in images/three_methods_cdf_free.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2082 ...idth]{images/three_methods_cdf_free.png}
+l.1959 ...idth]{images/three_methods_cdf_free.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1447,16 +1425,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/three_methods_cdf_free.png Graphic file (type bmp)
 <images/three_methods_cdf_free.png>
 
-LaTeX Warning: File `images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.png' not found on input line 2091.
+LaTeX Warning: File `images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.png' not found on input line 1968.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2091: LaTeX Error: Cannot determine size of graphic in images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1968: LaTeX Error: Cannot determine size of graphic in images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2091 ...ns_1000instances_fixed_power13_free.png}
+l.1968 ...ns_1000instances_fixed_power13_free.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1464,16 +1442,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.png Graphic file (type bmp)
 <images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.png>
 
-LaTeX Warning: File `images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.png' not found on input line 2097.
+LaTeX Warning: File `images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.png' not found on input line 1974.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2097: LaTeX Error: Cannot determine size of graphic in images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1974: LaTeX Error: Cannot determine size of graphic in images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2097 ...00instances_fixed_no_rssi2dist_free.png}
+l.1974 ...00instances_fixed_no_rssi2dist_free.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1481,16 +1459,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.png Graphic file (type bmp)
 <images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.png>
 
-LaTeX Warning: File `images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.png' not found on input line 2103.
+LaTeX Warning: File `images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.png' not found on input line 1980.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2103: LaTeX Error: Cannot determine size of graphic in images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:1980: LaTeX Error: Cannot determine size of graphic in images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2103 ...l_mlat_64beacons_1000instances_free.png}
+l.1980 ...l_mlat_64beacons_1000instances_free.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1498,20 +1476,24 @@ If that doesn't work, type  X <return>  to quit.
 File: images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.png Graphic file (type bmp)
 <images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.png>
 
-LaTeX Warning: Reference `fig:qualitative_comparison_free' on page 49 undefined on input line 2111.
+LaTeX Warning: Reference `fig:qualitative_comparison_free' on page 47 undefined on input line 1988.
 
 
+
+[47]
+
+[48]
 
 [49]
 
 [50]
 
-LaTeX Warning: Reference `fig:rssi_variance' on page 51 undefined on input line 2136.
+LaTeX Warning: Reference `fig:rssi_variance' on page 51 undefined on input line 2013.
 
 
 
 [51]
-Overfull \hbox (1.45848pt too wide) in paragraph at lines 2194--2197
+Overfull \hbox (1.45848pt too wide) in paragraph at lines 2071--2074
  []\OT1/cmr/bx/n/10.95 Post-Installation Cal-i-bra-tion (Pro-posed)[] \OT1/cmr/m/n/10.95 Af-ter de-ploy-ing bea-cons, anchor-
  []
 
@@ -1519,29 +1501,29 @@ Overfull \hbox (1.45848pt too wide) in paragraph at lines 2194--2197
 
 [52]
 
-LaTeX Warning: Reference `chap:uav_localization' on page 53 undefined on input line 2224.
+LaTeX Warning: Reference `chap:uav_localization' on page 53 undefined on input line 2101.
 
 
 
 [53]
 Chapter 6.
 
-LaTeX Warning: Reference `chap:uav_localization' on page 54 undefined on input line 2233.
+LaTeX Warning: Reference `chap:uav_localization' on page 54 undefined on input line 2110.
 
 
-LaTeX Warning: Reference `chap:infrastructure' on page 54 undefined on input line 2233.
+LaTeX Warning: Reference `chap:infrastructure' on page 54 undefined on input line 2110.
 
 
-LaTeX Warning: Reference `chap:uav_localization' on page 54 undefined on input line 2245.
+LaTeX Warning: Reference `chap:uav_localization' on page 54 undefined on input line 2122.
 
 
-LaTeX Warning: Reference `chap:infrastructure' on page 54 undefined on input line 2245.
+LaTeX Warning: Reference `chap:infrastructure' on page 54 undefined on input line 2122.
 
 
-LaTeX Warning: Reference `chap:infrastructure' on page 54 undefined on input line 2250.
+LaTeX Warning: Reference `chap:infrastructure' on page 54 undefined on input line 2127.
 
 
-LaTeX Warning: Reference `chap:uav_localization' on page 54 undefined on input line 2255.
+LaTeX Warning: Reference `chap:uav_localization' on page 54 undefined on input line 2132.
 
 
 
@@ -1549,16 +1531,16 @@ LaTeX Warning: Reference `chap:uav_localization' on page 54 undefined on input l
 
 ]
 
-LaTeX Warning: File `images/sensitivity_uav_vs_beacon.png' not found on input line 2277.
+LaTeX Warning: File `images/sensitivity_uav_vs_beacon.png' not found on input line 2154.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2277: LaTeX Error: Cannot determine size of graphic in images/sensitivity_uav_vs_beacon.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2154: LaTeX Error: Cannot determine size of graphic in images/sensitivity_uav_vs_beacon.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2277 ...h]{images/sensitivity_uav_vs_beacon.png}
+l.2154 ...h]{images/sensitivity_uav_vs_beacon.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1566,10 +1548,10 @@ If that doesn't work, type  X <return>  to quit.
 File: images/sensitivity_uav_vs_beacon.png Graphic file (type bmp)
 <images/sensitivity_uav_vs_beacon.png>
 
-LaTeX Warning: Reference `fig:sensitivity_main' on page 55 undefined on input line 2282.
+LaTeX Warning: Reference `fig:sensitivity_main' on page 55 undefined on input line 2159.
 
 
-Overfull \hbox (4.7307pt too wide) in paragraph at lines 2286--2289
+Overfull \hbox (4.7307pt too wide) in paragraph at lines 2163--2166
  []\OT1/cmr/bx/n/10.95 Moderate Er-ror Prop-a-ga-tion[] \OT1/cmr/m/n/10.95 UAV lo-cal-iza-tion er-ror in-creases ap-prox-i-mately
  []
 
@@ -1577,25 +1559,25 @@ Overfull \hbox (4.7307pt too wide) in paragraph at lines 2286--2289
 
 [55]
 
-LaTeX Warning: Reference `chap:infrastructure' on page 56 undefined on input line 2301.
+LaTeX Warning: Reference `chap:infrastructure' on page 56 undefined on input line 2178.
 
 
-LaTeX Warning: Reference `fig:sensitivity_main' on page 56 undefined on input line 2302.
+LaTeX Warning: Reference `fig:sensitivity_main' on page 56 undefined on input line 2179.
 
 
 
 [56]
 
-LaTeX Warning: File `images/diagonal_beacon0m_path.png' not found on input line 2358.
+LaTeX Warning: File `images/diagonal_beacon0m_path.png' not found on input line 2235.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2358: LaTeX Error: Cannot determine size of graphic in images/diagonal_beacon0m_path.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2235: LaTeX Error: Cannot determine size of graphic in images/diagonal_beacon0m_path.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2358 ...idth]{images/diagonal_beacon0m_path.png}
+l.2235 ...idth]{images/diagonal_beacon0m_path.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1603,16 +1585,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/diagonal_beacon0m_path.png Graphic file (type bmp)
 <images/diagonal_beacon0m_path.png>
 
-LaTeX Warning: File `images/diagonal_beacon200m_path.png' not found on input line 2365.
+LaTeX Warning: File `images/diagonal_beacon200m_path.png' not found on input line 2242.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2365: LaTeX Error: Cannot determine size of graphic in images/diagonal_beacon200m_path.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2242: LaTeX Error: Cannot determine size of graphic in images/diagonal_beacon200m_path.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2365 ...th]{images/diagonal_beacon200m_path.png}
+l.2242 ...th]{images/diagonal_beacon200m_path.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1620,19 +1602,19 @@ If that doesn't work, type  X <return>  to quit.
 File: images/diagonal_beacon200m_path.png Graphic file (type bmp)
 <images/diagonal_beacon200m_path.png>
 
-LaTeX Warning: Reference `fig:diagonal_paths' on page 57 undefined on input line 2373.
+LaTeX Warning: Reference `fig:diagonal_paths' on page 57 undefined on input line 2250.
 
 
-LaTeX Warning: File `images/diagonal_beacon200m_error_timeline.png' not found on input line 2381.
+LaTeX Warning: File `images/diagonal_beacon200m_error_timeline.png' not found on input line 2258.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2381: LaTeX Error: Cannot determine size of graphic in images/diagonal_beacon200m_error_timeline.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2258: LaTeX Error: Cannot determine size of graphic in images/diagonal_beacon200m_error_timeline.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2381 .../diagonal_beacon200m_error_timeline.png}
+l.2258 .../diagonal_beacon200m_error_timeline.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1640,16 +1622,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/diagonal_beacon200m_error_timeline.png Graphic file (type bmp)
 <images/diagonal_beacon200m_error_timeline.png>
 
-LaTeX Warning: File `images/diagonal_beacon200m_error_dist.png' not found on input line 2388.
+LaTeX Warning: File `images/diagonal_beacon200m_error_dist.png' not found on input line 2265.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2388: LaTeX Error: Cannot determine size of graphic in images/diagonal_beacon200m_error_dist.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2265: LaTeX Error: Cannot determine size of graphic in images/diagonal_beacon200m_error_dist.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2388 ...ages/diagonal_beacon200m_error_dist.png}
+l.2265 ...ages/diagonal_beacon200m_error_dist.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1657,19 +1639,19 @@ If that doesn't work, type  X <return>  to quit.
 File: images/diagonal_beacon200m_error_dist.png Graphic file (type bmp)
 <images/diagonal_beacon200m_error_dist.png>
 
-LaTeX Warning: Reference `fig:diagonal_errors' on page 57 undefined on input line 2396.
+LaTeX Warning: Reference `fig:diagonal_errors' on page 57 undefined on input line 2273.
 
 
-LaTeX Warning: File `images/circular_beacon0m_path.png' not found on input line 2407.
+LaTeX Warning: File `images/circular_beacon0m_path.png' not found on input line 2284.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2407: LaTeX Error: Cannot determine size of graphic in images/circular_beacon0m_path.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2284: LaTeX Error: Cannot determine size of graphic in images/circular_beacon0m_path.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2407 ...idth]{images/circular_beacon0m_path.png}
+l.2284 ...idth]{images/circular_beacon0m_path.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1677,16 +1659,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/circular_beacon0m_path.png Graphic file (type bmp)
 <images/circular_beacon0m_path.png>
 
-LaTeX Warning: File `images/circular_beacon200m_path.png' not found on input line 2414.
+LaTeX Warning: File `images/circular_beacon200m_path.png' not found on input line 2291.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2414: LaTeX Error: Cannot determine size of graphic in images/circular_beacon200m_path.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2291: LaTeX Error: Cannot determine size of graphic in images/circular_beacon200m_path.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2414 ...th]{images/circular_beacon200m_path.png}
+l.2291 ...th]{images/circular_beacon200m_path.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1694,19 +1676,19 @@ If that doesn't work, type  X <return>  to quit.
 File: images/circular_beacon200m_path.png Graphic file (type bmp)
 <images/circular_beacon200m_path.png>
 
-LaTeX Warning: Reference `fig:circular_paths' on page 57 undefined on input line 2422.
+LaTeX Warning: Reference `fig:circular_paths' on page 57 undefined on input line 2299.
 
 
-LaTeX Warning: File `images/circular_beacon200m_error_timeline.png' not found on input line 2430.
+LaTeX Warning: File `images/circular_beacon200m_error_timeline.png' not found on input line 2307.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2430: LaTeX Error: Cannot determine size of graphic in images/circular_beacon200m_error_timeline.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2307: LaTeX Error: Cannot determine size of graphic in images/circular_beacon200m_error_timeline.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2430 .../circular_beacon200m_error_timeline.png}
+l.2307 .../circular_beacon200m_error_timeline.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1714,16 +1696,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/circular_beacon200m_error_timeline.png Graphic file (type bmp)
 <images/circular_beacon200m_error_timeline.png>
 
-LaTeX Warning: File `images/circular_beacon200m_error_dist.png' not found on input line 2437.
+LaTeX Warning: File `images/circular_beacon200m_error_dist.png' not found on input line 2314.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2437: LaTeX Error: Cannot determine size of graphic in images/circular_beacon200m_error_dist.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2314: LaTeX Error: Cannot determine size of graphic in images/circular_beacon200m_error_dist.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2437 ...ages/circular_beacon200m_error_dist.png}
+l.2314 ...ages/circular_beacon200m_error_dist.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1734,16 +1716,16 @@ File: images/circular_beacon200m_error_dist.png Graphic file (type bmp)
 
 [57]
 
-LaTeX Warning: File `images/area_sweep_beacon0m_path.png' not found on input line 2454.
+LaTeX Warning: File `images/area_sweep_beacon0m_path.png' not found on input line 2331.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2454: LaTeX Error: Cannot determine size of graphic in images/area_sweep_beacon0m_path.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2331: LaTeX Error: Cannot determine size of graphic in images/area_sweep_beacon0m_path.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2454 ...th]{images/area_sweep_beacon0m_path.png}
+l.2331 ...th]{images/area_sweep_beacon0m_path.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1751,16 +1733,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/area_sweep_beacon0m_path.png Graphic file (type bmp)
 <images/area_sweep_beacon0m_path.png>
 
-LaTeX Warning: File `images/area_sweep_beacon200m_path.png' not found on input line 2461.
+LaTeX Warning: File `images/area_sweep_beacon200m_path.png' not found on input line 2338.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2461: LaTeX Error: Cannot determine size of graphic in images/area_sweep_beacon200m_path.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2338: LaTeX Error: Cannot determine size of graphic in images/area_sweep_beacon200m_path.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2461 ...]{images/area_sweep_beacon200m_path.png}
+l.2338 ...]{images/area_sweep_beacon200m_path.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1768,19 +1750,19 @@ If that doesn't work, type  X <return>  to quit.
 File: images/area_sweep_beacon200m_path.png Graphic file (type bmp)
 <images/area_sweep_beacon200m_path.png>
 
-LaTeX Warning: Reference `fig:sweep_paths' on page 58 undefined on input line 2469.
+LaTeX Warning: Reference `fig:sweep_paths' on page 58 undefined on input line 2346.
 
 
-LaTeX Warning: File `images/area_sweep_beacon200m_error_timeline.png' not found on input line 2477.
+LaTeX Warning: File `images/area_sweep_beacon200m_error_timeline.png' not found on input line 2354.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2477: LaTeX Error: Cannot determine size of graphic in images/area_sweep_beacon200m_error_timeline.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2354: LaTeX Error: Cannot determine size of graphic in images/area_sweep_beacon200m_error_timeline.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2477 ...rea_sweep_beacon200m_error_timeline.png}
+l.2354 ...rea_sweep_beacon200m_error_timeline.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1788,16 +1770,16 @@ If that doesn't work, type  X <return>  to quit.
 File: images/area_sweep_beacon200m_error_timeline.png Graphic file (type bmp)
 <images/area_sweep_beacon200m_error_timeline.png>
 
-LaTeX Warning: File `images/area_sweep_beacon200m_error_dist.png' not found on input line 2484.
+LaTeX Warning: File `images/area_sweep_beacon200m_error_dist.png' not found on input line 2361.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2484: LaTeX Error: Cannot determine size of graphic in images/area_sweep_beacon200m_error_dist.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2361: LaTeX Error: Cannot determine size of graphic in images/area_sweep_beacon200m_error_dist.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2484 ...es/area_sweep_beacon200m_error_dist.png}
+l.2361 ...es/area_sweep_beacon200m_error_dist.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1810,19 +1792,19 @@ File: images/area_sweep_beacon200m_error_dist.png Graphic file (type bmp)
 
 [59]
 
-LaTeX Warning: Reference `fig:geometric_stability' on page 60 undefined on input line 2519.
+LaTeX Warning: Reference `fig:geometric_stability' on page 60 undefined on input line 2396.
 
 
-LaTeX Warning: File `images/geometric_stability.png' not found on input line 2527.
+LaTeX Warning: File `images/geometric_stability.png' not found on input line 2404.
 
 
-/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2527: LaTeX Error: Cannot determine size of graphic in images/geometric_stability.xbb (no BoundingBox).
+/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex:2404: LaTeX Error: Cannot determine size of graphic in images/geometric_stability.xbb (no BoundingBox).
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2527 ...mnwidth]{images/geometric_stability.png}
+l.2404 ...mnwidth]{images/geometric_stability.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1830,7 +1812,7 @@ If that doesn't work, type  X <return>  to quit.
 File: images/geometric_stability.png Graphic file (type bmp)
 <images/geometric_stability.png>
 
-LaTeX Warning: Reference `fig:diagonal_200m' on page 60 undefined on input line 2532.
+LaTeX Warning: Reference `fig:diagonal_200m' on page 60 undefined on input line 2409.
 
 
 
@@ -1838,16 +1820,16 @@ LaTeX Warning: Reference `fig:diagonal_200m' on page 60 undefined on input line 
 
 [61]
 
-LaTeX Warning: Reference `tab:gnss_comparison' on page 62 undefined on input line 2570.
+LaTeX Warning: Reference `tab:gnss_comparison' on page 62 undefined on input line 2447.
 
 
-LaTeX Warning: Reference `chap:uav_localization' on page 62 undefined on input line 2606.
+LaTeX Warning: Reference `chap:uav_localization' on page 62 undefined on input line 2483.
 
 
-LaTeX Warning: Reference `chap:infrastructure' on page 62 undefined on input line 2614.
+LaTeX Warning: Reference `chap:infrastructure' on page 62 undefined on input line 2491.
 
 
-LaTeX Warning: Reference `chap:uav_localization' on page 62 undefined on input line 2614.
+LaTeX Warning: Reference `chap:uav_localization' on page 62 undefined on input line 2491.
 
 
 
@@ -1856,46 +1838,46 @@ LaTeX Warning: Reference `chap:uav_localization' on page 62 undefined on input l
 [63]
 Chapter 7.
 
-Overfull \hbox (1.86621pt too wide) in paragraph at lines 2639--2642
+Overfull \hbox (1.86621pt too wide) in paragraph at lines 2516--2519
 \OT1/cmr/m/n/10.95 This the-sis has in-ves-ti-gated the fea-si-bil-ity of us-ing Low-Power Wide-Area (LPWA)
  []
 
 
-LaTeX Warning: Reference `chap:uav_localization' on page 64 undefined on input line 2652.
+LaTeX Warning: Reference `chap:uav_localization' on page 64 undefined on input line 2529.
 
 
-LaTeX Warning: Reference `chap:infrastructure' on page 64 undefined on input line 2664.
+LaTeX Warning: Reference `chap:infrastructure' on page 64 undefined on input line 2541.
 
 
 
 [64
 
 ]
-Overfull \hbox (1.65343pt too wide) in paragraph at lines 2672--2673
+Overfull \hbox (1.65343pt too wide) in paragraph at lines 2549--2550
 []\OT1/cmr/m/n/10.95 The method demon-strates ro-bust-ness to the se-vere sig-nal at-ten-u-a-tion caused
  []
 
 
-LaTeX Warning: Reference `chap:integration' on page 65 undefined on input line 2676.
+LaTeX Warning: Reference `chap:integration' on page 65 undefined on input line 2553.
 
 
-Overfull \hbox (0.177pt too wide) in paragraph at lines 2685--2688
+Overfull \hbox (0.177pt too wide) in paragraph at lines 2562--2565
 \OT1/cmr/m/n/10.95 LoRa-based po-si-tion-ing can-not match GNSS pre-ci-sion, it pro-vides a vi-able backup
  []
 
 
-LaTeX Warning: Reference `chap:infrastructure' on page 65 undefined on input line 2698.
+LaTeX Warning: Reference `chap:infrastructure' on page 65 undefined on input line 2575.
 
 
-LaTeX Warning: Reference `chap:integration' on page 65 undefined on input line 2698.
+LaTeX Warning: Reference `chap:integration' on page 65 undefined on input line 2575.
 
 
-Overfull \hbox (11.52379pt too wide) in paragraph at lines 2698--2701
+Overfull \hbox (11.52379pt too wide) in paragraph at lines 2575--2578
  []\OT1/cmr/bx/n/10.95 Simulation-Based Eval-u-a-tion[] \OT1/cmr/m/n/10.95 The in-fras-truc-ture self-localization (Chap-ter [])
  []
 
 
-Overfull \hbox (4.11015pt too wide) in paragraph at lines 2703--2705
+Overfull \hbox (4.11015pt too wide) in paragraph at lines 2580--2582
  []\OT1/cmr/bx/n/10.95 Accuracy Lim-i-ta-tions[] \OT1/cmr/m/n/10.95 The achieved lo-cal-iza-tion ac-cu-racy, ap-prox-i-mately 120--
  []
 
@@ -1903,7 +1885,7 @@ Overfull \hbox (4.11015pt too wide) in paragraph at lines 2703--2705
 
 [65]
 
-LaTeX Warning: Reference `chap:uav_localization' on page 66 undefined on input line 2717.
+LaTeX Warning: Reference `chap:uav_localization' on page 66 undefined on input line 2594.
 
 
 
@@ -1913,9 +1895,11 @@ LaTeX Warning: Reference `chap:uav_localization' on page 66 undefined on input l
 
 [68
 
-])
+]
 
-[69] (./paper.aux)
+[69])
+
+[70] (./paper.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -1934,21 +1918,21 @@ Package rerunfilecheck Warning: File `paper.out' has changed.
 
 Package rerunfilecheck Info: Checksums for `paper.out':
 (rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  E56212CD08DF2DC355338E1B46E559FD;18649.
+(rerunfilecheck)             After:  05DE31AB5837597D3E3D2B571EF34911;19288.
  ) 
 Here is how much of TeX's memory you used:
- 14263 strings out of 473190
- 289398 string characters out of 5715801
- 592555 words of memory out of 5000000
- 36823 multiletter control sequences out of 15000+600000
- 571628 words of font info for 84 fonts, out of 8000000 for 9000
+ 14237 strings out of 473190
+ 289103 string characters out of 5715801
+ 580555 words of memory out of 5000000
+ 36815 multiletter control sequences out of 15000+600000
+ 569585 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,79p,516b,555s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on paper.pdf (78 pages, 437518 bytes).
+ 75i,11n,79p,657b,567s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
+Output written on paper.pdf (75 pages, 412560 bytes).
 PDF statistics:
- 967 PDF objects out of 1000 (max. 8388607)
- 836 compressed objects within 9 object streams
- 493 named destinations out of 1000 (max. 500000)
+ 928 PDF objects out of 1000 (max. 8388607)
+ 804 compressed objects within 9 object streams
+ 476 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

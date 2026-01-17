@@ -1,17 +1,16 @@
 # Fdb version 4
-["bibtex paper"] 0 "paper.aux" "paper.bbl" "paper" 0 -1
-  "./references.bib" 1768284389.69526 9363 fd90230fd06e695925db01e3c4a1f55f ""
+["bibtex paper"] 1768568483.79786 "paper.aux" "paper.bbl" "paper" 1768568521.50521 0
+  "./references.bib" 1768568515.53615 11925 1d7f767c2ad6582418e7e3bde3d4c527 ""
   "/usr/local/texlive/2025/texmf-dist/bibtex/bst/base/unsrt.bst" 1292289607 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "paper.aux" 1768468742.9931 49789 e6c950b01a956fa88becd6e67edb0faa "pdflatex"
+  "paper.aux" 1768568521.2019 49625 b361554cc59526621265803087ec1dd2 "pdflatex"
   (generated)
   "paper.bbl"
   "paper.blg"
   (rewritten before read)
-["pdflatex"] 1768468737.5704 "/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex" "paper.pdf" "paper" 1768468743.32851 2
-  "/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex" 1768291511.48922 175652 119ecf8946aba18c46eec07c28ef5c1c ""
+["pdflatex"] 1768568515.86208 "/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex" "paper.pdf" "paper" 1768568521.50542 2
+  "/Users/kazuya/Projects/network-localization/thesis/paper/paper.tex" 1768566541.01405 162541 8a0da40a80fc28a5012902fe239c6ee2 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
-  "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1136768653 1536 02c06700a42be0f5a28664c7273f82e7 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -55,7 +54,6 @@
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb" 1248133631 32734 69e00a6b65cedb993666e42eedb3d48f ""
-  "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1248133631 32762 224316ccc9ad3ca0423a14971cfa7fc1 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1248133631 32726 0a1aea6fcd6468ee2cf64d891f5c43c8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb" 1248133631 33993 9b89b85fd2d9df0482bd47194d1d3bf3 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
@@ -64,7 +62,6 @@
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1248133631 37944 359e864bd06cde3b1cf57bb20757fb06 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 1248133631 31099 c85edf1dd5b9e826d67c9c7293b6786c ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb" 1248133631 34694 ad62b13721ee8eda1dcc8993c8bd7041 ""
-  "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb" 1215737283 138258 6525c253f16cededa14c7fd0da7f67b2 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb" 1215737283 145929 f25e56369a345c4ff583b067cd87ce8e ""
   "/usr/local/texlive/2025/texmf-dist/tex/generic/atbegshi/atbegshi.sty" 1575674566 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
   "/usr/local/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty" 1576625341 40635 c40361e206be584d448876bba8a64a3b ""
@@ -170,13 +167,13 @@
   "method_comparison.png" 0 -1 0 ""
   "model_1-2.png" 0 -1 0 ""
   "model_3-4.png" 0 -1 0 ""
-  "paper.aux" 1768468742.9931 49789 e6c950b01a956fa88becd6e67edb0faa "pdflatex"
-  "paper.bbl" 1768291163.18321 6122 14461a50066d8bf9f068e362896a4348 "bibtex paper"
-  "paper.lof" 1768468742.99745 3809 b4f4221610cb2d5a9fedf16139af1338 "pdflatex"
-  "paper.lot" 1768468742.99748 1493 fb5314ba91d46d1849b76aa4ae07f9a6 "pdflatex"
-  "paper.out" 1768468742.99678 18649 e56212cd08df2dc355338e1b46e559fd "pdflatex"
-  "paper.tex" 1768291511.48922 175652 119ecf8946aba18c46eec07c28ef5c1c ""
-  "paper.toc" 1768468742.99739 19239 9cd94dcd4ac6efd645b2732cbbfb681d "pdflatex"
+  "paper.aux" 1768568521.2019 49625 b361554cc59526621265803087ec1dd2 "pdflatex"
+  "paper.bbl" 1768568483.89733 6905 2b965e9300c4808347456414dce79943 "bibtex paper"
+  "paper.lof" 1768568521.2059 3808 4e37afdbae20d8c7bf864ef30db2c106 "pdflatex"
+  "paper.lot" 1768568521.20593 1493 7ce4fe0a81b9a28728a3938b1a439953 "pdflatex"
+  "paper.out" 1768568521.20554 19288 05de31ab5837597d3e3d2b571ef34911 "pdflatex"
+  "paper.tex" 1768566541.01405 162541 8a0da40a80fc28a5012902fe239c6ee2 ""
+  "paper.toc" 1768568521.20582 18929 02561702be1c34e4a5c749a364c66e30 "pdflatex"
   "sample-median.png" 0 -1 0 ""
   "sample-std.png" 0 -1 0 ""
   (generated)

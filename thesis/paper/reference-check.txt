@@ -1,0 +1,331 @@
+Peter J. Huber. "Robust Estimation of a Location Parameter." Ann. Math. Statist. 35 (1) 73 - 101, March, 1964. https://doi.org/10.1214/aoms/1177703732
+
+@ARTICLE{10683691,
+  author={Hirotsu, Kazuya and Granelli, Fabrizio and Nakao, Akihiro},
+  journal={IEEE Access}, 
+  title={LoRa-Based Localization for Drones: Methodological Enhancements Explored Through Simulations and Real-World Experiments}, 
+  year={2024},
+  volume={12},
+  number={},
+  pages={145988-145996},
+  keywords={Location awareness;Drones;Accuracy;Global Positioning System;Three-dimensional displays;Reliability;Urban areas;Wireless networks;LoRa;Drone;localization;LoRa;navigation;wireless networks;received signal strength indicator},
+  doi={10.1109/ACCESS.2024.3463175}}
+
+@ARTICLE{8692423,
+  author={Zafari, Faheem and Gkelias, Athanasios and Leung, Kin K.},
+  journal={IEEE Communications Surveys & Tutorials}, 
+  title={A Survey of Indoor Localization Systems and Technologies}, 
+  year={2019},
+  volume={21},
+  number={3},
+  pages={2568-2599},
+  keywords={Internet of Things;Wireless communication;Wireless fidelity;Scalability;Wireless sensor networks;Navigation;Bluetooth;Indoor localization;location based services;Internet of Things},
+  doi={10.1109/COMST.2019.2911558}}
+
+@article{https://doi.org/10.1002/itl2.75,
+author = {Goldoni, Emanuele and Prando, Luca and Vizziello, Anna and Savazzi, Pietro and Gamba, Paolo},
+title = {Experimental data set analysis of RSSI-based indoor and outdoor localization in LoRa networks},
+journal = {Internet Technology Letters},
+volume = {2},
+number = {1},
+pages = {e75},
+keywords = {IoT, LoRa network, radio localization, RSSI},
+doi = {https://doi.org/10.1002/itl2.75},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/itl2.75},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/itl2.75},
+year = {2019}
+}
+
+@article{VAZQUEZRODAS2020102168,
+title = {Experimental evaluation of RSSI-based positioning system with low-cost LoRa devices},
+journal = {Ad Hoc Networks},
+volume = {105},
+pages = {102168},
+year = {2020},
+issn = {1570-8705},
+doi = {https://doi.org/10.1016/j.adhoc.2020.102168},
+url = {https://www.sciencedirect.com/science/article/pii/S1570870520301736},
+author = {Andres Vazquez-Rodas and Fabian Astudillo-Salinas and Christian Sanchez and Braulio Arpi and Luis I. Minchala},
+}
+
+@INPROCEEDINGS{9452277,
+  author={Müller, Pascal and Stoll, Hannes and Sarperi, Luciano and Schüpbach, Christof},
+  booktitle={2021 International Conference on Localization and GNSS (ICL-GNSS)}, 
+  title={Outdoor Ranging and Positioning based on LoRa Modulation}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={1-6},
+  keywords={Wireless communication;Global navigation satellite system;Frequency modulation;Measurement uncertainty;Bandwidth;Position measurement;Distance measurement;Long-Range (LoRa) Modulation;SX1280;2.4 GHz;ranging;positioning;localization;tracking},
+  doi={10.1109/ICL-GNSS51451.2021.9452277}}
+
+@INPROCEEDINGS{9322261,
+  author={Purohit, Jait and Wang, Xuyu and Mao, Shiwen and Sun, Xiaoyan and Yang, Chao},
+  booktitle={GLOBECOM 2020 - 2020 IEEE Global Communications Conference}, 
+  title={Fingerprinting-based Indoor and Outdoor Localization with LoRa and Deep Learning}, 
+  year={2020},
+  volume={},
+  number={},
+  pages={1-6},
+  keywords={Location awareness;Deep learning;Interpolation;Logic gates;Training;Noise reduction;Internet of Things},
+  doi={10.1109/GLOBECOM42002.2020.9322261}}
+
+@InProceedings{10.1007/978-3-030-80126-7_72,
+author="Ingabire, Winfred
+and Larijani, Hadi
+and Gibson, Ryan M.",
+editor="Arai, Kohei",
+title="LoRa RSSI Based Outdoor Localization in an Urban Area Using Random Neural Networks",
+booktitle="Intelligent Computing",
+year="2021",
+publisher="Springer International Publishing",
+address="Cham",
+pages="1032--1043",
+isbn="978-3-030-80126-7"
+}
+
+
+@Article{s20195464,
+AUTHOR = {Pospisil, Jan and Fujdiak, Radek and Mikhaylov, Konstantin},
+TITLE = {Investigation of the Performance of TDoA-Based Localization Over LoRaWAN in Theory and Practice},
+JOURNAL = {Sensors},
+VOLUME = {20},
+YEAR = {2020},
+NUMBER = {19},
+ARTICLE-NUMBER = {5464},
+URL = {https://www.mdpi.com/1424-8220/20/19/5464},
+PubMedID = {32977644},
+ISSN = {1424-8220},
+DOI = {10.3390/s20195464}
+}
+
+@INPROCEEDINGS{8016251,
+  author={Fargas, Bernat Carbonés and Petersen, Martin Nordal},
+  booktitle={2017 Global Internet of Things Summit (GIoTS)}, 
+  title={GPS-free geolocation using LoRa in low-power WANs}, 
+  year={2017},
+  volume={},
+  number={},
+  pages={1-6},
+  keywords={Logic gates;Geology;Global Positioning System;Receivers;Servers;Protocols;Synchronization;IoT;LoRaWAN;geolocation;TDOA},
+  doi={10.1109/GIOTS.2017.8016251}}
+
+@INPROCEEDINGS{10419794,
+  author={Fan, Shuting and Yan, Jun},
+  booktitle={2023 IEEE 23rd International Conference on Communication Technology (ICCT)}, 
+  title={CSI Fingerprint and GCN Based Indoor Localization Using Graph Structures Fusion}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={111-116},
+  keywords={Location awareness;Training;Phase measurement;Fuses;Fingerprint recognition;Rendering (computer graphics);Data mining;Indoor localization;Channel State Information;Front-end Fusion;Graph Convolutional Network;Deep Learning},
+  doi={10.1109/ICCT59356.2023.10419794}}
+
+@Article{s23198221,
+AUTHOR = {Kang, Xiaofei and Liang, Xian and Liang, Qiyue},
+TITLE = {Indoor Localization Algorithm Based on a High-Order Graph Neural Network},
+JOURNAL = {Sensors},
+VOLUME = {23},
+YEAR = {2023},
+NUMBER = {19},
+ARTICLE-NUMBER = {8221},
+URL = {https://www.mdpi.com/1424-8220/23/19/8221},
+PubMedID = {37837051},
+ISSN = {1424-8220},
+DOI = {10.3390/s23198221}
+}
+
+@INPROCEEDINGS{9414520,
+  author={Yan, Wenzhong and Jin, Di and Lin, Zhidi and Yin, Feng},
+  booktitle={ICASSP 2021 - 2021 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)}, 
+  title={Graph Neural Network for Large-Scale Network Localization}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={5250-5254},
+  keywords={Location awareness;Filtering;Simulation;Machine learning;Benchmark testing;Signal processing;Robustness;Graph neural networks;large-scale;network localization;non-line-of-sight;thresholding},
+  doi={10.1109/ICASSP39728.2021.9414520}}
+
+@inproceedings{10.1007/978-3-031-49601-1_11,
+author = {Vishwakarma, Rahul and Joshi, Rucha Bhalchandra and Mishra, Subhankar},
+title = {IndoorGNN: A Graph Neural Network Based Approach for&nbsp;Indoor Localization Using WiFi RSSI},
+year = {2023},
+isbn = {978-3-031-49600-4},
+publisher = {Springer-Verlag},
+address = {Berlin, Heidelberg},
+url = {https://doi.org/10.1007/978-3-031-49601-1_11},
+doi = {10.1007/978-3-031-49601-1_11},
+booktitle = {Big Data and Artificial Intelligence: 11th International Conference, BDA 2023, Delhi, India, December 7–9, 2023, Proceedings},
+pages = {150–165},
+numpages = {16},
+keywords = {Indoor Localization, Graph Neural Network, WiFi, Received Signal Strength Indicator},
+location = {Delhi, India}
+}
+
+@INPROCEEDINGS{8099494,
+  author={Simonovsky, Martin and Komodakis, Nikos},
+  booktitle={2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, 
+  title={Dynamic Edge-Conditioned Filters in Convolutional Neural Networks on Graphs}, 
+  year={2017},
+  volume={},
+  number={},
+  pages={29-38},
+  keywords={Convolution;Three-dimensional displays;Neural networks;Machine learning;Spectral analysis;Standards},
+  doi={10.1109/CVPR.2017.11}}
+
+@article{10.1145/3715914,
+author = {Hada, Rupendra Pratap Singh and Srivastava, Abhishek},
+title = {A Hybrid Approach for Localisation of Sensor Nodes in Remote Locations},
+year = {2025},
+issue_date = {March 2025},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {21},
+number = {2},
+issn = {1550-4859},
+url = {https://doi.org/10.1145/3715914},
+doi = {10.1145/3715914},
+journal = {ACM Trans. Sen. Netw.},
+month = mar,
+articleno = {23},
+numpages = {33},
+keywords = {Localisation, outdoor localisation, ad-hoc networks, sensor network}
+}
+
+@INPROCEEDINGS{10229479,
+  author={Richhariya, Shakshi and Wanaskar, Kapil and Shrivastava, Soumyendra and Gao, Jerry},
+  booktitle={2023 11th IEEE International Conference on Mobile Cloud Computing, Services, and Engineering (MobileCloud)}, 
+  title={Surveillance Drone Cloud and Intelligence Service}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1-10},
+  keywords={Cloud computing;Surveillance;Computational modeling;Taxonomy;Real-time systems;Data models;Resource management;Drone;Drone cloud surveillance;Cloud computing;Surveillance system;Surveillance cloud;Cloud Service;Cloud intelligence},
+  doi={10.1109/MobileCloud58788.2023.00007}}
+
+@article{article,
+author = {Schneider, David},
+year = {2020},
+month = {01},
+pages = {28-29},
+title = {The delivery drones are coming},
+volume = {57},
+journal = {IEEE Spectrum},
+doi = {10.1109/MSPEC.2020.8946304}
+}
+
+@INPROCEEDINGS{7354604,
+  author={Kang, Jin-Hyeok and Park, Kyung-Joon and Kim, Hwangnam},
+  booktitle={2015 International Conference on Information and Communication Technology Convergence (ICTC)}, 
+  title={Analysis of localization for drone-fleet}, 
+  year={2015},
+  volume={},
+  number={},
+  pages={533-538},
+  keywords={Global Positioning System;Synchronization;Receivers;Mobile communication;Hardware;Wireless sensor networks;Satellites;Localization;Aerial Network;Drone;Location estimation;Mobile Network;Wireless sensor networks},
+  doi={10.1109/ICTC.2015.7354604}}
+
+@article{SINHA201714,
+title = {A survey on LPWA technology: LoRa and NB-IoT},
+journal = {ICT Express},
+volume = {3},
+number = {1},
+pages = {14-21},
+year = {2017},
+issn = {2405-9595},
+doi = {https://doi.org/10.1016/j.icte.2017.03.004},
+url = {https://www.sciencedirect.com/science/article/pii/S2405959517300061},
+author = {Rashmi Sharan Sinha and Yiqiao Wei and Seung-Hoon Hwang},
+keywords = {LPWA, NB-IoT, LoRa, mMTC, IoT},
+}
+
+@ARTICLE{8883217,
+  author={Shanmuga Sundaram, Jothi Prasanna and Du, Wan and Zhao, Zhiwei},
+  journal={IEEE Communications Surveys & Tutorials}, 
+  title={A Survey on LoRa Networking: Research Problems, Current Solutions, and Open Issues}, 
+  year={2020},
+  volume={22},
+  number={1},
+  pages={371-388},
+  keywords={Internet of Things;Chirp;Downlink;Authentication;Logic gates;OFDM;Bandwidth;Internet-of-Things;low powered wide area networking;LoRa;taxonomy},
+  doi={10.1109/COMST.2019.2949598}}
+
+@ARTICLE{1638022,
+  author={Durrant-Whyte, H. and Bailey, T.},
+  journal={IEEE Robotics & Automation Magazine}, 
+  title={Simultaneous localization and mapping: part I}, 
+  year={2006},
+  volume={13},
+  number={2},
+  pages={99-110},
+  keywords={Simultaneous localization and mapping;Mobile robots;Robotics and automation;History;Artificial intelligence;Navigation;Vehicles;Buildings;Bayesian methods;Particle filters},
+  doi={10.1109/MRA.2006.1638022}}
+
+@ARTICLE{7946260,
+  author={Mur-Artal, Raúl and Tardós, Juan D.},
+  journal={IEEE Transactions on Robotics}, 
+  title={ORB-SLAM2: An Open-Source SLAM System for Monocular, Stereo, and RGB-D Cameras}, 
+  year={2017},
+  volume={33},
+  number={5},
+  pages={1255-1262},
+  keywords={Simultaneous localization and mapping;Cameras;Optimization;Feature extraction;Tracking loops;Trajectory;Localization;mapping;RGB-D;simultaneous localization and mapping (SLAM);stereo},
+  doi={10.1109/TRO.2017.2705103}}
+
+
+@article{article,
+author = {Groves, Paul},
+year = {2011},
+month = {07},
+pages = {417 - 430},
+title = {Shadow Matching: A New GNSS Positioning Technique for Urban Canyons},
+volume = {64},
+journal = {Journal of Navigation},
+doi = {10.1017/S0373463311000087}
+}
+
+@INPROCEEDINGS{7081988,
+  author={Xiong, Jianqiao and Qin, Qin and Zeng, Kemin},
+  booktitle={2014 Seventh International Symposium on Computational Intelligence and Design}, 
+  title={A Distance Measurement Wireless Localization Correction Algorithm Based on RSSI}, 
+  year={2014},
+  volume={2},
+  number={},
+  pages={276-278},
+  keywords={Wireless sensor networks;Mathematical model;Wireless communication;Distance measurement;Algorithm design and analysis;Filtering;Propagation losses;RSSI;the median mean filtering method;weighted centroid algorithm;localization precision},
+  doi={10.1109/ISCID.2014.246}}
+
+@article{CHEN2023103097,
+title = {Multi-scene LoRa positioning algorithm based on Kalman filter and its implementation on NS3},
+journal = {Ad Hoc Networks},
+volume = {141},
+pages = {103097},
+year = {2023},
+issn = {1570-8705},
+doi = {https://doi.org/10.1016/j.adhoc.2023.103097},
+url = {https://www.sciencedirect.com/science/article/pii/S1570870523000173},
+author = {Mingyao Chen and Honggang Zhao and Chen Shi and Xiaoyu Chen and Dezhi Niu},
+keywords = {LoRa, Kalman filter, NS3, Positioning},
+}
+
+@INPROCEEDINGS{8541736,
+  author={Baik, Kyung-Jin and Lee, Sangjoon and Jang, Byung-Jun},
+  booktitle={2018 48th European Microwave Conference (EuMC)}, 
+  title={Hybrid RSSI-AoA Positioning System with Single Time-Modulated Array Receiver for LoRa IoT}, 
+  year={2018},
+  volume={},
+  number={},
+  pages={1133-1136},
+  keywords={Receiving antennas;Harmonic analysis;Real-time systems;Switches;Internet of Things;RSSI;AoA;positioning;Time-Modulated Array (TMA);LoRa},
+  doi={10.23919/EuMC.2018.8541736}}
+
+@INPROCEEDINGS{8406255,
+  author={Slabicki, Mariusz and Premsankar, Gopika and Di Francesco, Mario},
+  booktitle={NOMS 2018 - 2018 IEEE/IFIP Network Operations and Management Symposium}, 
+  title={Adaptive configuration of lora networks for dense IoT deployments}, 
+  year={2018},
+  volume={},
+  number={},
+  pages={1-9},
+  keywords={Logic gates;Network servers;Physical layer;Adaptive systems;Wireless communication;Adaptation models;Reliability;LoRa;configuration management;performance evaluation;adaptive data rate;reliability;energy efficiency},
+  doi={10.1109/NOMS.2018.8406255}}

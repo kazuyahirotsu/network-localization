@@ -1,36 +1,36 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces System architecture and communication model}}{13}{figure.caption.41}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces System architecture and communication model}}{13}{figure.caption.28}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Static error: Method 1 (squared loss, no altitude constraint)}}{25}{figure.caption.71}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Static error: Method 2 (squared loss with altitude constraint)}}{26}{figure.caption.72}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Static error: Method 3 (Huber loss, no altitude constraint)}}{26}{figure.caption.73}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Static error: Method 4 (Huber loss with altitude constraint)}}{27}{figure.caption.74}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Localization error versus number of beacons}}{28}{figure.caption.80}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Correlation between minimization error and localization error}}{29}{figure.caption.82}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Beacon placement for field experiments}}{30}{figure.caption.87}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Experimental hardware}}{31}{figure.caption.88}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces RSSI-to-distance relationships at different altitudes}}{32}{figure.caption.93}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Signal strength variation with UAV altitude}}{33}{figure.caption.94}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Altitude-parameterized RSSI-to-distance model}}{34}{figure.caption.96}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Effect of sampling time on localization accuracy}}{35}{figure.caption.97}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Static error: Method 1 (squared loss, no altitude constraint)}}{25}{figure.caption.58}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Static error: Method 2 (squared loss with altitude constraint)}}{26}{figure.caption.59}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Static error: Method 3 (Huber loss, no altitude constraint)}}{26}{figure.caption.60}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Static error: Method 4 (Huber loss with altitude constraint)}}{27}{figure.caption.61}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Localization error versus number of beacons}}{28}{figure.caption.67}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Correlation between minimization error and localization error}}{29}{figure.caption.69}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Beacon placement for field experiments}}{31}{figure.caption.74}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Experimental hardware}}{31}{figure.caption.75}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces RSSI-to-distance relationships at different altitudes}}{32}{figure.caption.80}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Signal strength variation with UAV altitude}}{33}{figure.caption.81}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Altitude-parameterized RSSI-to-distance model}}{34}{figure.caption.83}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Effect of sampling time on localization accuracy}}{35}{figure.caption.84}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Architecture of the proposed edge-conditioned GCN}}{39}{figure.caption.104}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Evaluation area}}{44}{figure.caption.120}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces RSSI versus distance relationship}}{45}{figure.caption.122}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces CDF of localization error in terrain-aware setting}}{47}{figure.caption.127}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Histogram of localization error in terrain-aware setting}}{48}{figure.caption.128}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Qualitative localization results (terrain-aware)}}{48}{figure.caption.129}%
-\contentsline {figure}{\numberline {5.7}{\ignorespaces CDF of localization error in free-space setting}}{50}{figure.caption.131}%
-\contentsline {figure}{\numberline {5.8}{\ignorespaces Qualitative localization results (free-space)}}{50}{figure.caption.132}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Architecture of the proposed edge-conditioned GCN}}{39}{figure.caption.91}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Evaluation area}}{44}{figure.caption.107}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces RSSI versus distance relationship}}{45}{figure.caption.109}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces CDF of localization error in terrain-aware setting}}{48}{figure.caption.114}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Histogram of localization error in terrain-aware setting}}{49}{figure.caption.115}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Qualitative localization results (terrain-aware)}}{49}{figure.caption.116}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces CDF of localization error in free-space setting}}{50}{figure.caption.118}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Qualitative localization results (free-space)}}{50}{figure.caption.119}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces UAV localization error vs beacon position error}}{55}{figure.caption.148}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Diagonal transit flight paths}}{57}{figure.caption.156}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Localization error during diagonal transit}}{58}{figure.caption.157}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Circular patrol flight paths}}{58}{figure.caption.158}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Localization error during circular patrol}}{59}{figure.caption.159}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces Area sweep flight paths}}{59}{figure.caption.160}%
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Localization error during area sweep}}{60}{figure.caption.161}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces Geometric stability: heading error vs distance}}{61}{figure.caption.162}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces UAV localization error vs beacon position error}}{55}{figure.caption.135}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Diagonal transit flight paths}}{57}{figure.caption.143}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Localization error during diagonal transit}}{58}{figure.caption.144}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Circular patrol flight paths}}{58}{figure.caption.145}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Localization error during circular patrol}}{59}{figure.caption.146}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Area sweep flight paths}}{59}{figure.caption.147}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Localization error during area sweep}}{60}{figure.caption.148}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Geometric stability: heading error vs distance}}{61}{figure.caption.149}%
 \addvspace {10\p@ }
