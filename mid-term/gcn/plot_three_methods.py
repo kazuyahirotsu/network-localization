@@ -30,7 +30,7 @@ def compute_bins(arrays, num_bins: int = 40, clip_percentile: float = 99.5):
     return bins
 
 
-def plot_histogram_three(errors_list, labels, colors, out_png):
+def plot_histogram_three(errors_list, labels, colors, out_pdf):
     plt.figure(figsize=(10, 4.5))
     bins = compute_bins(errors_list, num_bins=40)
     for errs, lab, col in zip(errors_list, labels, colors):
@@ -45,12 +45,12 @@ def plot_histogram_three(errors_list, labels, colors, out_png):
     plt.grid(True, alpha=0.3)
     plt.legend(fontsize=SLIDE_LEGEND_FONT_SIZE, loc='upper right')
     plt.tight_layout()
-    plt.savefig(out_png, dpi=300, bbox_inches='tight')
-    print(f'Saved: {out_png}')
+    plt.savefig(out_pdf, bbox_inches='tight')
+    print(f'Saved: {out_pdf}')
     plt.close()
 
 
-def plot_cdf_three(errors_list, labels, colors, out_png):
+def plot_cdf_three(errors_list, labels, colors, out_pdf):
     plt.figure(figsize=(10, 4.5))
     for errs, lab, col in zip(errors_list, labels, colors):
         if errs.size == 0:
@@ -67,8 +67,8 @@ def plot_cdf_three(errors_list, labels, colors, out_png):
     plt.ylim(0, 1)
     plt.legend(fontsize=SLIDE_LEGEND_FONT_SIZE, loc='lower right')
     plt.tight_layout()
-    plt.savefig(out_png, dpi=300, bbox_inches='tight')
-    print(f'Saved: {out_png}')
+    plt.savefig(out_pdf, bbox_inches='tight')
+    print(f'Saved: {out_pdf}')
     plt.close()
 
 
@@ -92,11 +92,15 @@ def main():
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c']
     errors_list = [errors_proposed, errors_plain, errors_mlat]
 
-    hist_png = os.path.join(args.outdir, f'three_methods_hist_{args.tag}.png')
-    cdf_png = os.path.join(args.outdir, f'three_methods_cdf_{args.tag}.png')
+    if args.tag:
+        hist_pdf = os.path.join(args.outdir, f'three_methods_hist_{args.tag}.pdf')
+        cdf_pdf = os.path.join(args.outdir, f'three_methods_cdf_{args.tag}.pdf')
+    else:
+        hist_pdf = os.path.join(args.outdir, 'three_methods_hist.pdf')
+        cdf_pdf = os.path.join(args.outdir, 'three_methods_cdf.pdf')
 
-    plot_histogram_three(errors_list, labels, colors, hist_png)
-    plot_cdf_three(errors_list, labels, colors, cdf_png)
+    plot_histogram_three(errors_list, labels, colors, hist_pdf)
+    plot_cdf_three(errors_list, labels, colors, cdf_pdf)
 
 
 if __name__ == '__main__':

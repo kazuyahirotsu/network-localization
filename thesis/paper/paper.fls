@@ -1,12 +1,16 @@
 PWD /Users/kazuya/Projects/network-localization/thesis/paper
 INPUT /usr/local/texlive/2025/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-dist/web2c/texmf.cnf
-INPUT /usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/kazuya/Projects/network-localization/thesis/paper/paper.tex
+INPUT /usr/local/texlive/2025/texmf.cnf
+INPUT /usr/local/texlive/2025/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2025/texmf-var/web2c/euptex/platex.fmt
+INPUT paper.tex
 OUTPUT paper.log
 INPUT ./iscs-thesis.cls
 INPUT iscs-thesis.cls
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/cite/cite.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/cite/cite.sty
@@ -99,14 +103,17 @@ INPUT /usr/local/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/generic/atbegshi/atbegshi.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/base/atbegshi-ltx.sty
-INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/hpdftex.def
-INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/hpdftex.def
-INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/hpdftex.def
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/hdvips.def
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/hdvips.def
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/hdvips.def
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/pdfmark.def
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/pdfmark.def
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/pdfmark.def
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/atveryend/atveryend.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/base/atveryend-ltx.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/base/atveryend-ltx.sty
-INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
-INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/placeins/placeins.sty
@@ -117,22 +124,35 @@ INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
-INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-dvips.def
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-dvips.def
+INPUT ./paper.aux
+INPUT ./paper.aux
+INPUT paper.aux
 OUTPUT paper.aux
+INPUT ./paper.out
+INPUT ./paper.out
+INPUT paper.out
+INPUT paper.out
+INPUT ./paper.out
+INPUT ./paper.out
 OUTPUT paper.out
-OUTPUT paper.pdf
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
-INPUT /usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map
+OUTPUT paper.dvi
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-OUTPUT paper.toc
-OUTPUT paper.lof
-OUTPUT paper.lot
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT ./paper.toc
+INPUT ./paper.toc
+INPUT paper.toc
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm
@@ -156,10 +176,23 @@ INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
+OUTPUT paper.toc
+INPUT ./paper.lof
+INPUT ./paper.lof
+INPUT paper.lof
+OUTPUT paper.lof
+INPUT ./paper.lot
+INPUT ./paper.lot
+INPUT paper.lot
+OUTPUT paper.lot
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin9.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/min9.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr9.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm
@@ -171,51 +204,145 @@ INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam1
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
-INPUT extractbb -B cropbox -O images/system_architecture.png
-INPUT extractbb -B cropbox -O images/method1_2d.png
-INPUT extractbb -B cropbox -O images/method1_3d.png
-INPUT extractbb -B cropbox -O images/method2.png
-INPUT extractbb -B cropbox -O images/method3_2d.png
-INPUT extractbb -B cropbox -O images/method3_3d.png
-INPUT extractbb -B cropbox -O images/method4.png
-INPUT extractbb -B cropbox -O images/method4_cropped.png
-INPUT extractbb -B cropbox -O method_comparison.png
-INPUT extractbb -B cropbox -O correlation.png
-INPUT extractbb -B cropbox -O beacon_map.png
-INPUT extractbb -B cropbox -O drone.jpg
-INPUT extractbb -B cropbox -O beacon.jpg
-INPUT extractbb -B cropbox -O model_1-2.png
-INPUT extractbb -B cropbox -O model_3-4.png
-INPUT extractbb -B cropbox -O antenna.png
-INPUT extractbb -B cropbox -O images/model_3d.png
-INPUT extractbb -B cropbox -O sample-median.png
-INPUT extractbb -B cropbox -O sample-std.png
-INPUT extractbb -B cropbox -O images/model_architecture.png
-INPUT extractbb -B cropbox -O images/experiment_area_comparison.png
-INPUT extractbb -B cropbox -O images/rssi_variance_comparison.png
-INPUT extractbb -B cropbox -O images/three_methods_cdf.png
-INPUT extractbb -B cropbox -O images/three_methods_hist.png
-INPUT extractbb -B cropbox -O images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.png
-INPUT extractbb -B cropbox -O images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.png
-INPUT extractbb -B cropbox -O images/sample_visualization_loaded_model_mlat_64beacons_100instances.png
-INPUT extractbb -B cropbox -O images/three_methods_cdf_free.png
-INPUT extractbb -B cropbox -O images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.png
-INPUT extractbb -B cropbox -O images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.png
-INPUT extractbb -B cropbox -O images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.png
-INPUT extractbb -B cropbox -O images/sensitivity_uav_vs_beacon.png
-INPUT extractbb -B cropbox -O images/diagonal_beacon0m_path.png
-INPUT extractbb -B cropbox -O images/diagonal_beacon200m_path.png
-INPUT extractbb -B cropbox -O images/diagonal_beacon200m_error_timeline.png
-INPUT extractbb -B cropbox -O images/diagonal_beacon200m_error_dist.png
-INPUT extractbb -B cropbox -O images/circular_beacon0m_path.png
-INPUT extractbb -B cropbox -O images/circular_beacon200m_path.png
-INPUT extractbb -B cropbox -O images/circular_beacon200m_error_timeline.png
-INPUT extractbb -B cropbox -O images/circular_beacon200m_error_dist.png
-INPUT extractbb -B cropbox -O images/area_sweep_beacon0m_path.png
-INPUT extractbb -B cropbox -O images/area_sweep_beacon200m_path.png
-INPUT extractbb -B cropbox -O images/area_sweep_beacon200m_error_timeline.png
-INPUT extractbb -B cropbox -O images/area_sweep_beacon200m_error_dist.png
-INPUT extractbb -B cropbox -O images/geometric_stability.png
+INPUT ../images/system_architecture.png
+INPUT ../images/system_architecture.png
+INPUT extractbb -B cropbox -O ../images/system_architecture.png
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/min8.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin6.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/min6.tfm
+INPUT ../images/method1_2d.pdf
+INPUT ../images/method1_2d.pdf
+INPUT extractbb -B cropbox -O ../images/method1_2d.pdf
+INPUT ../images/method1_3d.pdf
+INPUT ../images/method1_3d.pdf
+INPUT extractbb -B cropbox -O ../images/method1_3d.pdf
+INPUT ../images/method2.pdf
+INPUT ../images/method2.pdf
+INPUT extractbb -B cropbox -O ../images/method2.pdf
+INPUT ../images/method3_2d.pdf
+INPUT ../images/method3_2d.pdf
+INPUT extractbb -B cropbox -O ../images/method3_2d.pdf
+INPUT ../images/method3_3d.pdf
+INPUT ../images/method3_3d.pdf
+INPUT extractbb -B cropbox -O ../images/method3_3d.pdf
+INPUT ../images/method4.pdf
+INPUT ../images/method4.pdf
+INPUT extractbb -B cropbox -O ../images/method4.pdf
+INPUT ../images/method4_cropped.pdf
+INPUT ../images/method4_cropped.pdf
+INPUT extractbb -B cropbox -O ../images/method4_cropped.pdf
+INPUT ../images/method_comparison.pdf
+INPUT ../images/method_comparison.pdf
+INPUT extractbb -B cropbox -O ../images/method_comparison.pdf
+INPUT ../images/correlation.pdf
+INPUT ../images/correlation.pdf
+INPUT extractbb -B cropbox -O ../images/correlation.pdf
+INPUT ../images/beacon_map.png
+INPUT ../images/beacon_map.png
+INPUT extractbb -B cropbox -O ../images/beacon_map.png
+INPUT ../images/drone.jpg
+INPUT ../images/drone.jpg
+INPUT extractbb -B cropbox -O ../images/drone.jpg
+INPUT ../images/beacon.jpg
+INPUT ../images/beacon.jpg
+INPUT extractbb -B cropbox -O ../images/beacon.jpg
+INPUT ../images/model_1-2.pdf
+INPUT ../images/model_1-2.pdf
+INPUT extractbb -B cropbox -O ../images/model_1-2.pdf
+INPUT ../images/model_3-4.pdf
+INPUT ../images/model_3-4.pdf
+INPUT extractbb -B cropbox -O ../images/model_3-4.pdf
+INPUT ../images/antenna.pdf
+INPUT ../images/antenna.pdf
+INPUT extractbb -B cropbox -O ../images/antenna.pdf
+INPUT ../images/model_3d.pdf
+INPUT ../images/model_3d.pdf
+INPUT extractbb -B cropbox -O ../images/model_3d.pdf
+INPUT ../images/sample-median.pdf
+INPUT ../images/sample-median.pdf
+INPUT extractbb -B cropbox -O ../images/sample-median.pdf
+INPUT ../images/sample-std.pdf
+INPUT ../images/sample-std.pdf
+INPUT extractbb -B cropbox -O ../images/sample-std.pdf
+INPUT ../images/model_architecture.png
+INPUT ../images/model_architecture.png
+INPUT extractbb -B cropbox -O ../images/model_architecture.png
+INPUT ../images/experiment_area_comparison.pdf
+INPUT ../images/experiment_area_comparison.pdf
+INPUT extractbb -B cropbox -O ../images/experiment_area_comparison.pdf
+INPUT ../images/rssi_variance_comparison.png
+INPUT ../images/rssi_variance_comparison.png
+INPUT extractbb -B cropbox -O ../images/rssi_variance_comparison.png
+INPUT ../images/three_methods_cdf.pdf
+INPUT ../images/three_methods_cdf.pdf
+INPUT extractbb -B cropbox -O ../images/three_methods_cdf.pdf
+INPUT ../images/three_methods_hist.pdf
+INPUT ../images/three_methods_hist.pdf
+INPUT extractbb -B cropbox -O ../images/three_methods_hist.pdf
+INPUT ../images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.pdf
+INPUT ../images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.pdf
+INPUT extractbb -B cropbox -O ../images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.pdf
+INPUT ../images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.pdf
+INPUT ../images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.pdf
+INPUT extractbb -B cropbox -O ../images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.pdf
+INPUT ../images/sample_visualization_loaded_model_mlat_64beacons_100instances.pdf
+INPUT ../images/sample_visualization_loaded_model_mlat_64beacons_100instances.pdf
+INPUT extractbb -B cropbox -O ../images/sample_visualization_loaded_model_mlat_64beacons_100instances.pdf
+INPUT ../images/three_methods_cdf_free.pdf
+INPUT ../images/three_methods_cdf_free.pdf
+INPUT extractbb -B cropbox -O ../images/three_methods_cdf_free.pdf
+INPUT ../images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.pdf
+INPUT ../images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.pdf
+INPUT extractbb -B cropbox -O ../images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.pdf
+INPUT ../images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.pdf
+INPUT ../images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.pdf
+INPUT extractbb -B cropbox -O ../images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.pdf
+INPUT ../images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.pdf
+INPUT ../images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.pdf
+INPUT extractbb -B cropbox -O ../images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.pdf
+INPUT ../images/sensitivity_uav_vs_beacon.pdf
+INPUT ../images/sensitivity_uav_vs_beacon.pdf
+INPUT extractbb -B cropbox -O ../images/sensitivity_uav_vs_beacon.pdf
+INPUT ../images/diagonal_beacon0m_path.pdf
+INPUT ../images/diagonal_beacon0m_path.pdf
+INPUT extractbb -B cropbox -O ../images/diagonal_beacon0m_path.pdf
+INPUT ../images/diagonal_beacon200m_path.pdf
+INPUT ../images/diagonal_beacon200m_path.pdf
+INPUT extractbb -B cropbox -O ../images/diagonal_beacon200m_path.pdf
+INPUT ../images/diagonal_beacon200m_error_timeline.pdf
+INPUT ../images/diagonal_beacon200m_error_timeline.pdf
+INPUT extractbb -B cropbox -O ../images/diagonal_beacon200m_error_timeline.pdf
+INPUT ../images/diagonal_beacon200m_error_dist.pdf
+INPUT ../images/diagonal_beacon200m_error_dist.pdf
+INPUT extractbb -B cropbox -O ../images/diagonal_beacon200m_error_dist.pdf
+INPUT ../images/circular_beacon0m_path.pdf
+INPUT ../images/circular_beacon0m_path.pdf
+INPUT extractbb -B cropbox -O ../images/circular_beacon0m_path.pdf
+INPUT ../images/circular_beacon200m_path.pdf
+INPUT ../images/circular_beacon200m_path.pdf
+INPUT extractbb -B cropbox -O ../images/circular_beacon200m_path.pdf
+INPUT ../images/circular_beacon200m_error_timeline.pdf
+INPUT ../images/circular_beacon200m_error_timeline.pdf
+INPUT extractbb -B cropbox -O ../images/circular_beacon200m_error_timeline.pdf
+INPUT ../images/circular_beacon200m_error_dist.pdf
+INPUT ../images/circular_beacon200m_error_dist.pdf
+INPUT extractbb -B cropbox -O ../images/circular_beacon200m_error_dist.pdf
+INPUT ../images/area_sweep_beacon0m_path.pdf
+INPUT ../images/area_sweep_beacon0m_path.pdf
+INPUT extractbb -B cropbox -O ../images/area_sweep_beacon0m_path.pdf
+INPUT ../images/area_sweep_beacon200m_path.pdf
+INPUT ../images/area_sweep_beacon200m_path.pdf
+INPUT extractbb -B cropbox -O ../images/area_sweep_beacon200m_path.pdf
+INPUT ../images/area_sweep_beacon200m_error_timeline.pdf
+INPUT ../images/area_sweep_beacon200m_error_timeline.pdf
+INPUT extractbb -B cropbox -O ../images/area_sweep_beacon200m_error_timeline.pdf
+INPUT ../images/area_sweep_beacon200m_error_dist.pdf
+INPUT ../images/area_sweep_beacon200m_error_dist.pdf
+INPUT extractbb -B cropbox -O ../images/area_sweep_beacon200m_error_dist.pdf
+INPUT ../images/geometric_stability.pdf
+INPUT ../images/geometric_stability.pdf
+INPUT extractbb -B cropbox -O ../images/geometric_stability.pdf
 INPUT ./paper.bbl
 INPUT ./paper.bbl
 INPUT paper.bbl
@@ -223,22 +350,3 @@ INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
 INPUT paper.aux
 INPUT ./paper.out
 INPUT ./paper.out
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb

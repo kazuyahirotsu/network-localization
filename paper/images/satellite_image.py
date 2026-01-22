@@ -61,7 +61,7 @@ def fetch_satellite_image():
         # --- Customize and save plot ---
         ax1.set_xlabel("Longitude", fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
         ax1.set_ylabel("Latitude", fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
-        ax1.set_title("(a) Satellite View", fontsize=SLIDE_TITLE_FONT_SIZE)
+        # ax1.set_title("(a) Satellite View", fontsize=SLIDE_TITLE_FONT_SIZE)
 
         # Manually set ticks and labels to show lon/lat values
         xticks = [ext[0], (ext[0] + ext[1]) / 2, ext[1]]
@@ -88,7 +88,7 @@ def fetch_satellite_image():
             zoom='auto'
         )
         ax2.imshow(terrain_img, extent=terrain_ext)
-        ax2.set_title("(b) Terrain Map", fontsize=SLIDE_TITLE_FONT_SIZE)
+        # ax2.set_title("(b) Terrain Map", fontsize=SLIDE_TITLE_FONT_SIZE)
         ax2.set_xlabel("Longitude", fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
         ax2.set_ylabel("Latitude", fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
 
@@ -104,7 +104,7 @@ def fetch_satellite_image():
 
     # --- Finalize and Save Plot ---
     plt.tight_layout(pad=3.0)
-    output_path = "paper/images/experiment_area_comparison.png"
+    output_path = "paper/images/experiment_area_comparison.pdf"
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
 
     print(f"Combined image saved to: {output_path}")

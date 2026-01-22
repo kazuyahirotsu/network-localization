@@ -15,7 +15,11 @@
 \usepackage{subcaption}  % For subfigures with (a), (b), (c) labels
 
 % Graphics path
-\graphicspath{{images/}}
+% Note: this file is compiled from `thesis/paper/`, while figures live in `thesis/images/`.
+% We keep both search styles working:
+% - \includegraphics{images/foo}  -> resolved via {../}
+% - \includegraphics{foo}         -> resolved via {../images/}
+\graphicspath{{images/}{../images/}{../}}
 
 % Improve float placement - allow more floats per page
 \renewcommand{\topfraction}{0.85}      % Max fraction of page for floats at top
@@ -30,7 +34,7 @@
 % Title and Author Information
 %-------------------
 \etitle{Resilient UAV Positioning System for GNSS-Denied Environments}
-\jtitle{GNSS非依存環境向け耐障害UAV測位システム}
+\jtitle{(GNSS非依存環境向け耐障害UAV測位システム)}
 
 \eauthor{Kazuya Hirotsu}
 \jauthor{廣津 和哉}
@@ -38,6 +42,46 @@
 \jsupervisor{中尾 彰宏}
 \supervisortitle{Professor}
 \date{January 21, 2026}
+
+% Student ID
+\newcommand{\studentid}{37-236431}
+
+% Customize title page: remove "Submitted to..." block and "Professor of Engineering"
+\makeatletter
+\renewcommand\ist@submittedtoblock{}
+\renewcommand\@supervisortitleline{}
+% Redefine maketitle to include student ID
+\renewcommand\ist@maketitle{\begin{ist@titlepage}%
+  \let\footnotesize\small
+  \let\footnoterule\relax
+  \let \footnote \thanks
+  \null\vskip-100\p@\@plus1fill\null
+  \centering\isttitlesize
+    {\ist@hookcr\@etitle}\par
+    {\@jtitle}\par
+    \vskip 20\p@
+    by\par
+    \vskip 10\p@
+    {\studentid\\[3\p@]\@eauthor\\\@jauthor}\par
+    \vskip 30\p@
+    \ifist@interim
+      {\einterimname\\\jinterimname}\par
+    \else
+      {\ethesisname\\\jthesisname}\par
+    \fi
+    \vskip 80\p@
+    {Supervisor: Prof.\ \@esupervisor \quad \@jsupervisor}\par
+    \vskip 20\p@
+    {Department of Systems Innovation, School of Engineering,\\
+     The University of Tokyo}\par
+    \vskip 20\p@
+    {\@date}\par
+  \vskip-\footskip
+  \vskip-100\p@\@plus1fill\null
+  \end{ist@titlepage}%
+  \setcounter{footnote}{0}%
+}
+\makeatother
 
 %-------------------
 \begin{document}
@@ -53,7 +97,7 @@ My appreciation also goes to the faculty members and staff of the Nakao Laborato
 
 I am grateful to Professor Fabrizio Granelli at the University of Trento, where I conducted research as an exchange student upon Professor Nakao's recommendation. Professor Granelli's feedback, along with his help in arranging hardware and organizing experiments, made it possible for me to achieve results within a short period.
 
-Finally, I am thankful to my family and friends, and especially to my partner, Margaux, for her daily support and encouragement throughout my studies.
+Finally, I am thankful to my family and friends, and especially to Margaux for her daily support and encouragement throughout my studies.
 \end{acknowledge}
 
 %-------------------
@@ -163,7 +207,41 @@ Specifically, this thesis aims to:
 \end{enumerate}
 
 %-------------------------------------------------------------------
-% 1.4 Contributions
+% 1.4 Proposed Method
+%-------------------------------------------------------------------
+\section{Proposed Method}
+\label{sec:proposed_method}
+
+To achieve these objectives, this thesis proposes two complementary methods that together form an integrated positioning system for GNSS-denied environments.
+
+\subsection{Client-Side Localization: Robust RSSI Multilateration}
+
+The client-side method estimates the UAV position using RSSI measurements from beacons at known locations.
+Standard multilateration finds the position that best fits the set of RSSI-derived distances to multiple beacons, but performs poorly when outlier measurements are present.
+We address this challenge through two key modifications.
+
+First, we incorporate altitude constraints derived from onboard barometers or laser altimeters.
+By fixing the vertical coordinate to the sensor-derived value, we estimate only the horizontal position $(X, Y)$.
+This reduces the problem from three dimensions to two and prevents vertical estimation errors from corrupting the horizontal solution.
+
+Second, we replace the conventional squared error loss with the Huber loss function.
+Squared loss penalizes large errors quadratically, causing outliers from multipath fading or environmental shadowing to dominate the solution.
+The Huber loss instead applies a linear penalty beyond a threshold, limiting the influence of extreme RSSI values while maintaining sensitivity to small errors.
+
+\subsection{Infrastructure Self-Localization: Physics-Aware Graph Convolutional Network}
+
+The infrastructure-side method addresses the self-localization of the beacon network when only a small subset of nodes (anchors) have known positions.
+We formulate this as a graph-based learning problem, where nodes represent beacons and edges represent communication links weighted by RSSI measurements.
+
+We propose a physics-aware Graph Convolutional Network (GCN) that differs from standard graph neural network approaches in two key ways.
+First, rather than treating the RSSI-to-position mapping as a black box, our architecture embeds a trainable log-distance path-loss model directly into the network.
+The path-loss parameters are learned jointly with the graph neural network weights, allowing the model to adapt to the propagation characteristics of the deployment environment while maintaining physical interpretability.
+
+Second, we employ edge-conditioned convolutions where a small neural network dynamically generates unique message-passing weights for each edge based on its RSSI features and learned distance estimate.
+This enables the network to learn which links provide reliable geometric information and which are corrupted by terrain effects, effectively down-weighting unreliable measurements during the localization process.
+
+%-------------------------------------------------------------------
+% 1.5 Contributions
 %-------------------------------------------------------------------
 \section{Contributions}
 \label{sec:contributions}
@@ -186,7 +264,7 @@ This thesis makes three main contributions:
     \item \textbf{Integrated System Feasibility Analysis:}
     We present a feasibility analysis of the integrated system.
     We conduct a sensitivity analysis to quantify how infrastructure estimation errors propagate to client-side localization.
-    Furthermore, through closed-loop navigation simulations, we demonstrate that despite localization errors on the order of 150--200~m, the system supports autonomous navigation, achieving 100\% waypoint arrival (with a 200~m waypoint threshold) in tested scenarios.
+    Furthermore, through closed-loop navigation simulations, we demonstrate that despite mean UAV localization errors of approximately 120--160~m when using beacon positions with 200~m mean error, the system supports autonomous navigation, achieving 100\% waypoint arrival (with a 200~m waypoint threshold) in tested scenarios.
 \end{enumerate}
 
 Our work differs from prior research by unifying infrastructure self-organization and robust client positioning into a single resilient system for GNSS-denied environments.
@@ -194,7 +272,7 @@ Existing approaches treat these problems separately: UAV localization studies ty
 We instead propose an integrated architecture that builds positioning capability from scratch using commodity LoRa hardware and our proposed algorithms.
 
 %-------------------------------------------------------------------
-% 1.5 Thesis Outline
+% 1.6 Thesis Outline
 %-------------------------------------------------------------------
 \section{Thesis Outline}
 \label{sec:outline}
@@ -909,8 +987,10 @@ The conventional approach uses squared loss:
     \mathcal{L}_{\text{L2}}(r) = r^2
 \end{equation}
 
-Squared loss is optimal when errors follow a Gaussian distribution, but performs poorly when outliers are present.
-Large errors receive disproportionate weight, potentially pulling the position estimate far from the true location.
+Squared loss is optimal when errors follow a Gaussian distribution, but it performs poorly when the error distribution includes occasional large deviations.
+Large residuals receive disproportionate weight, which can pull the estimate away from the true location.
+In a scenario where one residual is 100~m and ten residuals are 10~m, the single large residual contributes $100^2 = 10000$ to the objective while the ten smaller residuals contribute $10 \times 10^2 = 1000$ in total.
+The single outlier therefore outweighs ten consistent measurements by a factor of ten, allowing one corrupted RSSI measurement to dominate the solution.
 
 We propose using the Huber loss function~\cite{huber1964robust}:
 \begin{equation}
@@ -930,7 +1010,8 @@ The Huber loss combines the advantages of both squared and absolute loss:
 \end{itemize}
 
 This property is particularly valuable for RSSI-based localization, where occasional large measurement errors are common due to multipath and NLOS conditions.
-The threshold $\delta$ controls the transition point; we use $\delta = 100$~m in our experiments, though the algorithm is not highly sensitive to this choice.
+The threshold $\delta$ determines which residuals are treated as outliers.
+We set $\delta = 100$~m, larger than the median RSSI-derived distance error but smaller than typical outlier errors caused by severe multipath or NLOS conditions.
 
 \subsection{Altitude Constraints}
 \label{sec:altitude_constraints}
@@ -1082,8 +1163,8 @@ We obtain these results by generating all possible combinations of beacon subset
 \begin{figure}[htbp]
     \centering
     \begin{tabular}{cc}
-        \includegraphics[width=0.48\columnwidth]{images/method1_2d.png} &
-        \includegraphics[width=0.48\columnwidth]{images/method1_3d.png} \\
+    \includegraphics[width=0.48\columnwidth]{images/method1_2d.pdf} &
+        \includegraphics[width=0.48\columnwidth]{images/method1_3d.pdf} \\
         (a) 2D error & (b) 3D error
     \end{tabular}
     \caption[Static error: Method 1 (squared loss, no altitude constraint)]{Static localization error for Method 1 (squared loss, no altitude constraint). Large 3D errors result from unconstrained vertical estimation.}
@@ -1092,7 +1173,7 @@ We obtain these results by generating all possible combinations of beacon subset
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\columnwidth]{images/method2.png}
+    \includegraphics[width=0.8\columnwidth]{images/method2.pdf}
     \caption[Static error: Method 2 (squared loss with altitude constraint)]{Static localization error for Method 2 (squared loss with altitude constraint). 2D and 3D errors are identical due to the altitude constraint.}
     \label{fig:static_method2}
 \end{figure}
@@ -1100,8 +1181,8 @@ We obtain these results by generating all possible combinations of beacon subset
 \begin{figure}[htbp]
     \centering
     \begin{tabular}{cc}
-        \includegraphics[width=0.48\columnwidth]{images/method3_2d.png} &
-        \includegraphics[width=0.48\columnwidth]{images/method3_3d.png} \\
+        \includegraphics[width=0.48\columnwidth]{images/method3_2d.pdf} &
+        \includegraphics[width=0.48\columnwidth]{images/method3_3d.pdf} \\
         (a) 2D error & (b) 3D error
     \end{tabular}
     \caption[Static error: Method 3 (Huber loss, no altitude constraint)]{Static localization error for Method 3 (Huber loss, no altitude constraint). Good 2D accuracy but catastrophic 3D errors due to unconstrained vertical dimension.}
@@ -1111,8 +1192,8 @@ We obtain these results by generating all possible combinations of beacon subset
 \begin{figure}[htbp]
     \centering
     \begin{tabular}{cc}
-        \includegraphics[width=0.48\columnwidth]{images/method4.png} &
-        \includegraphics[width=0.48\columnwidth]{images/method4_cropped.png} \\
+        \includegraphics[width=0.48\columnwidth]{images/method4.pdf} &
+        \includegraphics[width=0.48\columnwidth]{images/method4_cropped.pdf} \\
         (a) Full scale & (b) Cropped view
     \end{tabular}
     \caption[Static error: Method 4 (Huber loss with altitude constraint)]{Static localization error for Method 4 (proposed: Huber loss with altitude constraint). (a) Full scale showing occasional large errors; (b) cropped view showing the majority of results achieving 4.5~m median.}
@@ -1157,7 +1238,7 @@ Figure~\ref{fig:static_method4}(a) shows occasional large errors unique to Metho
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.9\columnwidth]{method_comparison.png}
+    \includegraphics[width=0.9\columnwidth]{method_comparison.pdf}
     \caption[Localization error versus number of beacons]{Localization error versus number of beacons. Huber loss methods (3, 4) improve with additional beacons while squared loss methods (1, 2) degrade.}
     \label{fig:scalability}
 \end{figure}
@@ -1176,7 +1257,7 @@ This scalability property is crucial for practical deployment, where denser beac
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\columnwidth]{correlation.png}
+    \includegraphics[width=0.8\columnwidth]{correlation.pdf}
     \caption[Correlation between minimization error and localization error]{Correlation between minimization error and localization error for Method 4. The strong correlation ($R^2 = 0.99$) enables detection of unreliable estimates.}
     \label{fig:correlation}
 \end{figure}
@@ -1265,12 +1346,20 @@ For localization, we use a 5-second sampling window and update position at 1~Hz,
 
 \begin{figure}[htbp]
     \centering
-    \begin{tabular}{cc}
-        \includegraphics[width=0.45\columnwidth]{drone.jpg} &
-        \includegraphics[width=0.45\columnwidth]{beacon.jpg} \\
-        (a) & (b)
-    \end{tabular}
-    \caption[Experimental hardware]{Experimental hardware: (a) UAV platform with LoRa receiver, (b) beacon with Raspberry Pi and antenna.}
+    \begin{subfigure}[b]{0.45\columnwidth}
+        \centering
+        \includegraphics[width=\textwidth]{drone.jpg}
+        \caption{UAV platform}
+        \label{fig:drone}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\columnwidth}
+        \centering
+        \includegraphics[width=\textwidth]{beacon.jpg}
+        \caption{LoRa beacon}
+        \label{fig:beacon}
+    \end{subfigure}
+    \caption[Experimental hardware]{Experimental hardware used in the field deployment.}
     \label{fig:hardware_photos}
 \end{figure}
 
@@ -1335,8 +1424,8 @@ This is attributed to antenna directivity effects, discussed in Section~\ref{sec
 \begin{figure}[htbp]
     \centering
     \begin{tabular}{cc}
-        \includegraphics[width=0.48\columnwidth]{model_1-2.png} &
-        \includegraphics[width=0.48\columnwidth]{model_3-4.png} \\
+        \includegraphics[width=0.48\columnwidth]{model_1-2.pdf} &
+        \includegraphics[width=0.48\columnwidth]{model_3-4.pdf} \\
         (a) Low altitude (Experiments 1--2) & (b) High altitude (Experiments 3--4)
     \end{tabular}
     \caption[RSSI-to-distance relationships at different altitudes]{RSSI-to-distance relationships at different altitudes. The inverted relationship at high altitude results from antenna directivity.}
@@ -1363,7 +1452,7 @@ This effect violates the assumptions of the simple log-distance model.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\columnwidth]{antenna.png}
+    \includegraphics[width=0.7\columnwidth]{antenna.pdf}
     \caption[Signal strength variation with UAV altitude]{Signal strength variation with 3D distance at different altitudes. Different altitudes produce different gradients at the same distance due to antenna directivity.}
     \label{fig:antenna_pattern}
 \end{figure}
@@ -1385,7 +1474,7 @@ Two approaches can address antenna directivity effects:
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\columnwidth]{images/model_3d.png}
+    \includegraphics[width=0.8\columnwidth]{images/model_3d.pdf}
     \caption[Altitude-parameterized RSSI-to-distance model]{Altitude-parameterized RSSI-to-distance model. The 3D surface shows how signal strength depends on 3D distance and altitude, capturing antenna directivity effects.}
     \label{fig:model_3d}
 \end{figure}
@@ -1395,8 +1484,8 @@ Two approaches can address antenna directivity effects:
 \begin{figure}[htbp]
     \centering
     \begin{tabular}{cc}
-        \includegraphics[width=0.48\columnwidth]{sample-median.png} &
-        \includegraphics[width=0.48\columnwidth]{sample-std.png} \\
+        \includegraphics[width=0.48\columnwidth]{sample-median.pdf} &
+        \includegraphics[width=0.48\columnwidth]{sample-std.pdf} \\
         (a) Median error & (b) Standard deviation
     \end{tabular}
     \caption[Effect of sampling time on localization accuracy]{Effect of sampling time on localization accuracy using data from Experiment 1. Longer sampling reduces noise but may introduce lag in dynamic scenarios.}
@@ -1468,8 +1557,12 @@ However, in GNSS-denied environments, establishing these beacon positions is its
 Before the system can provide positioning services to UAV clients, the beacon network must first determine its own geometry.
 This chapter addresses this infrastructure-side problem.
 
-We propose a physics-aware Graph Convolutional Network (GCN) that learns to localize beacons by combining a trainable RSSI-to-distance module with graph-based message passing.
-Unlike the client-side problem where beacon positions are given, here we must infer beacon positions from pairwise RSSI measurements within the beacon network, with only a subset of nodes having known coordinates.
+Unlike the client-side problem where beacon positions are given, here we must infer beacon positions from pairwise RSSI measurements within the beacon network, with only a small subset of nodes having known coordinates.
+This problem is challenging because anchors are sparse and ground-to-ground links are heavily affected by terrain.
+Classical approaches such as iterative multilateration fail in this setting because they treat all links equally and allow early estimation errors to compound through subsequent iterations.
+
+To address these challenges, we propose a physics-aware Graph Convolutional Network (GCN) that learns to localize beacons by combining a trainable RSSI-to-distance module with graph-based message passing.
+The network uses edge-conditioned convolutions that adapt per link, allowing the model to learn how much to trust each measurement rather than treating all links equally.
 
 %-------------------------------------------------------------------
 % 5.1 Problem Formulation
@@ -1545,8 +1638,6 @@ Classical iterative methods that promote newly localized nodes to anchor status 
 Outdoor deployment in mountainous or urban terrain introduces severe signal attenuation that violates simple path-loss models.
 The RSSI-distance relationship becomes noisy and multi-modal.
 
-\paragraph{No External Reference}
-Unlike client-side localization where UAVs can use altimeters for altitude constraints, infrastructure localization has no independent position reference for unknown nodes.
 
 %-------------------------------------------------------------------
 % 5.2 Proposed Method
@@ -1760,8 +1851,16 @@ Our primary evaluation setting uses the Longley-Rice Irregular Terrain Model, wh
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\columnwidth]{images/experiment_area_comparison.png}
-    \caption[Evaluation area]{Evaluation area: (a) Satellite view showing terrain complexity; (b) Elevation map with 4~km $\times$ 4~km extent.}
+    \includegraphics[width=\columnwidth]{images/experiment_area_comparison.pdf}
+    \begin{minipage}[t]{0.5\columnwidth}
+        \centering
+        (a) Satellite view
+    \end{minipage}%
+    \begin{minipage}[t]{0.5\columnwidth}
+        \centering
+        (b) Elevation map
+    \end{minipage}
+    \caption[Evaluation area]{Evaluation area showing terrain complexity with 4~km $\times$ 4~km extent.}
     \label{fig:experiment_area}
 \end{figure}
 
@@ -1775,7 +1874,15 @@ This setting reveals how environmental factors affect the relative performance o
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\columnwidth]{images/rssi_variance_comparison.png}
-    \caption[RSSI versus distance relationship]{RSSI versus distance relationship: (a) Terrain-aware setting showing high variance and non-linearity; (b) Free-space setting showing clean log-distance relationship.}
+    \begin{minipage}[t]{0.5\columnwidth}
+        \centering
+        (a) Terrain-aware setting
+    \end{minipage}%
+    \begin{minipage}[t]{0.5\columnwidth}
+        \centering
+        (b) Free-space setting
+    \end{minipage}
+    \caption[RSSI versus distance relationship]{RSSI versus distance relationship. The terrain-aware setting shows high variance and non-linearity, while the free-space setting shows a clean log-distance relationship.}
     \label{fig:rssi_variance}
 \end{figure}
 
@@ -1890,14 +1997,14 @@ The proposed method achieves mean error of 206.74~m, representing:
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\columnwidth]{images/three_methods_cdf.png}
+    \includegraphics[width=\columnwidth]{images/three_methods_cdf.pdf}
     \caption[CDF of localization error in terrain-aware setting]{Cumulative distribution function of localization error in terrain-aware setting. The proposed method shows consistently lower errors across the entire distribution.}
     \label{fig:cdf_terrain}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\columnwidth]{images/three_methods_hist.png}
+    \includegraphics[width=\columnwidth]{images/three_methods_hist.pdf}
     \caption[Histogram of localization error in terrain-aware setting]{Histogram of localization error in terrain-aware setting. The proposed method eliminates the heavy tail of large errors present in baselines.}
     \label{fig:hist_terrain}
 \end{figure}
@@ -1910,19 +2017,19 @@ Critically, the method also dramatically reduces the tail of large errors: the 9
     \centering
     \begin{subfigure}[b]{0.32\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.png}
+        \includegraphics[width=\textwidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.pdf}
         \caption{Proposed GCN}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.32\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.png}
+        \includegraphics[width=\textwidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.pdf}
         \caption{Plain GCN}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.32\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/sample_visualization_loaded_model_mlat_64beacons_100instances.png}
+        \includegraphics[width=\textwidth]{images/sample_visualization_loaded_model_mlat_64beacons_100instances.pdf}
         \caption{Multilateration}
     \end{subfigure}
     \caption[Qualitative localization results (terrain-aware)]{Qualitative localization results (terrain-aware). Triangles indicate anchors; circles indicate unknown nodes. Lines connect predicted positions (x marks) to true positions (circles). The proposed method shows small, consistent errors; the plain GCN shows larger scattered errors; multilateration exhibits catastrophic failures.}
@@ -1956,7 +2063,7 @@ Iter. Multilateration & \textbf{6.28} & \textbf{5.80} & \textbf{10.87} & \textbf
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\columnwidth]{images/three_methods_cdf_free.png}
+    \includegraphics[width=\columnwidth]{images/three_methods_cdf_free.pdf}
     \caption[CDF of localization error in free-space setting]{CDF of localization error in free-space setting. Iterative multilateration achieves best performance when the path-loss model is perfectly specified.}
     \label{fig:cdf_freespace}
 \end{figure}
@@ -1965,19 +2072,19 @@ Iter. Multilateration & \textbf{6.28} & \textbf{5.80} & \textbf{10.87} & \textbf
     \centering
     \begin{subfigure}[b]{0.32\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.png}
+        \includegraphics[width=\textwidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13_free.pdf}
         \caption{Proposed GCN}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.32\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.png}
+        \includegraphics[width=\textwidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist_free.pdf}
         \caption{Plain GCN}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.32\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.png}
+        \includegraphics[width=\textwidth]{images/sample_visualization_loaded_model_mlat_64beacons_1000instances_free.pdf}
         \caption{Multilateration}
     \end{subfigure}
     \caption[Qualitative localization results (free-space)]{Qualitative localization results (free-space). In free-space, multilateration achieves near-perfect alignment between predicted (x marks) and true (circles) positions, while the GCN methods show larger errors.}
@@ -2151,7 +2258,7 @@ This analysis captures the full distribution of errors across the operational ar
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\columnwidth]{images/sensitivity_uav_vs_beacon.png}
+    \includegraphics[width=0.8\columnwidth]{images/sensitivity_uav_vs_beacon.pdf}
     \caption[UAV localization error vs beacon position error]{UAV localization error (mean, median, and 90th percentile) as a function of beacon position error. The vertical dashed line indicates the GCN self-localization error (206~m).}
     \label{fig:sensitivity_main}
 \end{figure}
@@ -2232,14 +2339,14 @@ The diagonal transit mission tests long-range navigation capability, flying from
     \centering
     \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/diagonal_beacon0m_path.png}
+        \includegraphics[width=\textwidth]{images/diagonal_beacon0m_path.pdf}
         \caption{Perfect beacon positions}
         \label{fig:diagonal_0m}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/diagonal_beacon200m_path.png}
+        \includegraphics[width=\textwidth]{images/diagonal_beacon200m_path.pdf}
         \caption{200~m beacon error}
         \label{fig:diagonal_200m}
     \end{subfigure}
@@ -2255,14 +2362,14 @@ However, near the destination waypoint, the path shows increased deviation becau
     \centering
     \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/diagonal_beacon200m_error_timeline.png}
+        \includegraphics[width=\textwidth]{images/diagonal_beacon200m_error_timeline.pdf}
         \caption{Error over time}
         \label{fig:diagonal_200m_timeline}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/diagonal_beacon200m_error_dist.png}
+        \includegraphics[width=\textwidth]{images/diagonal_beacon200m_error_dist.pdf}
         \caption{Error distribution}
         \label{fig:diagonal_200m_dist}
     \end{subfigure}
@@ -2281,14 +2388,14 @@ The circular patrol mission tests continuous navigation around a 1~km radius cir
     \centering
     \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/circular_beacon0m_path.png}
+        \includegraphics[width=\textwidth]{images/circular_beacon0m_path.pdf}
         \caption{Perfect beacon positions}
         \label{fig:circular_0m}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/circular_beacon200m_path.png}
+        \includegraphics[width=\textwidth]{images/circular_beacon200m_path.pdf}
         \caption{200~m beacon error}
         \label{fig:circular_200m}
     \end{subfigure}
@@ -2304,14 +2411,14 @@ With 200~m beacon error, all 8 waypoints are reached with mean localization erro
     \centering
     \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/circular_beacon200m_error_timeline.png}
+        \includegraphics[width=\textwidth]{images/circular_beacon200m_error_timeline.pdf}
         \caption{Error over time}
         \label{fig:circular_200m_timeline}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/circular_beacon200m_error_dist.png}
+        \includegraphics[width=\textwidth]{images/circular_beacon200m_error_dist.pdf}
         \caption{Error distribution}
         \label{fig:circular_200m_dist}
     \end{subfigure}
@@ -2328,14 +2435,14 @@ This profile is representative of search-and-rescue operations where complete ar
     \centering
     \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/area_sweep_beacon0m_path.png}
+        \includegraphics[width=\textwidth]{images/area_sweep_beacon0m_path.pdf}
         \caption{Perfect beacon positions}
         \label{fig:sweep_0m}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/area_sweep_beacon200m_path.png}
+        \includegraphics[width=\textwidth]{images/area_sweep_beacon200m_path.pdf}
         \caption{200~m beacon error}
         \label{fig:sweep_200m}
     \end{subfigure}
@@ -2351,14 +2458,14 @@ The zigzag pattern is maintained, though with increased deviation from the plann
     \centering
     \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/area_sweep_beacon200m_error_timeline.png}
+        \includegraphics[width=\textwidth]{images/area_sweep_beacon200m_error_timeline.pdf}
         \caption{Error over time}
         \label{fig:sweep_200m_timeline}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.48\columnwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/area_sweep_beacon200m_error_dist.png}
+        \includegraphics[width=\textwidth]{images/area_sweep_beacon200m_error_dist.pdf}
         \caption{Error distribution}
         \label{fig:sweep_200m_dist}
     \end{subfigure}
@@ -2398,10 +2505,12 @@ Since UAV localization error with 200~m beacon error is approximately 150~m, we 
 At 1~km distance, 150~m position error produces a worst-case heading error of 8.5 degrees.
 At 500~m distance, this increases to 16.7 degrees.
 At 200~m distance (approaching the waypoint threshold), heading error reaches 37 degrees.
+The figure shows that heading error decreases rapidly as the target distance increases.
+This is why long-range navigation remains stable even with large localization errors.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\columnwidth]{images/geometric_stability.png}
+    \includegraphics[width=0.8\columnwidth]{images/geometric_stability.pdf}
     \caption[Geometric stability: heading error vs distance]{Worst-case heading error decreases rapidly with distance to target. The 150~m line (orange, bold) corresponds to the expected UAV localization error when beacon positions have 200~m error.}
     \label{fig:geometric_stability}
 \end{figure}

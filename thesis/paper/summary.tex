@@ -79,16 +79,19 @@ Repurposing LoRa for localization raises two challenges:
 (1) On the client side, RSSI-based localization suffers from high variance due to multipath fading and environmental shadowing, directly degrading positioning accuracy~\cite{goldoni2019lora}.
 (2) On the infrastructure side, beacon positions must be known before they can serve as reference points, yet in GNSS-denied zones, conventional surveying or GNSS-based calibration may be unavailable.
 
-This thesis investigates the feasibility of using LoRa networks as a standalone positioning infrastructure for GNSS-denied environments, addressing both the client-side localization challenge and the infrastructure initialization problem.
+This thesis investigates the feasibility of using LoRa networks as a standalone positioning infrastructure for GNSS-denied environments.
+The objective is to propose and evaluate an integrated system that addresses both challenges: robust UAV localization given beacon positions, and infrastructure self-localization when beacon positions are unknown.
 
-We propose a two-layer architecture that addresses both challenges: (1) Robust Client-Side Localization, which enables UAV positioning given known beacon locations, and (2) Infrastructure Self-Organization, which enables the beacon network to localize itself in unknown environments.
-Together, these layers form a survivable positioning system that supports UAV operations in GNSS-denied regions with operationally useful accuracy.
+To address these challenges, we propose a two-layer architecture.
+For \textbf{client-side localization}, we improve standard multilateration with two modifications: (1) altitude constraints that fix the vertical coordinate using barometer or laser altimeter data, reducing the problem from 3D to 2D and preventing vertical errors from corrupting the horizontal solution, and (2) the Huber loss function that limits the influence of RSSI outliers by applying linear rather than quadratic penalties to large errors.
+For \textbf{infrastructure self-localization}, we propose a physics-aware Graph Convolutional Network (GCN) that learns to estimate beacon positions from peer-to-peer RSSI measurements.
+Unlike black-box neural networks, our architecture embeds a trainable log-distance path-loss model, learning propagation parameters jointly with the graph structure, and employs edge-conditioned convolutions that dynamically weight each link based on its reliability.
 
 This thesis makes three main contributions:
 \begin{enumerate}
     \item We introduce a robust multilateration algorithm that combines altitude constraints with the Huber loss function, suppressing the influence of RSSI outliers on UAV position estimates.
     \item We propose a Physics-Aware Graph Convolutional Network (GCN) that enables sparse beacon networks to self-localize in complex terrain by learning a terrain-aware path-loss model jointly with the graph structure.
-    \item We present a feasibility analysis of the integrated system, showing that despite RSSI-induced localization errors on the order of 150 to 200 meters, point-to-point navigation, circular patrol, and area coverage missions remain achievable.
+    \item We present a feasibility analysis of the integrated system, showing that despite mean UAV localization errors of approximately 120 to 160 meters when using beacon positions with 200 meters mean error, point-to-point navigation, circular patrol, and area coverage missions remain achievable.
 \end{enumerate}
 Our work differs from prior research by unifying infrastructure self-organization and robust client positioning into a single resilient system for GNSS-denied environments.
 Existing approaches treat these problems separately: UAV localization studies typically assume a pre-surveyed, high-precision anchor network, while sensor localization methods rely on high beacon densities or labor-intensive fingerprinting.
@@ -148,7 +151,7 @@ The core technical challenge is the high variance in RSSI data caused by multipa
 
 To address this, we improve the standard multilateration algorithm with two key modifications:
 \begin{enumerate}
-    \item \textbf{Altitude Decoupling:} Modern UAVs carry reliable barometers or laser altimeters. We exploit this by decoupling vertical (Z-axis) estimation from horizontal (X/Y) positioning, reducing the optimization from three dimensions to two and preventing vertical errors from corrupting the horizontal solution.
+    \item \textbf{Altitude Decoupling:} Modern UAVs carry reliable barometers or laser altimeters. We fix the UAV altitude using this sensor value and estimate only the horizontal coordinates $(X, Y)$. This reduces the position estimation problem from three dimensions to two and prevents vertical errors from affecting the horizontal estimate.
     \item \textbf{Huber Loss:} We replace the standard Least Squares (L2) objective with the Huber loss~\cite{huber1964robust}. Least Squares penalizes large errors quadratically and is therefore sensitive to outliers; Huber loss applies a linear penalty beyond a threshold $\delta$, preventing occasional extreme RSSI values from distorting the position estimate.
 \end{enumerate}
 
@@ -180,7 +183,7 @@ Field (challenging) & 26.9 m & \textbf{25.9 m} \\
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.85\columnwidth]{method_comparison.png}
+    \includegraphics[width=0.85\columnwidth]{method_comparison.pdf}
     \caption{Localization error versus number of beacons.}
     \label{fig:scalability}
 \end{figure}
@@ -198,7 +201,15 @@ Fig.~\ref{fig:eval_area} shows the evaluation area.
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=\columnwidth]{images/experiment_area_comparison.png}
+    \includegraphics[width=\columnwidth]{images/experiment_area_comparison.pdf}
+    \begin{minipage}[t]{0.5\columnwidth}
+        \centering
+        (a) Satellite view
+    \end{minipage}%
+    \begin{minipage}[t]{0.5\columnwidth}
+        \centering
+        (b) Elevation map
+    \end{minipage}
     \caption{Evaluation area.}
     \label{fig:eval_area}
 \end{figure}
@@ -228,7 +239,7 @@ Proposed GCN & \textbf{206 m} & 51 m \\
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=\columnwidth]{images/three_methods_cdf.png}
+    \includegraphics[width=\columnwidth]{images/three_methods_cdf.pdf}
     \caption{CDF of localization error (terrain-aware).}
     \label{fig:cdf}
 \end{figure}
@@ -236,9 +247,9 @@ Proposed GCN & \textbf{206 m} & 51 m \\
 \begin{figure}[t]
     \centering
     \begin{tabular}{@{}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{}}
-        \includegraphics[width=0.31\columnwidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.png} &
-        \includegraphics[width=0.31\columnwidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.png} &
-        \includegraphics[width=0.31\columnwidth]{images/sample_visualization_loaded_model_mlat_64beacons_100instances.png} \\[-1mm]
+        \includegraphics[width=0.31\columnwidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_power13.pdf} &
+        \includegraphics[width=0.31\columnwidth]{images/sample_visualization_loaded_model_trained_localization_model_64beacons_1000instances_fixed_no_rssi2dist.pdf} &
+        \includegraphics[width=0.31\columnwidth]{images/sample_visualization_loaded_model_mlat_64beacons_100instances.pdf} \\[-1mm]
         {\scriptsize (a) Proposed} & {\scriptsize (b) Plain GCN} & {\scriptsize (c) Iter. Multilat.}
     \end{tabular}
     \caption{Qualitative comparison (terrain-aware).}
@@ -271,8 +282,8 @@ This analysis provides three insights into operational feasibility:
 \begin{figure}[t]
     \centering
     \begin{tabular}{cc}
-        \includegraphics[width=0.48\columnwidth]{images/diagonal_beacon0m_path.png} &
-        \includegraphics[width=0.48\columnwidth]{images/diagonal_beacon200m_path.png} \\
+        \includegraphics[width=0.48\columnwidth]{images/diagonal_beacon0m_path.pdf} &
+        \includegraphics[width=0.48\columnwidth]{images/diagonal_beacon200m_path.pdf} \\
         (a) 0~m beacon error & (b) 200~m beacon error
     \end{tabular}
     \caption{Diagonal transit simulation.}

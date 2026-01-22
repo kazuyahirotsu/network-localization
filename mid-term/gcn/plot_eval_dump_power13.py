@@ -50,10 +50,10 @@ def plot_histogram(errors: np.ndarray, model_name: str, metrics: dict):
     #     bbox=dict(boxstyle='round', facecolor='white', alpha=0.8, edgecolor='gray')
     # )
 
-    png = f'new_results/error_histogram_loaded_model_{model_name}.png'
+    pdf = f'new_results/error_histogram_loaded_model_{model_name}.pdf'
     plt.tight_layout()
-    plt.savefig(png, dpi=300, bbox_inches='tight')
-    print(f'Saved: {png}')
+    plt.savefig(pdf, bbox_inches='tight')
+    print(f'Saved: {pdf}')
     plt.show()
 
 def plot_cdf(errors: np.ndarray, model_name: str):
@@ -70,10 +70,10 @@ def plot_cdf(errors: np.ndarray, model_name: str):
     plt.grid(True, alpha=0.3)
     plt.ylim(0, 1)
     # plt.legend(fontsize=SLIDE_LEGEND_FONT_SIZE, loc='upper left', bbox_to_anchor=(1.02, 1), borderaxespad=0.)
-    png = f'new_results/error_cdf_loaded_model_{model_name}.png'
+    pdf = f'new_results/error_cdf_loaded_model_{model_name}.pdf'
     plt.tight_layout()
-    plt.savefig(png, dpi=300, bbox_inches='tight')
-    print(f'Saved: {png}')
+    plt.savefig(pdf, bbox_inches='tight')
+    print(f'Saved: {pdf}')
     plt.show()
 
 def plot_sample(first_true_positions: np.ndarray,
@@ -121,10 +121,10 @@ def plot_sample(first_true_positions: np.ndarray,
     plt.xlim(x_min - x_pad, x_max + x_pad)
     plt.ylim(y_min - y_pad, y_max + y_pad)
     plt.gca().set_aspect('equal', adjustable='box')
-    png = f'new_results/sample_visualization_loaded_model_{model_name}.png'
+    pdf = f'new_results/sample_visualization_loaded_model_{model_name}.pdf'
     plt.tight_layout()
-    plt.savefig(png, dpi=300, bbox_inches='tight')
-    print(f'Saved: {png}')
+    plt.savefig(pdf, bbox_inches='tight')
+    print(f'Saved: {pdf}')
     plt.show()
 
 def main():

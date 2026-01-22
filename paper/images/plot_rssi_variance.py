@@ -75,13 +75,13 @@ def plot_rssi_comparison():
 
     # --- Plot 1: Terrain-Aware ---
     ax1.scatter(terrain_dist, terrain_rssi, alpha=0.05, s=10)
-    ax1.set_title('(a) Terrain-Aware', fontsize=SLIDE_TITLE_FONT_SIZE)
+    # ax1.set_title('(a) Terrain-Aware', fontsize=SLIDE_TITLE_FONT_SIZE)
     ax1.set_xlabel('Distance (m)', fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
     ax1.set_ylabel('RSSI (dBm)', fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
 
     # --- Plot 2: Free-Space ---
     ax2.scatter(free_dist, free_rssi, alpha=0.05, s=10)
-    ax2.set_title('(b) Free-Space', fontsize=SLIDE_TITLE_FONT_SIZE)
+    # ax2.set_title('(b) Free-Space', fontsize=SLIDE_TITLE_FONT_SIZE)
     ax2.set_xlabel('Distance (m)', fontsize=SLIDE_AXIS_LABEL_FONT_SIZE)
 
     # --- Formatting for Both ---
@@ -102,9 +102,12 @@ def plot_rssi_comparison():
         ax.set_ylim(global_ymin - y_padding, global_ymax + y_padding)
 
     plt.tight_layout(pad=3.0)
-    output_path = "paper/images/rssi_variance_comparison.png"
-    plt.savefig(output_path, dpi=300, bbox_inches='tight')
-    print(f"RSSI comparison plot saved to: {output_path}")
+    output_path_png = "paper/images/rssi_variance_comparison.png"
+    output_path_pdf = "paper/images/rssi_variance_comparison.pdf"
+    plt.savefig(output_path_png, dpi=300, bbox_inches='tight')
+    plt.savefig(output_path_pdf, dpi=300, bbox_inches='tight')
+    print(f"RSSI comparison plot saved to: {output_path_png}")
+    print(f"RSSI comparison plot saved to: {output_path_pdf}")
 
 if __name__ == "__main__":
     plot_rssi_comparison()
