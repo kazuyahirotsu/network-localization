@@ -1,0 +1,40 @@
+---
+config:
+  theme: redux
+  themeVariables:
+    fontFamily: Times New Roman, Times, serif
+    fontSize: 16px
+  look: classic
+---
+flowchart LR
+  subgraph Inputs
+    nFeat["Node Features<br/>[x, y, is_anchor]<br/>R^3"]
+    rssiSeries["RSSI time series<br/>K=10"]
+  end
+  subgraph RSSI_to_Distance [RSSI to Distance Module]
+    rssi2dist["RSSI to Distance"]
+    dHat["d_hat"]
+  end
+  subgraph EdgeFeatures [Edge Features]
+    edgeFeat["Edge Features<br/>R^11 = RSSI(10) + d_hat"]
+  end
+  subgraph EdgeNets [Edge-conditioned kernels]
+    edgeNet1["EdgeNet1 MLP<br/>11 -> 64 -> (3 x H)"]
+    edgeNet2["EdgeNet2 MLP<br/>11 -> 64 -> (H x H)"]
+  end
+  subgraph GNN [Edge-conditioned GCN]
+    nnconv1["NNConv1<br/>R^3 -> R^H<br/>aggr=mean + ReLU"]
+    nnconv2["NNConv2<br/>R^H -> R^H<br/>aggr=mean + ReLU"]
+    linear["Linear<br/>R^H -> R^2"]
+  end
+  out["Estimated Position<br/>R^2"]
+  anchorsNote["Anchors fixed<br/>excluded from loss; overwritten at eval"]
+  nFeat --> nnconv1 --> nnconv2 --> linear --> out
+  rssiSeries --> rssi2dist --> dHat
+  rssiSeries --> edgeFeat
+  dHat --> edgeFeat
+  edgeFeat --> edgeNet1
+  edgeFeat --> edgeNet2
+  edgeNet1 -- weights --> nnconv1
+  edgeNet2 -- weights --> nnconv2
+  anchorsNote -.-> out
