@@ -883,7 +883,7 @@ The system architecture presented in Chapter~\ref{chap:architecture} enables UAV
 However, even when beacon positions are known, achieving accurate UAV localization from RSSI measurements is challenging due to the high signal variance caused by multipath fading and environmental factors.
 This chapter addresses this client-side problem.
 
-Based on the work conducted and published in~\cite{hirotsu2024lora} during my master's program, we present an enhanced multilateration algorithm that combines the Huber loss function with altitude constraints to achieve robust positioning despite the inherent RSSI variance.
+Based on the work conducted during a research stay at the University of Trento, Italy, in collaboration with Prof. Fabrizio Granelli, and published in~\cite{hirotsu2024lora}, we present an enhanced multilateration algorithm that combines the Huber loss function with altitude constraints to achieve robust positioning despite the inherent RSSI variance.
 The approach is validated through both network simulations and real-world flight experiments.
 
 %-------------------------------------------------------------------
@@ -1009,9 +1009,14 @@ The Huber loss combines the advantages of both squared and absolute loss:
     \item For large residuals ($|r| > \delta$), it behaves like absolute loss, limiting the influence of outliers to linear rather than quadratic growth
 \end{itemize}
 
-This property is particularly valuable for RSSI-based localization, where occasional large measurement errors are common due to multipath and NLOS conditions.
-The threshold $\delta$ determines which residuals are treated as outliers.
-We set $\delta = 100$~m, larger than the median RSSI-derived distance error but smaller than typical outlier errors caused by severe multipath or NLOS conditions.
+This property aligns with the physical characteristics of RSSI measurements in outdoor environments.
+RSSI values naturally separate into two groups.
+Line-of-sight (LOS) links, where signals travel directly between transmitter and receiver, follow the expected path-loss model with moderate noise and produce small distance estimation errors.
+Non-line-of-sight (NLOS) links, where signals are obstructed and arrive via reflection or diffraction, exhibit severe attenuation that the path-loss model cannot account for, resulting in large distance overestimates.
+By applying quadratic penalty to small residuals and linear penalty to large residuals, the Huber loss preserves the accuracy of LOS measurements while limiting the influence of NLOS outliers on the position estimate.
+
+The threshold $\delta$ determines the boundary between these two cases.
+We set $\delta = 100$~m because LOS links typically produce distance errors below this value, while NLOS links often exceed it.
 
 \subsection{Altitude Constraints}
 \label{sec:altitude_constraints}
@@ -1340,9 +1345,17 @@ The UAV carries an identical receiver configuration, with the flight controller 
 \end{figure}
 
 The experiments take place in a parking area in Pergine, Italy.
+Figure~\ref{fig:experiment_site} shows the experiment site with the UAV platform.
 Four beacons are deployed in a rectangular configuration, as shown in Figure~\ref{fig:beacon_map}, covering an area of 610~m$^2$.
 Beacons transmitted at intervals drawn from a normal distribution with mean 0.5~seconds.
 For localization, we use a 5-second sampling window and update position at 1~Hz, matching typical GPS update rates.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{images/site.jpg}
+    \caption[Experiment site]{Experiment site in Pergine, Italy.}
+    \label{fig:experiment_site}
+\end{figure}
 
 \begin{figure}[htbp]
     \centering
@@ -1406,8 +1419,9 @@ The proposed method (Method 4) achieves the best or near-best accuracy in all ex
 
 \paragraph{Comparison with Simulation}
 The experimental results show smaller improvements over the baseline compared to simulations.
-This is attributed to the limited number of beacons (4 versus 10 in simulation); with fewer beacons, the probability of outliers is lower, reducing the advantage of Huber loss.
+This is attributed to the limited number of beacons (4 versus 10 in simulation). With fewer beacons, the probability of outliers is lower, reducing the advantage of Huber loss.
 Additionally, the small test area (610~m$^2$) limits distance diversity, reducing the dynamic range of RSSI values.
+Field experiments with a larger number of beacons would better demonstrate the scalability advantage of Huber loss observed in simulation and remain as future work.
 
 \paragraph{Altitude Effects}
 Experiments 3 and 4 (15~m altitude) show degraded accuracy compared to Experiments 1 and 2 (5--10~m altitude).
@@ -1445,15 +1459,17 @@ The radiation pattern of a quarter-wave monopole antenna varies with elevation a
 This pattern produces maximum gain near the horizon and zero gain directly above ($\theta = 0^\circ$).
 
 Figure~\ref{fig:antenna_pattern} illustrates this effect using simulated data, plotting RSSI against 3D distance at different altitudes.
-At short distances (around 20~m), the high-altitude measurements (green) show increasing RSSI as distance increases, opposite to the expected behavior.
+The dashed line shows the free-space path loss model, which assumes isotropic antennas with uniform gain in all directions and depends only on distance.
+The colored curves incorporate the monopole's elevation-angle-dependent radiation pattern from Equation~\ref{eq:antenna_gain}.
+At short distances around 20~m, the high-altitude measurements in green show increasing RSSI as distance increases, opposite to the expected behavior.
 This occurs because moving horizontally away from directly above the beacon increases the elevation angle, moving out of the null region and into higher-gain directions.
-In contrast, low-altitude measurements (blue) show the expected decreasing RSSI with distance.
-This effect violates the assumptions of the simple log-distance model.
+In contrast, low-altitude measurements in blue more closely follow the free-space model, since the elevation angle remains close to the horizon where the antenna gain is near maximum.
+This deviation illustrates why the simple log-distance path loss model fails when antenna directivity is significant.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.7\columnwidth]{antenna.pdf}
-    \caption[Signal strength variation with UAV altitude]{Signal strength variation with 3D distance at different altitudes. Different altitudes produce different gradients at the same distance due to antenna directivity.}
+    \caption[Signal strength variation with UAV altitude]{Signal strength versus distance at different UAV altitudes compared to free-space path loss (dashed line). Antenna directivity causes deviation from the path loss model at high altitudes.}
     \label{fig:antenna_pattern}
 \end{figure}
 
@@ -1461,9 +1477,10 @@ This effect violates the assumptions of the simple log-distance model.
 Two approaches can address antenna directivity effects:
 
 \begin{enumerate}
-    \item \textbf{Altitude-Aware RSSI Model:} Extend the RSSI-to-distance model to include altitude as a parameter:
+    \item \textbf{Directivity-Aware RSSI Model:} The standard log-distance path loss model cannot capture antenna directivity effects even when parameterized by altitude, because the radiation pattern follows a non-logarithmic function (Equation~\ref{eq:antenna_gain}).
+    Instead, the model must explicitly incorporate the elevation-angle-dependent antenna gain:
     \begin{equation}
-        d_i = f(\text{RSSI}_i, Z_{\text{UAV}}, Z_{\text{beacon}})
+        d_i = f(\text{RSSI}_i, Z_{\text{UAV}}, Z_{\text{beacon}}, E(\theta))
     \end{equation}
     Figure~\ref{fig:model_3d} illustrates an altitude-parameterized model fitted to experimental data from Experiments 1 and 2.
     The 3D surface captures how signal strength varies with 3D distance at different altitudes, more accurately representing the antenna's radiation pattern.
@@ -1498,6 +1515,12 @@ However, in dynamic scenarios, extended sampling introduces position lag and ave
 
 Adaptive sampling strategies could optimize this trade-off by using long windows during hover or slow transit, and short windows during rapid maneuvers.
 Integration with the flight controller could enable automatic adjustment based on planned or observed UAV dynamics.
+
+\subsection{Altitude Sensor Accuracy}
+
+The altitude-constrained multilateration relies on barometric (1--5~m accuracy) or laser altimeter (centimeter-level) readings.
+These uncertainties are negligible compared to RSSI-induced errors, where shadow fading translates to distance errors of tens to hundreds of meters.
+Environmental effects on RSSI, not altitude sensor accuracy, are the dominant source of localization error.
 
 \subsection{Scalability Considerations}
 
@@ -2142,6 +2165,11 @@ The high path-loss exponent (compared to the free-space value of $n = 2$) reflec
 This learned value aligns with empirical path-loss models for obstructed outdoor environments, which typically report exponents in the range of 3--5 for mountainous or shadowed terrain.
 The ability to examine these parameters provides insight into the effective propagation conditions and confirms that the model has learned physically meaningful representations.
 
+\paragraph{Beacon Hardware Variance}
+Manufacturing tolerances cause slight differences between beacons, such as 1--2~dB variation in transmission power.
+However, as shown in Figure~\ref{fig:rssi_variance}, terrain-induced RSSI variance spans approximately 70--80~dB for a given distance, making hardware variations negligible by comparison.
+The dominant error source remains terrain-induced propagation effects, not hardware differences between beacons.
+
 \subsection{Limitations}
 
 While results are promising, several limitations present opportunities for future work:
@@ -2151,10 +2179,11 @@ The proposed method does not achieve GNSS-level accuracy.
 Mean error of 207~m is sufficient for many applications (regional navigation, search area narrowing) but insufficient for precision tasks.
 Future work should investigate the trade-off between beacon density and achievable accuracy.
 
-\paragraph{Anchor Geometry}
-Our simulations use grid-constrained anchor placement providing good geometric coverage.
-Real deployments may be constrained by terrain accessibility, potentially resulting in suboptimal anchor geometry (e.g., all anchors on periphery).
-Robustness to poor anchor placement requires further study.
+\paragraph{Anchor Geometry and Placement}
+Our simulations use grid-constrained anchor placement without optimizing placement strategy.
+Real deployments may be constrained by terrain accessibility, and strategic positioning could improve accuracy over the uniform placements evaluated here.
+A relevant scenario is placing anchors only around the perimeter of a GNSS-denied region, which differs from our uniform coverage assumption.
+Placement optimization for such boundary-constrained deployments remains a direction for future work.
 
 \paragraph{Simulation-to-Reality Gap}
 Both training and evaluation use simulated data.
@@ -2165,6 +2194,12 @@ Bridging this gap through domain adaptation or field experiments is a critical n
 The model learns global path-loss parameters applied uniformly across the network.
 Real deployments may exhibit regional variations in propagation characteristics.
 Spatially-aware or per-region parameterization could improve accuracy in heterogeneous environments.
+
+\paragraph{Computational Cost and Location Dependency}
+The proposed method requires terrain-specific training data generated through propagation simulation, which becomes computationally expensive for large areas and networks with many beacons, though parallelization can substantially reduce this overhead.
+A more fundamental limitation is that deploying in a new region requires regenerating training data and retraining the model, as the learned propagation characteristics do not transfer directly.
+Future work should explore developing a foundation model pre-trained on diverse terrain conditions, which could then be fine-tuned for new deployment environments with minimal additional data.
+That said, physical beacon deployment (site access, installation) is likely the dominant practical bottleneck rather than computational cost.
 
 \subsection{Deployment Considerations}
 
@@ -2266,13 +2301,16 @@ This analysis captures the full distribution of errors across the operational ar
 Figure~\ref{fig:sensitivity_main} shows how UAV localization error changes with beacon position uncertainty.
 Key findings include:
 
-\paragraph{Moderate Error Propagation}
-UAV localization error increases approximately linearly with beacon position error, but at a rate less than 1:1.
-At 200~m beacon error (approximately matching GCN performance), mean UAV error increases from 122~m to 157~m, an increase of only 35~m.
-This indicates that beacon position errors do not fully propagate to UAV localization, as the multilateration algorithm averages across multiple beacons with independent errors.
+\paragraph{Baseline Error}
+Even with perfect beacon positions, UAV localization exhibits a baseline error of approximately 122~m due to inherent RSSI measurement noise.
+This baseline represents the fundamental limitation of RSSI-based multilateration in the simulated terrain environment.
+The influence of beacon position error becomes apparent only when it approaches or exceeds this baseline level. Below approximately 150~m beacon error, the curves remain relatively flat.
 
-\paragraph{No Catastrophic Failures}
-The system does not exhibit catastrophic failure modes.
+\paragraph{Moderate Error Propagation}
+Beyond the baseline, UAV localization error increases approximately linearly with beacon position error, but at a rate less than 1:1.
+At 200~m beacon error (approximately matching GCN performance), mean UAV error reaches 157~m, an increase of only 35~m from the baseline.
+This moderate propagation occurs because the multilateration algorithm averages across multiple beacons with independent errors, partially canceling out individual beacon position inaccuracies.
+Importantly, the system does not exhibit catastrophic failure modes.
 Even at 300~m beacon error, significantly worse than expected from the GCN, UAV localization remains functional with mean error of 207~m.
 This gradual degradation is important for operational reliability.
 
@@ -2700,7 +2738,7 @@ In practice, beacon positions might drift, and environmental changes (vegetation
 
 \paragraph{Single Altitude Operation}
 All UAV simulations assume fixed altitude of 100~m.
-The antenna directivity effects observed in Chapter~\ref{chap:uav_localization} suggest that varying altitude would require altitude-aware RSSI models not fully developed in this work.
+The antenna directivity effects observed in Chapter~\ref{chap:uav_localization} suggest that varying altitude would require directivity-aware RSSI models not fully developed in this work.
 
 %-------------------------------------------------------------------
 % 7.3 Future Work
@@ -2739,9 +2777,9 @@ Candidate technologies include:
 \end{itemize}
 Such hybrid systems could leverage LoRa for coarse global positioning while using complementary technologies for local refinement.
 
-\paragraph{Altitude-Aware Models}
-The antenna directivity effects observed in field experiments motivate development of altitude-aware RSSI-to-distance models.
-Such models could explicitly account for the antenna radiation pattern, improving accuracy for UAVs operating at varying altitudes.
+\paragraph{Directivity-Aware Models}
+The antenna directivity effects observed in field experiments motivate development of directivity-aware RSSI-to-distance models.
+Such models would explicitly incorporate the antenna radiation pattern, improving accuracy for UAVs operating at varying altitudes.
 
 %-------------------------------------------------------------------
 % 7.4 Concluding Remarks
