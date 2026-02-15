@@ -41,7 +41,7 @@
 \esupervisor{Nakao Akihiro}
 \jsupervisor{中尾 彰宏}
 \supervisortitle{Professor}
-\date{January 21, 2026}
+\date{February 19, 2026}
 
 % Student ID
 \newcommand{\studentid}{37-236431}
@@ -57,7 +57,7 @@
   \let \footnote \thanks
   \null\vskip-100\p@\@plus1fill\null
   \centering\isttitlesize
-    {\ist@hookcr\@etitle}\par
+    \resizebox{\hsize}{!}{\ist@hookcr\@etitle}\par
     {\@jtitle}\par
     \vskip 20\p@
     by\par
@@ -91,13 +91,13 @@
 % Acknowledgements
 %-------------------
 \begin{acknowledge}
-I would like to express my deepest gratitude to my supervisor, Professor Akihiro Nakao, for his continuous guidance since my senior year of undergraduate studies. Professor Nakao generously made time for weekly meetings despite his busy schedule, providing thoughtful feedback drawn from his deep expertise. Beyond guiding my research direction, these regular discussions helped me maintain consistent momentum for my work. His support throughout this journey has been encouraging, and I have always admired how hard he works, which motivates me to push myself as well.
+I would like to express my deepest gratitude to my supervisor, Professor Akihiro Nakao, for his continuous guidance and encouragement throughout my graduate studies. Since my senior year of undergraduate studies, Professor Nakao has generously dedicated time for weekly meetings, offering insightful feedback that shaped not only the direction of this research but also my growth as a researcher. His dedication and work ethic have been a constant source of inspiration, and our regular discussions helped me maintain steady progress even during the more challenging phases of this work.
 
-My appreciation also goes to the faculty members and staff of the Nakao Laboratory for their support, as well as my fellow lab members for their help and discussions.
+I am also grateful to Professor Fabrizio Granelli at the University of Trento, where I had the opportunity to conduct research as an exchange student upon Professor Nakao's recommendation. Professor Granelli's constructive feedback, his assistance in arranging the necessary hardware and organizing the field experiments, made it possible for me to achieve results within a short period.
 
-I am grateful to Professor Fabrizio Granelli at the University of Trento, where I conducted research as an exchange student upon Professor Nakao's recommendation. Professor Granelli's feedback, along with his help in arranging hardware and organizing experiments, made it possible for me to achieve results within a short period.
+My appreciation extends to the faculty members and staff of the Nakao Laboratory for providing a supportive research environment, and to my fellow lab members for the many helpful discussions.
 
-Finally, I am thankful to my family and friends, and especially to Margaux for her daily support and encouragement throughout my studies.
+Finally, I am deeply thankful to my family and friends for their constant support, and to Margaux for her patience, encouragement, and daily support throughout my studies.
 \end{acknowledge}
 
 %-------------------
@@ -1700,6 +1700,10 @@ consisting of the raw RSSI time series concatenated with the learned distance es
 The inclusion of $\hat{d}_{ij}$ provides the network with a physically-grounded prior on distance, giving it a sense of geometric scale that pure signal features lack.
 Critically, $\hat{d}_{ij}$ is computed using learnable path-loss parameters, allowing the distance estimate to adapt to the propagation environment.
 
+Note that terrain elevation data is not provided as input to the model.
+Terrain effects enter only through their influence on the RSSI measurements that form the edge features. Links obstructed by ridges or shadowed by hills exhibit stronger attenuation and higher variance than line-of-sight links.
+The GCN learns to interpret these terrain-induced statistical patterns through edge-conditioned message passing, effectively extracting terrain information from the observed RSSI patterns rather than requiring explicit terrain input.
+
 \subsection{Edge-Conditioned Graph Convolution}
 
 Standard graph convolutions apply identical transformation weights to all edges, treating messages from all neighbors equally.
@@ -2179,11 +2183,17 @@ The proposed method does not achieve GNSS-level accuracy.
 Mean error of 207~m is sufficient for many applications (regional navigation, search area narrowing) but insufficient for precision tasks.
 Future work should investigate the trade-off between beacon density and achievable accuracy.
 
-\paragraph{Anchor Geometry and Placement}
-Our simulations use grid-constrained anchor placement without optimizing placement strategy.
-Real deployments may be constrained by terrain accessibility, and strategic positioning could improve accuracy over the uniform placements evaluated here.
-A relevant scenario is placing anchors only around the perimeter of a GNSS-denied region, which differs from our uniform coverage assumption.
-Placement optimization for such boundary-constrained deployments remains a direction for future work.
+\paragraph{Strategic Beacon Placement}
+Our simulations use grid-constrained anchor placement and uniformly random unknown node placement without optimizing deployment strategy.
+In practice, beacon placement relative to terrain strongly influences localization performance, because line-of-sight (LOS) links produce RSSI values that follow the path-loss model more closely, yielding more accurate distance estimates, while NLOS links exhibit severe attenuation and high variance that degrade distance accuracy.
+Maximizing the proportion of LOS links in the network graph is therefore a key deployment consideration.
+
+In mountainous terrain, beacons on hilltops or ridges maintain LOS connections to more neighbors, while beacons in valleys connect only to nearby nodes on the same valley floor, creating regions of sparse connectivity.
+Although the edge-conditioned convolutions can learn to down-weight unreliable NLOS links, this mitigation is insufficient when most links to a node are NLOS, as the model lacks reliable geometric information regardless of edge weighting.
+A practical strategy would prioritize elevated positions and, when valley coverage is needed, place additional beacons on surrounding ridgelines to bridge poorly connected regions.
+
+For anchors specifically, a relevant scenario is placing them only around the perimeter of a GNSS-denied region, which differs from our distributed grid layout and may exhibit different error characteristics for interior nodes far from all anchors.
+Systematic investigation of placement optimization under terrain and accessibility constraints remains a direction for future work.
 
 \paragraph{Simulation-to-Reality Gap}
 Both training and evaluation use simulated data.
@@ -2195,11 +2205,17 @@ The model learns global path-loss parameters applied uniformly across the networ
 Real deployments may exhibit regional variations in propagation characteristics.
 Spatially-aware or per-region parameterization could improve accuracy in heterogeneous environments.
 
-\paragraph{Computational Cost and Location Dependency}
-The proposed method requires terrain-specific training data generated through propagation simulation, which becomes computationally expensive for large areas and networks with many beacons, though parallelization can substantially reduce this overhead.
-A more fundamental limitation is that deploying in a new region requires regenerating training data and retraining the model, as the learned propagation characteristics do not transfer directly.
-Future work should explore developing a foundation model pre-trained on diverse terrain conditions, which could then be fine-tuned for new deployment environments with minimal additional data.
-That said, physical beacon deployment (site access, installation) is likely the dominant practical bottleneck rather than computational cost.
+\paragraph{Terrain-Specific Training}
+The model captures terrain effects implicitly through RSSI statistics rather than receiving terrain data as explicit input, so the learned propagation patterns are specific to the terrain used for training.
+Deploying in a new region requires regenerating training data using terrain-aware propagation simulation for that region and retraining the model, because each terrain produces distinct propagation characteristics that the model cannot generalize from one region to another.
+A promising direction for future work is developing a foundation model pre-trained on diverse terrain conditions, which could then be fine-tuned for a new deployment environment without full retraining.
+Fine-tuning could use a small amount of region-specific simulation data, or anchor-to-anchor RSSI measurements collected after physical installation.
+The latter is particularly promising because anchor positions are known, providing ground-truth distance-RSSI pairs that can also calibrate the discrepancies between the propagation simulator and actual conditions.
+
+\paragraph{Computational Cost}
+Generating terrain-specific training data requires running propagation simulations for all pairwise links, and the computational cost grows with area size and number of beacons.
+However, each link can be simulated independently, making the process straightforward to parallelize.
+In practice, physical beacon deployment (site access, installation, power provisioning) is likely a greater bottleneck than the computational preparation.
 
 \subsection{Deployment Considerations}
 
