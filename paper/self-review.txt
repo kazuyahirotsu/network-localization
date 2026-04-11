@@ -1,3 +1,5 @@
+this file is old, no need to reference
+
 highlighting that terrain effects invert the apparent ranking and motivating terrain-aware evaluation.
 - this sentence is weird and not easy to read
 
@@ -99,12 +101,4 @@ todo
 ✅make sure every figure and tables are mentioned
 ✅improve baseline explanation
 ✅improve discussion
-do some experiments and add ablation section
-    being near the anchor
-    data size
 ✅experiment terrain image and rssi data plot
-past tense check
-
-
-2d and not 3d result
-param result

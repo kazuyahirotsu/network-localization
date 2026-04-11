@@ -1,0 +1,71 @@
+these points are fixed
+
+- that impedes the delivery of dependable location services.
+change the word impedes
+- namely
+change the word
+- physically-informed
+change to physics-aware
+- Our approach differs from prior work in its synthesis of explicit physical modeling within a graph learning frame- work.
+it's awkward, make it concise. also synthesis is weird choice of word
+- This work bridges classical geometric localization and graph- based deep learning.
+this is weird
+- where edge attributes dynamically shape the message-passing function
+not easy to understand
+- With limited anchors (anchor- to-unknown ratio of 1:3)
+no need to mention specific number
+- challenges in proposed method? it could be a problem statement chapter, what do you think?
+- input and output is not very clear? there's no mention of simulated data in the proposed method
+- Note that terrain elevation data is not provided as input to the model.
+this doesn't feel at the right place
+- the Smooth L1 (Huber)
+remove Huber
+- comprehensive
+remove this word
+- (see Fig. 2)
+this use of () is weird. do it like as shown in figure or something
+- a grid-constrained layout
+this is vague. it is random location inside the 1km x 1km grid
+- It follows a two-stage iterative process that alternates between path-loss calibration and position estimation, repeated for 10 iterations
+this sounds wrong. path loss calibration is done one time. 10 iteration is for position solving and anchor promotion
+- the performance ranking of the methods inverts.
+not inverts since ranking is gcn, gcn ablation, multilateration for terrain aware and multilateration, gcn, gcn ablation for free space
+- END-TO-END SYSTEM EVALUATION
+is this the best chapter name?
+- namely diagonal transit 
+change the word namely
+- circular patrol
+change or remove the word patrol
+- an effective cruise speed of 4.5 m/s
+wdym by this?
+- when the UAV’s true po- sition is within 200 m,
+estimated position. not true position
+- position error magnitude 
+this is unclear
+- This section interprets the results, contextualizes the contribu- tions 
+this sounds weird
+- PERFORMANCE DRIVERS
+section e inside this doesn't sound like performance driver
+- (Fig. 5)
+no fig inside ()
+- (Table 3, P90/P95)
+no (). this is weird
+- The free-space results confirm this analysis. 
+not sure how this is related to the beacon hardware variance
+- Bridging this gap through do- main adaptation
+what is domain adaptation mean here?
+- PROPOSED DEPLOYMENT WORKFLOW
+i don't think we need this section
+- We introduce a physically-informed, edge-conditioned GCN
+pysics-aware
+- as they invert the performance ranking
+not invert
+- We further propose a practical deployment workflow, beginning with pre-training on terrain-aware simulations and followed by a lightweight, on-site calibration step.
+remove This
+- terrain-matched simulation
+terrian-matched?
+
+
+
+- update abstract
+- reference number should be ordered by the appearance
